@@ -1,0 +1,19 @@
+{
+  "extends": ["tslint:recommended"],
+  "rules": {
+    "array-type": false,
+    "no-console": false,
+    "no-string-literal": false,
+    "variable-name": false,
+    "no-empty": false,
+    "max-classes-per-file": false,
+    "no-consecutive-blank-lines": true,
+    "semicolon": true,
+    "no-duplicate-variable": true,
+    "only-arrow-functions": false,
+    "no-trailing-whitespace": false,
+    "object-literal-shorthand": false,
+    "no-unused-expression": false,
+    "no-empty-interface": false
+  }
+}

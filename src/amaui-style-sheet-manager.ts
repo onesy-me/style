@@ -4,7 +4,7 @@ import AmauiStyle from './amaui-style';
 import AmauiStyleSheet from './amaui-style-sheet';
 import AmauiTheme from './amaui-theme';
 import { TMode, IOptionsRule, IValuesVariant, TStatus, IResponse, IIds, TPriority, ISheets, IAmauiStyleSheetManagerProps, TValueObject } from './interfaces';
-import { dynamic } from './utils';
+import { dynamic, names } from './utils';
 
 interface IProperties {
   static: Array<{ property: string; value: any }>;
@@ -261,24 +261,8 @@ class AmauiStyleSheetManager {
       this.status = 'active';
     }
 
-    // Update styles, className and class
-    Object.defineProperty(response, 'className', {
-      get: function () { return Object.keys(response.classNames).map(item => response.classNames[item]).join(' '); }
-    });
-
-    Object.defineProperty(response, 'class', {
-      get: function () { return Object.keys(response.classes).map(item => response.classes[item]).join(' '); }
-    });
-
-    response.styles = (...args: string[]) => {
-      const value = [];
-
-      args.forEach(arg => {
-        if (response.classes[arg]) value.push(response.classes[arg]);
-      });
-
-      return value.join(' ');
-    };
+    // Update object names value
+    names(response);
 
     this.amauiStyle.subscriptions.sheet_manager.add.emit(this);
 

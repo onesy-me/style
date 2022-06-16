@@ -3,6 +3,7 @@ import AmauiSubscription from '@amaui/subscription';
 
 import AmauiStyle from './amaui-style';
 import { IAmauiStyleRuleValue } from './amaui-style-rule';
+import { IResponse } from './interfaces';
 
 export const kebabCasetoCammelCase = (value_: string) => {
   let value: any = value_;
@@ -120,3 +121,30 @@ export const pxToRem = (value: number, htmlFontSize = 16) => Number((value / htm
 export const methods = {
   makeName: makeName(),
 };
+
+export const names = (value: IResponse) => {
+  if (is('object', value)) {
+    // Update styles, className and class
+    Object.defineProperty(value, 'className', {
+      get: function () { return Object.keys(value.classNames).map(item => value.classNames[item]).join(' '); }
+    });
+
+    Object.defineProperty(value, 'class', {
+      get: function () { return Object.keys(value.classes).map(item => value.classes[item]).join(' '); }
+    });
+
+    value.styles = (...args: string[]) => {
+      const values = [];
+
+      args.forEach(arg => {
+        if (value.classes[arg]) values.push(value.classes[arg]);
+      });
+
+      return values.join(' ');
+    };
+
+    return value;
+  }
+
+  return value;
+}

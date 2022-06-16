@@ -296,6 +296,11 @@ class AmauiStyleSheet {
   }
   public update(value: any) {
     if (is('object', value)) {
+      // Update all the items to pure
+      if (this.pure) Object.keys(value).forEach(item => {
+        if (is('object', value[item])) value[item]['@p'] = true;
+      });
+
       const properties = {
         add: [],
         update: [],

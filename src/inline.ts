@@ -79,10 +79,10 @@ function inline(
     );
 
     propertiesDynamic.forEach(prop => {
-      const value_ = value[prop];
+      const valueProp = value[prop];
 
-      if (is('function', value_)) valueNew[prop] = Try(() => value_(props));
-      else if (isAmauiSubscription(value_)) valueNew[prop] = Try(() => value_.value);
+      if (is('function', valueProp)) valueNew[prop] = Try(() => valueProp(props));
+      else if (isAmauiSubscription(valueProp)) valueNew[prop] = Try(() => valueProp.value);
     });
 
     // Make an instance of amauiStyleSheetManager

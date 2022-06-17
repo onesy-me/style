@@ -3,7 +3,7 @@ import AmauiStyle from './amaui-style';
 import AmauiStyleSheetManager from './amaui-style-sheet-manager';
 import AmauiTheme from './amaui-theme';
 import { TValue, TValueMethod, IIds, IOptionsAmauiStyle, IOptionsAmauiTheme } from './interfaces';
-import { isAmauiSubscription } from './utils';
+import { cammelCaseToKebabCase, isAmauiSubscription, kebabCasetoCammelCase } from './utils';
 
 export interface IMakeStyles {
   amaui_style_sheet_manager: AmauiStyleSheetManager;
@@ -19,6 +19,10 @@ export interface IOptions {
   amaui_style?: IOptionsAmauiStyle;
 
   amaui_theme?: IOptionsAmauiTheme;
+
+  response?: 'css' | 'json';
+
+  response_json_property_variant?: 'cammel' | 'kebab';
 }
 
 const optionsDefault: IOptions = {
@@ -28,12 +32,14 @@ const optionsDefault: IOptions = {
   amaui_theme: {
     get: AmauiTheme.first.bind(AmauiTheme),
   },
+  response: 'css',
+  response_json_property_variant: 'cammel'
 };
 
 function inline(
   value_: TValue,
   options_: IOptions = {}
-): string {
+): string | Record<string, any> {
   const options = merge(options_, optionsDefault);
 
   // Amaui style
@@ -50,7 +56,7 @@ function inline(
   // Go through all properties
   // make an AmauiStyleRuleProperty for each prop
   // and then make css string from each one
-  let response = '';
+  let response = options.response === 'css' ? '' : {};
 
   if (is('object', value)) {
     const props = Object.keys(value);
@@ -68,10 +74,19 @@ function inline(
 
     const rules = amauiStyleSheetManager.sheets.static[0].rules[0].value.rules;
 
-    rules.map(rule => rule.value).forEach(rule => response += ` ${rule.css}`);
+    rules.map(rule => rule.value).forEach(rule => {
+      if (options.response === 'css') response += ` ${rule.css}`;
+      else {
+        const json = rule.json;
+
+        Object.keys(json).forEach(item => {
+          response[options.response_json_property_variant === 'cammel' ? kebabCasetoCammelCase(item) : cammelCaseToKebabCase(item)] = json[item];
+        });
+      }
+    });
   }
 
-  response = response.trim();
+  if (options.response === 'css') response = (response as string).trim();
 
   // Response
   return response;

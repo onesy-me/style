@@ -38,8 +38,9 @@ const optionsDefault: IOptions = {
 
 function inline(
   value_: TValue,
+  props?: any,
   options_: IOptions = {}
-): string | Record<string, any> {
+) {
   const options = merge(options_, optionsDefault);
 
   // Amaui style
@@ -59,15 +60,30 @@ function inline(
   let response = options.response === 'css' ? '' : {};
 
   if (is('object', value)) {
-    const props = Object.keys(value);
+    const properties = Object.keys(value);
 
     const valueNew = {};
 
     // Filter out at-rule and dynamic properies
-    props.filter(prop => (
+    properties
+      .filter(prop =>
+        (prop.indexOf('@') !== 0) &&
+        !(is('function', value[prop]) || isAmauiSubscription(value[prop]))
+      )
+      .forEach(prop => valueNew[prop] = value[prop]);
+
+    // Parse dynamic properties into static
+    const propertiesDynamic = properties.filter(prop =>
       (prop.indexOf('@') !== 0) &&
-      !(is('function', value[prop]) || isAmauiSubscription(value[prop]))
-    )).forEach(prop => valueNew[prop] = value[prop]);
+      (is('function', value[prop]) || isAmauiSubscription(value[prop]))
+    );
+
+    propertiesDynamic.forEach(prop => {
+      const value_ = value[prop];
+
+      if (is('function', value_)) valueNew[prop] = Try(() => value_(props));
+      else if (isAmauiSubscription(value_)) valueNew[prop] = Try(() => value_.value);
+    });
 
     // Make an instance of amauiStyleSheetManager
     const amauiStyleSheetManager = new AmauiStyleSheetManager({ a: valueNew }, 'regular', false, 'upper', amauiTheme, amauiStyle, { style: { attributes: { method: 'inline' } } });

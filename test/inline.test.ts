@@ -14,7 +14,9 @@ group('@amaui/style/inline', () => {
 
   to('inline', async () => {
     const valueBrowsers = await evaluate((window: any) => {
-      const amauiStyle = new window.AmauiStyle.AmauiStyle(window.document.body);
+      window.document.body.dir = 'rtl';
+
+      const amauiStyle = new window.AmauiStyle.AmauiStyle(window.document.body, undefined, undefined, { rule: { prefix: true } });
 
       // Plugins
       amauiStyle.plugins.add = [
@@ -58,7 +60,7 @@ group('@amaui/style/inline', () => {
         backgroundColor: props => props.a === 1 ? 'yellow' : 'orange',
       };
 
-      const inline = window.AmauiStyle.inline(a, { amaui_style: { value: amauiStyle } });
+      const inline = window.AmauiStyle.inline(a, { a: 1 }, { amaui_style: { value: amauiStyle } });
 
       return inline;
     }, { browsers });
@@ -66,9 +68,9 @@ group('@amaui/style/inline', () => {
     const values = [...valueBrowsers];
 
     assert(values).eql([
-      "background: #faa; float: left; margin: 0 14px 4px 40px; margin-left: 41px; mask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent); mask-origin: inherit; mask-position: 40% 74%; max-width: 100px; padding: 40px; padding-left: 41px; position: sticky; transition: all .4s ease; width: 100px;",
-      "background: #faa; float: left; margin: 0 14px 4px 40px; margin-left: 41px; mask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent); mask-origin: inherit; mask-position: 40% 74%; max-width: 100px; padding: 40px; padding-left: 41px; position: sticky; transition: all .4s ease; width: 100px;",
-      "background: #faa; float: left; margin: 0 14px 4px 40px; margin-left: 41px; mask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent); mask-origin: inherit; mask-position: 40% 74%; max-width: 100px; padding: 40px; padding-left: 41px; position: sticky; transition: all .4s ease; width: 100px;"
+      "-webkit-mask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent); -webkit-mask-origin: inherit; -webkit-mask-position: 40% 74%;  background: #faa; background-color: yellow; float: right; margin: 0 14px 4px 40px; margin-right: 41px; mask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent); mask-origin: inherit; mask-position: 40% 74%; max-width: 100px; padding: 40px; padding-right: 41px; position: sticky; transition: all .4s ease; width: 100px;",
+      "background: #faa; background-color: yellow; float: right; margin: 0 14px 4px 40px; margin-right: 41px; mask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent); mask-origin: inherit; mask-position: 40% 74%; max-width: 100px; padding: 40px; padding-right: 41px; position: sticky; transition: all .4s ease; width: 100px;",
+      "background: #faa; background-color: yellow; float: right; margin: 0 14px 4px 40px; margin-right: 41px; mask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent); mask-origin: inherit; mask-position: 40% 74%; max-width: 100px; padding: 40px; padding-right: 41px; position: sticky; transition: all .4s ease; width: 100px;"
     ]);
 
     const amauiStyle = new AmauiStyle.AmauiStyle();
@@ -115,11 +117,11 @@ group('@amaui/style/inline', () => {
       backgroundColor: props => props.a === 1 ? 'yellow' : 'orange',
     };
 
-    const inline = AmauiStyle.inline(a, { amaui_style: { value: amauiStyle } });
+    const inline = AmauiStyle.inline(a, { a: 1 }, { amaui_style: { value: amauiStyle } });
 
     const valueNode = inline;
 
-    assert(valueNode).eq('background: #faa; float: left; margin: 0 14px 4px 40px; margin-left: 41px; mask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent); mask-origin: inherit; mask-position: 40% 74%; max-width: 100px; padding: 40px; padding-left: 41px; position: sticky; transition: all .4s ease; width: 100px;');
+    assert(valueNode).eq('background: #faa; background-color: yellow; float: left; margin: 0 14px 4px 40px; margin-left: 41px; mask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent); mask-origin: inherit; mask-position: 40% 74%; max-width: 100px; padding: 40px; padding-left: 41px; position: sticky; transition: all .4s ease; width: 100px;');
   });
 
   group('options', () => {
@@ -128,10 +130,10 @@ group('@amaui/style/inline', () => {
 
       to('css', async () => {
         const valueBrowsers = await evaluate((window: any) => {
-          return window.AmauiStyle.inline({ color: 'yellow', backgroundColor: 'orange' }, { response: 'css' });
+          return window.AmauiStyle.inline({ color: 'yellow', backgroundColor: 'orange' }, {}, { response: 'css' });
         }, { browsers });
 
-        const valueNode = AmauiStyle.inline({ color: 'yellow', backgroundColor: 'orange' }, { response: 'css' });
+        const valueNode = AmauiStyle.inline({ color: 'yellow', backgroundColor: 'orange' }, {}, { response: 'css' });
 
         const values = [valueNode, ...valueBrowsers];
 
@@ -140,10 +142,10 @@ group('@amaui/style/inline', () => {
 
       to('json', async () => {
         const valueBrowsers = await evaluate((window: any) => {
-          return window.AmauiStyle.inline({ color: 'yellow', backgroundColor: 'orange' }, { response: 'json' });
+          return window.AmauiStyle.inline({ color: 'yellow', backgroundColor: 'orange' }, {}, { response: 'json' });
         }, { browsers });
 
-        const valueNode = AmauiStyle.inline({ color: 'yellow', backgroundColor: 'orange' }, { response: 'json' });
+        const valueNode = AmauiStyle.inline({ color: 'yellow', backgroundColor: 'orange' }, {}, { response: 'json' });
 
         const values = [valueNode, ...valueBrowsers];
 
@@ -156,10 +158,10 @@ group('@amaui/style/inline', () => {
 
       to('cammel', async () => {
         const valueBrowsers = await evaluate((window: any) => {
-          return window.AmauiStyle.inline({ color: 'yellow', backgroundColor: 'orange' }, { response: 'json', response_json_property_variant: 'cammel' });
+          return window.AmauiStyle.inline({ color: 'yellow', backgroundColor: 'orange' }, {}, { response: 'json', response_json_property_variant: 'cammel' });
         }, { browsers });
 
-        const valueNode = AmauiStyle.inline({ color: 'yellow', backgroundColor: 'orange' }, { response: 'json', response_json_property_variant: 'cammel' });
+        const valueNode = AmauiStyle.inline({ color: 'yellow', backgroundColor: 'orange' }, {}, { response: 'json', response_json_property_variant: 'cammel' });
 
         const values = [valueNode, ...valueBrowsers];
 
@@ -168,10 +170,10 @@ group('@amaui/style/inline', () => {
 
       to('kebab', async () => {
         const valueBrowsers = await evaluate((window: any) => {
-          return window.AmauiStyle.inline({ color: 'yellow', backgroundColor: 'orange' }, { response: 'json', response_json_property_variant: 'kebab' });
+          return window.AmauiStyle.inline({ color: 'yellow', backgroundColor: 'orange' }, {}, { response: 'json', response_json_property_variant: 'kebab' });
         }, { browsers });
 
-        const valueNode = AmauiStyle.inline({ color: 'yellow', backgroundColor: 'orange' }, { response: 'json', response_json_property_variant: 'kebab' });
+        const valueNode = AmauiStyle.inline({ color: 'yellow', backgroundColor: 'orange' }, {}, { response: 'json', response_json_property_variant: 'kebab' });
 
         const values = [valueNode, ...valueBrowsers];
 

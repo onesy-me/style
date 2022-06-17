@@ -125,15 +125,15 @@ export const methods = {
 export const names = (value: IResponse) => {
   if (is('object', value)) {
     // Update styles, className and class
-    Object.defineProperty(value, 'className', {
+    if (!value.hasOwnProperty('className')) Object.defineProperty(value, 'className', {
       get: function () { return Object.keys(value.classNames).map(item => value.classNames[item]).join(' '); }
     });
 
-    Object.defineProperty(value, 'class', {
+    if (!value.hasOwnProperty('class')) Object.defineProperty(value, 'class', {
       get: function () { return Object.keys(value.classes).map(item => value.classes[item]).join(' '); }
     });
 
-    value.styles = (...args: string[]) => {
+    if (!value.hasOwnProperty('styles')) value.styles = (...args: string[]) => {
       const values = [];
 
       args.forEach(arg => {

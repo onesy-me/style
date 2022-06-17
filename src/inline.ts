@@ -86,7 +86,7 @@ function inline(
     });
 
     // Make an instance of amauiStyleSheetManager
-    const amauiStyleSheetManager = new AmauiStyleSheetManager({ a: valueNew }, 'regular', false, 'upper', amauiTheme, amauiStyle, { style: { attributes: { method: 'inline' } } });
+    const amauiStyleSheetManager = new AmauiStyleSheetManager({ a: valueNew }, 'regular', false, 'upper', amauiTheme, amauiStyle, { style: { attributes: { method: 'inline' } }, amaui_style_cache: false });
 
     const rules = amauiStyleSheetManager.sheets.static[0].rules[0].value.rules;
 

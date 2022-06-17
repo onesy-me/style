@@ -107,8 +107,8 @@ class AmauiStyleRuleProperty {
     // rtl
     const useRtl = (
       this.amauiStyle.options.rule.rtl &&
-      (this.amauiStyleSheet === undefined || this.amauiStyleSheet.options.rule.rtl) &&
-      (this.amauiStyleSheet?.amauiTheme === undefined || this.amauiStyleSheet.amauiTheme.options.rule.rtl !== false) &&
+      (this.amauiStyleSheet === undefined || this.amauiStyleSheet.options.rule.rtl !== false) &&
+      (this.amauiStyleSheet?.amauiTheme === undefined || this.amauiStyleSheet.amauiTheme.options.rule.rtl) &&
       // by default is true
       this.parent?.options.rtl !== false
     );
@@ -125,7 +125,7 @@ class AmauiStyleRuleProperty {
     // prefix
     const usePrefix = (
       this.amauiStyle.options.rule.prefix &&
-      (this.amauiStyleSheet === undefined || this.amauiStyleSheet.options.rule.prefix) &&
+      (this.amauiStyleSheet === undefined || this.amauiStyleSheet.options.rule.prefix !== false) &&
       (this.amauiStyleSheet?.amauiTheme === undefined || this.amauiStyleSheet.amauiTheme.options.rule.prefix !== false) &&
       // by default is true
       this.parent?.options.prefix !== false

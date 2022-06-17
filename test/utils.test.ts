@@ -568,4 +568,29 @@ group('@amaui/style/utils', () => {
     ]));
   });
 
+  to('names', async () => {
+    const valueBrowsers = await evaluate((window: any) => {
+      const values_ = [
+        window.AmauiStyle.names({ classNames: { a: 'a-0', a1: 'a1-1' } }).className,
+        window.AmauiStyle.names({ classes: { a: 'a-0 a14-4', a1: 'a1-1' } }).class,
+      ];
+
+      return values_;
+    }, { browsers });
+
+    const values_ = [
+      AmauiStyle.names({ classNames: { a: 'a-0', a1: 'a1-1' } }).className,
+      AmauiStyle.names({ classes: { a: 'a-0 a14-4', a1: 'a1-1' } }).class,
+    ];
+
+    const valueNode = values_;
+
+    const values = [valueNode, ...valueBrowsers];
+
+    values.forEach(value => assert(value).eql([
+      "a-0 a1-1",
+      "a-0 a14-4 a1-1"
+    ]));
+  });
+
 });

@@ -35,7 +35,7 @@ const subs = {
 };
 
 // All the methods used
-const amauiStyle = new AmauiStyle.AmauiStyle();
+const amauiStyle = new AmauiStyle.AmauiStyle(undefined, undefined, undefined, { rule: { prefix: true, rtl: true } });
 
 amauiStyle.plugins.add = [
   AmauiStyle.unit,

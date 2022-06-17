@@ -103,6 +103,8 @@ group('@amaui/style/amaui-style-sheet-manager', () => {
         amauiStyleSheetManager.priority === 'upper',
         window.AmauiUtils.equalDeep(amauiStyleSheetManager.names.classNames, { a: 'a-0' }),
         window.AmauiUtils.equalDeep(amauiStyleSheetManager.names.classes, { a: 'a-0' }),
+        window.AmauiUtils.equalDeep(amauiStyleSheetManager.names.className, 'a-0'),
+        window.AmauiUtils.equalDeep(amauiStyleSheetManager.names.class, 'a-0'),
         window.AmauiUtils.equalDeep(amauiStyleSheetManager.options, {
           "style": {
             "attributes": {
@@ -212,6 +214,8 @@ group('@amaui/style/amaui-style-sheet-manager', () => {
       amauiStyleSheetManager.priority === 'upper',
       AmauiUtils.equalDeep(amauiStyleSheetManager.names.classNames, { a: 'a-0' }),
       AmauiUtils.equalDeep(amauiStyleSheetManager.names.classes, { a: 'a-0' }),
+      AmauiUtils.equalDeep(amauiStyleSheetManager.names.className, 'a-0'),
+      AmauiUtils.equalDeep(amauiStyleSheetManager.names.class, 'a-0'),
       AmauiUtils.equalDeep(amauiStyleSheetManager.options, {
         "style": {
           "attributes": {
@@ -275,7 +279,7 @@ group('@amaui/style/amaui-style-sheet-manager', () => {
 
     const values = [valueNode, ...valueBrowsers];
 
-    values.forEach(value => assert(value).eql(new Array(20).fill(true)));
+    values.forEach(value => assert(value).eql(new Array(22).fill(true)));
   });
 
   group('mode', () => {

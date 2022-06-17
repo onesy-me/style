@@ -99,8 +99,8 @@ group('@amaui/style/style', () => {
           "addRule"
         ],
         true,
-        "\n.ab { background: orange; }\n.aa { -webkit-mask-image: linear-gradient(rgb(0, 0, 0), transparent); -webkit-mask-origin: inherit; -webkit-mask-position: 40% 74%; background: rgb(255, 170, 170); float: right; margin: 0px 41px 4px 40px; max-width: 100px; padding: 40px 41px 40px 40px; position: sticky; transition: all 0.4s ease 0s; width: 100px; }",
-        "\n\n.aa {\n-webkit-mask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\n-webkit-mask-origin: inherit;\n-webkit-mask-position: 40% 74%;\nbackground: #faa;\nfloat: right;\nmargin: 0 14px 4px 40px;\nmargin-right: 41px;\nmask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\nmask-origin: inherit;\nmask-position: 40% 74%;\nmax-width: 100px;\npadding: 40px;\npadding-right: 41px;\nposition: sticky;\ntransition: all .4s ease;\nwidth: 100px;\n}\n\n\n\n.ab {\nbackground: orange;\n}\n\n"
+        "\n.aa { background: rgb(255, 170, 170); float: left; margin: 0px 14px 4px 41px; max-width: 100px; padding: 40px 40px 40px 41px; position: sticky; transition: all 0.4s ease 0s; width: 100px; }\n.ab { background: orange; }",
+        "\n\n.aa {\nbackground: #faa;\nfloat: left;\nmargin: 0 14px 4px 40px;\nmargin-left: 41px;\nmask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\nmask-origin: inherit;\nmask-position: 40% 74%;\nmax-width: 100px;\npadding: 40px;\npadding-left: 41px;\nposition: sticky;\ntransition: all .4s ease;\nwidth: 100px;\n}\n\n\n\n.ab {\nbackground: orange;\n}\n\n"
       ]);
 
       assert(values[1]).eql([
@@ -116,8 +116,8 @@ group('@amaui/style/style', () => {
           "addRule"
         ],
         true,
-        "\n.ab { background: orange none repeat scroll 0% 0%; }\n.aa { background: rgb(255, 170, 170) none repeat scroll 0% 0%; float: right; margin: 0px 41px 4px 40px; mask-image: linear-gradient(rgb(0, 0, 0), transparent); mask-origin: inherit; mask-position: 40% 74%; max-width: 100px; padding: 40px 41px 40px 40px; position: sticky; transition: all 0.4s ease 0s; width: 100px; }",
-        "\n\n.aa {\nbackground: #faa;\nfloat: right;\nmargin: 0 14px 4px 40px;\nmargin-right: 41px;\nmask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\nmask-origin: inherit;\nmask-position: 40% 74%;\nmax-width: 100px;\npadding: 40px;\npadding-right: 41px;\nposition: sticky;\ntransition: all .4s ease;\nwidth: 100px;\n}\n\n\n\n.ab {\nbackground: orange;\n}\n\n"
+        "\n.aa { background: rgb(255, 170, 170) none repeat scroll 0% 0%; float: left; margin: 0px 14px 4px 41px; mask-image: linear-gradient(rgb(0, 0, 0), transparent); mask-origin: inherit; mask-position: 40% 74%; max-width: 100px; padding: 40px 40px 40px 41px; position: sticky; transition: all 0.4s ease 0s; width: 100px; }\n.ab { background: orange none repeat scroll 0% 0%; }",
+        "\n\n.aa {\nbackground: #faa;\nfloat: left;\nmargin: 0 14px 4px 40px;\nmargin-left: 41px;\nmask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\nmask-origin: inherit;\nmask-position: 40% 74%;\nmax-width: 100px;\npadding: 40px;\npadding-left: 41px;\nposition: sticky;\ntransition: all .4s ease;\nwidth: 100px;\n}\n\n\n\n.ab {\nbackground: orange;\n}\n\n"
       ]);
 
       assert(values[2]).eql([
@@ -133,8 +133,8 @@ group('@amaui/style/style', () => {
           "addRule"
         ],
         true,
-        "\n.ab { background-color: orange; }\n.aa { background-color: rgb(255, 170, 170); float: right; margin: 0px 41px 4px 40px; mask-image: linear-gradient(rgb(0, 0, 0), transparent); mask-origin: inherit; -webkit-mask-position-x: 40%; -webkit-mask-position-y: 74%; max-width: 100px; padding: 40px 41px 40px 40px; position: sticky; transition: all 0.4s ease 0s; width: 100px; }",
-        "\n\n.aa {\nbackground: #faa;\nfloat: right;\nmargin: 0 14px 4px 40px;\nmargin-right: 41px;\nmask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\nmask-origin: inherit;\nmask-position: 40% 74%;\nmax-width: 100px;\npadding: 40px;\npadding-right: 41px;\nposition: sticky;\ntransition: all .4s ease;\nwidth: 100px;\n}\n\n\n\n.ab {\nbackground: orange;\n}\n\n"
+        "\n.aa { background-color: rgb(255, 170, 170); float: left; margin: 0px 14px 4px 41px; mask-image: linear-gradient(rgb(0, 0, 0), transparent); mask-origin: inherit; -webkit-mask-position-x: 40%; -webkit-mask-position-y: 74%; max-width: 100px; padding: 40px 40px 40px 41px; position: sticky; transition: all 0.4s ease 0s; width: 100px; }\n.ab { background-color: orange; }",
+        "\n\n.aa {\nbackground: #faa;\nfloat: left;\nmargin: 0 14px 4px 40px;\nmargin-left: 41px;\nmask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\nmask-origin: inherit;\nmask-position: 40% 74%;\nmax-width: 100px;\npadding: 40px;\npadding-left: 41px;\nposition: sticky;\ntransition: all .4s ease;\nwidth: 100px;\n}\n\n\n\n.ab {\nbackground: orange;\n}\n\n"
       ]);
     });
 
@@ -213,7 +213,7 @@ group('@amaui/style/style', () => {
           "addRule"
         ],
         true,
-        "\n\n.a-0 {\n-moz-transition: all .4s ease;\n-o-transition: all .4s ease;\n-webkit-mask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\n-webkit-mask-origin: inherit;\n-webkit-mask-position: 40% 74%;\n-webkit-transition: all .4s ease;\nbackground: #faa;\nfloat: right;\nmargin: 0 14px 4px 40px;\nmargin-right: 41px;\nmask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\nmask-origin: inherit;\nmask-position: 40% 74%;\nmax-width: 100px;\npadding: 40px;\npadding-right: 41px;\nposition: -webkit-sticky;\nposition: sticky;\ntransition: all .4s ease;\nwidth: 100px;\n}\n\n\n\n.a7-0 {\nbackground: orange;\n}\n\n"
+        "\n\n.a-0 {\nbackground: #faa;\nfloat: left;\nmargin: 0 14px 4px 40px;\nmargin-left: 41px;\nmask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\nmask-origin: inherit;\nmask-position: 40% 74%;\nmax-width: 100px;\npadding: 40px;\npadding-left: 41px;\nposition: sticky;\ntransition: all .4s ease;\nwidth: 100px;\n}\n\n\n\n.a7-0 {\nbackground: orange;\n}\n\n"
       ]);
     });
 

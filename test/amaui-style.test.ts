@@ -210,7 +210,7 @@ group('@amaui/style/amaui-style', () => {
         rule: {
           sort: true,
           prefix: false,
-          rtl: true
+          rtl: false
         }
       },
       true

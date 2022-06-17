@@ -47,19 +47,10 @@ class AmauiStyleSheetManager {
     static: [],
     dynamic: [],
   };
-  public names = {
+  public names: IResponse = {
     classNames: {},
     classes: {},
     keyframes: {},
-    styles: (...args: string[]) => {
-      const value = [];
-
-      args.forEach(arg => {
-        if (this.names.classes[arg]) value.push(this.names.classes[arg]);
-      });
-
-      return value.join(' ');
-    },
   };
 
   public constructor(
@@ -194,6 +185,9 @@ class AmauiStyleSheetManager {
         );
       }
     }
+
+    // Update names with methods
+    names(this.names);
 
     // Make a response
     this.response;

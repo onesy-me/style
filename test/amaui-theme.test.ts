@@ -1014,7 +1014,8 @@ group('@amaui/style/amaui-theme', () => {
               "sort": true,
               "rtl": true
             }
-          }
+          },
+          "hash": "0xa84825a47165f38b9994e562e0ab198ef4f31a16d2fe03445c9c6afc32225c51"
         }
       ]));
 
@@ -1776,7 +1777,8 @@ group('@amaui/style/amaui-theme', () => {
               "sort": true,
               "rtl": false
             }
-          }
+          },
+          "hash": "0xa84825a47165f38b9994e562e0ab198ef4f31a16d2fe03445c9c6afc32225c51"
         }
       ]);
     });
@@ -7041,10 +7043,11 @@ group('@amaui/style/amaui-theme', () => {
         "options": {
           "rule": {
             "sort": true,
-            "prefix": true,
+            "prefix": false,
             "rtl": false
           }
-        }
+        },
+        "hash": "0xa84825a47165f38b9994e562e0ab198ef4f31a16d2fe03445c9c6afc32225c51"
       }
     ]));
   });

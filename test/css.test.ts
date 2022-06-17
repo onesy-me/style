@@ -1639,7 +1639,7 @@ width: 100px;
           css: await AmauiNode.file.get(path.resolve('./test/folders/css/style.css'), false),
         };
 
-        assert(files.css).eq(`.a-0{-moz-transition:all .4s ease;-o-transition:all .4s ease;-webkit-mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);-webkit-mask-origin:inherit;-webkit-mask-position:40% 74%;-webkit-transition:all .4s ease;background:#faa;float:right;margin:0 14px 4px 40px;margin-right:41px;mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);mask-origin:inherit;mask-position:40% 74%;max-width:100px;padding:40px;padding-right:41px;position:-webkit-sticky;position:sticky;transition:all .4s ease;width:100px}`);
+        assert(files.css).eq(`.a-0{background:#faa;float:left;margin:0 14px 4px 40px;margin-left:41px;mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);mask-origin:inherit;mask-position:40% 74%;max-width:100px;padding:40px;padding-left:41px;position:sticky;transition:all .4s ease;width:100px}`);
       });
 
       to('false', async () => {

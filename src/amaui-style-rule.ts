@@ -364,7 +364,7 @@ class AmauiStyleRule {
     if (isProperty) {
       const property = cammelCaseToKebabCase(prop);
 
-      const { value: ruleValues, options } = valueResolve(property, value, this.amauiStyle);
+      const { value: ruleValues = [], options } = valueResolve(property, value, this.amauiStyle);
 
       // Add to rules
       ruleValues.forEach(item => {
@@ -690,7 +690,7 @@ class AmauiStyleRule {
     // Make a className
     const className = (
       // Make with plugin/s
-      (!!this.amauiStyle.subscriptions.className.name.length && this.amauiStyle.subscriptions.className.name.map({ property, value: rule?.value })?.value) ||
+      this.amauiStyle.subscriptions.className.name.map({ property, value: rule?.value })?.value ||
 
       // Make with a default method
       makeRuleClassNameDefault(property)
@@ -781,7 +781,7 @@ class AmauiStyleRule {
       // Name
       const keyframesName = (
         // Make with plugin/s
-        (!!this.amauiStyle.subscriptions.keyframes.name.length && this.amauiStyle.subscriptions.keyframes.name.map({ property, value: rule.value })?.value) ||
+        this.amauiStyle.subscriptions.keyframes.name.map({ property, value: rule.value })?.value ||
 
         // Make with a default method
         makeRuleKeyframesNameDefault(property)
@@ -850,7 +850,7 @@ class AmauiStyleRule {
     const useSort = (
       !atRule &&
       this.amauiStyle.options.rule.sort &&
-      (this.amauiStyleSheet !== undefined || this.amauiStyleSheet.options.rule.sort) &&
+      (this.amauiStyleSheet !== undefined || this.amauiStyleSheet.options.rule.sort !== false) &&
       (this.amauiStyleSheet?.amauiTheme !== undefined || this.amauiStyleSheet.amauiTheme?.options.rule.sort !== false) &&
       // by default is true
       this.options.sort !== false

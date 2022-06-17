@@ -75,9 +75,9 @@ export const valueResolve = (property: string, value: any, amauiStyle: AmauiStyl
       }
       else {
         // Value plugins
-        const value_ = amauiStyle.subscriptions.rule.value.map({ property, value });
+        const value_ = amauiStyle.subscriptions.rule.value.map({ property, value })?.value;
 
-        response.value = value_?.value || [];
+        response.value = value_ || [];
       }
     }
     // Method
@@ -147,4 +147,4 @@ export const names = (value: IResponse) => {
   }
 
   return value;
-}
+};

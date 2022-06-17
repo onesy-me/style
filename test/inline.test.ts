@@ -67,11 +67,11 @@ group('@amaui/style/inline', () => {
 
       const values = [...valueBrowsers];
 
-      assert(values[0]).eq('-webkit-mask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent); -webkit-mask-origin: inherit; -webkit-mask-position: 40% 74%;  background: #faa; float: right; margin: 0 14px 4px 40px; margin-right: 41px; mask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent); mask-origin: inherit; mask-position: 40% 74%; max-width: 100px; padding: 40px; padding-right: 41px; position: sticky; transition: all .4s ease; width: 100px;');
-
-      assert(values[1]).eq('background: #faa; float: right; margin: 0 14px 4px 40px; margin-right: 41px; mask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent); mask-origin: inherit; mask-position: 40% 74%; max-width: 100px; padding: 40px; padding-right: 41px; position: sticky; transition: all .4s ease; width: 100px;');
-
-      assert(values[2]).eq('background: #faa; float: right; margin: 0 14px 4px 40px; margin-right: 41px; mask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent); mask-origin: inherit; mask-position: 40% 74%; max-width: 100px; padding: 40px; padding-right: 41px; position: sticky; transition: all .4s ease; width: 100px;');
+      assert(values).eql([
+        "background: #faa; float: left; margin: 0 14px 4px 40px; margin-left: 41px; mask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent); mask-origin: inherit; mask-position: 40% 74%; max-width: 100px; padding: 40px; padding-left: 41px; position: sticky; transition: all .4s ease; width: 100px;",
+        "background: #faa; float: left; margin: 0 14px 4px 40px; margin-left: 41px; mask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent); mask-origin: inherit; mask-position: 40% 74%; max-width: 100px; padding: 40px; padding-left: 41px; position: sticky; transition: all .4s ease; width: 100px;",
+        "background: #faa; float: left; margin: 0 14px 4px 40px; margin-left: 41px; mask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent); mask-origin: inherit; mask-position: 40% 74%; max-width: 100px; padding: 40px; padding-left: 41px; position: sticky; transition: all .4s ease; width: 100px;"
+      ]);
     });
 
   });
@@ -127,7 +127,7 @@ group('@amaui/style/inline', () => {
 
       const value = inline;
 
-      assert(value).eq('-moz-transition: all .4s ease; -o-transition: all .4s ease;  -webkit-mask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent); -webkit-mask-origin: inherit; -webkit-mask-position: 40% 74%; -webkit-transition: all .4s ease;  background: #faa; float: right; margin: 0 14px 4px 40px; margin-right: 41px; mask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent); mask-origin: inherit; mask-position: 40% 74%; max-width: 100px; padding: 40px; padding-right: 41px; position: -webkit-sticky; position: sticky; transition: all .4s ease; width: 100px;');
+      assert(value).eq('background: #faa; float: left; margin: 0 14px 4px 40px; margin-left: 41px; mask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent); mask-origin: inherit; mask-position: 40% 74%; max-width: 100px; padding: 40px; padding-left: 41px; position: sticky; transition: all .4s ease; width: 100px;');
     });
 
   });

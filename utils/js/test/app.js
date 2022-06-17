@@ -19,7 +19,7 @@ const run = async () => {
   app.use(express.static(path.join(__dirname, '../../../')));
 
   app.get('*', async (req, res) => {
-    const paths = (await fg('build/umd/*.dev.js', { onlyFiles: true }));
+    const paths = (await fg('build/umd/*.prod.min.js', { onlyFiles: true }));
 
     paths.push(
       'https://unpkg.com/@amaui/utils@latest/umd/amaui-utils.prod.min.js',

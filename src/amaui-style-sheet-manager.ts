@@ -18,6 +18,7 @@ interface IOptionsStyle {
 interface IOptions {
   style?: IOptionsStyle;
   rule?: IOptionsRule;
+  amaui_style_cache?: boolean;
 }
 
 const optionsDefault: IOptions = {
@@ -29,6 +30,7 @@ const optionsDefault: IOptions = {
     prefix: true,
     rtl: true,
   },
+  amaui_style_cache: true
 };
 
 class AmauiStyleSheetManager {

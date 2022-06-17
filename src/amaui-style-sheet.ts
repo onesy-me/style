@@ -191,7 +191,7 @@ class AmauiStyleSheet {
     // Add to amauiStyle and amauiStyleSheetManager
     if (this.amauiStyleSheetManager) this.amauiStyleSheetManager.sheets[this.variant]?.push(this);
 
-    if (this.amauiStyleSheetManager) this.amauiStyle.sheets.push(this);
+    if (this.amauiStyleSheetManager && this.amauiStyleSheetManager.options.amaui_style_cache) this.amauiStyle.sheets.push(this);
 
     // Update inited status
     this.status = 'inited';

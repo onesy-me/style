@@ -115,7 +115,8 @@ group('@amaui/style/amaui-style-sheet-manager', () => {
             "sort": true,
             "prefix": false,
             "rtl": true
-          }
+          },
+          amaui_style_cache: true
         }),
         !!amauiStyleSheetManager.amauiStyle,
         !amauiStyleSheetManager.amauiTheme,
@@ -226,7 +227,8 @@ group('@amaui/style/amaui-style-sheet-manager', () => {
           "sort": true,
           "prefix": false,
           "rtl": true
-        }
+        },
+        amaui_style_cache: true
       }),
       !!amauiStyleSheetManager.amauiStyle,
       !amauiStyleSheetManager.amauiTheme,

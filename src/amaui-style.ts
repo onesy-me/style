@@ -1,4 +1,4 @@
-import { copy, element, getID, is, isEnvironment, merge, Try } from '@amaui/utils';
+import { copy, element, getID, hash, is, isEnvironment, merge, Try } from '@amaui/utils';
 import { TMethod } from '@amaui/models';
 import AmauiSubscription from '@amaui/subscription';
 import AmauiMeta from '@amaui/meta';
@@ -23,6 +23,7 @@ const optionsDefault: IOptions = {
 class AmauiStyle {
   public options: IOptions;
   public id?: string;
+  public hash?: string;
   public direction: string;
   public subscriptions = {
     className: {
@@ -81,7 +82,7 @@ class AmauiStyle {
     public renderer: AmauiStyleRenderer = new AmauiStyleRenderer(),
     options: IOptions = copy(optionsDefault),
   ) {
-    this.options = merge(options, optionsDefault);
+    this.options = merge(options, optionsDefault, { copy: true });
 
     this.init();
   }
@@ -175,11 +176,23 @@ class AmauiStyle {
         // Ltr
         const style = Try(() => window.getComputedStyle(this.element));
 
-        this.direction = style?.direction || Try(() => getComputedStyle(document.documentElement).direction) || 'ltr';
+        this.direction = style?.direction || Try(() => window.getComputedStyle(document.documentElement).direction) || 'ltr';
 
         this.options.rule.rtl = this.direction === 'rtl';
       }
     }
+
+    const value = {
+      element: !!this.element,
+      options: this.options,
+      direction: this.direction,
+      subscriptions: this.id,
+      values: this.values,
+      sheets: this.sheets.map(sheet => sheet.id),
+      sheet_managers: this.sheet_managers.map(sheet_manager => sheet_manager.id),
+    };
+
+    this.hash = hash(value);
   }
 
   public static attributes = [

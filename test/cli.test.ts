@@ -48,7 +48,7 @@ group('@amaui/style/cli', () => {
 
   preAll(clear);
 
-  preEveryTo(async () => {
+  preEveryGroupTo(async () => {
     await clear();
 
     const folders = [
@@ -121,7 +121,7 @@ group('@amaui/style/cli', () => {
 </html>`)));
   });
 
-  postEveryTo(clear);
+  postEveryGroupTo(clear);
 
   to('cli', done => {
     const childProcess = fork(

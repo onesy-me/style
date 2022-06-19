@@ -1,16 +1,11 @@
 /* tslint:disable: no-shadowed-variable */
 import { assert } from '@amaui/test';
 
-import { startBrowsers, IBrowsers, evaluate, closeBrowsers } from '../utils/js/test/utils';
+import { evaluate } from '../utils/js/test/utils';
 
 import * as AmauiStyle from '../src';
 
 group('@amaui/style/sort', () => {
-  let browsers: IBrowsers;
-
-  pre(async () => browsers = await startBrowsers());
-
-  post(async () => await closeBrowsers(browsers));
 
   group('amauiStyle', () => {
 
@@ -21,7 +16,7 @@ group('@amaui/style/sort', () => {
         amauiStyle.plugins.add = window.AmauiStyle.sort;
 
         return amauiStyle.subscriptions.rules.sort.length === 1;
-      }, { browsers });
+      });
 
       const amauiStyle = new AmauiStyle.AmauiStyle();
 
@@ -45,7 +40,7 @@ group('@amaui/style/sort', () => {
           (amauiStyle.plugins.remove = window.AmauiStyle.sort) &&
           amauiStyle.subscriptions.rules.sort.length === 0
         );
-      }, { browsers });
+      });
 
       const amauiStyle = new AmauiStyle.AmauiStyle();
 
@@ -75,7 +70,7 @@ group('@amaui/style/sort', () => {
             { value: 14, property: 'padding' },
             { value: 14, property: 'padding-right' },
           ]);
-        }, { browsers });
+        });
 
         const valueNode = AmauiStyle.sort(undefined).methods.method([
           { value: 14, property: 'padding-left' },
@@ -102,7 +97,7 @@ group('@amaui/style/sort', () => {
             { value: 14, property: 'padding' },
             { value: 14, property: 'padding-right' },
           ]).value.map(item => item.property);
-        }, { browsers });
+        });
 
         const valueNode = AmauiStyle.sort(undefined).methods.method([
           { value: 14, property: 'padding-left' },
@@ -134,7 +129,7 @@ group('@amaui/style/sort', () => {
             { value: 14, property: 'padding' },
             { value: 14, property: 'padding-right' },
           ]).value.map(item => item.property);
-        }, { browsers });
+        });
 
         const valueNode = AmauiStyle.sort(undefined, { priority: 'original' }).methods.method([
           { value: 14, property: 'padding-left' },
@@ -158,7 +153,7 @@ group('@amaui/style/sort', () => {
             { value: 14, property: 'padding' },
             { value: 14, property: 'padding-right' },
           ]).value.map(item => item.property);
-        }, { browsers });
+        });
 
         const valueNode = AmauiStyle.sort(undefined, { priority: 'individual' }).methods.method([
           { value: 14, property: 'padding-left' },
@@ -182,7 +177,7 @@ group('@amaui/style/sort', () => {
             { value: 14, property: 'padding' },
             { value: 14, property: 'padding-right' },
           ]).value.map(item => item.property);
-        }, { browsers });
+        });
 
         const valueNode = AmauiStyle.sort(undefined, { priority: 'shorthand' }).methods.method([
           { value: 14, property: 'padding-left' },

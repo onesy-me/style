@@ -1,16 +1,11 @@
 /* tslint:disable: no-shadowed-variable */
 import { assert } from '@amaui/test';
 
-import { startBrowsers, IBrowsers, evaluate, closeBrowsers } from '../utils/js/test/utils';
+import { evaluate } from '../utils/js/test/utils';
 
 import * as AmauiStyle from '../src';
 
 group('@amaui/style/rtl', () => {
-  let browsers: IBrowsers;
-
-  pre(async () => browsers = await startBrowsers());
-
-  post(async () => await closeBrowsers(browsers));
 
   group('amauiStyle', () => {
 
@@ -21,7 +16,7 @@ group('@amaui/style/rtl', () => {
         amauiStyle.plugins.add = window.AmauiStyle.rtl;
 
         return amauiStyle.subscriptions.rule.rtl.length === 1;
-      }, { browsers });
+      });
 
       const amauiStyle = new AmauiStyle.AmauiStyle();
 
@@ -45,7 +40,7 @@ group('@amaui/style/rtl', () => {
           (amauiStyle.plugins.remove = window.AmauiStyle.rtl) &&
           amauiStyle.subscriptions.rule.rtl.length === 0
         );
-      }, { browsers });
+      });
 
       const amauiStyle = new AmauiStyle.AmauiStyle();
 
@@ -71,7 +66,7 @@ group('@amaui/style/rtl', () => {
       to('response', async () => {
         const valueBrowsers = await evaluate((window: any) => {
           return window.AmauiStyle.rtl(undefined).methods.method({ value: '14', property: 'padding-left' });
-        }, { browsers });
+        });
 
         const valueNode = AmauiStyle.rtl(undefined).methods.method({ value: '14', property: 'padding-left' });
 
@@ -102,7 +97,7 @@ group('@amaui/style/rtl', () => {
           ];
 
           return values_.map(item => window.AmauiStyle.rtl(undefined).methods.method(item).value);
-        }, { browsers });
+        });
 
         const values_ = [
           { value: '14', property: 'padding' },

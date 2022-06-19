@@ -3,16 +3,11 @@ import { assert } from '@amaui/test';
 import AmauiSubscription from '@amaui/subscription';
 import * as AmauiUtils from '@amaui/utils';
 
-import { startBrowsers, IBrowsers, evaluate, closeBrowsers } from '../utils/js/test/utils';
+import { evaluate } from '../utils/js/test/utils';
 
 import * as AmauiStyle from '../src';
 
 group('@amaui/style/utils', () => {
-  let browsers: IBrowsers;
-
-  pre(async () => browsers = await startBrowsers());
-
-  post(async () => await closeBrowsers(browsers));
 
   to('kebabCasetoCammelCase', async () => {
     const valueBrowsers = await evaluate((window: any) => {
@@ -33,7 +28,7 @@ group('@amaui/style/utils', () => {
       ];
 
       return values_.map(item => window.AmauiStyle.kebabCasetoCammelCase(item));
-    }, { browsers });
+    });
 
     const values_ = [
       '',
@@ -92,7 +87,7 @@ group('@amaui/style/utils', () => {
       ];
 
       return values_.map(item => window.AmauiStyle.cammelCaseToKebabCase(item));
-    }, { browsers });
+    });
 
     const values_ = [
       '',
@@ -153,7 +148,7 @@ group('@amaui/style/utils', () => {
       ];
 
       return values_.map(item => window.AmauiStyle.capitalizedCammelCase(item));
-    }, { browsers });
+    });
 
     const values_ = [
       '',
@@ -206,7 +201,7 @@ group('@amaui/style/utils', () => {
       ];
 
       return values_.map(item => window.AmauiStyle.isAmauiSubscription(item));
-    }, { browsers });
+    });
 
     const values_ = [
       new AmauiSubscription(),
@@ -244,7 +239,7 @@ group('@amaui/style/utils', () => {
       ];
 
       return values_.map(item => window.AmauiStyle.getRefs(item));
-    }, { browsers });
+    });
 
     const values_ = [
       '',
@@ -349,7 +344,7 @@ group('@amaui/style/utils', () => {
 
         return value;
       });
-    }, { browsers });
+    });
 
     const values_ = [
       ['width', '14px'],
@@ -461,7 +456,7 @@ group('@amaui/style/utils', () => {
       ];
 
       return values_.map(item => window.AmauiStyle.dynamic(item));
-    }, { browsers });
+    });
 
     const values_ = [
       () => 'a',
@@ -496,7 +491,7 @@ group('@amaui/style/utils', () => {
       while (values_.length < 140) values_.push(makeNameMethod.next().value);
 
       return values_;
-    }, { browsers });
+    });
 
     const makeNameMethod = AmauiStyle.makeName();
 
@@ -531,7 +526,7 @@ group('@amaui/style/utils', () => {
       ];
 
       return values_.map(item => window.AmauiStyle.pxToRem(...item));
-    }, { browsers });
+    });
 
     const values_ = [
       [1],
@@ -576,7 +571,7 @@ group('@amaui/style/utils', () => {
       ];
 
       return values_;
-    }, { browsers });
+    });
 
     const values_ = [
       AmauiStyle.names({ classNames: { a: 'a-0', a1: 'a1-1' } }).className,

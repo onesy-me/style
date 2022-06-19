@@ -772,7 +772,7 @@ class AmauiTheme {
     public element?: Element,
     options: IOptions = {}
   ) {
-    this.options = merge(options, optionsDefault);
+    this.options = merge(options, optionsDefault, { copy: true });
 
     this.init(value);
   }
@@ -796,7 +796,7 @@ class AmauiTheme {
 
         const style = Try(() => window.getComputedStyle(this.element));
 
-        this.direction = style?.direction || Try(() => getComputedStyle(document.documentElement).direction) || 'ltr';
+        this.direction = style?.direction || Try(() => window.getComputedStyle(document.documentElement).direction) || 'ltr';
 
         this.options.rule.rtl = this.direction === 'rtl';
       }
@@ -1001,8 +1001,15 @@ class AmauiTheme {
     // zIndex
     if (is('object', z_index)) this.z_index = merge(z_index, this.z_index);
 
+    const instance_: any = copy({ ...this });
+
+    instance_.element = !!this.element;
+
+    delete instance_.id;
+    delete instance_.hash;
+
     // Hash
-    this.hash = hash(this);
+    this.hash = hash(instance_);
   }
 
   public async image(value_: string, other: any = {}) {

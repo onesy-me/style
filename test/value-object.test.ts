@@ -1,16 +1,11 @@
 /* tslint:disable: no-shadowed-variable */
 import { assert } from '@amaui/test';
 
-import { startBrowsers, IBrowsers, evaluate, closeBrowsers } from '../utils/js/test/utils';
+import { evaluate } from '../utils/js/test/utils';
 
 import * as AmauiStyle from '../src';
 
 group('@amaui/style/value-object', () => {
-  let browsers: IBrowsers;
-
-  pre(async () => browsers = await startBrowsers());
-
-  post(async () => await closeBrowsers(browsers));
 
   group('amauiStyle', () => {
 
@@ -21,7 +16,7 @@ group('@amaui/style/value-object', () => {
         amauiStyle.plugins.add = window.AmauiStyle.valueObject;
 
         return amauiStyle.subscriptions.rule.value.length === 1;
-      }, { browsers });
+      });
 
       const amauiStyle = new AmauiStyle.AmauiStyle();
 
@@ -45,7 +40,7 @@ group('@amaui/style/value-object', () => {
           (amauiStyle.plugins.remove = window.AmauiStyle.valueObject) &&
           amauiStyle.subscriptions.rule.value.length === 0
         );
-      }, { browsers });
+      });
 
       const amauiStyle = new AmauiStyle.AmauiStyle();
 
@@ -71,7 +66,7 @@ group('@amaui/style/value-object', () => {
       to('response', async () => {
         const valueBrowsers = await evaluate((window: any) => {
           return window.AmauiStyle.valueObject(undefined).methods.method({ property: 'animation', value: { name: 'a' } });
-        }, { browsers });
+        });
 
         const valueNode = AmauiStyle.valueObject(undefined).methods.method({ property: 'animation', value: { name: 'a' } });
 
@@ -1137,7 +1132,7 @@ b b b`,
               }
             }).value[0],
           ];
-        }, { browsers });
+        });
 
         const method = AmauiStyle.valueObject(undefined).methods.method;
 

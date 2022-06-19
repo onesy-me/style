@@ -1,16 +1,11 @@
 /* tslint:disable: no-shadowed-variable */
 import { assert } from '@amaui/test';
 
-import { startBrowsers, IBrowsers, evaluate, closeBrowsers } from '../utils/js/test/utils';
+import { evaluate } from '../utils/js/test/utils';
 
 import * as AmauiStyle from '../src';
 
 group('@amaui/style/prefix', () => {
-  let browsers: IBrowsers;
-
-  pre(async () => browsers = await startBrowsers());
-
-  post(async () => await closeBrowsers(browsers));
 
   group('amauiStyle', () => {
 
@@ -21,7 +16,7 @@ group('@amaui/style/prefix', () => {
         amauiStyle.plugins.add = window.AmauiStyle.prefix;
 
         return amauiStyle.subscriptions.rule.prefix.length === 1;
-      }, { browsers });
+      });
 
       const amauiStyle = new AmauiStyle.AmauiStyle();
 
@@ -45,7 +40,7 @@ group('@amaui/style/prefix', () => {
           (amauiStyle.plugins.remove = window.AmauiStyle.prefix) &&
           amauiStyle.subscriptions.rule.prefix.length === 0
         );
-      }, { browsers });
+      });
 
       const amauiStyle = new AmauiStyle.AmauiStyle();
 
@@ -71,7 +66,7 @@ group('@amaui/style/prefix', () => {
       to('response', async () => {
         const valueBrowsers = await evaluate((window: any) => {
           return window.AmauiStyle.prefix(undefined).methods.method({ value: 'inherit', property: 'mask-image' });
-        }, { browsers });
+        });
 
         const values = [...valueBrowsers];
 
@@ -97,7 +92,7 @@ group('@amaui/style/prefix', () => {
         to('value', async () => {
           const valueBrowsers = await evaluate((window: any) => {
             return window.AmauiStyle.prefix(undefined).methods.method({ value: 'image-set(url(a.jpg) 1x)', property: 'background-image' });
-          }, { browsers });
+          });
 
           const values = [...valueBrowsers];
 
@@ -111,7 +106,7 @@ group('@amaui/style/prefix', () => {
         to('property', async () => {
           const valueBrowsers = await evaluate((window: any) => {
             return window.AmauiStyle.prefix(undefined).methods.method({ value: 'inherit', property: 'mask-image' });
-          }, { browsers });
+          });
 
           const values = [...valueBrowsers];
 

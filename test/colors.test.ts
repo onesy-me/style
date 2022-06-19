@@ -2,7 +2,7 @@
 import { assert } from '@amaui/test';
 import * as AmauiUtils from '@amaui/utils';
 
-import { startBrowsers, IBrowsers, evaluate, closeBrowsers } from '../utils/js/test/utils';
+import { evaluate } from '../utils/js/test/utils';
 
 import { colors } from '../src';
 
@@ -304,11 +304,6 @@ const valueColors = {
 };
 
 group('@amaui/style/colors', () => {
-  let browsers: IBrowsers;
-
-  pre(async () => browsers = await startBrowsers());
-
-  post(async () => await closeBrowsers(browsers));
 
   to('colors', async () => {
     const valueBrowsers = await evaluate((window: any) => {
@@ -610,7 +605,7 @@ group('@amaui/style/colors', () => {
       };
 
       return window.AmauiUtils.equalDeep(valueColors, window.AmauiStyle.colors);
-    }, { browsers });
+    });
 
     const valueNode = AmauiUtils.equalDeep(valueColors, colors);
 

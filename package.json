@@ -1,6 +1,6 @@
 {
   "name": "@amaui/style",
-  "version": "1.0.1171",
+  "version": "1.0.11111",
   "description": "CSS in JS styling solution",
   "repository": "https://github.com/amaui-org/amaui-style.git",
   "author": "Lazar <lazareric.com@gmail.com>",
@@ -43,19 +43,19 @@
     "test": "yarn lint && yarn type && yarn build && yarn test:pre && yarn cov && yarn test:post"
   },
   "dependencies": {
-    "@amaui/cache": "^1.0.1111",
-    "@amaui/meta": "^1.0.111",
-    "@amaui/node": "^1.0.1111",
-    "@amaui/subscription": "^1.0.1111",
-    "@amaui/utils": "^1.0.1874",
+    "@amaui/cache": "^1.0.11111",
+    "@amaui/meta": "^1.0.1111",
+    "@amaui/node": "^1.0.11111",
+    "@amaui/subscription": "^1.0.1114",
+    "@amaui/utils": "^1.0.11111",
     "@babel/runtime": "^7.18.3",
     "csstype": "^3.1.0",
     "fast-glob": "^3.2.11",
     "fs-extra": "^10.1.0"
   },
   "devDependencies": {
-    "@amaui/models": "^1.0.1",
-    "@amaui/test": "^1.0.1114",
+    "@amaui/models": "^1.0.111",
+    "@amaui/test": "^1.0.1141",
     "@babel/cli": "^7.16.0",
     "@babel/core": "^7.16.0",
     "@babel/plugin-proposal-class-properties": "^7.17.12",

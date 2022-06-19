@@ -1,16 +1,11 @@
 /* tslint:disable: no-shadowed-variable */
 import { assert } from '@amaui/test';
 
-import { startBrowsers, IBrowsers, evaluate, closeBrowsers } from '../utils/js/test/utils';
+import { evaluate } from '../utils/js/test/utils';
 
 import * as AmauiStyle from '../src';
 
 group('@amaui/style/inline', () => {
-  let browsers: IBrowsers;
-
-  pre(async () => browsers = await startBrowsers());
-
-  post(async () => await closeBrowsers(browsers));
 
   to('inline', async () => {
     const valueBrowsers = await evaluate((window: any) => {
@@ -63,7 +58,7 @@ group('@amaui/style/inline', () => {
       const inline = window.AmauiStyle.inline(a, { a: 1 }, { amaui_style: { value: amauiStyle } });
 
       return inline;
-    }, { browsers });
+    });
 
     const values = [...valueBrowsers];
 
@@ -131,7 +126,7 @@ group('@amaui/style/inline', () => {
       to('css', async () => {
         const valueBrowsers = await evaluate((window: any) => {
           return window.AmauiStyle.inline({ color: 'yellow', backgroundColor: 'orange' }, {}, { response: 'css' });
-        }, { browsers });
+        });
 
         const valueNode = AmauiStyle.inline({ color: 'yellow', backgroundColor: 'orange' }, {}, { response: 'css' });
 
@@ -143,7 +138,7 @@ group('@amaui/style/inline', () => {
       to('json', async () => {
         const valueBrowsers = await evaluate((window: any) => {
           return window.AmauiStyle.inline({ color: 'yellow', backgroundColor: 'orange' }, {}, { response: 'json' });
-        }, { browsers });
+        });
 
         const valueNode = AmauiStyle.inline({ color: 'yellow', backgroundColor: 'orange' }, {}, { response: 'json' });
 
@@ -159,7 +154,7 @@ group('@amaui/style/inline', () => {
       to('cammel', async () => {
         const valueBrowsers = await evaluate((window: any) => {
           return window.AmauiStyle.inline({ color: 'yellow', backgroundColor: 'orange' }, {}, { response: 'json', response_json_property_variant: 'cammel' });
-        }, { browsers });
+        });
 
         const valueNode = AmauiStyle.inline({ color: 'yellow', backgroundColor: 'orange' }, {}, { response: 'json', response_json_property_variant: 'cammel' });
 
@@ -171,7 +166,7 @@ group('@amaui/style/inline', () => {
       to('kebab', async () => {
         const valueBrowsers = await evaluate((window: any) => {
           return window.AmauiStyle.inline({ color: 'yellow', backgroundColor: 'orange' }, {}, { response: 'json', response_json_property_variant: 'kebab' });
-        }, { browsers });
+        });
 
         const valueNode = AmauiStyle.inline({ color: 'yellow', backgroundColor: 'orange' }, {}, { response: 'json', response_json_property_variant: 'kebab' });
 

@@ -2,61 +2,12 @@
 import { assert } from '@amaui/test';
 import * as AmauiUtils from '@amaui/utils';
 
-import { startBrowsers, IBrowsers, evaluate, closeBrowsers } from '../utils/js/test/utils';
+import { evaluate } from '../utils/js/test/utils';
 
 import * as AmauiStyle from '../src';
 import { TValue } from '../src';
-import { counter } from '../src/amaui-style-rule';
 
 group('@amaui/style/amaui-style-rule-property', () => {
-  let browsers: IBrowsers;
-
-  pre(async () => browsers = await startBrowsers());
-
-  post(async () => await closeBrowsers(browsers));
-
-  preEveryTo(async () => {
-    // Counter
-    counter.className = 0;
-    counter.keyframesName = 0;
-
-    await evaluate((window: any) => {
-      // Body
-      window.document.body.dir = 'ltr';
-
-      window.document.body.innerHTML = `
-      <main id='a'>
-        <section id='a1'>
-          <div id='a14'>
-            a
-          </div>
-        </section>
-      </main>
-    `;
-
-      new window.AmauiStyle.AmauiStyle(window.document.getElementById('a14'));
-      new window.AmauiStyle.AmauiStyle(window.document.getElementById('a1'));
-      new window.AmauiStyle.AmauiStyle(window.document.getElementById('a'));
-      new window.AmauiStyle.AmauiStyle(window.document.body);
-
-      Array.from(document.styleSheets).forEach(sheet => {
-        sheet.ownerNode.remove();
-      });
-    }, { browsers });
-  });
-
-  postEveryTo(async () => await evaluate((window: any) => {
-    // Style sheets
-    const styleSheets: any = Array.from(window.document.styleSheets);
-
-    styleSheets.forEach(sheet => sheet.ownerNode.remove());
-
-    // Body
-    window.document.body.innerHTML = '';
-    window.document.body.dir = 'ltr';
-    // Html
-    window.document.documentElement.html.dir = 'ltr';
-  }, { browsers }));
 
   group('AmauiStyleRuleProperty', () => {
 
@@ -164,7 +115,7 @@ group('@amaui/style/amaui-style-rule-property', () => {
           amauiStyleRuleProperty.values,
           amauiStyleRuleProperty.options
         ];
-      }, { browsers });
+      });
 
       const a: TValue = {
         a: {
@@ -394,7 +345,7 @@ group('@amaui/style/amaui-style-rule-property', () => {
           amauiStyleRuleProperty.values,
           amauiStyleRuleProperty.options
         ];
-      }, { browsers });
+      });
 
       const a: TValue = {
         a: {
@@ -631,7 +582,7 @@ group('@amaui/style/amaui-style-rule-property', () => {
         return [
           amauiStyleRule.css
         ];
-      }, { browsers });
+      });
 
       const a: TValue = {
         a: {
@@ -751,18 +702,18 @@ group('@amaui/style/amaui-style-rule-property', () => {
 
       assert(values).eql([
         [
-          ".a1-1 {\nbackground: #faa;\nfloat: right;\nmargin: 0 14px 4px 40px;\nmask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\nmask-position: 40% 74%;\nmax-width: 100px;\npadding: 40px;\npadding-right: 41px;\nposition: sticky;\ntransition: all .4s ease;\nmask-origin: inherit;\nmargin-right: 41px;\n}"
+          ".a1-1 {\nmax-width: 100px;\nbackground: #faa;\nmargin: 0 14px 4px 40px;\nfloat: right;\npadding-right: 41px;\npadding: 40px;\nposition: sticky;\ntransition: all .4s ease;\nmask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\nmask-position: 40% 74%;\nmask-origin: inherit;\nmargin-right: 41px;\n}"
         ],
         [
-          ".a1-1 {\nbackground: #faa;\nfloat: right;\nmargin: 0 14px 4px 40px;\nmask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\nmask-position: 40% 74%;\nmax-width: 100px;\npadding: 40px;\npadding-right: 41px;\nposition: sticky;\ntransition: all .4s ease;\nmask-origin: inherit;\nmargin-right: 41px;\n}"
+          ".a1-1 {\nmax-width: 100px;\nbackground: #faa;\nmargin: 0 14px 4px 40px;\nfloat: right;\npadding-right: 41px;\npadding: 40px;\nposition: sticky;\ntransition: all .4s ease;\nmask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\nmask-position: 40% 74%;\nmask-origin: inherit;\nmargin-right: 41px;\n}"
         ],
         [
-          ".a1-1 {\nbackground: #faa;\nfloat: right;\nmargin: 0 14px 4px 40px;\nmask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\nmask-position: 40% 74%;\nmax-width: 100px;\npadding: 40px;\npadding-right: 41px;\nposition: sticky;\ntransition: all .4s ease;\nmask-origin: inherit;\nmargin-right: 41px;\n}"
+          ".a1-1 {\nmax-width: 100px;\nbackground: #faa;\nmargin: 0 14px 4px 40px;\nfloat: right;\npadding-right: 41px;\npadding: 40px;\nposition: sticky;\ntransition: all .4s ease;\nmask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\nmask-position: 40% 74%;\nmask-origin: inherit;\nmargin-right: 41px;\n}"
         ]
       ]);
 
       assert(valueNode).eql([
-        ".a1-1 {\nbackground: #faa;\nfloat: left;\nmargin: 0 14px 4px 40px;\nmargin-left: 41px;\nmask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\nmask-origin: inherit;\nmask-position: 40% 74%;\nmax-width: 100px;\npadding: 40px;\npadding-left: 41px;\nposition: sticky;\ntransition: all .4s ease;\nmask-origin: inherit;\nmargin-left: 41px;\n}"
+        ".a1-1 {\nmax-width: 100px;\nbackground: #faa;\nmargin: 0 14px 4px 40px;\nmargin-left: 41px;\nfloat: left;\npadding-left: 41px;\npadding: 40px;\nposition: sticky;\ntransition: all .4s ease;\nmask-origin: inherit;\nmask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\nmask-position: 40% 74%;\nmask-origin: inherit;\nmargin-left: 41px;\n}"
       ]);
     });
 
@@ -829,7 +780,7 @@ group('@amaui/style/amaui-style-rule-property', () => {
           );
 
           return [window.AmauiUtils.equalDeep({ css: amauiStyleRuleProperty.values.css, json: amauiStyleRuleProperty.values.json }, amauiStyleRuleProperty.response), amauiStyleRuleProperty.response];
-        }, { browsers });
+        });
 
         const a: TValue = {
           a: {
@@ -965,7 +916,7 @@ group('@amaui/style/amaui-style-rule-property', () => {
           );
 
           return [window.AmauiUtils.equalDeep(amauiStyleRuleProperty.values.css, amauiStyleRuleProperty.css), amauiStyleRuleProperty.css];
-        }, { browsers });
+        });
 
         const a: TValue = {
           a: {
@@ -1096,7 +1047,7 @@ group('@amaui/style/amaui-style-rule-property', () => {
           );
 
           return [window.AmauiUtils.equalDeep(amauiStyleRuleProperty.values.json, amauiStyleRuleProperty.json), amauiStyleRuleProperty.json];
-        }, { browsers });
+        });
 
         const a: TValue = {
           a: {
@@ -1258,7 +1209,7 @@ group('@amaui/style/amaui-style-rule-property', () => {
         );
 
         return response;
-      }, { browsers });
+      });
 
       const values = [...valueBrowsers];
 
@@ -1464,7 +1415,7 @@ group('@amaui/style/amaui-style-rule-property', () => {
         );
 
         return response;
-      }, { browsers });
+      });
 
       const values = [...valueBrowsers];
 

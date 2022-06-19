@@ -2,23 +2,13 @@
 import { assert } from '@amaui/test';
 import * as AmauiUtils from '@amaui/utils';
 
-import { startBrowsers, IBrowsers, evaluate, closeBrowsers } from '../utils/js/test/utils';
+import { evaluate } from '../utils/js/test/utils';
 
 import * as AmauiStyle from '../src';
-import { counter } from '../src/amaui-style-rule';
 
 group('@amaui/style/amaui-theme', () => {
-  let browsers: IBrowsers;
 
-  pre(async () => browsers = await startBrowsers());
-
-  post(async () => await closeBrowsers(browsers));
-
-  preEveryTo(async () => {
-    // Counter
-    counter.className = 0;
-    counter.keyframesName = 0;
-
+  preEveryGroupTo(async () => {
     await evaluate((window: any) => {
       // Body
       window.document.body.dir = 'ltr';
@@ -37,21 +27,8 @@ group('@amaui/style/amaui-theme', () => {
       new window.AmauiStyle.AmauiTheme({}, window.document.getElementById('a1'));
       new window.AmauiStyle.AmauiTheme({}, window.document.getElementById('a'));
       new window.AmauiStyle.AmauiTheme({}, window.document.body);
-    }, { browsers });
+    });
   });
-
-  postEveryTo(async () => await evaluate((window: any) => {
-    // Style sheets
-    const styleSheets: any = Array.from(window.document.styleSheets);
-
-    styleSheets.forEach(sheet => sheet.ownerNode.remove());
-
-    // Body
-    window.document.body.innerHTML = '';
-    window.document.body.dir = 'ltr';
-    // Html
-    window.document.documentElement.html.dir = 'ltr';
-  }, { browsers }));
 
   group('AmauiTheme', () => {
 
@@ -60,7 +37,7 @@ group('@amaui/style/amaui-theme', () => {
         const amaui_theme = window.AmauiStyle.AmauiTheme.amaui_theme;
 
         return amaui_theme instanceof window.AmauiStyle.AmauiTheme;
-      }, { browsers });
+      });
 
       const amaui_theme = AmauiStyle.AmauiTheme.amaui_theme;
 
@@ -78,7 +55,7 @@ group('@amaui/style/amaui-theme', () => {
           const color = window.AmauiStyle.AmauiTheme.make.color('#ff0');
 
           return color;
-        }, { browsers });
+        });
 
         const color = AmauiStyle.AmauiTheme.make.color('#ff0');
 
@@ -113,7 +90,7 @@ group('@amaui/style/amaui-theme', () => {
           const shadow = window.AmauiStyle.AmauiTheme.make.shadow('#ff0', [.14, .11, .17]);
 
           return shadow;
-        }, { browsers });
+        });
 
         const shadow = AmauiStyle.AmauiTheme.make.shadow('#ff0', [.14, .11, .17]);
 
@@ -141,7 +118,7 @@ group('@amaui/style/amaui-theme', () => {
     to('all', async () => {
       const valueBrowsers = await evaluate((window: any) => {
         return window.AmauiStyle.AmauiTheme.all(window.document.getElementById('a14')).map(item => item.element.id || item.element.tagName.toLowerCase());
-      }, { browsers });
+      });
 
       const values = [...valueBrowsers];
 
@@ -158,7 +135,7 @@ group('@amaui/style/amaui-theme', () => {
         const item = window.AmauiStyle.AmauiTheme.nearest(window.document.getElementById('a14'));
 
         return item.element.id || item.element.tagName.toLowerCase();
-      }, { browsers });
+      });
 
       const values = [...valueBrowsers];
 
@@ -170,7 +147,7 @@ group('@amaui/style/amaui-theme', () => {
         const item = window.AmauiStyle.AmauiTheme.furthest(window.document.getElementById('a14'));
 
         return item.element.id || item.element.tagName.toLowerCase();
-      }, { browsers });
+      });
 
       const values = [...valueBrowsers];
 
@@ -182,7 +159,7 @@ group('@amaui/style/amaui-theme', () => {
         const item = window.AmauiStyle.AmauiTheme.first(window.document.getElementById('a14'));
 
         return item.element.id || item.element.tagName.toLowerCase();
-      }, { browsers });
+      });
 
       const values = [...valueBrowsers];
 
@@ -194,7 +171,7 @@ group('@amaui/style/amaui-theme', () => {
         const item = window.AmauiStyle.AmauiTheme.last(window.document.getElementById('a14'));
 
         return item.element.id || item.element.tagName.toLowerCase();
-      }, { browsers });
+      });
 
       const values = [...valueBrowsers];
 
@@ -208,7 +185,7 @@ group('@amaui/style/amaui-theme', () => {
           const item = window.AmauiStyle.AmauiTheme.get(window.document.getElementById('a14'), 0);
 
           return item.element.id || item.element.tagName.toLowerCase();
-        }, { browsers });
+        });
 
         const values = [...valueBrowsers];
 
@@ -220,7 +197,7 @@ group('@amaui/style/amaui-theme', () => {
           const item = window.AmauiStyle.AmauiTheme.get(window.document.getElementById('a14'), 1);
 
           return item.element.id || item.element.tagName.toLowerCase();
-        }, { browsers });
+        });
 
         const values = [...valueBrowsers];
 
@@ -232,7 +209,7 @@ group('@amaui/style/amaui-theme', () => {
           const item = window.AmauiStyle.AmauiTheme.get(window.document.getElementById('a14'), -1);
 
           return item.element.id || item.element.tagName.toLowerCase();
-        }, { browsers });
+        });
 
         const values = [...valueBrowsers];
 
@@ -274,750 +251,2232 @@ group('@amaui/style/amaui-theme', () => {
         response.push({ ...amauiTheme });
 
         return response;
-      }, { browsers });
+      });
 
       const values = [...valueBrowsers];
 
-      values.forEach(value => assert(value).eql([
-        true,
-        true,
-        "body",
-        {
-          "rule": {
-            "prefix": false,
-            "sort": true,
-            "rtl": true
-          }
-        },
-        [
-          "palette",
-          "space",
-          "breakpoints",
-          "transitions"
-        ],
-        [
-          "image",
-          "color"
-        ],
-        [
-          true,
-          true
-        ],
+      assert(values).eql([
         [
           true,
           true,
-          true
-        ],
-        {
-          "direction": "rtl",
-          "preference": {
-            "background": {
-              "default": "neutral"
-            },
-            "text": {
-              "default": "neutral"
-            },
-            "visual_contrast": {
-              "default": "regular"
-            }
-          },
-          "mode": "regular",
-          "palette": {
-            "light": true,
-            "accessibility": "regular",
-            "visual_contrast": {
-              "low": {
-                "opacity": {
-                  "primary": 0.77,
-                  "secondary": 0.44,
-                  "tertiary": 0.27,
-                  "quaternary": 0.14,
-                  "active": 0.44,
-                  "disabled": 0.27,
-                  "drag": 0.14,
-                  "divider": 0.13,
-                  "press": 0.1,
-                  "focus": 0.07,
-                  "selected": 0.05,
-                  "hover": 0.03
-                },
-                "contrast_threshold": 2.4
-              },
-              "regular": {
-                "opacity": {
-                  "primary": 0.87,
-                  "secondary": 0.54,
-                  "tertiary": 0.37,
-                  "quaternary": 0.24,
-                  "active": 0.54,
-                  "disabled": 0.37,
-                  "drag": 0.16,
-                  "divider": 0.14,
-                  "press": 0.12,
-                  "focus": 0.11,
-                  "selected": 0.07,
-                  "hover": 0.04
-                },
-                "contrast_threshold": 3
-              },
-              "high": {
-                "opacity": {
-                  "primary": 1,
-                  "secondary": 0.74,
-                  "tertiary": 0.57,
-                  "quaternary": 0.44,
-                  "active": 0.74,
-                  "disabled": 0.57,
-                  "drag": 0.27,
-                  "divider": 0.24,
-                  "press": 0.22,
-                  "focus": 0.21,
-                  "selected": 0.17,
-                  "hover": 0.14
-                },
-                "contrast_threshold": 4
-              },
-              "default": {
-                "opacity": {
-                  "primary": 0.87,
-                  "secondary": 0.54,
-                  "tertiary": 0.37,
-                  "quaternary": 0.24,
-                  "active": 0.54,
-                  "disabled": 0.37,
-                  "drag": 0.16,
-                  "divider": 0.14,
-                  "press": 0.12,
-                  "focus": 0.11,
-                  "selected": 0.07,
-                  "hover": 0.04
-                },
-                "contrast_threshold": 3
-              }
-            },
-            "color": {
-              "primary": {
-                "0": "rgb(0, 0, 0)",
-                "1": "rgb(5, 5, 0)",
-                "5": "rgb(26, 23, 0)",
-                "10": "rgb(51, 46, 0)",
-                "20": "rgb(102, 92, 0)",
-                "30": "rgb(153, 138, 0)",
-                "40": "rgb(204, 184, 0)",
-                "50": "rgb(255, 230, 0)",
-                "60": "rgb(255, 235, 51)",
-                "70": "rgb(255, 240, 102)",
-                "80": "rgb(255, 245, 153)",
-                "90": "rgb(255, 250, 204)",
-                "95": "rgb(255, 252, 229)",
-                "99": "rgb(255, 254, 250)",
-                "100": "rgb(255, 255, 255)",
-                "main": "#FFEB3B",
-                "light": "#FFF176",
-                "dark": "#FBC02D"
-              },
-              "secondary": {
-                "0": "rgb(0, 0, 0)",
-                "1": "rgb(3, 4, 1)",
-                "5": "rgb(13, 19, 6)",
-                "10": "rgb(26, 38, 13)",
-                "20": "rgb(53, 77, 26)",
-                "30": "rgb(79, 115, 38)",
-                "40": "rgb(105, 153, 51)",
-                "50": "rgb(132, 191, 64)",
-                "60": "rgb(156, 204, 102)",
-                "70": "rgb(181, 217, 140)",
-                "80": "rgb(206, 230, 179)",
-                "90": "rgb(230, 242, 217)",
-                "95": "rgb(243, 249, 236)",
-                "99": "rgb(253, 254, 251)",
-                "100": "rgb(255, 255, 255)",
-                "main": "#8BC34A",
-                "light": "#AED581",
-                "dark": "#689F38"
-              },
-              "tertiary": {
-                "0": "rgb(0, 0, 0)",
-                "1": "rgb(5, 4, 0)",
-                "5": "rgb(26, 19, 0)",
-                "10": "rgb(51, 38, 0)",
-                "20": "rgb(102, 77, 0)",
-                "30": "rgb(153, 115, 0)",
-                "40": "rgb(204, 153, 0)",
-                "50": "rgb(255, 191, 0)",
-                "60": "rgb(255, 204, 51)",
-                "70": "rgb(255, 217, 102)",
-                "80": "rgb(255, 230, 153)",
-                "90": "rgb(255, 242, 204)",
-                "95": "rgb(255, 249, 229)",
-                "99": "rgb(255, 254, 250)",
-                "100": "rgb(255, 255, 255)",
-                "main": "#FFC107",
-                "light": "#FFD54F",
-                "dark": "#FFA000"
-              },
-              "quaternary": {
-                "0": "rgb(0, 0, 0)",
-                "1": "rgb(0, 5, 5)",
-                "5": "rgb(0, 23, 26)",
-                "10": "rgb(0, 45, 51)",
-                "20": "rgb(0, 90, 102)",
-                "30": "rgb(0, 135, 153)",
-                "40": "rgb(0, 180, 204)",
-                "50": "rgb(0, 225, 255)",
-                "60": "rgb(51, 231, 255)",
-                "70": "rgb(102, 237, 255)",
-                "80": "rgb(153, 243, 255)",
-                "90": "rgb(204, 249, 255)",
-                "95": "rgb(229, 252, 255)",
-                "99": "rgb(250, 254, 255)",
-                "100": "rgb(255, 255, 255)",
-                "main": "#00BCD4",
-                "light": "#4DD0E1",
-                "dark": "#0097A7"
-              },
-              "info": {
-                "0": "rgb(0, 0, 0)",
-                "1": "rgb(0, 3, 5)",
-                "5": "rgb(0, 17, 25)",
-                "10": "rgb(1, 35, 50)",
-                "20": "rgb(1, 69, 101)",
-                "30": "rgb(2, 104, 151)",
-                "40": "rgb(2, 139, 202)",
-                "50": "rgb(3, 173, 252)",
-                "60": "rgb(53, 190, 253)",
-                "70": "rgb(104, 206, 253)",
-                "80": "rgb(154, 222, 254)",
-                "90": "rgb(205, 239, 254)",
-                "95": "rgb(230, 247, 255)",
-                "99": "rgb(250, 253, 255)",
-                "100": "rgb(255, 255, 255)",
-                "main": "#03A9F4",
-                "light": "#4FC3F7",
-                "dark": "#0288D1"
-              },
-              "success": {
-                "0": "rgb(0, 0, 0)",
-                "1": "rgb(2, 4, 2)",
-                "5": "rgb(8, 18, 8)",
-                "10": "rgb(16, 35, 16)",
-                "20": "rgb(31, 71, 32)",
-                "30": "rgb(47, 106, 49)",
-                "40": "rgb(62, 142, 65)",
-                "50": "rgb(78, 177, 81)",
-                "60": "rgb(113, 193, 116)",
-                "70": "rgb(149, 208, 151)",
-                "80": "rgb(184, 224, 185)",
-                "90": "rgb(220, 239, 220)",
-                "95": "rgb(237, 247, 238)",
-                "99": "rgb(251, 253, 252)",
-                "100": "rgb(255, 255, 255)",
-                "main": "#4CAF50",
-                "light": "#81C784",
-                "dark": "#388E3C"
-              },
-              "warning": {
-                "0": "rgb(0, 0, 0)",
-                "1": "rgb(5, 3, 0)",
-                "5": "rgb(26, 15, 0)",
-                "10": "rgb(51, 31, 0)",
-                "20": "rgb(102, 61, 0)",
-                "30": "rgb(153, 92, 0)",
-                "40": "rgb(204, 122, 0)",
-                "50": "rgb(255, 153, 0)",
-                "60": "rgb(255, 173, 51)",
-                "70": "rgb(255, 194, 102)",
-                "80": "rgb(255, 214, 153)",
-                "90": "rgb(255, 235, 204)",
-                "95": "rgb(255, 245, 229)",
-                "99": "rgb(255, 253, 250)",
-                "100": "rgb(255, 255, 255)",
-                "main": "#FF9800",
-                "light": "#FFB74D",
-                "dark": "#F57C00"
-              },
-              "error": {
-                "0": "rgb(0, 0, 0)",
-                "1": "rgb(5, 1, 0)",
-                "5": "rgb(26, 6, 0)",
-                "10": "rgb(51, 12, 0)",
-                "20": "rgb(102, 24, 0)",
-                "30": "rgb(153, 36, 0)",
-                "40": "rgb(204, 48, 0)",
-                "50": "rgb(255, 60, 0)",
-                "60": "rgb(255, 99, 51)",
-                "70": "rgb(255, 138, 102)",
-                "80": "rgb(255, 177, 153)",
-                "90": "rgb(255, 216, 204)",
-                "95": "rgb(255, 235, 229)",
-                "99": "rgb(255, 251, 250)",
-                "100": "rgb(255, 255, 255)",
-                "main": "#FF5722",
-                "light": "#FF8A65",
-                "dark": "#E64A19"
-              },
-              "neutral": {
-                "0": "rgb(0, 0, 0)",
-                "1": "rgb(3, 3, 3)",
-                "5": "rgb(13, 13, 13)",
-                "10": "rgb(26, 26, 26)",
-                "20": "rgb(51, 51, 51)",
-                "30": "rgb(77, 77, 77)",
-                "40": "rgb(102, 102, 102)",
-                "50": "rgb(128, 128, 128)",
-                "60": "rgb(153, 153, 153)",
-                "70": "rgb(179, 179, 179)",
-                "80": "rgb(204, 204, 204)",
-                "90": "rgb(230, 230, 230)",
-                "95": "rgb(242, 242, 242)",
-                "99": "rgb(252, 252, 252)",
-                "100": "rgb(255, 255, 255)",
-                "main": "#000000",
-                "light": "rgb(26, 26, 26)",
-                "dark": "rgb(26, 26, 26)"
-              }
-            },
-            "text": {
-              "primary": {
-                "primary": "rgba(153, 138, 0, 0.87)",
-                "secondary": "rgba(153, 138, 0, 0.54)",
-                "tertiary": "rgba(153, 138, 0, 0.37)",
-                "quaternary": "rgba(153, 138, 0, 0.24)"
-              },
-              "secondary": {
-                "primary": "rgba(79, 115, 38, 0.87)",
-                "secondary": "rgba(79, 115, 38, 0.54)",
-                "tertiary": "rgba(79, 115, 38, 0.37)",
-                "quaternary": "rgba(79, 115, 38, 0.24)"
-              },
-              "tertiary": {
-                "primary": "rgba(153, 115, 0, 0.87)",
-                "secondary": "rgba(153, 115, 0, 0.54)",
-                "tertiary": "rgba(153, 115, 0, 0.37)",
-                "quaternary": "rgba(153, 115, 0, 0.24)"
-              },
-              "quaternary": {
-                "primary": "rgba(0, 135, 153, 0.87)",
-                "secondary": "rgba(0, 135, 153, 0.54)",
-                "tertiary": "rgba(0, 135, 153, 0.37)",
-                "quaternary": "rgba(0, 135, 153, 0.24)"
-              },
-              "info": {
-                "primary": "rgba(2, 104, 151, 0.87)",
-                "secondary": "rgba(2, 104, 151, 0.54)",
-                "tertiary": "rgba(2, 104, 151, 0.37)",
-                "quaternary": "rgba(2, 104, 151, 0.24)"
-              },
-              "success": {
-                "primary": "rgba(47, 106, 49, 0.87)",
-                "secondary": "rgba(47, 106, 49, 0.54)",
-                "tertiary": "rgba(47, 106, 49, 0.37)",
-                "quaternary": "rgba(47, 106, 49, 0.24)"
-              },
-              "warning": {
-                "primary": "rgba(153, 92, 0, 0.87)",
-                "secondary": "rgba(153, 92, 0, 0.54)",
-                "tertiary": "rgba(153, 92, 0, 0.37)",
-                "quaternary": "rgba(153, 92, 0, 0.24)"
-              },
-              "error": {
-                "primary": "rgba(153, 36, 0, 0.87)",
-                "secondary": "rgba(153, 36, 0, 0.54)",
-                "tertiary": "rgba(153, 36, 0, 0.37)",
-                "quaternary": "rgba(153, 36, 0, 0.24)"
-              },
-              "neutral": {
-                "primary": "rgba(0, 0, 0, 0.87)",
-                "secondary": "rgba(0, 0, 0, 0.54)",
-                "tertiary": "rgba(0, 0, 0, 0.37)",
-                "quaternary": "rgba(0, 0, 0, 0.24)"
-              },
-              "default": {
-                "primary": "rgba(0, 0, 0, 0.87)",
-                "secondary": "rgba(0, 0, 0, 0.54)",
-                "tertiary": "rgba(0, 0, 0, 0.37)",
-                "quaternary": "rgba(0, 0, 0, 0.24)"
-              },
-              "divider": "rgba(0, 0, 0, 0.14)",
-              "active": "rgba(0, 0, 0, 0.54)",
-              "hover": "rgba(0, 0, 0, 0.04)",
-              "selected": "rgba(0, 0, 0, 0.07)",
-              "focus": "rgba(0, 0, 0, 0.11)",
-              "disabled": "rgba(0, 0, 0, 0.37)"
-            },
-            "background": {
-              "primary": {
-                "primary": "rgb(255, 255, 255)",
-                "secondary": "rgb(255, 254, 250)",
-                "tertiary": "rgb(255, 252, 229)",
-                "quaternary": "rgb(255, 250, 204)"
-              },
-              "secondary": {
-                "primary": "rgb(255, 255, 255)",
-                "secondary": "rgb(253, 254, 251)",
-                "tertiary": "rgb(243, 249, 236)",
-                "quaternary": "rgb(230, 242, 217)"
-              },
-              "tertiary": {
-                "primary": "rgb(255, 255, 255)",
-                "secondary": "rgb(255, 254, 250)",
-                "tertiary": "rgb(255, 249, 229)",
-                "quaternary": "rgb(255, 242, 204)"
-              },
-              "quaternary": {
-                "primary": "rgb(255, 255, 255)",
-                "secondary": "rgb(250, 254, 255)",
-                "tertiary": "rgb(229, 252, 255)",
-                "quaternary": "rgb(204, 249, 255)"
-              },
-              "info": {
-                "primary": "rgb(255, 255, 255)",
-                "secondary": "rgb(250, 253, 255)",
-                "tertiary": "rgb(230, 247, 255)",
-                "quaternary": "rgb(205, 239, 254)"
-              },
-              "success": {
-                "primary": "rgb(255, 255, 255)",
-                "secondary": "rgb(251, 253, 252)",
-                "tertiary": "rgb(237, 247, 238)",
-                "quaternary": "rgb(220, 239, 220)"
-              },
-              "warning": {
-                "primary": "rgb(255, 255, 255)",
-                "secondary": "rgb(255, 253, 250)",
-                "tertiary": "rgb(255, 245, 229)",
-                "quaternary": "rgb(255, 235, 204)"
-              },
-              "error": {
-                "primary": "rgb(255, 255, 255)",
-                "secondary": "rgb(255, 251, 250)",
-                "tertiary": "rgb(255, 235, 229)",
-                "quaternary": "rgb(255, 216, 204)"
-              },
-              "neutral": {
-                "primary": "rgb(255, 255, 255)",
-                "secondary": "rgb(252, 252, 252)",
-                "tertiary": "rgb(242, 242, 242)",
-                "quaternary": "rgb(230, 230, 230)"
-              },
-              "default": {
-                "primary": "rgb(255, 255, 255)",
-                "secondary": "rgb(252, 252, 252)",
-                "tertiary": "rgb(242, 242, 242)",
-                "quaternary": "rgb(230, 230, 230)"
-              }
-            }
-          },
-          "shape": {
-            "radius": {
-              "xs": 4,
-              "sm": 8,
-              "md": 12,
-              "lg": 16,
-              "xl": 28
-            }
-          },
-          "breakpoints": {
-            "values": {
-              "xs": 0,
-              "sm": 600,
-              "md": 1240,
-              "lg": 1440,
-              "xl": 1920
-            },
-            "unit": "px"
-          },
-          "space": {
-            "values": {
-              "xs": 4,
-              "sm": 8,
-              "md": 16,
-              "lg": 32,
-              "xl": 64
-            },
-            "unit": 8
-          },
-          "shadows": {
-            "values": {
-              "primary": {
-                "0": "none",
-                "1": "0px 1px 1px 0px rgba(255, 235, 59, 0.14), 0px 2px 1px -1px rgba(255, 235, 59, 0.11), 0px 1px 3px 0px rgba(255, 235, 59, 0.17)",
-                "2": "0px 2px 2px 0px rgba(255, 235, 59, 0.14), 0px 3px 3px -2px rgba(255, 235, 59, 0.11), 0px 1px 8px 0px rgba(255, 235, 59, 0.17)",
-                "3": "0px 3px 4px 0px rgba(255, 235, 59, 0.14), 0px 3px 3px -2px rgba(255, 235, 59, 0.11), 0px 1px 8px 0px rgba(255, 235, 59, 0.17)",
-                "4": "0px 4px 5px 0px rgba(255, 235, 59, 0.14), 0px 1px 10px 0px rgba(255, 235, 59, 0.11), 0px 2px 4px -1px rgba(255, 235, 59, 0.17)",
-                "6": "0px 6px 10px 0px rgba(255, 235, 59, 0.14), 0px 1px 18px 0px rgba(255, 235, 59, 0.11), 0px 3px 5px -1px rgba(255, 235, 59, 0.17)",
-                "8": "0px 8px 10px 1px rgba(255, 235, 59, 0.14), 0px 3px 14px 2px rgba(255, 235, 59, 0.11), 0px 5px 5px -3px rgba(255, 235, 59, 0.17)",
-                "9": "0px 9px 12px 1px rgba(255, 235, 59, 0.14), 0px 3px 16px 2px rgba(255, 235, 59, 0.11), 0px 5px 6px -3px rgba(255, 235, 59, 0.17)",
-                "12": "0px 12px 17px 2px rgba(255, 235, 59, 0.14), 0px 5px 22px 4px rgba(255, 235, 59, 0.11), 0px 7px 7px -4px rgba(255, 235, 59, 0.17)",
-                "16": "0px 16px 24px 2px rgba(255, 235, 59, 0.14), 0px 6px 30px 5px rgba(255, 235, 59, 0.11), 0px 8px 10px -5px rgba(255, 235, 59, 0.17)",
-                "24": "0px 24px 37px 3px rgba(255, 235, 59, 0.14), 0px 9px 46px 8px rgba(255, 235, 59, 0.11), 0px 11px 15px -7px rgba(255, 235, 59, 0.17)"
-              },
-              "secondary": {
-                "0": "none",
-                "1": "0px 1px 1px 0px rgba(139, 195, 74, 0.14), 0px 2px 1px -1px rgba(139, 195, 74, 0.11), 0px 1px 3px 0px rgba(139, 195, 74, 0.17)",
-                "2": "0px 2px 2px 0px rgba(139, 195, 74, 0.14), 0px 3px 3px -2px rgba(139, 195, 74, 0.11), 0px 1px 8px 0px rgba(139, 195, 74, 0.17)",
-                "3": "0px 3px 4px 0px rgba(139, 195, 74, 0.14), 0px 3px 3px -2px rgba(139, 195, 74, 0.11), 0px 1px 8px 0px rgba(139, 195, 74, 0.17)",
-                "4": "0px 4px 5px 0px rgba(139, 195, 74, 0.14), 0px 1px 10px 0px rgba(139, 195, 74, 0.11), 0px 2px 4px -1px rgba(139, 195, 74, 0.17)",
-                "6": "0px 6px 10px 0px rgba(139, 195, 74, 0.14), 0px 1px 18px 0px rgba(139, 195, 74, 0.11), 0px 3px 5px -1px rgba(139, 195, 74, 0.17)",
-                "8": "0px 8px 10px 1px rgba(139, 195, 74, 0.14), 0px 3px 14px 2px rgba(139, 195, 74, 0.11), 0px 5px 5px -3px rgba(139, 195, 74, 0.17)",
-                "9": "0px 9px 12px 1px rgba(139, 195, 74, 0.14), 0px 3px 16px 2px rgba(139, 195, 74, 0.11), 0px 5px 6px -3px rgba(139, 195, 74, 0.17)",
-                "12": "0px 12px 17px 2px rgba(139, 195, 74, 0.14), 0px 5px 22px 4px rgba(139, 195, 74, 0.11), 0px 7px 7px -4px rgba(139, 195, 74, 0.17)",
-                "16": "0px 16px 24px 2px rgba(139, 195, 74, 0.14), 0px 6px 30px 5px rgba(139, 195, 74, 0.11), 0px 8px 10px -5px rgba(139, 195, 74, 0.17)",
-                "24": "0px 24px 37px 3px rgba(139, 195, 74, 0.14), 0px 9px 46px 8px rgba(139, 195, 74, 0.11), 0px 11px 15px -7px rgba(139, 195, 74, 0.17)"
-              },
-              "tertiary": {
-                "0": "none",
-                "1": "0px 1px 1px 0px rgba(255, 193, 7, 0.14), 0px 2px 1px -1px rgba(255, 193, 7, 0.11), 0px 1px 3px 0px rgba(255, 193, 7, 0.17)",
-                "2": "0px 2px 2px 0px rgba(255, 193, 7, 0.14), 0px 3px 3px -2px rgba(255, 193, 7, 0.11), 0px 1px 8px 0px rgba(255, 193, 7, 0.17)",
-                "3": "0px 3px 4px 0px rgba(255, 193, 7, 0.14), 0px 3px 3px -2px rgba(255, 193, 7, 0.11), 0px 1px 8px 0px rgba(255, 193, 7, 0.17)",
-                "4": "0px 4px 5px 0px rgba(255, 193, 7, 0.14), 0px 1px 10px 0px rgba(255, 193, 7, 0.11), 0px 2px 4px -1px rgba(255, 193, 7, 0.17)",
-                "6": "0px 6px 10px 0px rgba(255, 193, 7, 0.14), 0px 1px 18px 0px rgba(255, 193, 7, 0.11), 0px 3px 5px -1px rgba(255, 193, 7, 0.17)",
-                "8": "0px 8px 10px 1px rgba(255, 193, 7, 0.14), 0px 3px 14px 2px rgba(255, 193, 7, 0.11), 0px 5px 5px -3px rgba(255, 193, 7, 0.17)",
-                "9": "0px 9px 12px 1px rgba(255, 193, 7, 0.14), 0px 3px 16px 2px rgba(255, 193, 7, 0.11), 0px 5px 6px -3px rgba(255, 193, 7, 0.17)",
-                "12": "0px 12px 17px 2px rgba(255, 193, 7, 0.14), 0px 5px 22px 4px rgba(255, 193, 7, 0.11), 0px 7px 7px -4px rgba(255, 193, 7, 0.17)",
-                "16": "0px 16px 24px 2px rgba(255, 193, 7, 0.14), 0px 6px 30px 5px rgba(255, 193, 7, 0.11), 0px 8px 10px -5px rgba(255, 193, 7, 0.17)",
-                "24": "0px 24px 37px 3px rgba(255, 193, 7, 0.14), 0px 9px 46px 8px rgba(255, 193, 7, 0.11), 0px 11px 15px -7px rgba(255, 193, 7, 0.17)"
-              },
-              "quaternary": {
-                "0": "none",
-                "1": "0px 1px 1px 0px rgba(0, 188, 212, 0.14), 0px 2px 1px -1px rgba(0, 188, 212, 0.11), 0px 1px 3px 0px rgba(0, 188, 212, 0.17)",
-                "2": "0px 2px 2px 0px rgba(0, 188, 212, 0.14), 0px 3px 3px -2px rgba(0, 188, 212, 0.11), 0px 1px 8px 0px rgba(0, 188, 212, 0.17)",
-                "3": "0px 3px 4px 0px rgba(0, 188, 212, 0.14), 0px 3px 3px -2px rgba(0, 188, 212, 0.11), 0px 1px 8px 0px rgba(0, 188, 212, 0.17)",
-                "4": "0px 4px 5px 0px rgba(0, 188, 212, 0.14), 0px 1px 10px 0px rgba(0, 188, 212, 0.11), 0px 2px 4px -1px rgba(0, 188, 212, 0.17)",
-                "6": "0px 6px 10px 0px rgba(0, 188, 212, 0.14), 0px 1px 18px 0px rgba(0, 188, 212, 0.11), 0px 3px 5px -1px rgba(0, 188, 212, 0.17)",
-                "8": "0px 8px 10px 1px rgba(0, 188, 212, 0.14), 0px 3px 14px 2px rgba(0, 188, 212, 0.11), 0px 5px 5px -3px rgba(0, 188, 212, 0.17)",
-                "9": "0px 9px 12px 1px rgba(0, 188, 212, 0.14), 0px 3px 16px 2px rgba(0, 188, 212, 0.11), 0px 5px 6px -3px rgba(0, 188, 212, 0.17)",
-                "12": "0px 12px 17px 2px rgba(0, 188, 212, 0.14), 0px 5px 22px 4px rgba(0, 188, 212, 0.11), 0px 7px 7px -4px rgba(0, 188, 212, 0.17)",
-                "16": "0px 16px 24px 2px rgba(0, 188, 212, 0.14), 0px 6px 30px 5px rgba(0, 188, 212, 0.11), 0px 8px 10px -5px rgba(0, 188, 212, 0.17)",
-                "24": "0px 24px 37px 3px rgba(0, 188, 212, 0.14), 0px 9px 46px 8px rgba(0, 188, 212, 0.11), 0px 11px 15px -7px rgba(0, 188, 212, 0.17)"
-              },
-              "info": {
-                "0": "none",
-                "1": "0px 1px 1px 0px rgba(3, 169, 244, 0.14), 0px 2px 1px -1px rgba(3, 169, 244, 0.11), 0px 1px 3px 0px rgba(3, 169, 244, 0.17)",
-                "2": "0px 2px 2px 0px rgba(3, 169, 244, 0.14), 0px 3px 3px -2px rgba(3, 169, 244, 0.11), 0px 1px 8px 0px rgba(3, 169, 244, 0.17)",
-                "3": "0px 3px 4px 0px rgba(3, 169, 244, 0.14), 0px 3px 3px -2px rgba(3, 169, 244, 0.11), 0px 1px 8px 0px rgba(3, 169, 244, 0.17)",
-                "4": "0px 4px 5px 0px rgba(3, 169, 244, 0.14), 0px 1px 10px 0px rgba(3, 169, 244, 0.11), 0px 2px 4px -1px rgba(3, 169, 244, 0.17)",
-                "6": "0px 6px 10px 0px rgba(3, 169, 244, 0.14), 0px 1px 18px 0px rgba(3, 169, 244, 0.11), 0px 3px 5px -1px rgba(3, 169, 244, 0.17)",
-                "8": "0px 8px 10px 1px rgba(3, 169, 244, 0.14), 0px 3px 14px 2px rgba(3, 169, 244, 0.11), 0px 5px 5px -3px rgba(3, 169, 244, 0.17)",
-                "9": "0px 9px 12px 1px rgba(3, 169, 244, 0.14), 0px 3px 16px 2px rgba(3, 169, 244, 0.11), 0px 5px 6px -3px rgba(3, 169, 244, 0.17)",
-                "12": "0px 12px 17px 2px rgba(3, 169, 244, 0.14), 0px 5px 22px 4px rgba(3, 169, 244, 0.11), 0px 7px 7px -4px rgba(3, 169, 244, 0.17)",
-                "16": "0px 16px 24px 2px rgba(3, 169, 244, 0.14), 0px 6px 30px 5px rgba(3, 169, 244, 0.11), 0px 8px 10px -5px rgba(3, 169, 244, 0.17)",
-                "24": "0px 24px 37px 3px rgba(3, 169, 244, 0.14), 0px 9px 46px 8px rgba(3, 169, 244, 0.11), 0px 11px 15px -7px rgba(3, 169, 244, 0.17)"
-              },
-              "success": {
-                "0": "none",
-                "1": "0px 1px 1px 0px rgba(76, 175, 80, 0.14), 0px 2px 1px -1px rgba(76, 175, 80, 0.11), 0px 1px 3px 0px rgba(76, 175, 80, 0.17)",
-                "2": "0px 2px 2px 0px rgba(76, 175, 80, 0.14), 0px 3px 3px -2px rgba(76, 175, 80, 0.11), 0px 1px 8px 0px rgba(76, 175, 80, 0.17)",
-                "3": "0px 3px 4px 0px rgba(76, 175, 80, 0.14), 0px 3px 3px -2px rgba(76, 175, 80, 0.11), 0px 1px 8px 0px rgba(76, 175, 80, 0.17)",
-                "4": "0px 4px 5px 0px rgba(76, 175, 80, 0.14), 0px 1px 10px 0px rgba(76, 175, 80, 0.11), 0px 2px 4px -1px rgba(76, 175, 80, 0.17)",
-                "6": "0px 6px 10px 0px rgba(76, 175, 80, 0.14), 0px 1px 18px 0px rgba(76, 175, 80, 0.11), 0px 3px 5px -1px rgba(76, 175, 80, 0.17)",
-                "8": "0px 8px 10px 1px rgba(76, 175, 80, 0.14), 0px 3px 14px 2px rgba(76, 175, 80, 0.11), 0px 5px 5px -3px rgba(76, 175, 80, 0.17)",
-                "9": "0px 9px 12px 1px rgba(76, 175, 80, 0.14), 0px 3px 16px 2px rgba(76, 175, 80, 0.11), 0px 5px 6px -3px rgba(76, 175, 80, 0.17)",
-                "12": "0px 12px 17px 2px rgba(76, 175, 80, 0.14), 0px 5px 22px 4px rgba(76, 175, 80, 0.11), 0px 7px 7px -4px rgba(76, 175, 80, 0.17)",
-                "16": "0px 16px 24px 2px rgba(76, 175, 80, 0.14), 0px 6px 30px 5px rgba(76, 175, 80, 0.11), 0px 8px 10px -5px rgba(76, 175, 80, 0.17)",
-                "24": "0px 24px 37px 3px rgba(76, 175, 80, 0.14), 0px 9px 46px 8px rgba(76, 175, 80, 0.11), 0px 11px 15px -7px rgba(76, 175, 80, 0.17)"
-              },
-              "warning": {
-                "0": "none",
-                "1": "0px 1px 1px 0px rgba(255, 152, 0, 0.14), 0px 2px 1px -1px rgba(255, 152, 0, 0.11), 0px 1px 3px 0px rgba(255, 152, 0, 0.17)",
-                "2": "0px 2px 2px 0px rgba(255, 152, 0, 0.14), 0px 3px 3px -2px rgba(255, 152, 0, 0.11), 0px 1px 8px 0px rgba(255, 152, 0, 0.17)",
-                "3": "0px 3px 4px 0px rgba(255, 152, 0, 0.14), 0px 3px 3px -2px rgba(255, 152, 0, 0.11), 0px 1px 8px 0px rgba(255, 152, 0, 0.17)",
-                "4": "0px 4px 5px 0px rgba(255, 152, 0, 0.14), 0px 1px 10px 0px rgba(255, 152, 0, 0.11), 0px 2px 4px -1px rgba(255, 152, 0, 0.17)",
-                "6": "0px 6px 10px 0px rgba(255, 152, 0, 0.14), 0px 1px 18px 0px rgba(255, 152, 0, 0.11), 0px 3px 5px -1px rgba(255, 152, 0, 0.17)",
-                "8": "0px 8px 10px 1px rgba(255, 152, 0, 0.14), 0px 3px 14px 2px rgba(255, 152, 0, 0.11), 0px 5px 5px -3px rgba(255, 152, 0, 0.17)",
-                "9": "0px 9px 12px 1px rgba(255, 152, 0, 0.14), 0px 3px 16px 2px rgba(255, 152, 0, 0.11), 0px 5px 6px -3px rgba(255, 152, 0, 0.17)",
-                "12": "0px 12px 17px 2px rgba(255, 152, 0, 0.14), 0px 5px 22px 4px rgba(255, 152, 0, 0.11), 0px 7px 7px -4px rgba(255, 152, 0, 0.17)",
-                "16": "0px 16px 24px 2px rgba(255, 152, 0, 0.14), 0px 6px 30px 5px rgba(255, 152, 0, 0.11), 0px 8px 10px -5px rgba(255, 152, 0, 0.17)",
-                "24": "0px 24px 37px 3px rgba(255, 152, 0, 0.14), 0px 9px 46px 8px rgba(255, 152, 0, 0.11), 0px 11px 15px -7px rgba(255, 152, 0, 0.17)"
-              },
-              "error": {
-                "0": "none",
-                "1": "0px 1px 1px 0px rgba(255, 87, 34, 0.14), 0px 2px 1px -1px rgba(255, 87, 34, 0.11), 0px 1px 3px 0px rgba(255, 87, 34, 0.17)",
-                "2": "0px 2px 2px 0px rgba(255, 87, 34, 0.14), 0px 3px 3px -2px rgba(255, 87, 34, 0.11), 0px 1px 8px 0px rgba(255, 87, 34, 0.17)",
-                "3": "0px 3px 4px 0px rgba(255, 87, 34, 0.14), 0px 3px 3px -2px rgba(255, 87, 34, 0.11), 0px 1px 8px 0px rgba(255, 87, 34, 0.17)",
-                "4": "0px 4px 5px 0px rgba(255, 87, 34, 0.14), 0px 1px 10px 0px rgba(255, 87, 34, 0.11), 0px 2px 4px -1px rgba(255, 87, 34, 0.17)",
-                "6": "0px 6px 10px 0px rgba(255, 87, 34, 0.14), 0px 1px 18px 0px rgba(255, 87, 34, 0.11), 0px 3px 5px -1px rgba(255, 87, 34, 0.17)",
-                "8": "0px 8px 10px 1px rgba(255, 87, 34, 0.14), 0px 3px 14px 2px rgba(255, 87, 34, 0.11), 0px 5px 5px -3px rgba(255, 87, 34, 0.17)",
-                "9": "0px 9px 12px 1px rgba(255, 87, 34, 0.14), 0px 3px 16px 2px rgba(255, 87, 34, 0.11), 0px 5px 6px -3px rgba(255, 87, 34, 0.17)",
-                "12": "0px 12px 17px 2px rgba(255, 87, 34, 0.14), 0px 5px 22px 4px rgba(255, 87, 34, 0.11), 0px 7px 7px -4px rgba(255, 87, 34, 0.17)",
-                "16": "0px 16px 24px 2px rgba(255, 87, 34, 0.14), 0px 6px 30px 5px rgba(255, 87, 34, 0.11), 0px 8px 10px -5px rgba(255, 87, 34, 0.17)",
-                "24": "0px 24px 37px 3px rgba(255, 87, 34, 0.14), 0px 9px 46px 8px rgba(255, 87, 34, 0.11), 0px 11px 15px -7px rgba(255, 87, 34, 0.17)"
-              },
-              "neutral": {
-                "0": "none",
-                "1": "0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.11), 0px 1px 3px 0px rgba(0, 0, 0, 0.17)",
-                "2": "0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 3px -2px rgba(0, 0, 0, 0.11), 0px 1px 8px 0px rgba(0, 0, 0, 0.17)",
-                "3": "0px 3px 4px 0px rgba(0, 0, 0, 0.14), 0px 3px 3px -2px rgba(0, 0, 0, 0.11), 0px 1px 8px 0px rgba(0, 0, 0, 0.17)",
-                "4": "0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.11), 0px 2px 4px -1px rgba(0, 0, 0, 0.17)",
-                "6": "0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.11), 0px 3px 5px -1px rgba(0, 0, 0, 0.17)",
-                "8": "0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.11), 0px 5px 5px -3px rgba(0, 0, 0, 0.17)",
-                "9": "0px 9px 12px 1px rgba(0, 0, 0, 0.14), 0px 3px 16px 2px rgba(0, 0, 0, 0.11), 0px 5px 6px -3px rgba(0, 0, 0, 0.17)",
-                "12": "0px 12px 17px 2px rgba(0, 0, 0, 0.14), 0px 5px 22px 4px rgba(0, 0, 0, 0.11), 0px 7px 7px -4px rgba(0, 0, 0, 0.17)",
-                "16": "0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.11), 0px 8px 10px -5px rgba(0, 0, 0, 0.17)",
-                "24": "0px 24px 37px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.11), 0px 11px 15px -7px rgba(0, 0, 0, 0.17)"
-              }
-            },
-            "opacities": [
-              0.14,
-              0.11,
-              0.17
-            ]
-          },
-          "typography": {
-            "unit": "px",
-            "font_size": {
-              "html": 16
-            },
-            "font_family": {
-              "primary": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
-              "secondary": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
-              "mono": "Roboto Mono, monospace"
-            },
-            "values": {
-              "d1": {
-                "fontSize": "3.5625rem",
-                "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
-                "fontWeight": 400,
-                "lineHeight": 1.1228070175438596,
-                "letterSpacing": "0em"
-              },
-              "d2": {
-                "fontSize": "2.8125rem",
-                "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
-                "fontWeight": 400,
-                "lineHeight": 1.1555555555555554,
-                "letterSpacing": "0em"
-              },
-              "d3": {
-                "fontSize": "2.1875rem",
-                "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
-                "fontWeight": 400,
-                "lineHeight": 1.2571428571428571,
-                "letterSpacing": "0em"
-              },
-              "h1": {
-                "fontSize": "2rem",
-                "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
-                "fontWeight": 400,
-                "lineHeight": 1.25,
-                "letterSpacing": "0em"
-              },
-              "h2": {
-                "fontSize": "1.6875rem",
-                "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
-                "fontWeight": 400,
-                "lineHeight": 1.2962962962962963,
-                "letterSpacing": "0em"
-              },
-              "h3": {
-                "fontSize": "1.5rem",
-                "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
-                "fontWeight": 400,
-                "lineHeight": 1.3333333333333333,
-                "letterSpacing": "0em"
-              },
-              "t1": {
-                "fontSize": "1.3125rem",
-                "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
-                "fontWeight": 400,
-                "lineHeight": 3.0476190476190474,
-                "letterSpacing": "0em"
-              },
-              "t2": {
-                "fontSize": "1rem",
-                "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
-                "fontWeight": 500,
-                "lineHeight": 1.5,
-                "letterSpacing": ".15em"
-              },
-              "t3": {
-                "fontSize": "0.875rem",
-                "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
-                "fontWeight": 500,
-                "lineHeight": 1.4285714285714286,
-                "letterSpacing": ".1em"
-              },
-              "l1": {
-                "fontSize": "0.875rem",
-                "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
-                "fontWeight": 500,
-                "lineHeight": 1.4285714285714286,
-                "letterSpacing": ".1em"
-              },
-              "l2": {
-                "fontSize": "0.75rem",
-                "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
-                "fontWeight": 500,
-                "lineHeight": 1.25,
-                "letterSpacing": ".5em"
-              },
-              "l3": {
-                "fontSize": "0.6875rem",
-                "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
-                "fontWeight": 500,
-                "lineHeight": 0.45454545454545453,
-                "letterSpacing": ".5em"
-              },
-              "b1": {
-                "fontSize": "1rem",
-                "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
-                "fontWeight": 400,
-                "lineHeight": 1.5,
-                "letterSpacing": ".5em"
-              },
-              "b2": {
-                "fontSize": "0.875rem",
-                "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
-                "fontWeight": 400,
-                "lineHeight": 1.4285714285714286,
-                "letterSpacing": ".25em"
-              },
-              "b3": {
-                "fontSize": "0.6875rem",
-                "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
-                "fontWeight": 400,
-                "lineHeight": 1.3636363636363635,
-                "letterSpacing": ".4em"
-              }
-            }
-          },
-          "transitions": {
-            "timing_function": {
-              "standard": "cubic-bezier(.4, 0, .2, 1)",
-              "emphasized": "cubic-bezier(.4, 0, .6, 1) ",
-              "decelerated": "cubic-bezier(0, 0, .2, 1)",
-              "accelerated": "cubic-bezier(.4, 0, 1, 1)"
-            },
-            "duration": {
-              "smallest": 100,
-              "smaller": 200,
-              "small": 250,
-              "regular": 300,
-              "enter": 250,
-              "leave": 200,
-              "complex": 500
-            }
-          },
-          "z_index": {
-            "tooltip": 1700,
-            "modal": 1500,
-            "menu_modal": 1400,
-            "menu": 1300,
-            "button_float": 1200,
-            "app_bar": 1100,
-            "main": 1000,
-            "text": 0
-          },
-          "options": {
+          "body",
+          {
             "rule": {
               "prefix": false,
               "sort": true,
               "rtl": true
             }
           },
-          "hash": "0xa84825a47165f38b9994e562e0ab198ef4f31a16d2fe03445c9c6afc32225c51"
-        }
-      ]));
+          [
+            "palette",
+            "space",
+            "breakpoints",
+            "transitions"
+          ],
+          [
+            "image",
+            "color"
+          ],
+          [
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          {
+            "options": {
+              "rule": {
+                "prefix": false,
+                "sort": true,
+                "rtl": true
+              }
+            },
+            "hash": "0x8ec7eb7de043184380d10e7a93b048cee68fe1f4d79016fd985543a8ac34cc82",
+            "direction": "rtl",
+            "preference": {
+              "background": {
+                "default": "neutral"
+              },
+              "text": {
+                "default": "neutral"
+              },
+              "visual_contrast": {
+                "default": "regular"
+              }
+            },
+            "mode": "regular",
+            "palette": {
+              "light": true,
+              "accessibility": "regular",
+              "visual_contrast": {
+                "low": {
+                  "opacity": {
+                    "primary": 0.77,
+                    "secondary": 0.44,
+                    "tertiary": 0.27,
+                    "quaternary": 0.14,
+                    "active": 0.44,
+                    "disabled": 0.27,
+                    "drag": 0.14,
+                    "divider": 0.13,
+                    "press": 0.1,
+                    "focus": 0.07,
+                    "selected": 0.05,
+                    "hover": 0.03
+                  },
+                  "contrast_threshold": 2.4
+                },
+                "regular": {
+                  "opacity": {
+                    "primary": 0.87,
+                    "secondary": 0.54,
+                    "tertiary": 0.37,
+                    "quaternary": 0.24,
+                    "active": 0.54,
+                    "disabled": 0.37,
+                    "drag": 0.16,
+                    "divider": 0.14,
+                    "press": 0.12,
+                    "focus": 0.11,
+                    "selected": 0.07,
+                    "hover": 0.04
+                  },
+                  "contrast_threshold": 3
+                },
+                "high": {
+                  "opacity": {
+                    "primary": 1,
+                    "secondary": 0.74,
+                    "tertiary": 0.57,
+                    "quaternary": 0.44,
+                    "active": 0.74,
+                    "disabled": 0.57,
+                    "drag": 0.27,
+                    "divider": 0.24,
+                    "press": 0.22,
+                    "focus": 0.21,
+                    "selected": 0.17,
+                    "hover": 0.14
+                  },
+                  "contrast_threshold": 4
+                },
+                "default": {
+                  "opacity": {
+                    "primary": 0.87,
+                    "secondary": 0.54,
+                    "tertiary": 0.37,
+                    "quaternary": 0.24,
+                    "active": 0.54,
+                    "disabled": 0.37,
+                    "drag": 0.16,
+                    "divider": 0.14,
+                    "press": 0.12,
+                    "focus": 0.11,
+                    "selected": 0.07,
+                    "hover": 0.04
+                  },
+                  "contrast_threshold": 3
+                }
+              },
+              "color": {
+                "primary": {
+                  "0": "rgb(0, 0, 0)",
+                  "1": "rgb(5, 5, 0)",
+                  "5": "rgb(26, 23, 0)",
+                  "10": "rgb(51, 46, 0)",
+                  "20": "rgb(102, 92, 0)",
+                  "30": "rgb(153, 138, 0)",
+                  "40": "rgb(204, 184, 0)",
+                  "50": "rgb(255, 230, 0)",
+                  "60": "rgb(255, 235, 51)",
+                  "70": "rgb(255, 240, 102)",
+                  "80": "rgb(255, 245, 153)",
+                  "90": "rgb(255, 250, 204)",
+                  "95": "rgb(255, 252, 229)",
+                  "99": "rgb(255, 254, 250)",
+                  "100": "rgb(255, 255, 255)",
+                  "main": "#FFEB3B",
+                  "light": "#FFF176",
+                  "dark": "#FBC02D"
+                },
+                "secondary": {
+                  "0": "rgb(0, 0, 0)",
+                  "1": "rgb(3, 4, 1)",
+                  "5": "rgb(13, 19, 6)",
+                  "10": "rgb(26, 38, 13)",
+                  "20": "rgb(53, 77, 26)",
+                  "30": "rgb(79, 115, 38)",
+                  "40": "rgb(105, 153, 51)",
+                  "50": "rgb(132, 191, 64)",
+                  "60": "rgb(156, 204, 102)",
+                  "70": "rgb(181, 217, 140)",
+                  "80": "rgb(206, 230, 179)",
+                  "90": "rgb(230, 242, 217)",
+                  "95": "rgb(243, 249, 236)",
+                  "99": "rgb(253, 254, 251)",
+                  "100": "rgb(255, 255, 255)",
+                  "main": "#8BC34A",
+                  "light": "#AED581",
+                  "dark": "#689F38"
+                },
+                "tertiary": {
+                  "0": "rgb(0, 0, 0)",
+                  "1": "rgb(5, 4, 0)",
+                  "5": "rgb(26, 19, 0)",
+                  "10": "rgb(51, 38, 0)",
+                  "20": "rgb(102, 77, 0)",
+                  "30": "rgb(153, 115, 0)",
+                  "40": "rgb(204, 153, 0)",
+                  "50": "rgb(255, 191, 0)",
+                  "60": "rgb(255, 204, 51)",
+                  "70": "rgb(255, 217, 102)",
+                  "80": "rgb(255, 230, 153)",
+                  "90": "rgb(255, 242, 204)",
+                  "95": "rgb(255, 249, 229)",
+                  "99": "rgb(255, 254, 250)",
+                  "100": "rgb(255, 255, 255)",
+                  "main": "#FFC107",
+                  "light": "#FFD54F",
+                  "dark": "#FFA000"
+                },
+                "quaternary": {
+                  "0": "rgb(0, 0, 0)",
+                  "1": "rgb(0, 5, 5)",
+                  "5": "rgb(0, 23, 26)",
+                  "10": "rgb(0, 45, 51)",
+                  "20": "rgb(0, 90, 102)",
+                  "30": "rgb(0, 135, 153)",
+                  "40": "rgb(0, 180, 204)",
+                  "50": "rgb(0, 225, 255)",
+                  "60": "rgb(51, 231, 255)",
+                  "70": "rgb(102, 237, 255)",
+                  "80": "rgb(153, 243, 255)",
+                  "90": "rgb(204, 249, 255)",
+                  "95": "rgb(229, 252, 255)",
+                  "99": "rgb(250, 254, 255)",
+                  "100": "rgb(255, 255, 255)",
+                  "main": "#00BCD4",
+                  "light": "#4DD0E1",
+                  "dark": "#0097A7"
+                },
+                "info": {
+                  "0": "rgb(0, 0, 0)",
+                  "1": "rgb(0, 3, 5)",
+                  "5": "rgb(0, 17, 25)",
+                  "10": "rgb(1, 35, 50)",
+                  "20": "rgb(1, 69, 101)",
+                  "30": "rgb(2, 104, 151)",
+                  "40": "rgb(2, 139, 202)",
+                  "50": "rgb(3, 173, 252)",
+                  "60": "rgb(53, 190, 253)",
+                  "70": "rgb(104, 206, 253)",
+                  "80": "rgb(154, 222, 254)",
+                  "90": "rgb(205, 239, 254)",
+                  "95": "rgb(230, 247, 255)",
+                  "99": "rgb(250, 253, 255)",
+                  "100": "rgb(255, 255, 255)",
+                  "main": "#03A9F4",
+                  "light": "#4FC3F7",
+                  "dark": "#0288D1"
+                },
+                "success": {
+                  "0": "rgb(0, 0, 0)",
+                  "1": "rgb(2, 4, 2)",
+                  "5": "rgb(8, 18, 8)",
+                  "10": "rgb(16, 35, 16)",
+                  "20": "rgb(31, 71, 32)",
+                  "30": "rgb(47, 106, 49)",
+                  "40": "rgb(62, 142, 65)",
+                  "50": "rgb(78, 177, 81)",
+                  "60": "rgb(113, 193, 116)",
+                  "70": "rgb(149, 208, 151)",
+                  "80": "rgb(184, 224, 185)",
+                  "90": "rgb(220, 239, 220)",
+                  "95": "rgb(237, 247, 238)",
+                  "99": "rgb(251, 253, 252)",
+                  "100": "rgb(255, 255, 255)",
+                  "main": "#4CAF50",
+                  "light": "#81C784",
+                  "dark": "#388E3C"
+                },
+                "warning": {
+                  "0": "rgb(0, 0, 0)",
+                  "1": "rgb(5, 3, 0)",
+                  "5": "rgb(26, 15, 0)",
+                  "10": "rgb(51, 31, 0)",
+                  "20": "rgb(102, 61, 0)",
+                  "30": "rgb(153, 92, 0)",
+                  "40": "rgb(204, 122, 0)",
+                  "50": "rgb(255, 153, 0)",
+                  "60": "rgb(255, 173, 51)",
+                  "70": "rgb(255, 194, 102)",
+                  "80": "rgb(255, 214, 153)",
+                  "90": "rgb(255, 235, 204)",
+                  "95": "rgb(255, 245, 229)",
+                  "99": "rgb(255, 253, 250)",
+                  "100": "rgb(255, 255, 255)",
+                  "main": "#FF9800",
+                  "light": "#FFB74D",
+                  "dark": "#F57C00"
+                },
+                "error": {
+                  "0": "rgb(0, 0, 0)",
+                  "1": "rgb(5, 1, 0)",
+                  "5": "rgb(26, 6, 0)",
+                  "10": "rgb(51, 12, 0)",
+                  "20": "rgb(102, 24, 0)",
+                  "30": "rgb(153, 36, 0)",
+                  "40": "rgb(204, 48, 0)",
+                  "50": "rgb(255, 60, 0)",
+                  "60": "rgb(255, 99, 51)",
+                  "70": "rgb(255, 138, 102)",
+                  "80": "rgb(255, 177, 153)",
+                  "90": "rgb(255, 216, 204)",
+                  "95": "rgb(255, 235, 229)",
+                  "99": "rgb(255, 251, 250)",
+                  "100": "rgb(255, 255, 255)",
+                  "main": "#FF5722",
+                  "light": "#FF8A65",
+                  "dark": "#E64A19"
+                },
+                "neutral": {
+                  "0": "rgb(0, 0, 0)",
+                  "1": "rgb(3, 3, 3)",
+                  "5": "rgb(13, 13, 13)",
+                  "10": "rgb(26, 26, 26)",
+                  "20": "rgb(51, 51, 51)",
+                  "30": "rgb(77, 77, 77)",
+                  "40": "rgb(102, 102, 102)",
+                  "50": "rgb(128, 128, 128)",
+                  "60": "rgb(153, 153, 153)",
+                  "70": "rgb(179, 179, 179)",
+                  "80": "rgb(204, 204, 204)",
+                  "90": "rgb(230, 230, 230)",
+                  "95": "rgb(242, 242, 242)",
+                  "99": "rgb(252, 252, 252)",
+                  "100": "rgb(255, 255, 255)",
+                  "main": "#000000",
+                  "light": "rgb(26, 26, 26)",
+                  "dark": "rgb(26, 26, 26)"
+                }
+              },
+              "text": {
+                "primary": {
+                  "primary": "rgba(153, 138, 0, 0.87)",
+                  "secondary": "rgba(153, 138, 0, 0.54)",
+                  "tertiary": "rgba(153, 138, 0, 0.37)",
+                  "quaternary": "rgba(153, 138, 0, 0.24)"
+                },
+                "secondary": {
+                  "primary": "rgba(79, 115, 38, 0.87)",
+                  "secondary": "rgba(79, 115, 38, 0.54)",
+                  "tertiary": "rgba(79, 115, 38, 0.37)",
+                  "quaternary": "rgba(79, 115, 38, 0.24)"
+                },
+                "tertiary": {
+                  "primary": "rgba(153, 115, 0, 0.87)",
+                  "secondary": "rgba(153, 115, 0, 0.54)",
+                  "tertiary": "rgba(153, 115, 0, 0.37)",
+                  "quaternary": "rgba(153, 115, 0, 0.24)"
+                },
+                "quaternary": {
+                  "primary": "rgba(0, 135, 153, 0.87)",
+                  "secondary": "rgba(0, 135, 153, 0.54)",
+                  "tertiary": "rgba(0, 135, 153, 0.37)",
+                  "quaternary": "rgba(0, 135, 153, 0.24)"
+                },
+                "info": {
+                  "primary": "rgba(2, 104, 151, 0.87)",
+                  "secondary": "rgba(2, 104, 151, 0.54)",
+                  "tertiary": "rgba(2, 104, 151, 0.37)",
+                  "quaternary": "rgba(2, 104, 151, 0.24)"
+                },
+                "success": {
+                  "primary": "rgba(47, 106, 49, 0.87)",
+                  "secondary": "rgba(47, 106, 49, 0.54)",
+                  "tertiary": "rgba(47, 106, 49, 0.37)",
+                  "quaternary": "rgba(47, 106, 49, 0.24)"
+                },
+                "warning": {
+                  "primary": "rgba(153, 92, 0, 0.87)",
+                  "secondary": "rgba(153, 92, 0, 0.54)",
+                  "tertiary": "rgba(153, 92, 0, 0.37)",
+                  "quaternary": "rgba(153, 92, 0, 0.24)"
+                },
+                "error": {
+                  "primary": "rgba(153, 36, 0, 0.87)",
+                  "secondary": "rgba(153, 36, 0, 0.54)",
+                  "tertiary": "rgba(153, 36, 0, 0.37)",
+                  "quaternary": "rgba(153, 36, 0, 0.24)"
+                },
+                "neutral": {
+                  "primary": "rgba(0, 0, 0, 0.87)",
+                  "secondary": "rgba(0, 0, 0, 0.54)",
+                  "tertiary": "rgba(0, 0, 0, 0.37)",
+                  "quaternary": "rgba(0, 0, 0, 0.24)"
+                },
+                "default": {
+                  "primary": "rgba(0, 0, 0, 0.87)",
+                  "secondary": "rgba(0, 0, 0, 0.54)",
+                  "tertiary": "rgba(0, 0, 0, 0.37)",
+                  "quaternary": "rgba(0, 0, 0, 0.24)"
+                },
+                "divider": "rgba(0, 0, 0, 0.14)",
+                "active": "rgba(0, 0, 0, 0.54)",
+                "hover": "rgba(0, 0, 0, 0.04)",
+                "selected": "rgba(0, 0, 0, 0.07)",
+                "focus": "rgba(0, 0, 0, 0.11)",
+                "disabled": "rgba(0, 0, 0, 0.37)"
+              },
+              "background": {
+                "primary": {
+                  "primary": "rgb(255, 255, 255)",
+                  "secondary": "rgb(255, 254, 250)",
+                  "tertiary": "rgb(255, 252, 229)",
+                  "quaternary": "rgb(255, 250, 204)"
+                },
+                "secondary": {
+                  "primary": "rgb(255, 255, 255)",
+                  "secondary": "rgb(253, 254, 251)",
+                  "tertiary": "rgb(243, 249, 236)",
+                  "quaternary": "rgb(230, 242, 217)"
+                },
+                "tertiary": {
+                  "primary": "rgb(255, 255, 255)",
+                  "secondary": "rgb(255, 254, 250)",
+                  "tertiary": "rgb(255, 249, 229)",
+                  "quaternary": "rgb(255, 242, 204)"
+                },
+                "quaternary": {
+                  "primary": "rgb(255, 255, 255)",
+                  "secondary": "rgb(250, 254, 255)",
+                  "tertiary": "rgb(229, 252, 255)",
+                  "quaternary": "rgb(204, 249, 255)"
+                },
+                "info": {
+                  "primary": "rgb(255, 255, 255)",
+                  "secondary": "rgb(250, 253, 255)",
+                  "tertiary": "rgb(230, 247, 255)",
+                  "quaternary": "rgb(205, 239, 254)"
+                },
+                "success": {
+                  "primary": "rgb(255, 255, 255)",
+                  "secondary": "rgb(251, 253, 252)",
+                  "tertiary": "rgb(237, 247, 238)",
+                  "quaternary": "rgb(220, 239, 220)"
+                },
+                "warning": {
+                  "primary": "rgb(255, 255, 255)",
+                  "secondary": "rgb(255, 253, 250)",
+                  "tertiary": "rgb(255, 245, 229)",
+                  "quaternary": "rgb(255, 235, 204)"
+                },
+                "error": {
+                  "primary": "rgb(255, 255, 255)",
+                  "secondary": "rgb(255, 251, 250)",
+                  "tertiary": "rgb(255, 235, 229)",
+                  "quaternary": "rgb(255, 216, 204)"
+                },
+                "neutral": {
+                  "primary": "rgb(255, 255, 255)",
+                  "secondary": "rgb(252, 252, 252)",
+                  "tertiary": "rgb(242, 242, 242)",
+                  "quaternary": "rgb(230, 230, 230)"
+                },
+                "default": {
+                  "primary": "rgb(255, 255, 255)",
+                  "secondary": "rgb(252, 252, 252)",
+                  "tertiary": "rgb(242, 242, 242)",
+                  "quaternary": "rgb(230, 230, 230)"
+                }
+              }
+            },
+            "shape": {
+              "radius": {
+                "xs": 4,
+                "sm": 8,
+                "md": 12,
+                "lg": 16,
+                "xl": 28
+              }
+            },
+            "breakpoints": {
+              "values": {
+                "xs": 0,
+                "sm": 600,
+                "md": 1240,
+                "lg": 1440,
+                "xl": 1920
+              },
+              "unit": "px"
+            },
+            "space": {
+              "values": {
+                "xs": 4,
+                "sm": 8,
+                "md": 16,
+                "lg": 32,
+                "xl": 64
+              },
+              "unit": 8
+            },
+            "shadows": {
+              "values": {
+                "primary": {
+                  "0": "none",
+                  "1": "0px 1px 1px 0px rgba(255, 235, 59, 0.14), 0px 2px 1px -1px rgba(255, 235, 59, 0.11), 0px 1px 3px 0px rgba(255, 235, 59, 0.17)",
+                  "2": "0px 2px 2px 0px rgba(255, 235, 59, 0.14), 0px 3px 3px -2px rgba(255, 235, 59, 0.11), 0px 1px 8px 0px rgba(255, 235, 59, 0.17)",
+                  "3": "0px 3px 4px 0px rgba(255, 235, 59, 0.14), 0px 3px 3px -2px rgba(255, 235, 59, 0.11), 0px 1px 8px 0px rgba(255, 235, 59, 0.17)",
+                  "4": "0px 4px 5px 0px rgba(255, 235, 59, 0.14), 0px 1px 10px 0px rgba(255, 235, 59, 0.11), 0px 2px 4px -1px rgba(255, 235, 59, 0.17)",
+                  "6": "0px 6px 10px 0px rgba(255, 235, 59, 0.14), 0px 1px 18px 0px rgba(255, 235, 59, 0.11), 0px 3px 5px -1px rgba(255, 235, 59, 0.17)",
+                  "8": "0px 8px 10px 1px rgba(255, 235, 59, 0.14), 0px 3px 14px 2px rgba(255, 235, 59, 0.11), 0px 5px 5px -3px rgba(255, 235, 59, 0.17)",
+                  "9": "0px 9px 12px 1px rgba(255, 235, 59, 0.14), 0px 3px 16px 2px rgba(255, 235, 59, 0.11), 0px 5px 6px -3px rgba(255, 235, 59, 0.17)",
+                  "12": "0px 12px 17px 2px rgba(255, 235, 59, 0.14), 0px 5px 22px 4px rgba(255, 235, 59, 0.11), 0px 7px 7px -4px rgba(255, 235, 59, 0.17)",
+                  "16": "0px 16px 24px 2px rgba(255, 235, 59, 0.14), 0px 6px 30px 5px rgba(255, 235, 59, 0.11), 0px 8px 10px -5px rgba(255, 235, 59, 0.17)",
+                  "24": "0px 24px 37px 3px rgba(255, 235, 59, 0.14), 0px 9px 46px 8px rgba(255, 235, 59, 0.11), 0px 11px 15px -7px rgba(255, 235, 59, 0.17)"
+                },
+                "secondary": {
+                  "0": "none",
+                  "1": "0px 1px 1px 0px rgba(139, 195, 74, 0.14), 0px 2px 1px -1px rgba(139, 195, 74, 0.11), 0px 1px 3px 0px rgba(139, 195, 74, 0.17)",
+                  "2": "0px 2px 2px 0px rgba(139, 195, 74, 0.14), 0px 3px 3px -2px rgba(139, 195, 74, 0.11), 0px 1px 8px 0px rgba(139, 195, 74, 0.17)",
+                  "3": "0px 3px 4px 0px rgba(139, 195, 74, 0.14), 0px 3px 3px -2px rgba(139, 195, 74, 0.11), 0px 1px 8px 0px rgba(139, 195, 74, 0.17)",
+                  "4": "0px 4px 5px 0px rgba(139, 195, 74, 0.14), 0px 1px 10px 0px rgba(139, 195, 74, 0.11), 0px 2px 4px -1px rgba(139, 195, 74, 0.17)",
+                  "6": "0px 6px 10px 0px rgba(139, 195, 74, 0.14), 0px 1px 18px 0px rgba(139, 195, 74, 0.11), 0px 3px 5px -1px rgba(139, 195, 74, 0.17)",
+                  "8": "0px 8px 10px 1px rgba(139, 195, 74, 0.14), 0px 3px 14px 2px rgba(139, 195, 74, 0.11), 0px 5px 5px -3px rgba(139, 195, 74, 0.17)",
+                  "9": "0px 9px 12px 1px rgba(139, 195, 74, 0.14), 0px 3px 16px 2px rgba(139, 195, 74, 0.11), 0px 5px 6px -3px rgba(139, 195, 74, 0.17)",
+                  "12": "0px 12px 17px 2px rgba(139, 195, 74, 0.14), 0px 5px 22px 4px rgba(139, 195, 74, 0.11), 0px 7px 7px -4px rgba(139, 195, 74, 0.17)",
+                  "16": "0px 16px 24px 2px rgba(139, 195, 74, 0.14), 0px 6px 30px 5px rgba(139, 195, 74, 0.11), 0px 8px 10px -5px rgba(139, 195, 74, 0.17)",
+                  "24": "0px 24px 37px 3px rgba(139, 195, 74, 0.14), 0px 9px 46px 8px rgba(139, 195, 74, 0.11), 0px 11px 15px -7px rgba(139, 195, 74, 0.17)"
+                },
+                "tertiary": {
+                  "0": "none",
+                  "1": "0px 1px 1px 0px rgba(255, 193, 7, 0.14), 0px 2px 1px -1px rgba(255, 193, 7, 0.11), 0px 1px 3px 0px rgba(255, 193, 7, 0.17)",
+                  "2": "0px 2px 2px 0px rgba(255, 193, 7, 0.14), 0px 3px 3px -2px rgba(255, 193, 7, 0.11), 0px 1px 8px 0px rgba(255, 193, 7, 0.17)",
+                  "3": "0px 3px 4px 0px rgba(255, 193, 7, 0.14), 0px 3px 3px -2px rgba(255, 193, 7, 0.11), 0px 1px 8px 0px rgba(255, 193, 7, 0.17)",
+                  "4": "0px 4px 5px 0px rgba(255, 193, 7, 0.14), 0px 1px 10px 0px rgba(255, 193, 7, 0.11), 0px 2px 4px -1px rgba(255, 193, 7, 0.17)",
+                  "6": "0px 6px 10px 0px rgba(255, 193, 7, 0.14), 0px 1px 18px 0px rgba(255, 193, 7, 0.11), 0px 3px 5px -1px rgba(255, 193, 7, 0.17)",
+                  "8": "0px 8px 10px 1px rgba(255, 193, 7, 0.14), 0px 3px 14px 2px rgba(255, 193, 7, 0.11), 0px 5px 5px -3px rgba(255, 193, 7, 0.17)",
+                  "9": "0px 9px 12px 1px rgba(255, 193, 7, 0.14), 0px 3px 16px 2px rgba(255, 193, 7, 0.11), 0px 5px 6px -3px rgba(255, 193, 7, 0.17)",
+                  "12": "0px 12px 17px 2px rgba(255, 193, 7, 0.14), 0px 5px 22px 4px rgba(255, 193, 7, 0.11), 0px 7px 7px -4px rgba(255, 193, 7, 0.17)",
+                  "16": "0px 16px 24px 2px rgba(255, 193, 7, 0.14), 0px 6px 30px 5px rgba(255, 193, 7, 0.11), 0px 8px 10px -5px rgba(255, 193, 7, 0.17)",
+                  "24": "0px 24px 37px 3px rgba(255, 193, 7, 0.14), 0px 9px 46px 8px rgba(255, 193, 7, 0.11), 0px 11px 15px -7px rgba(255, 193, 7, 0.17)"
+                },
+                "quaternary": {
+                  "0": "none",
+                  "1": "0px 1px 1px 0px rgba(0, 188, 212, 0.14), 0px 2px 1px -1px rgba(0, 188, 212, 0.11), 0px 1px 3px 0px rgba(0, 188, 212, 0.17)",
+                  "2": "0px 2px 2px 0px rgba(0, 188, 212, 0.14), 0px 3px 3px -2px rgba(0, 188, 212, 0.11), 0px 1px 8px 0px rgba(0, 188, 212, 0.17)",
+                  "3": "0px 3px 4px 0px rgba(0, 188, 212, 0.14), 0px 3px 3px -2px rgba(0, 188, 212, 0.11), 0px 1px 8px 0px rgba(0, 188, 212, 0.17)",
+                  "4": "0px 4px 5px 0px rgba(0, 188, 212, 0.14), 0px 1px 10px 0px rgba(0, 188, 212, 0.11), 0px 2px 4px -1px rgba(0, 188, 212, 0.17)",
+                  "6": "0px 6px 10px 0px rgba(0, 188, 212, 0.14), 0px 1px 18px 0px rgba(0, 188, 212, 0.11), 0px 3px 5px -1px rgba(0, 188, 212, 0.17)",
+                  "8": "0px 8px 10px 1px rgba(0, 188, 212, 0.14), 0px 3px 14px 2px rgba(0, 188, 212, 0.11), 0px 5px 5px -3px rgba(0, 188, 212, 0.17)",
+                  "9": "0px 9px 12px 1px rgba(0, 188, 212, 0.14), 0px 3px 16px 2px rgba(0, 188, 212, 0.11), 0px 5px 6px -3px rgba(0, 188, 212, 0.17)",
+                  "12": "0px 12px 17px 2px rgba(0, 188, 212, 0.14), 0px 5px 22px 4px rgba(0, 188, 212, 0.11), 0px 7px 7px -4px rgba(0, 188, 212, 0.17)",
+                  "16": "0px 16px 24px 2px rgba(0, 188, 212, 0.14), 0px 6px 30px 5px rgba(0, 188, 212, 0.11), 0px 8px 10px -5px rgba(0, 188, 212, 0.17)",
+                  "24": "0px 24px 37px 3px rgba(0, 188, 212, 0.14), 0px 9px 46px 8px rgba(0, 188, 212, 0.11), 0px 11px 15px -7px rgba(0, 188, 212, 0.17)"
+                },
+                "info": {
+                  "0": "none",
+                  "1": "0px 1px 1px 0px rgba(3, 169, 244, 0.14), 0px 2px 1px -1px rgba(3, 169, 244, 0.11), 0px 1px 3px 0px rgba(3, 169, 244, 0.17)",
+                  "2": "0px 2px 2px 0px rgba(3, 169, 244, 0.14), 0px 3px 3px -2px rgba(3, 169, 244, 0.11), 0px 1px 8px 0px rgba(3, 169, 244, 0.17)",
+                  "3": "0px 3px 4px 0px rgba(3, 169, 244, 0.14), 0px 3px 3px -2px rgba(3, 169, 244, 0.11), 0px 1px 8px 0px rgba(3, 169, 244, 0.17)",
+                  "4": "0px 4px 5px 0px rgba(3, 169, 244, 0.14), 0px 1px 10px 0px rgba(3, 169, 244, 0.11), 0px 2px 4px -1px rgba(3, 169, 244, 0.17)",
+                  "6": "0px 6px 10px 0px rgba(3, 169, 244, 0.14), 0px 1px 18px 0px rgba(3, 169, 244, 0.11), 0px 3px 5px -1px rgba(3, 169, 244, 0.17)",
+                  "8": "0px 8px 10px 1px rgba(3, 169, 244, 0.14), 0px 3px 14px 2px rgba(3, 169, 244, 0.11), 0px 5px 5px -3px rgba(3, 169, 244, 0.17)",
+                  "9": "0px 9px 12px 1px rgba(3, 169, 244, 0.14), 0px 3px 16px 2px rgba(3, 169, 244, 0.11), 0px 5px 6px -3px rgba(3, 169, 244, 0.17)",
+                  "12": "0px 12px 17px 2px rgba(3, 169, 244, 0.14), 0px 5px 22px 4px rgba(3, 169, 244, 0.11), 0px 7px 7px -4px rgba(3, 169, 244, 0.17)",
+                  "16": "0px 16px 24px 2px rgba(3, 169, 244, 0.14), 0px 6px 30px 5px rgba(3, 169, 244, 0.11), 0px 8px 10px -5px rgba(3, 169, 244, 0.17)",
+                  "24": "0px 24px 37px 3px rgba(3, 169, 244, 0.14), 0px 9px 46px 8px rgba(3, 169, 244, 0.11), 0px 11px 15px -7px rgba(3, 169, 244, 0.17)"
+                },
+                "success": {
+                  "0": "none",
+                  "1": "0px 1px 1px 0px rgba(76, 175, 80, 0.14), 0px 2px 1px -1px rgba(76, 175, 80, 0.11), 0px 1px 3px 0px rgba(76, 175, 80, 0.17)",
+                  "2": "0px 2px 2px 0px rgba(76, 175, 80, 0.14), 0px 3px 3px -2px rgba(76, 175, 80, 0.11), 0px 1px 8px 0px rgba(76, 175, 80, 0.17)",
+                  "3": "0px 3px 4px 0px rgba(76, 175, 80, 0.14), 0px 3px 3px -2px rgba(76, 175, 80, 0.11), 0px 1px 8px 0px rgba(76, 175, 80, 0.17)",
+                  "4": "0px 4px 5px 0px rgba(76, 175, 80, 0.14), 0px 1px 10px 0px rgba(76, 175, 80, 0.11), 0px 2px 4px -1px rgba(76, 175, 80, 0.17)",
+                  "6": "0px 6px 10px 0px rgba(76, 175, 80, 0.14), 0px 1px 18px 0px rgba(76, 175, 80, 0.11), 0px 3px 5px -1px rgba(76, 175, 80, 0.17)",
+                  "8": "0px 8px 10px 1px rgba(76, 175, 80, 0.14), 0px 3px 14px 2px rgba(76, 175, 80, 0.11), 0px 5px 5px -3px rgba(76, 175, 80, 0.17)",
+                  "9": "0px 9px 12px 1px rgba(76, 175, 80, 0.14), 0px 3px 16px 2px rgba(76, 175, 80, 0.11), 0px 5px 6px -3px rgba(76, 175, 80, 0.17)",
+                  "12": "0px 12px 17px 2px rgba(76, 175, 80, 0.14), 0px 5px 22px 4px rgba(76, 175, 80, 0.11), 0px 7px 7px -4px rgba(76, 175, 80, 0.17)",
+                  "16": "0px 16px 24px 2px rgba(76, 175, 80, 0.14), 0px 6px 30px 5px rgba(76, 175, 80, 0.11), 0px 8px 10px -5px rgba(76, 175, 80, 0.17)",
+                  "24": "0px 24px 37px 3px rgba(76, 175, 80, 0.14), 0px 9px 46px 8px rgba(76, 175, 80, 0.11), 0px 11px 15px -7px rgba(76, 175, 80, 0.17)"
+                },
+                "warning": {
+                  "0": "none",
+                  "1": "0px 1px 1px 0px rgba(255, 152, 0, 0.14), 0px 2px 1px -1px rgba(255, 152, 0, 0.11), 0px 1px 3px 0px rgba(255, 152, 0, 0.17)",
+                  "2": "0px 2px 2px 0px rgba(255, 152, 0, 0.14), 0px 3px 3px -2px rgba(255, 152, 0, 0.11), 0px 1px 8px 0px rgba(255, 152, 0, 0.17)",
+                  "3": "0px 3px 4px 0px rgba(255, 152, 0, 0.14), 0px 3px 3px -2px rgba(255, 152, 0, 0.11), 0px 1px 8px 0px rgba(255, 152, 0, 0.17)",
+                  "4": "0px 4px 5px 0px rgba(255, 152, 0, 0.14), 0px 1px 10px 0px rgba(255, 152, 0, 0.11), 0px 2px 4px -1px rgba(255, 152, 0, 0.17)",
+                  "6": "0px 6px 10px 0px rgba(255, 152, 0, 0.14), 0px 1px 18px 0px rgba(255, 152, 0, 0.11), 0px 3px 5px -1px rgba(255, 152, 0, 0.17)",
+                  "8": "0px 8px 10px 1px rgba(255, 152, 0, 0.14), 0px 3px 14px 2px rgba(255, 152, 0, 0.11), 0px 5px 5px -3px rgba(255, 152, 0, 0.17)",
+                  "9": "0px 9px 12px 1px rgba(255, 152, 0, 0.14), 0px 3px 16px 2px rgba(255, 152, 0, 0.11), 0px 5px 6px -3px rgba(255, 152, 0, 0.17)",
+                  "12": "0px 12px 17px 2px rgba(255, 152, 0, 0.14), 0px 5px 22px 4px rgba(255, 152, 0, 0.11), 0px 7px 7px -4px rgba(255, 152, 0, 0.17)",
+                  "16": "0px 16px 24px 2px rgba(255, 152, 0, 0.14), 0px 6px 30px 5px rgba(255, 152, 0, 0.11), 0px 8px 10px -5px rgba(255, 152, 0, 0.17)",
+                  "24": "0px 24px 37px 3px rgba(255, 152, 0, 0.14), 0px 9px 46px 8px rgba(255, 152, 0, 0.11), 0px 11px 15px -7px rgba(255, 152, 0, 0.17)"
+                },
+                "error": {
+                  "0": "none",
+                  "1": "0px 1px 1px 0px rgba(255, 87, 34, 0.14), 0px 2px 1px -1px rgba(255, 87, 34, 0.11), 0px 1px 3px 0px rgba(255, 87, 34, 0.17)",
+                  "2": "0px 2px 2px 0px rgba(255, 87, 34, 0.14), 0px 3px 3px -2px rgba(255, 87, 34, 0.11), 0px 1px 8px 0px rgba(255, 87, 34, 0.17)",
+                  "3": "0px 3px 4px 0px rgba(255, 87, 34, 0.14), 0px 3px 3px -2px rgba(255, 87, 34, 0.11), 0px 1px 8px 0px rgba(255, 87, 34, 0.17)",
+                  "4": "0px 4px 5px 0px rgba(255, 87, 34, 0.14), 0px 1px 10px 0px rgba(255, 87, 34, 0.11), 0px 2px 4px -1px rgba(255, 87, 34, 0.17)",
+                  "6": "0px 6px 10px 0px rgba(255, 87, 34, 0.14), 0px 1px 18px 0px rgba(255, 87, 34, 0.11), 0px 3px 5px -1px rgba(255, 87, 34, 0.17)",
+                  "8": "0px 8px 10px 1px rgba(255, 87, 34, 0.14), 0px 3px 14px 2px rgba(255, 87, 34, 0.11), 0px 5px 5px -3px rgba(255, 87, 34, 0.17)",
+                  "9": "0px 9px 12px 1px rgba(255, 87, 34, 0.14), 0px 3px 16px 2px rgba(255, 87, 34, 0.11), 0px 5px 6px -3px rgba(255, 87, 34, 0.17)",
+                  "12": "0px 12px 17px 2px rgba(255, 87, 34, 0.14), 0px 5px 22px 4px rgba(255, 87, 34, 0.11), 0px 7px 7px -4px rgba(255, 87, 34, 0.17)",
+                  "16": "0px 16px 24px 2px rgba(255, 87, 34, 0.14), 0px 6px 30px 5px rgba(255, 87, 34, 0.11), 0px 8px 10px -5px rgba(255, 87, 34, 0.17)",
+                  "24": "0px 24px 37px 3px rgba(255, 87, 34, 0.14), 0px 9px 46px 8px rgba(255, 87, 34, 0.11), 0px 11px 15px -7px rgba(255, 87, 34, 0.17)"
+                },
+                "neutral": {
+                  "0": "none",
+                  "1": "0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.11), 0px 1px 3px 0px rgba(0, 0, 0, 0.17)",
+                  "2": "0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 3px -2px rgba(0, 0, 0, 0.11), 0px 1px 8px 0px rgba(0, 0, 0, 0.17)",
+                  "3": "0px 3px 4px 0px rgba(0, 0, 0, 0.14), 0px 3px 3px -2px rgba(0, 0, 0, 0.11), 0px 1px 8px 0px rgba(0, 0, 0, 0.17)",
+                  "4": "0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.11), 0px 2px 4px -1px rgba(0, 0, 0, 0.17)",
+                  "6": "0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.11), 0px 3px 5px -1px rgba(0, 0, 0, 0.17)",
+                  "8": "0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.11), 0px 5px 5px -3px rgba(0, 0, 0, 0.17)",
+                  "9": "0px 9px 12px 1px rgba(0, 0, 0, 0.14), 0px 3px 16px 2px rgba(0, 0, 0, 0.11), 0px 5px 6px -3px rgba(0, 0, 0, 0.17)",
+                  "12": "0px 12px 17px 2px rgba(0, 0, 0, 0.14), 0px 5px 22px 4px rgba(0, 0, 0, 0.11), 0px 7px 7px -4px rgba(0, 0, 0, 0.17)",
+                  "16": "0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.11), 0px 8px 10px -5px rgba(0, 0, 0, 0.17)",
+                  "24": "0px 24px 37px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.11), 0px 11px 15px -7px rgba(0, 0, 0, 0.17)"
+                }
+              },
+              "opacities": [
+                0.14,
+                0.11,
+                0.17
+              ]
+            },
+            "typography": {
+              "unit": "px",
+              "font_size": {
+                "html": 16
+              },
+              "font_family": {
+                "primary": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                "secondary": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                "mono": "Roboto Mono, monospace"
+              },
+              "values": {
+                "d1": {
+                  "fontSize": "3.5625rem",
+                  "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                  "fontWeight": 400,
+                  "lineHeight": 1.1228070175438596,
+                  "letterSpacing": "0em"
+                },
+                "d2": {
+                  "fontSize": "2.8125rem",
+                  "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                  "fontWeight": 400,
+                  "lineHeight": 1.1555555555555554,
+                  "letterSpacing": "0em"
+                },
+                "d3": {
+                  "fontSize": "2.1875rem",
+                  "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                  "fontWeight": 400,
+                  "lineHeight": 1.2571428571428571,
+                  "letterSpacing": "0em"
+                },
+                "h1": {
+                  "fontSize": "2rem",
+                  "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                  "fontWeight": 400,
+                  "lineHeight": 1.25,
+                  "letterSpacing": "0em"
+                },
+                "h2": {
+                  "fontSize": "1.6875rem",
+                  "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                  "fontWeight": 400,
+                  "lineHeight": 1.2962962962962963,
+                  "letterSpacing": "0em"
+                },
+                "h3": {
+                  "fontSize": "1.5rem",
+                  "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                  "fontWeight": 400,
+                  "lineHeight": 1.3333333333333333,
+                  "letterSpacing": "0em"
+                },
+                "t1": {
+                  "fontSize": "1.3125rem",
+                  "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                  "fontWeight": 400,
+                  "lineHeight": 3.0476190476190474,
+                  "letterSpacing": "0em"
+                },
+                "t2": {
+                  "fontSize": "1rem",
+                  "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                  "fontWeight": 500,
+                  "lineHeight": 1.5,
+                  "letterSpacing": ".15em"
+                },
+                "t3": {
+                  "fontSize": "0.875rem",
+                  "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                  "fontWeight": 500,
+                  "lineHeight": 1.4285714285714286,
+                  "letterSpacing": ".1em"
+                },
+                "l1": {
+                  "fontSize": "0.875rem",
+                  "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                  "fontWeight": 500,
+                  "lineHeight": 1.4285714285714286,
+                  "letterSpacing": ".1em"
+                },
+                "l2": {
+                  "fontSize": "0.75rem",
+                  "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                  "fontWeight": 500,
+                  "lineHeight": 1.25,
+                  "letterSpacing": ".5em"
+                },
+                "l3": {
+                  "fontSize": "0.6875rem",
+                  "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                  "fontWeight": 500,
+                  "lineHeight": 0.45454545454545453,
+                  "letterSpacing": ".5em"
+                },
+                "b1": {
+                  "fontSize": "1rem",
+                  "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                  "fontWeight": 400,
+                  "lineHeight": 1.5,
+                  "letterSpacing": ".5em"
+                },
+                "b2": {
+                  "fontSize": "0.875rem",
+                  "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                  "fontWeight": 400,
+                  "lineHeight": 1.4285714285714286,
+                  "letterSpacing": ".25em"
+                },
+                "b3": {
+                  "fontSize": "0.6875rem",
+                  "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                  "fontWeight": 400,
+                  "lineHeight": 1.3636363636363635,
+                  "letterSpacing": ".4em"
+                }
+              }
+            },
+            "transitions": {
+              "timing_function": {
+                "standard": "cubic-bezier(.4, 0, .2, 1)",
+                "emphasized": "cubic-bezier(.4, 0, .6, 1) ",
+                "decelerated": "cubic-bezier(0, 0, .2, 1)",
+                "accelerated": "cubic-bezier(.4, 0, 1, 1)"
+              },
+              "duration": {
+                "smallest": 100,
+                "smaller": 200,
+                "small": 250,
+                "regular": 300,
+                "enter": 250,
+                "leave": 200,
+                "complex": 500
+              }
+            },
+            "z_index": {
+              "tooltip": 1700,
+              "modal": 1500,
+              "menu_modal": 1400,
+              "menu": 1300,
+              "button_float": 1200,
+              "app_bar": 1100,
+              "main": 1000,
+              "text": 0
+            }
+          }
+        ],
+        [
+          true,
+          true,
+          "body",
+          {
+            "rule": {
+              "prefix": false,
+              "sort": true,
+              "rtl": true
+            }
+          },
+          [
+            "palette",
+            "space",
+            "breakpoints",
+            "transitions"
+          ],
+          [
+            "image",
+            "color"
+          ],
+          [
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          {
+            "options": {
+              "rule": {
+                "prefix": false,
+                "sort": true,
+                "rtl": true
+              }
+            },
+            "hash": "0x8ec7eb7de043184380d10e7a93b048cee68fe1f4d79016fd985543a8ac34cc82",
+            "direction": "rtl",
+            "preference": {
+              "background": {
+                "default": "neutral"
+              },
+              "text": {
+                "default": "neutral"
+              },
+              "visual_contrast": {
+                "default": "regular"
+              }
+            },
+            "mode": "regular",
+            "palette": {
+              "light": true,
+              "accessibility": "regular",
+              "visual_contrast": {
+                "low": {
+                  "opacity": {
+                    "primary": 0.77,
+                    "secondary": 0.44,
+                    "tertiary": 0.27,
+                    "quaternary": 0.14,
+                    "active": 0.44,
+                    "disabled": 0.27,
+                    "drag": 0.14,
+                    "divider": 0.13,
+                    "press": 0.1,
+                    "focus": 0.07,
+                    "selected": 0.05,
+                    "hover": 0.03
+                  },
+                  "contrast_threshold": 2.4
+                },
+                "regular": {
+                  "opacity": {
+                    "primary": 0.87,
+                    "secondary": 0.54,
+                    "tertiary": 0.37,
+                    "quaternary": 0.24,
+                    "active": 0.54,
+                    "disabled": 0.37,
+                    "drag": 0.16,
+                    "divider": 0.14,
+                    "press": 0.12,
+                    "focus": 0.11,
+                    "selected": 0.07,
+                    "hover": 0.04
+                  },
+                  "contrast_threshold": 3
+                },
+                "high": {
+                  "opacity": {
+                    "primary": 1,
+                    "secondary": 0.74,
+                    "tertiary": 0.57,
+                    "quaternary": 0.44,
+                    "active": 0.74,
+                    "disabled": 0.57,
+                    "drag": 0.27,
+                    "divider": 0.24,
+                    "press": 0.22,
+                    "focus": 0.21,
+                    "selected": 0.17,
+                    "hover": 0.14
+                  },
+                  "contrast_threshold": 4
+                },
+                "default": {
+                  "opacity": {
+                    "primary": 0.87,
+                    "secondary": 0.54,
+                    "tertiary": 0.37,
+                    "quaternary": 0.24,
+                    "active": 0.54,
+                    "disabled": 0.37,
+                    "drag": 0.16,
+                    "divider": 0.14,
+                    "press": 0.12,
+                    "focus": 0.11,
+                    "selected": 0.07,
+                    "hover": 0.04
+                  },
+                  "contrast_threshold": 3
+                }
+              },
+              "color": {
+                "primary": {
+                  "0": "rgb(0, 0, 0)",
+                  "1": "rgb(5, 5, 0)",
+                  "5": "rgb(26, 23, 0)",
+                  "10": "rgb(51, 46, 0)",
+                  "20": "rgb(102, 92, 0)",
+                  "30": "rgb(153, 138, 0)",
+                  "40": "rgb(204, 184, 0)",
+                  "50": "rgb(255, 230, 0)",
+                  "60": "rgb(255, 235, 51)",
+                  "70": "rgb(255, 240, 102)",
+                  "80": "rgb(255, 245, 153)",
+                  "90": "rgb(255, 250, 204)",
+                  "95": "rgb(255, 252, 229)",
+                  "99": "rgb(255, 254, 250)",
+                  "100": "rgb(255, 255, 255)",
+                  "main": "#FFEB3B",
+                  "light": "#FFF176",
+                  "dark": "#FBC02D"
+                },
+                "secondary": {
+                  "0": "rgb(0, 0, 0)",
+                  "1": "rgb(3, 4, 1)",
+                  "5": "rgb(13, 19, 6)",
+                  "10": "rgb(26, 38, 13)",
+                  "20": "rgb(53, 77, 26)",
+                  "30": "rgb(79, 115, 38)",
+                  "40": "rgb(105, 153, 51)",
+                  "50": "rgb(132, 191, 64)",
+                  "60": "rgb(156, 204, 102)",
+                  "70": "rgb(181, 217, 140)",
+                  "80": "rgb(206, 230, 179)",
+                  "90": "rgb(230, 242, 217)",
+                  "95": "rgb(243, 249, 236)",
+                  "99": "rgb(253, 254, 251)",
+                  "100": "rgb(255, 255, 255)",
+                  "main": "#8BC34A",
+                  "light": "#AED581",
+                  "dark": "#689F38"
+                },
+                "tertiary": {
+                  "0": "rgb(0, 0, 0)",
+                  "1": "rgb(5, 4, 0)",
+                  "5": "rgb(26, 19, 0)",
+                  "10": "rgb(51, 38, 0)",
+                  "20": "rgb(102, 77, 0)",
+                  "30": "rgb(153, 115, 0)",
+                  "40": "rgb(204, 153, 0)",
+                  "50": "rgb(255, 191, 0)",
+                  "60": "rgb(255, 204, 51)",
+                  "70": "rgb(255, 217, 102)",
+                  "80": "rgb(255, 230, 153)",
+                  "90": "rgb(255, 242, 204)",
+                  "95": "rgb(255, 249, 229)",
+                  "99": "rgb(255, 254, 250)",
+                  "100": "rgb(255, 255, 255)",
+                  "main": "#FFC107",
+                  "light": "#FFD54F",
+                  "dark": "#FFA000"
+                },
+                "quaternary": {
+                  "0": "rgb(0, 0, 0)",
+                  "1": "rgb(0, 5, 5)",
+                  "5": "rgb(0, 23, 26)",
+                  "10": "rgb(0, 45, 51)",
+                  "20": "rgb(0, 90, 102)",
+                  "30": "rgb(0, 135, 153)",
+                  "40": "rgb(0, 180, 204)",
+                  "50": "rgb(0, 225, 255)",
+                  "60": "rgb(51, 231, 255)",
+                  "70": "rgb(102, 237, 255)",
+                  "80": "rgb(153, 243, 255)",
+                  "90": "rgb(204, 249, 255)",
+                  "95": "rgb(229, 252, 255)",
+                  "99": "rgb(250, 254, 255)",
+                  "100": "rgb(255, 255, 255)",
+                  "main": "#00BCD4",
+                  "light": "#4DD0E1",
+                  "dark": "#0097A7"
+                },
+                "info": {
+                  "0": "rgb(0, 0, 0)",
+                  "1": "rgb(0, 3, 5)",
+                  "5": "rgb(0, 17, 25)",
+                  "10": "rgb(1, 35, 50)",
+                  "20": "rgb(1, 69, 101)",
+                  "30": "rgb(2, 104, 151)",
+                  "40": "rgb(2, 139, 202)",
+                  "50": "rgb(3, 173, 252)",
+                  "60": "rgb(53, 190, 253)",
+                  "70": "rgb(104, 206, 253)",
+                  "80": "rgb(154, 222, 254)",
+                  "90": "rgb(205, 239, 254)",
+                  "95": "rgb(230, 247, 255)",
+                  "99": "rgb(250, 253, 255)",
+                  "100": "rgb(255, 255, 255)",
+                  "main": "#03A9F4",
+                  "light": "#4FC3F7",
+                  "dark": "#0288D1"
+                },
+                "success": {
+                  "0": "rgb(0, 0, 0)",
+                  "1": "rgb(2, 4, 2)",
+                  "5": "rgb(8, 18, 8)",
+                  "10": "rgb(16, 35, 16)",
+                  "20": "rgb(31, 71, 32)",
+                  "30": "rgb(47, 106, 49)",
+                  "40": "rgb(62, 142, 65)",
+                  "50": "rgb(78, 177, 81)",
+                  "60": "rgb(113, 193, 116)",
+                  "70": "rgb(149, 208, 151)",
+                  "80": "rgb(184, 224, 185)",
+                  "90": "rgb(220, 239, 220)",
+                  "95": "rgb(237, 247, 238)",
+                  "99": "rgb(251, 253, 252)",
+                  "100": "rgb(255, 255, 255)",
+                  "main": "#4CAF50",
+                  "light": "#81C784",
+                  "dark": "#388E3C"
+                },
+                "warning": {
+                  "0": "rgb(0, 0, 0)",
+                  "1": "rgb(5, 3, 0)",
+                  "5": "rgb(26, 15, 0)",
+                  "10": "rgb(51, 31, 0)",
+                  "20": "rgb(102, 61, 0)",
+                  "30": "rgb(153, 92, 0)",
+                  "40": "rgb(204, 122, 0)",
+                  "50": "rgb(255, 153, 0)",
+                  "60": "rgb(255, 173, 51)",
+                  "70": "rgb(255, 194, 102)",
+                  "80": "rgb(255, 214, 153)",
+                  "90": "rgb(255, 235, 204)",
+                  "95": "rgb(255, 245, 229)",
+                  "99": "rgb(255, 253, 250)",
+                  "100": "rgb(255, 255, 255)",
+                  "main": "#FF9800",
+                  "light": "#FFB74D",
+                  "dark": "#F57C00"
+                },
+                "error": {
+                  "0": "rgb(0, 0, 0)",
+                  "1": "rgb(5, 1, 0)",
+                  "5": "rgb(26, 6, 0)",
+                  "10": "rgb(51, 12, 0)",
+                  "20": "rgb(102, 24, 0)",
+                  "30": "rgb(153, 36, 0)",
+                  "40": "rgb(204, 48, 0)",
+                  "50": "rgb(255, 60, 0)",
+                  "60": "rgb(255, 99, 51)",
+                  "70": "rgb(255, 138, 102)",
+                  "80": "rgb(255, 177, 153)",
+                  "90": "rgb(255, 216, 204)",
+                  "95": "rgb(255, 235, 229)",
+                  "99": "rgb(255, 251, 250)",
+                  "100": "rgb(255, 255, 255)",
+                  "main": "#FF5722",
+                  "light": "#FF8A65",
+                  "dark": "#E64A19"
+                },
+                "neutral": {
+                  "0": "rgb(0, 0, 0)",
+                  "1": "rgb(3, 3, 3)",
+                  "5": "rgb(13, 13, 13)",
+                  "10": "rgb(26, 26, 26)",
+                  "20": "rgb(51, 51, 51)",
+                  "30": "rgb(77, 77, 77)",
+                  "40": "rgb(102, 102, 102)",
+                  "50": "rgb(128, 128, 128)",
+                  "60": "rgb(153, 153, 153)",
+                  "70": "rgb(179, 179, 179)",
+                  "80": "rgb(204, 204, 204)",
+                  "90": "rgb(230, 230, 230)",
+                  "95": "rgb(242, 242, 242)",
+                  "99": "rgb(252, 252, 252)",
+                  "100": "rgb(255, 255, 255)",
+                  "main": "#000000",
+                  "light": "rgb(26, 26, 26)",
+                  "dark": "rgb(26, 26, 26)"
+                }
+              },
+              "text": {
+                "primary": {
+                  "primary": "rgba(153, 138, 0, 0.87)",
+                  "secondary": "rgba(153, 138, 0, 0.54)",
+                  "tertiary": "rgba(153, 138, 0, 0.37)",
+                  "quaternary": "rgba(153, 138, 0, 0.24)"
+                },
+                "secondary": {
+                  "primary": "rgba(79, 115, 38, 0.87)",
+                  "secondary": "rgba(79, 115, 38, 0.54)",
+                  "tertiary": "rgba(79, 115, 38, 0.37)",
+                  "quaternary": "rgba(79, 115, 38, 0.24)"
+                },
+                "tertiary": {
+                  "primary": "rgba(153, 115, 0, 0.87)",
+                  "secondary": "rgba(153, 115, 0, 0.54)",
+                  "tertiary": "rgba(153, 115, 0, 0.37)",
+                  "quaternary": "rgba(153, 115, 0, 0.24)"
+                },
+                "quaternary": {
+                  "primary": "rgba(0, 135, 153, 0.87)",
+                  "secondary": "rgba(0, 135, 153, 0.54)",
+                  "tertiary": "rgba(0, 135, 153, 0.37)",
+                  "quaternary": "rgba(0, 135, 153, 0.24)"
+                },
+                "info": {
+                  "primary": "rgba(2, 104, 151, 0.87)",
+                  "secondary": "rgba(2, 104, 151, 0.54)",
+                  "tertiary": "rgba(2, 104, 151, 0.37)",
+                  "quaternary": "rgba(2, 104, 151, 0.24)"
+                },
+                "success": {
+                  "primary": "rgba(47, 106, 49, 0.87)",
+                  "secondary": "rgba(47, 106, 49, 0.54)",
+                  "tertiary": "rgba(47, 106, 49, 0.37)",
+                  "quaternary": "rgba(47, 106, 49, 0.24)"
+                },
+                "warning": {
+                  "primary": "rgba(153, 92, 0, 0.87)",
+                  "secondary": "rgba(153, 92, 0, 0.54)",
+                  "tertiary": "rgba(153, 92, 0, 0.37)",
+                  "quaternary": "rgba(153, 92, 0, 0.24)"
+                },
+                "error": {
+                  "primary": "rgba(153, 36, 0, 0.87)",
+                  "secondary": "rgba(153, 36, 0, 0.54)",
+                  "tertiary": "rgba(153, 36, 0, 0.37)",
+                  "quaternary": "rgba(153, 36, 0, 0.24)"
+                },
+                "neutral": {
+                  "primary": "rgba(0, 0, 0, 0.87)",
+                  "secondary": "rgba(0, 0, 0, 0.54)",
+                  "tertiary": "rgba(0, 0, 0, 0.37)",
+                  "quaternary": "rgba(0, 0, 0, 0.24)"
+                },
+                "default": {
+                  "primary": "rgba(0, 0, 0, 0.87)",
+                  "secondary": "rgba(0, 0, 0, 0.54)",
+                  "tertiary": "rgba(0, 0, 0, 0.37)",
+                  "quaternary": "rgba(0, 0, 0, 0.24)"
+                },
+                "divider": "rgba(0, 0, 0, 0.14)",
+                "active": "rgba(0, 0, 0, 0.54)",
+                "hover": "rgba(0, 0, 0, 0.04)",
+                "selected": "rgba(0, 0, 0, 0.07)",
+                "focus": "rgba(0, 0, 0, 0.11)",
+                "disabled": "rgba(0, 0, 0, 0.37)"
+              },
+              "background": {
+                "primary": {
+                  "primary": "rgb(255, 255, 255)",
+                  "secondary": "rgb(255, 254, 250)",
+                  "tertiary": "rgb(255, 252, 229)",
+                  "quaternary": "rgb(255, 250, 204)"
+                },
+                "secondary": {
+                  "primary": "rgb(255, 255, 255)",
+                  "secondary": "rgb(253, 254, 251)",
+                  "tertiary": "rgb(243, 249, 236)",
+                  "quaternary": "rgb(230, 242, 217)"
+                },
+                "tertiary": {
+                  "primary": "rgb(255, 255, 255)",
+                  "secondary": "rgb(255, 254, 250)",
+                  "tertiary": "rgb(255, 249, 229)",
+                  "quaternary": "rgb(255, 242, 204)"
+                },
+                "quaternary": {
+                  "primary": "rgb(255, 255, 255)",
+                  "secondary": "rgb(250, 254, 255)",
+                  "tertiary": "rgb(229, 252, 255)",
+                  "quaternary": "rgb(204, 249, 255)"
+                },
+                "info": {
+                  "primary": "rgb(255, 255, 255)",
+                  "secondary": "rgb(250, 253, 255)",
+                  "tertiary": "rgb(230, 247, 255)",
+                  "quaternary": "rgb(205, 239, 254)"
+                },
+                "success": {
+                  "primary": "rgb(255, 255, 255)",
+                  "secondary": "rgb(251, 253, 252)",
+                  "tertiary": "rgb(237, 247, 238)",
+                  "quaternary": "rgb(220, 239, 220)"
+                },
+                "warning": {
+                  "primary": "rgb(255, 255, 255)",
+                  "secondary": "rgb(255, 253, 250)",
+                  "tertiary": "rgb(255, 245, 229)",
+                  "quaternary": "rgb(255, 235, 204)"
+                },
+                "error": {
+                  "primary": "rgb(255, 255, 255)",
+                  "secondary": "rgb(255, 251, 250)",
+                  "tertiary": "rgb(255, 235, 229)",
+                  "quaternary": "rgb(255, 216, 204)"
+                },
+                "neutral": {
+                  "primary": "rgb(255, 255, 255)",
+                  "secondary": "rgb(252, 252, 252)",
+                  "tertiary": "rgb(242, 242, 242)",
+                  "quaternary": "rgb(230, 230, 230)"
+                },
+                "default": {
+                  "primary": "rgb(255, 255, 255)",
+                  "secondary": "rgb(252, 252, 252)",
+                  "tertiary": "rgb(242, 242, 242)",
+                  "quaternary": "rgb(230, 230, 230)"
+                }
+              }
+            },
+            "shape": {
+              "radius": {
+                "xs": 4,
+                "sm": 8,
+                "md": 12,
+                "lg": 16,
+                "xl": 28
+              }
+            },
+            "breakpoints": {
+              "values": {
+                "xs": 0,
+                "sm": 600,
+                "md": 1240,
+                "lg": 1440,
+                "xl": 1920
+              },
+              "unit": "px"
+            },
+            "space": {
+              "values": {
+                "xs": 4,
+                "sm": 8,
+                "md": 16,
+                "lg": 32,
+                "xl": 64
+              },
+              "unit": 8
+            },
+            "shadows": {
+              "values": {
+                "primary": {
+                  "0": "none",
+                  "1": "0px 1px 1px 0px rgba(255, 235, 59, 0.14), 0px 2px 1px -1px rgba(255, 235, 59, 0.11), 0px 1px 3px 0px rgba(255, 235, 59, 0.17)",
+                  "2": "0px 2px 2px 0px rgba(255, 235, 59, 0.14), 0px 3px 3px -2px rgba(255, 235, 59, 0.11), 0px 1px 8px 0px rgba(255, 235, 59, 0.17)",
+                  "3": "0px 3px 4px 0px rgba(255, 235, 59, 0.14), 0px 3px 3px -2px rgba(255, 235, 59, 0.11), 0px 1px 8px 0px rgba(255, 235, 59, 0.17)",
+                  "4": "0px 4px 5px 0px rgba(255, 235, 59, 0.14), 0px 1px 10px 0px rgba(255, 235, 59, 0.11), 0px 2px 4px -1px rgba(255, 235, 59, 0.17)",
+                  "6": "0px 6px 10px 0px rgba(255, 235, 59, 0.14), 0px 1px 18px 0px rgba(255, 235, 59, 0.11), 0px 3px 5px -1px rgba(255, 235, 59, 0.17)",
+                  "8": "0px 8px 10px 1px rgba(255, 235, 59, 0.14), 0px 3px 14px 2px rgba(255, 235, 59, 0.11), 0px 5px 5px -3px rgba(255, 235, 59, 0.17)",
+                  "9": "0px 9px 12px 1px rgba(255, 235, 59, 0.14), 0px 3px 16px 2px rgba(255, 235, 59, 0.11), 0px 5px 6px -3px rgba(255, 235, 59, 0.17)",
+                  "12": "0px 12px 17px 2px rgba(255, 235, 59, 0.14), 0px 5px 22px 4px rgba(255, 235, 59, 0.11), 0px 7px 7px -4px rgba(255, 235, 59, 0.17)",
+                  "16": "0px 16px 24px 2px rgba(255, 235, 59, 0.14), 0px 6px 30px 5px rgba(255, 235, 59, 0.11), 0px 8px 10px -5px rgba(255, 235, 59, 0.17)",
+                  "24": "0px 24px 37px 3px rgba(255, 235, 59, 0.14), 0px 9px 46px 8px rgba(255, 235, 59, 0.11), 0px 11px 15px -7px rgba(255, 235, 59, 0.17)"
+                },
+                "secondary": {
+                  "0": "none",
+                  "1": "0px 1px 1px 0px rgba(139, 195, 74, 0.14), 0px 2px 1px -1px rgba(139, 195, 74, 0.11), 0px 1px 3px 0px rgba(139, 195, 74, 0.17)",
+                  "2": "0px 2px 2px 0px rgba(139, 195, 74, 0.14), 0px 3px 3px -2px rgba(139, 195, 74, 0.11), 0px 1px 8px 0px rgba(139, 195, 74, 0.17)",
+                  "3": "0px 3px 4px 0px rgba(139, 195, 74, 0.14), 0px 3px 3px -2px rgba(139, 195, 74, 0.11), 0px 1px 8px 0px rgba(139, 195, 74, 0.17)",
+                  "4": "0px 4px 5px 0px rgba(139, 195, 74, 0.14), 0px 1px 10px 0px rgba(139, 195, 74, 0.11), 0px 2px 4px -1px rgba(139, 195, 74, 0.17)",
+                  "6": "0px 6px 10px 0px rgba(139, 195, 74, 0.14), 0px 1px 18px 0px rgba(139, 195, 74, 0.11), 0px 3px 5px -1px rgba(139, 195, 74, 0.17)",
+                  "8": "0px 8px 10px 1px rgba(139, 195, 74, 0.14), 0px 3px 14px 2px rgba(139, 195, 74, 0.11), 0px 5px 5px -3px rgba(139, 195, 74, 0.17)",
+                  "9": "0px 9px 12px 1px rgba(139, 195, 74, 0.14), 0px 3px 16px 2px rgba(139, 195, 74, 0.11), 0px 5px 6px -3px rgba(139, 195, 74, 0.17)",
+                  "12": "0px 12px 17px 2px rgba(139, 195, 74, 0.14), 0px 5px 22px 4px rgba(139, 195, 74, 0.11), 0px 7px 7px -4px rgba(139, 195, 74, 0.17)",
+                  "16": "0px 16px 24px 2px rgba(139, 195, 74, 0.14), 0px 6px 30px 5px rgba(139, 195, 74, 0.11), 0px 8px 10px -5px rgba(139, 195, 74, 0.17)",
+                  "24": "0px 24px 37px 3px rgba(139, 195, 74, 0.14), 0px 9px 46px 8px rgba(139, 195, 74, 0.11), 0px 11px 15px -7px rgba(139, 195, 74, 0.17)"
+                },
+                "tertiary": {
+                  "0": "none",
+                  "1": "0px 1px 1px 0px rgba(255, 193, 7, 0.14), 0px 2px 1px -1px rgba(255, 193, 7, 0.11), 0px 1px 3px 0px rgba(255, 193, 7, 0.17)",
+                  "2": "0px 2px 2px 0px rgba(255, 193, 7, 0.14), 0px 3px 3px -2px rgba(255, 193, 7, 0.11), 0px 1px 8px 0px rgba(255, 193, 7, 0.17)",
+                  "3": "0px 3px 4px 0px rgba(255, 193, 7, 0.14), 0px 3px 3px -2px rgba(255, 193, 7, 0.11), 0px 1px 8px 0px rgba(255, 193, 7, 0.17)",
+                  "4": "0px 4px 5px 0px rgba(255, 193, 7, 0.14), 0px 1px 10px 0px rgba(255, 193, 7, 0.11), 0px 2px 4px -1px rgba(255, 193, 7, 0.17)",
+                  "6": "0px 6px 10px 0px rgba(255, 193, 7, 0.14), 0px 1px 18px 0px rgba(255, 193, 7, 0.11), 0px 3px 5px -1px rgba(255, 193, 7, 0.17)",
+                  "8": "0px 8px 10px 1px rgba(255, 193, 7, 0.14), 0px 3px 14px 2px rgba(255, 193, 7, 0.11), 0px 5px 5px -3px rgba(255, 193, 7, 0.17)",
+                  "9": "0px 9px 12px 1px rgba(255, 193, 7, 0.14), 0px 3px 16px 2px rgba(255, 193, 7, 0.11), 0px 5px 6px -3px rgba(255, 193, 7, 0.17)",
+                  "12": "0px 12px 17px 2px rgba(255, 193, 7, 0.14), 0px 5px 22px 4px rgba(255, 193, 7, 0.11), 0px 7px 7px -4px rgba(255, 193, 7, 0.17)",
+                  "16": "0px 16px 24px 2px rgba(255, 193, 7, 0.14), 0px 6px 30px 5px rgba(255, 193, 7, 0.11), 0px 8px 10px -5px rgba(255, 193, 7, 0.17)",
+                  "24": "0px 24px 37px 3px rgba(255, 193, 7, 0.14), 0px 9px 46px 8px rgba(255, 193, 7, 0.11), 0px 11px 15px -7px rgba(255, 193, 7, 0.17)"
+                },
+                "quaternary": {
+                  "0": "none",
+                  "1": "0px 1px 1px 0px rgba(0, 188, 212, 0.14), 0px 2px 1px -1px rgba(0, 188, 212, 0.11), 0px 1px 3px 0px rgba(0, 188, 212, 0.17)",
+                  "2": "0px 2px 2px 0px rgba(0, 188, 212, 0.14), 0px 3px 3px -2px rgba(0, 188, 212, 0.11), 0px 1px 8px 0px rgba(0, 188, 212, 0.17)",
+                  "3": "0px 3px 4px 0px rgba(0, 188, 212, 0.14), 0px 3px 3px -2px rgba(0, 188, 212, 0.11), 0px 1px 8px 0px rgba(0, 188, 212, 0.17)",
+                  "4": "0px 4px 5px 0px rgba(0, 188, 212, 0.14), 0px 1px 10px 0px rgba(0, 188, 212, 0.11), 0px 2px 4px -1px rgba(0, 188, 212, 0.17)",
+                  "6": "0px 6px 10px 0px rgba(0, 188, 212, 0.14), 0px 1px 18px 0px rgba(0, 188, 212, 0.11), 0px 3px 5px -1px rgba(0, 188, 212, 0.17)",
+                  "8": "0px 8px 10px 1px rgba(0, 188, 212, 0.14), 0px 3px 14px 2px rgba(0, 188, 212, 0.11), 0px 5px 5px -3px rgba(0, 188, 212, 0.17)",
+                  "9": "0px 9px 12px 1px rgba(0, 188, 212, 0.14), 0px 3px 16px 2px rgba(0, 188, 212, 0.11), 0px 5px 6px -3px rgba(0, 188, 212, 0.17)",
+                  "12": "0px 12px 17px 2px rgba(0, 188, 212, 0.14), 0px 5px 22px 4px rgba(0, 188, 212, 0.11), 0px 7px 7px -4px rgba(0, 188, 212, 0.17)",
+                  "16": "0px 16px 24px 2px rgba(0, 188, 212, 0.14), 0px 6px 30px 5px rgba(0, 188, 212, 0.11), 0px 8px 10px -5px rgba(0, 188, 212, 0.17)",
+                  "24": "0px 24px 37px 3px rgba(0, 188, 212, 0.14), 0px 9px 46px 8px rgba(0, 188, 212, 0.11), 0px 11px 15px -7px rgba(0, 188, 212, 0.17)"
+                },
+                "info": {
+                  "0": "none",
+                  "1": "0px 1px 1px 0px rgba(3, 169, 244, 0.14), 0px 2px 1px -1px rgba(3, 169, 244, 0.11), 0px 1px 3px 0px rgba(3, 169, 244, 0.17)",
+                  "2": "0px 2px 2px 0px rgba(3, 169, 244, 0.14), 0px 3px 3px -2px rgba(3, 169, 244, 0.11), 0px 1px 8px 0px rgba(3, 169, 244, 0.17)",
+                  "3": "0px 3px 4px 0px rgba(3, 169, 244, 0.14), 0px 3px 3px -2px rgba(3, 169, 244, 0.11), 0px 1px 8px 0px rgba(3, 169, 244, 0.17)",
+                  "4": "0px 4px 5px 0px rgba(3, 169, 244, 0.14), 0px 1px 10px 0px rgba(3, 169, 244, 0.11), 0px 2px 4px -1px rgba(3, 169, 244, 0.17)",
+                  "6": "0px 6px 10px 0px rgba(3, 169, 244, 0.14), 0px 1px 18px 0px rgba(3, 169, 244, 0.11), 0px 3px 5px -1px rgba(3, 169, 244, 0.17)",
+                  "8": "0px 8px 10px 1px rgba(3, 169, 244, 0.14), 0px 3px 14px 2px rgba(3, 169, 244, 0.11), 0px 5px 5px -3px rgba(3, 169, 244, 0.17)",
+                  "9": "0px 9px 12px 1px rgba(3, 169, 244, 0.14), 0px 3px 16px 2px rgba(3, 169, 244, 0.11), 0px 5px 6px -3px rgba(3, 169, 244, 0.17)",
+                  "12": "0px 12px 17px 2px rgba(3, 169, 244, 0.14), 0px 5px 22px 4px rgba(3, 169, 244, 0.11), 0px 7px 7px -4px rgba(3, 169, 244, 0.17)",
+                  "16": "0px 16px 24px 2px rgba(3, 169, 244, 0.14), 0px 6px 30px 5px rgba(3, 169, 244, 0.11), 0px 8px 10px -5px rgba(3, 169, 244, 0.17)",
+                  "24": "0px 24px 37px 3px rgba(3, 169, 244, 0.14), 0px 9px 46px 8px rgba(3, 169, 244, 0.11), 0px 11px 15px -7px rgba(3, 169, 244, 0.17)"
+                },
+                "success": {
+                  "0": "none",
+                  "1": "0px 1px 1px 0px rgba(76, 175, 80, 0.14), 0px 2px 1px -1px rgba(76, 175, 80, 0.11), 0px 1px 3px 0px rgba(76, 175, 80, 0.17)",
+                  "2": "0px 2px 2px 0px rgba(76, 175, 80, 0.14), 0px 3px 3px -2px rgba(76, 175, 80, 0.11), 0px 1px 8px 0px rgba(76, 175, 80, 0.17)",
+                  "3": "0px 3px 4px 0px rgba(76, 175, 80, 0.14), 0px 3px 3px -2px rgba(76, 175, 80, 0.11), 0px 1px 8px 0px rgba(76, 175, 80, 0.17)",
+                  "4": "0px 4px 5px 0px rgba(76, 175, 80, 0.14), 0px 1px 10px 0px rgba(76, 175, 80, 0.11), 0px 2px 4px -1px rgba(76, 175, 80, 0.17)",
+                  "6": "0px 6px 10px 0px rgba(76, 175, 80, 0.14), 0px 1px 18px 0px rgba(76, 175, 80, 0.11), 0px 3px 5px -1px rgba(76, 175, 80, 0.17)",
+                  "8": "0px 8px 10px 1px rgba(76, 175, 80, 0.14), 0px 3px 14px 2px rgba(76, 175, 80, 0.11), 0px 5px 5px -3px rgba(76, 175, 80, 0.17)",
+                  "9": "0px 9px 12px 1px rgba(76, 175, 80, 0.14), 0px 3px 16px 2px rgba(76, 175, 80, 0.11), 0px 5px 6px -3px rgba(76, 175, 80, 0.17)",
+                  "12": "0px 12px 17px 2px rgba(76, 175, 80, 0.14), 0px 5px 22px 4px rgba(76, 175, 80, 0.11), 0px 7px 7px -4px rgba(76, 175, 80, 0.17)",
+                  "16": "0px 16px 24px 2px rgba(76, 175, 80, 0.14), 0px 6px 30px 5px rgba(76, 175, 80, 0.11), 0px 8px 10px -5px rgba(76, 175, 80, 0.17)",
+                  "24": "0px 24px 37px 3px rgba(76, 175, 80, 0.14), 0px 9px 46px 8px rgba(76, 175, 80, 0.11), 0px 11px 15px -7px rgba(76, 175, 80, 0.17)"
+                },
+                "warning": {
+                  "0": "none",
+                  "1": "0px 1px 1px 0px rgba(255, 152, 0, 0.14), 0px 2px 1px -1px rgba(255, 152, 0, 0.11), 0px 1px 3px 0px rgba(255, 152, 0, 0.17)",
+                  "2": "0px 2px 2px 0px rgba(255, 152, 0, 0.14), 0px 3px 3px -2px rgba(255, 152, 0, 0.11), 0px 1px 8px 0px rgba(255, 152, 0, 0.17)",
+                  "3": "0px 3px 4px 0px rgba(255, 152, 0, 0.14), 0px 3px 3px -2px rgba(255, 152, 0, 0.11), 0px 1px 8px 0px rgba(255, 152, 0, 0.17)",
+                  "4": "0px 4px 5px 0px rgba(255, 152, 0, 0.14), 0px 1px 10px 0px rgba(255, 152, 0, 0.11), 0px 2px 4px -1px rgba(255, 152, 0, 0.17)",
+                  "6": "0px 6px 10px 0px rgba(255, 152, 0, 0.14), 0px 1px 18px 0px rgba(255, 152, 0, 0.11), 0px 3px 5px -1px rgba(255, 152, 0, 0.17)",
+                  "8": "0px 8px 10px 1px rgba(255, 152, 0, 0.14), 0px 3px 14px 2px rgba(255, 152, 0, 0.11), 0px 5px 5px -3px rgba(255, 152, 0, 0.17)",
+                  "9": "0px 9px 12px 1px rgba(255, 152, 0, 0.14), 0px 3px 16px 2px rgba(255, 152, 0, 0.11), 0px 5px 6px -3px rgba(255, 152, 0, 0.17)",
+                  "12": "0px 12px 17px 2px rgba(255, 152, 0, 0.14), 0px 5px 22px 4px rgba(255, 152, 0, 0.11), 0px 7px 7px -4px rgba(255, 152, 0, 0.17)",
+                  "16": "0px 16px 24px 2px rgba(255, 152, 0, 0.14), 0px 6px 30px 5px rgba(255, 152, 0, 0.11), 0px 8px 10px -5px rgba(255, 152, 0, 0.17)",
+                  "24": "0px 24px 37px 3px rgba(255, 152, 0, 0.14), 0px 9px 46px 8px rgba(255, 152, 0, 0.11), 0px 11px 15px -7px rgba(255, 152, 0, 0.17)"
+                },
+                "error": {
+                  "0": "none",
+                  "1": "0px 1px 1px 0px rgba(255, 87, 34, 0.14), 0px 2px 1px -1px rgba(255, 87, 34, 0.11), 0px 1px 3px 0px rgba(255, 87, 34, 0.17)",
+                  "2": "0px 2px 2px 0px rgba(255, 87, 34, 0.14), 0px 3px 3px -2px rgba(255, 87, 34, 0.11), 0px 1px 8px 0px rgba(255, 87, 34, 0.17)",
+                  "3": "0px 3px 4px 0px rgba(255, 87, 34, 0.14), 0px 3px 3px -2px rgba(255, 87, 34, 0.11), 0px 1px 8px 0px rgba(255, 87, 34, 0.17)",
+                  "4": "0px 4px 5px 0px rgba(255, 87, 34, 0.14), 0px 1px 10px 0px rgba(255, 87, 34, 0.11), 0px 2px 4px -1px rgba(255, 87, 34, 0.17)",
+                  "6": "0px 6px 10px 0px rgba(255, 87, 34, 0.14), 0px 1px 18px 0px rgba(255, 87, 34, 0.11), 0px 3px 5px -1px rgba(255, 87, 34, 0.17)",
+                  "8": "0px 8px 10px 1px rgba(255, 87, 34, 0.14), 0px 3px 14px 2px rgba(255, 87, 34, 0.11), 0px 5px 5px -3px rgba(255, 87, 34, 0.17)",
+                  "9": "0px 9px 12px 1px rgba(255, 87, 34, 0.14), 0px 3px 16px 2px rgba(255, 87, 34, 0.11), 0px 5px 6px -3px rgba(255, 87, 34, 0.17)",
+                  "12": "0px 12px 17px 2px rgba(255, 87, 34, 0.14), 0px 5px 22px 4px rgba(255, 87, 34, 0.11), 0px 7px 7px -4px rgba(255, 87, 34, 0.17)",
+                  "16": "0px 16px 24px 2px rgba(255, 87, 34, 0.14), 0px 6px 30px 5px rgba(255, 87, 34, 0.11), 0px 8px 10px -5px rgba(255, 87, 34, 0.17)",
+                  "24": "0px 24px 37px 3px rgba(255, 87, 34, 0.14), 0px 9px 46px 8px rgba(255, 87, 34, 0.11), 0px 11px 15px -7px rgba(255, 87, 34, 0.17)"
+                },
+                "neutral": {
+                  "0": "none",
+                  "1": "0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.11), 0px 1px 3px 0px rgba(0, 0, 0, 0.17)",
+                  "2": "0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 3px -2px rgba(0, 0, 0, 0.11), 0px 1px 8px 0px rgba(0, 0, 0, 0.17)",
+                  "3": "0px 3px 4px 0px rgba(0, 0, 0, 0.14), 0px 3px 3px -2px rgba(0, 0, 0, 0.11), 0px 1px 8px 0px rgba(0, 0, 0, 0.17)",
+                  "4": "0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.11), 0px 2px 4px -1px rgba(0, 0, 0, 0.17)",
+                  "6": "0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.11), 0px 3px 5px -1px rgba(0, 0, 0, 0.17)",
+                  "8": "0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.11), 0px 5px 5px -3px rgba(0, 0, 0, 0.17)",
+                  "9": "0px 9px 12px 1px rgba(0, 0, 0, 0.14), 0px 3px 16px 2px rgba(0, 0, 0, 0.11), 0px 5px 6px -3px rgba(0, 0, 0, 0.17)",
+                  "12": "0px 12px 17px 2px rgba(0, 0, 0, 0.14), 0px 5px 22px 4px rgba(0, 0, 0, 0.11), 0px 7px 7px -4px rgba(0, 0, 0, 0.17)",
+                  "16": "0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.11), 0px 8px 10px -5px rgba(0, 0, 0, 0.17)",
+                  "24": "0px 24px 37px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.11), 0px 11px 15px -7px rgba(0, 0, 0, 0.17)"
+                }
+              },
+              "opacities": [
+                0.14,
+                0.11,
+                0.17
+              ]
+            },
+            "typography": {
+              "unit": "px",
+              "font_size": {
+                "html": 16
+              },
+              "font_family": {
+                "primary": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                "secondary": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                "mono": "Roboto Mono, monospace"
+              },
+              "values": {
+                "d1": {
+                  "fontSize": "3.5625rem",
+                  "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                  "fontWeight": 400,
+                  "lineHeight": 1.1228070175438596,
+                  "letterSpacing": "0em"
+                },
+                "d2": {
+                  "fontSize": "2.8125rem",
+                  "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                  "fontWeight": 400,
+                  "lineHeight": 1.1555555555555554,
+                  "letterSpacing": "0em"
+                },
+                "d3": {
+                  "fontSize": "2.1875rem",
+                  "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                  "fontWeight": 400,
+                  "lineHeight": 1.2571428571428571,
+                  "letterSpacing": "0em"
+                },
+                "h1": {
+                  "fontSize": "2rem",
+                  "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                  "fontWeight": 400,
+                  "lineHeight": 1.25,
+                  "letterSpacing": "0em"
+                },
+                "h2": {
+                  "fontSize": "1.6875rem",
+                  "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                  "fontWeight": 400,
+                  "lineHeight": 1.2962962962962963,
+                  "letterSpacing": "0em"
+                },
+                "h3": {
+                  "fontSize": "1.5rem",
+                  "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                  "fontWeight": 400,
+                  "lineHeight": 1.3333333333333333,
+                  "letterSpacing": "0em"
+                },
+                "t1": {
+                  "fontSize": "1.3125rem",
+                  "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                  "fontWeight": 400,
+                  "lineHeight": 3.0476190476190474,
+                  "letterSpacing": "0em"
+                },
+                "t2": {
+                  "fontSize": "1rem",
+                  "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                  "fontWeight": 500,
+                  "lineHeight": 1.5,
+                  "letterSpacing": ".15em"
+                },
+                "t3": {
+                  "fontSize": "0.875rem",
+                  "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                  "fontWeight": 500,
+                  "lineHeight": 1.4285714285714286,
+                  "letterSpacing": ".1em"
+                },
+                "l1": {
+                  "fontSize": "0.875rem",
+                  "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                  "fontWeight": 500,
+                  "lineHeight": 1.4285714285714286,
+                  "letterSpacing": ".1em"
+                },
+                "l2": {
+                  "fontSize": "0.75rem",
+                  "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                  "fontWeight": 500,
+                  "lineHeight": 1.25,
+                  "letterSpacing": ".5em"
+                },
+                "l3": {
+                  "fontSize": "0.6875rem",
+                  "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                  "fontWeight": 500,
+                  "lineHeight": 0.45454545454545453,
+                  "letterSpacing": ".5em"
+                },
+                "b1": {
+                  "fontSize": "1rem",
+                  "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                  "fontWeight": 400,
+                  "lineHeight": 1.5,
+                  "letterSpacing": ".5em"
+                },
+                "b2": {
+                  "fontSize": "0.875rem",
+                  "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                  "fontWeight": 400,
+                  "lineHeight": 1.4285714285714286,
+                  "letterSpacing": ".25em"
+                },
+                "b3": {
+                  "fontSize": "0.6875rem",
+                  "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                  "fontWeight": 400,
+                  "lineHeight": 1.3636363636363635,
+                  "letterSpacing": ".4em"
+                }
+              }
+            },
+            "transitions": {
+              "timing_function": {
+                "standard": "cubic-bezier(.4, 0, .2, 1)",
+                "emphasized": "cubic-bezier(.4, 0, .6, 1) ",
+                "decelerated": "cubic-bezier(0, 0, .2, 1)",
+                "accelerated": "cubic-bezier(.4, 0, 1, 1)"
+              },
+              "duration": {
+                "smallest": 100,
+                "smaller": 200,
+                "small": 250,
+                "regular": 300,
+                "enter": 250,
+                "leave": 200,
+                "complex": 500
+              }
+            },
+            "z_index": {
+              "tooltip": 1700,
+              "modal": 1500,
+              "menu_modal": 1400,
+              "menu": 1300,
+              "button_float": 1200,
+              "app_bar": 1100,
+              "main": 1000,
+              "text": 0
+            }
+          }
+        ],
+        [
+          true,
+          true,
+          "body",
+          {
+            "rule": {
+              "prefix": false,
+              "sort": true,
+              "rtl": true
+            }
+          },
+          [
+            "palette",
+            "space",
+            "breakpoints",
+            "transitions"
+          ],
+          [
+            "image",
+            "color"
+          ],
+          [
+            true,
+            true
+          ],
+          [
+            true,
+            true,
+            true
+          ],
+          {
+            "options": {
+              "rule": {
+                "prefix": false,
+                "sort": true,
+                "rtl": true
+              }
+            },
+            "hash": "0xd32ae72d0d63da08d6f5e8fe5baf2e43606e6bab20c9537db1db199e257c5413",
+            "direction": "rtl",
+            "preference": {
+              "background": {
+                "default": "neutral"
+              },
+              "text": {
+                "default": "neutral"
+              },
+              "visual_contrast": {
+                "default": "regular"
+              }
+            },
+            "mode": "regular",
+            "palette": {
+              "light": true,
+              "accessibility": "regular",
+              "visual_contrast": {
+                "low": {
+                  "opacity": {
+                    "primary": 0.77,
+                    "secondary": 0.44,
+                    "tertiary": 0.27,
+                    "quaternary": 0.14,
+                    "active": 0.44,
+                    "disabled": 0.27,
+                    "drag": 0.14,
+                    "divider": 0.13,
+                    "press": 0.1,
+                    "focus": 0.07,
+                    "selected": 0.05,
+                    "hover": 0.03
+                  },
+                  "contrast_threshold": 2.4
+                },
+                "regular": {
+                  "opacity": {
+                    "primary": 0.87,
+                    "secondary": 0.54,
+                    "tertiary": 0.37,
+                    "quaternary": 0.24,
+                    "active": 0.54,
+                    "disabled": 0.37,
+                    "drag": 0.16,
+                    "divider": 0.14,
+                    "press": 0.12,
+                    "focus": 0.11,
+                    "selected": 0.07,
+                    "hover": 0.04
+                  },
+                  "contrast_threshold": 3
+                },
+                "high": {
+                  "opacity": {
+                    "primary": 1,
+                    "secondary": 0.74,
+                    "tertiary": 0.57,
+                    "quaternary": 0.44,
+                    "active": 0.74,
+                    "disabled": 0.57,
+                    "drag": 0.27,
+                    "divider": 0.24,
+                    "press": 0.22,
+                    "focus": 0.21,
+                    "selected": 0.17,
+                    "hover": 0.14
+                  },
+                  "contrast_threshold": 4
+                },
+                "default": {
+                  "opacity": {
+                    "primary": 0.87,
+                    "secondary": 0.54,
+                    "tertiary": 0.37,
+                    "quaternary": 0.24,
+                    "active": 0.54,
+                    "disabled": 0.37,
+                    "drag": 0.16,
+                    "divider": 0.14,
+                    "press": 0.12,
+                    "focus": 0.11,
+                    "selected": 0.07,
+                    "hover": 0.04
+                  },
+                  "contrast_threshold": 3
+                }
+              },
+              "color": {
+                "primary": {
+                  "0": "rgb(0, 0, 0)",
+                  "1": "rgb(5, 5, 0)",
+                  "5": "rgb(26, 23, 0)",
+                  "10": "rgb(51, 46, 0)",
+                  "20": "rgb(102, 92, 0)",
+                  "30": "rgb(153, 138, 0)",
+                  "40": "rgb(204, 184, 0)",
+                  "50": "rgb(255, 230, 0)",
+                  "60": "rgb(255, 235, 51)",
+                  "70": "rgb(255, 240, 102)",
+                  "80": "rgb(255, 245, 153)",
+                  "90": "rgb(255, 250, 204)",
+                  "95": "rgb(255, 252, 229)",
+                  "99": "rgb(255, 254, 250)",
+                  "100": "rgb(255, 255, 255)",
+                  "main": "#FFEB3B",
+                  "light": "#FFF176",
+                  "dark": "#FBC02D"
+                },
+                "secondary": {
+                  "0": "rgb(0, 0, 0)",
+                  "1": "rgb(3, 4, 1)",
+                  "5": "rgb(13, 19, 6)",
+                  "10": "rgb(26, 38, 13)",
+                  "20": "rgb(53, 77, 26)",
+                  "30": "rgb(79, 115, 38)",
+                  "40": "rgb(105, 153, 51)",
+                  "50": "rgb(132, 191, 64)",
+                  "60": "rgb(156, 204, 102)",
+                  "70": "rgb(181, 217, 140)",
+                  "80": "rgb(206, 230, 179)",
+                  "90": "rgb(230, 242, 217)",
+                  "95": "rgb(243, 249, 236)",
+                  "99": "rgb(253, 254, 251)",
+                  "100": "rgb(255, 255, 255)",
+                  "main": "#8BC34A",
+                  "light": "#AED581",
+                  "dark": "#689F38"
+                },
+                "tertiary": {
+                  "0": "rgb(0, 0, 0)",
+                  "1": "rgb(5, 4, 0)",
+                  "5": "rgb(26, 19, 0)",
+                  "10": "rgb(51, 38, 0)",
+                  "20": "rgb(102, 77, 0)",
+                  "30": "rgb(153, 115, 0)",
+                  "40": "rgb(204, 153, 0)",
+                  "50": "rgb(255, 191, 0)",
+                  "60": "rgb(255, 204, 51)",
+                  "70": "rgb(255, 217, 102)",
+                  "80": "rgb(255, 230, 153)",
+                  "90": "rgb(255, 242, 204)",
+                  "95": "rgb(255, 249, 229)",
+                  "99": "rgb(255, 254, 250)",
+                  "100": "rgb(255, 255, 255)",
+                  "main": "#FFC107",
+                  "light": "#FFD54F",
+                  "dark": "#FFA000"
+                },
+                "quaternary": {
+                  "0": "rgb(0, 0, 0)",
+                  "1": "rgb(0, 5, 5)",
+                  "5": "rgb(0, 23, 26)",
+                  "10": "rgb(0, 45, 51)",
+                  "20": "rgb(0, 90, 102)",
+                  "30": "rgb(0, 135, 153)",
+                  "40": "rgb(0, 180, 204)",
+                  "50": "rgb(0, 225, 255)",
+                  "60": "rgb(51, 231, 255)",
+                  "70": "rgb(102, 237, 255)",
+                  "80": "rgb(153, 243, 255)",
+                  "90": "rgb(204, 249, 255)",
+                  "95": "rgb(229, 252, 255)",
+                  "99": "rgb(250, 254, 255)",
+                  "100": "rgb(255, 255, 255)",
+                  "main": "#00BCD4",
+                  "light": "#4DD0E1",
+                  "dark": "#0097A7"
+                },
+                "info": {
+                  "0": "rgb(0, 0, 0)",
+                  "1": "rgb(0, 3, 5)",
+                  "5": "rgb(0, 17, 25)",
+                  "10": "rgb(1, 35, 50)",
+                  "20": "rgb(1, 69, 101)",
+                  "30": "rgb(2, 104, 151)",
+                  "40": "rgb(2, 139, 202)",
+                  "50": "rgb(3, 173, 252)",
+                  "60": "rgb(53, 190, 253)",
+                  "70": "rgb(104, 206, 253)",
+                  "80": "rgb(154, 222, 254)",
+                  "90": "rgb(205, 239, 254)",
+                  "95": "rgb(230, 247, 255)",
+                  "99": "rgb(250, 253, 255)",
+                  "100": "rgb(255, 255, 255)",
+                  "main": "#03A9F4",
+                  "light": "#4FC3F7",
+                  "dark": "#0288D1"
+                },
+                "success": {
+                  "0": "rgb(0, 0, 0)",
+                  "1": "rgb(2, 4, 2)",
+                  "5": "rgb(8, 18, 8)",
+                  "10": "rgb(16, 35, 16)",
+                  "20": "rgb(31, 71, 32)",
+                  "30": "rgb(47, 106, 49)",
+                  "40": "rgb(62, 142, 65)",
+                  "50": "rgb(78, 177, 81)",
+                  "60": "rgb(113, 193, 116)",
+                  "70": "rgb(149, 208, 151)",
+                  "80": "rgb(184, 224, 185)",
+                  "90": "rgb(220, 239, 220)",
+                  "95": "rgb(237, 247, 238)",
+                  "99": "rgb(251, 253, 252)",
+                  "100": "rgb(255, 255, 255)",
+                  "main": "#4CAF50",
+                  "light": "#81C784",
+                  "dark": "#388E3C"
+                },
+                "warning": {
+                  "0": "rgb(0, 0, 0)",
+                  "1": "rgb(5, 3, 0)",
+                  "5": "rgb(26, 15, 0)",
+                  "10": "rgb(51, 31, 0)",
+                  "20": "rgb(102, 61, 0)",
+                  "30": "rgb(153, 92, 0)",
+                  "40": "rgb(204, 122, 0)",
+                  "50": "rgb(255, 153, 0)",
+                  "60": "rgb(255, 173, 51)",
+                  "70": "rgb(255, 194, 102)",
+                  "80": "rgb(255, 214, 153)",
+                  "90": "rgb(255, 235, 204)",
+                  "95": "rgb(255, 245, 229)",
+                  "99": "rgb(255, 253, 250)",
+                  "100": "rgb(255, 255, 255)",
+                  "main": "#FF9800",
+                  "light": "#FFB74D",
+                  "dark": "#F57C00"
+                },
+                "error": {
+                  "0": "rgb(0, 0, 0)",
+                  "1": "rgb(5, 1, 0)",
+                  "5": "rgb(26, 6, 0)",
+                  "10": "rgb(51, 12, 0)",
+                  "20": "rgb(102, 24, 0)",
+                  "30": "rgb(153, 36, 0)",
+                  "40": "rgb(204, 48, 0)",
+                  "50": "rgb(255, 60, 0)",
+                  "60": "rgb(255, 99, 51)",
+                  "70": "rgb(255, 138, 102)",
+                  "80": "rgb(255, 177, 153)",
+                  "90": "rgb(255, 216, 204)",
+                  "95": "rgb(255, 235, 229)",
+                  "99": "rgb(255, 251, 250)",
+                  "100": "rgb(255, 255, 255)",
+                  "main": "#FF5722",
+                  "light": "#FF8A65",
+                  "dark": "#E64A19"
+                },
+                "neutral": {
+                  "0": "rgb(0, 0, 0)",
+                  "1": "rgb(3, 3, 3)",
+                  "5": "rgb(13, 13, 13)",
+                  "10": "rgb(26, 26, 26)",
+                  "20": "rgb(51, 51, 51)",
+                  "30": "rgb(77, 77, 77)",
+                  "40": "rgb(102, 102, 102)",
+                  "50": "rgb(128, 128, 128)",
+                  "60": "rgb(153, 153, 153)",
+                  "70": "rgb(179, 179, 179)",
+                  "80": "rgb(204, 204, 204)",
+                  "90": "rgb(230, 230, 230)",
+                  "95": "rgb(242, 242, 242)",
+                  "99": "rgb(252, 252, 252)",
+                  "100": "rgb(255, 255, 255)",
+                  "main": "#000000",
+                  "light": "rgb(26, 26, 26)",
+                  "dark": "rgb(26, 26, 26)"
+                }
+              },
+              "text": {
+                "primary": {
+                  "primary": "rgba(153, 138, 0, 0.87)",
+                  "secondary": "rgba(153, 138, 0, 0.54)",
+                  "tertiary": "rgba(153, 138, 0, 0.37)",
+                  "quaternary": "rgba(153, 138, 0, 0.24)"
+                },
+                "secondary": {
+                  "primary": "rgba(79, 115, 38, 0.87)",
+                  "secondary": "rgba(79, 115, 38, 0.54)",
+                  "tertiary": "rgba(79, 115, 38, 0.37)",
+                  "quaternary": "rgba(79, 115, 38, 0.24)"
+                },
+                "tertiary": {
+                  "primary": "rgba(153, 115, 0, 0.87)",
+                  "secondary": "rgba(153, 115, 0, 0.54)",
+                  "tertiary": "rgba(153, 115, 0, 0.37)",
+                  "quaternary": "rgba(153, 115, 0, 0.24)"
+                },
+                "quaternary": {
+                  "primary": "rgba(0, 135, 153, 0.87)",
+                  "secondary": "rgba(0, 135, 153, 0.54)",
+                  "tertiary": "rgba(0, 135, 153, 0.37)",
+                  "quaternary": "rgba(0, 135, 153, 0.24)"
+                },
+                "info": {
+                  "primary": "rgba(2, 104, 151, 0.87)",
+                  "secondary": "rgba(2, 104, 151, 0.54)",
+                  "tertiary": "rgba(2, 104, 151, 0.37)",
+                  "quaternary": "rgba(2, 104, 151, 0.24)"
+                },
+                "success": {
+                  "primary": "rgba(47, 106, 49, 0.87)",
+                  "secondary": "rgba(47, 106, 49, 0.54)",
+                  "tertiary": "rgba(47, 106, 49, 0.37)",
+                  "quaternary": "rgba(47, 106, 49, 0.24)"
+                },
+                "warning": {
+                  "primary": "rgba(153, 92, 0, 0.87)",
+                  "secondary": "rgba(153, 92, 0, 0.54)",
+                  "tertiary": "rgba(153, 92, 0, 0.37)",
+                  "quaternary": "rgba(153, 92, 0, 0.24)"
+                },
+                "error": {
+                  "primary": "rgba(153, 36, 0, 0.87)",
+                  "secondary": "rgba(153, 36, 0, 0.54)",
+                  "tertiary": "rgba(153, 36, 0, 0.37)",
+                  "quaternary": "rgba(153, 36, 0, 0.24)"
+                },
+                "neutral": {
+                  "primary": "rgba(0, 0, 0, 0.87)",
+                  "secondary": "rgba(0, 0, 0, 0.54)",
+                  "tertiary": "rgba(0, 0, 0, 0.37)",
+                  "quaternary": "rgba(0, 0, 0, 0.24)"
+                },
+                "default": {
+                  "primary": "rgba(0, 0, 0, 0.87)",
+                  "secondary": "rgba(0, 0, 0, 0.54)",
+                  "tertiary": "rgba(0, 0, 0, 0.37)",
+                  "quaternary": "rgba(0, 0, 0, 0.24)"
+                },
+                "divider": "rgba(0, 0, 0, 0.14)",
+                "active": "rgba(0, 0, 0, 0.54)",
+                "hover": "rgba(0, 0, 0, 0.04)",
+                "selected": "rgba(0, 0, 0, 0.07)",
+                "focus": "rgba(0, 0, 0, 0.11)",
+                "disabled": "rgba(0, 0, 0, 0.37)"
+              },
+              "background": {
+                "primary": {
+                  "primary": "rgb(255, 255, 255)",
+                  "secondary": "rgb(255, 254, 250)",
+                  "tertiary": "rgb(255, 252, 229)",
+                  "quaternary": "rgb(255, 250, 204)"
+                },
+                "secondary": {
+                  "primary": "rgb(255, 255, 255)",
+                  "secondary": "rgb(253, 254, 251)",
+                  "tertiary": "rgb(243, 249, 236)",
+                  "quaternary": "rgb(230, 242, 217)"
+                },
+                "tertiary": {
+                  "primary": "rgb(255, 255, 255)",
+                  "secondary": "rgb(255, 254, 250)",
+                  "tertiary": "rgb(255, 249, 229)",
+                  "quaternary": "rgb(255, 242, 204)"
+                },
+                "quaternary": {
+                  "primary": "rgb(255, 255, 255)",
+                  "secondary": "rgb(250, 254, 255)",
+                  "tertiary": "rgb(229, 252, 255)",
+                  "quaternary": "rgb(204, 249, 255)"
+                },
+                "info": {
+                  "primary": "rgb(255, 255, 255)",
+                  "secondary": "rgb(250, 253, 255)",
+                  "tertiary": "rgb(230, 247, 255)",
+                  "quaternary": "rgb(205, 239, 254)"
+                },
+                "success": {
+                  "primary": "rgb(255, 255, 255)",
+                  "secondary": "rgb(251, 253, 252)",
+                  "tertiary": "rgb(237, 247, 238)",
+                  "quaternary": "rgb(220, 239, 220)"
+                },
+                "warning": {
+                  "primary": "rgb(255, 255, 255)",
+                  "secondary": "rgb(255, 253, 250)",
+                  "tertiary": "rgb(255, 245, 229)",
+                  "quaternary": "rgb(255, 235, 204)"
+                },
+                "error": {
+                  "primary": "rgb(255, 255, 255)",
+                  "secondary": "rgb(255, 251, 250)",
+                  "tertiary": "rgb(255, 235, 229)",
+                  "quaternary": "rgb(255, 216, 204)"
+                },
+                "neutral": {
+                  "primary": "rgb(255, 255, 255)",
+                  "secondary": "rgb(252, 252, 252)",
+                  "tertiary": "rgb(242, 242, 242)",
+                  "quaternary": "rgb(230, 230, 230)"
+                },
+                "default": {
+                  "primary": "rgb(255, 255, 255)",
+                  "secondary": "rgb(252, 252, 252)",
+                  "tertiary": "rgb(242, 242, 242)",
+                  "quaternary": "rgb(230, 230, 230)"
+                }
+              }
+            },
+            "shape": {
+              "radius": {
+                "xs": 4,
+                "sm": 8,
+                "md": 12,
+                "lg": 16,
+                "xl": 28
+              }
+            },
+            "breakpoints": {
+              "values": {
+                "xs": 0,
+                "sm": 600,
+                "md": 1240,
+                "lg": 1440,
+                "xl": 1920
+              },
+              "unit": "px"
+            },
+            "space": {
+              "values": {
+                "xs": 4,
+                "sm": 8,
+                "md": 16,
+                "lg": 32,
+                "xl": 64
+              },
+              "unit": 8
+            },
+            "shadows": {
+              "values": {
+                "primary": {
+                  "0": "none",
+                  "1": "0px 1px 1px 0px rgba(255, 235, 59, 0.14), 0px 2px 1px -1px rgba(255, 235, 59, 0.11), 0px 1px 3px 0px rgba(255, 235, 59, 0.17)",
+                  "2": "0px 2px 2px 0px rgba(255, 235, 59, 0.14), 0px 3px 3px -2px rgba(255, 235, 59, 0.11), 0px 1px 8px 0px rgba(255, 235, 59, 0.17)",
+                  "3": "0px 3px 4px 0px rgba(255, 235, 59, 0.14), 0px 3px 3px -2px rgba(255, 235, 59, 0.11), 0px 1px 8px 0px rgba(255, 235, 59, 0.17)",
+                  "4": "0px 4px 5px 0px rgba(255, 235, 59, 0.14), 0px 1px 10px 0px rgba(255, 235, 59, 0.11), 0px 2px 4px -1px rgba(255, 235, 59, 0.17)",
+                  "6": "0px 6px 10px 0px rgba(255, 235, 59, 0.14), 0px 1px 18px 0px rgba(255, 235, 59, 0.11), 0px 3px 5px -1px rgba(255, 235, 59, 0.17)",
+                  "8": "0px 8px 10px 1px rgba(255, 235, 59, 0.14), 0px 3px 14px 2px rgba(255, 235, 59, 0.11), 0px 5px 5px -3px rgba(255, 235, 59, 0.17)",
+                  "9": "0px 9px 12px 1px rgba(255, 235, 59, 0.14), 0px 3px 16px 2px rgba(255, 235, 59, 0.11), 0px 5px 6px -3px rgba(255, 235, 59, 0.17)",
+                  "12": "0px 12px 17px 2px rgba(255, 235, 59, 0.14), 0px 5px 22px 4px rgba(255, 235, 59, 0.11), 0px 7px 7px -4px rgba(255, 235, 59, 0.17)",
+                  "16": "0px 16px 24px 2px rgba(255, 235, 59, 0.14), 0px 6px 30px 5px rgba(255, 235, 59, 0.11), 0px 8px 10px -5px rgba(255, 235, 59, 0.17)",
+                  "24": "0px 24px 37px 3px rgba(255, 235, 59, 0.14), 0px 9px 46px 8px rgba(255, 235, 59, 0.11), 0px 11px 15px -7px rgba(255, 235, 59, 0.17)"
+                },
+                "secondary": {
+                  "0": "none",
+                  "1": "0px 1px 1px 0px rgba(139, 195, 74, 0.14), 0px 2px 1px -1px rgba(139, 195, 74, 0.11), 0px 1px 3px 0px rgba(139, 195, 74, 0.17)",
+                  "2": "0px 2px 2px 0px rgba(139, 195, 74, 0.14), 0px 3px 3px -2px rgba(139, 195, 74, 0.11), 0px 1px 8px 0px rgba(139, 195, 74, 0.17)",
+                  "3": "0px 3px 4px 0px rgba(139, 195, 74, 0.14), 0px 3px 3px -2px rgba(139, 195, 74, 0.11), 0px 1px 8px 0px rgba(139, 195, 74, 0.17)",
+                  "4": "0px 4px 5px 0px rgba(139, 195, 74, 0.14), 0px 1px 10px 0px rgba(139, 195, 74, 0.11), 0px 2px 4px -1px rgba(139, 195, 74, 0.17)",
+                  "6": "0px 6px 10px 0px rgba(139, 195, 74, 0.14), 0px 1px 18px 0px rgba(139, 195, 74, 0.11), 0px 3px 5px -1px rgba(139, 195, 74, 0.17)",
+                  "8": "0px 8px 10px 1px rgba(139, 195, 74, 0.14), 0px 3px 14px 2px rgba(139, 195, 74, 0.11), 0px 5px 5px -3px rgba(139, 195, 74, 0.17)",
+                  "9": "0px 9px 12px 1px rgba(139, 195, 74, 0.14), 0px 3px 16px 2px rgba(139, 195, 74, 0.11), 0px 5px 6px -3px rgba(139, 195, 74, 0.17)",
+                  "12": "0px 12px 17px 2px rgba(139, 195, 74, 0.14), 0px 5px 22px 4px rgba(139, 195, 74, 0.11), 0px 7px 7px -4px rgba(139, 195, 74, 0.17)",
+                  "16": "0px 16px 24px 2px rgba(139, 195, 74, 0.14), 0px 6px 30px 5px rgba(139, 195, 74, 0.11), 0px 8px 10px -5px rgba(139, 195, 74, 0.17)",
+                  "24": "0px 24px 37px 3px rgba(139, 195, 74, 0.14), 0px 9px 46px 8px rgba(139, 195, 74, 0.11), 0px 11px 15px -7px rgba(139, 195, 74, 0.17)"
+                },
+                "tertiary": {
+                  "0": "none",
+                  "1": "0px 1px 1px 0px rgba(255, 193, 7, 0.14), 0px 2px 1px -1px rgba(255, 193, 7, 0.11), 0px 1px 3px 0px rgba(255, 193, 7, 0.17)",
+                  "2": "0px 2px 2px 0px rgba(255, 193, 7, 0.14), 0px 3px 3px -2px rgba(255, 193, 7, 0.11), 0px 1px 8px 0px rgba(255, 193, 7, 0.17)",
+                  "3": "0px 3px 4px 0px rgba(255, 193, 7, 0.14), 0px 3px 3px -2px rgba(255, 193, 7, 0.11), 0px 1px 8px 0px rgba(255, 193, 7, 0.17)",
+                  "4": "0px 4px 5px 0px rgba(255, 193, 7, 0.14), 0px 1px 10px 0px rgba(255, 193, 7, 0.11), 0px 2px 4px -1px rgba(255, 193, 7, 0.17)",
+                  "6": "0px 6px 10px 0px rgba(255, 193, 7, 0.14), 0px 1px 18px 0px rgba(255, 193, 7, 0.11), 0px 3px 5px -1px rgba(255, 193, 7, 0.17)",
+                  "8": "0px 8px 10px 1px rgba(255, 193, 7, 0.14), 0px 3px 14px 2px rgba(255, 193, 7, 0.11), 0px 5px 5px -3px rgba(255, 193, 7, 0.17)",
+                  "9": "0px 9px 12px 1px rgba(255, 193, 7, 0.14), 0px 3px 16px 2px rgba(255, 193, 7, 0.11), 0px 5px 6px -3px rgba(255, 193, 7, 0.17)",
+                  "12": "0px 12px 17px 2px rgba(255, 193, 7, 0.14), 0px 5px 22px 4px rgba(255, 193, 7, 0.11), 0px 7px 7px -4px rgba(255, 193, 7, 0.17)",
+                  "16": "0px 16px 24px 2px rgba(255, 193, 7, 0.14), 0px 6px 30px 5px rgba(255, 193, 7, 0.11), 0px 8px 10px -5px rgba(255, 193, 7, 0.17)",
+                  "24": "0px 24px 37px 3px rgba(255, 193, 7, 0.14), 0px 9px 46px 8px rgba(255, 193, 7, 0.11), 0px 11px 15px -7px rgba(255, 193, 7, 0.17)"
+                },
+                "quaternary": {
+                  "0": "none",
+                  "1": "0px 1px 1px 0px rgba(0, 188, 212, 0.14), 0px 2px 1px -1px rgba(0, 188, 212, 0.11), 0px 1px 3px 0px rgba(0, 188, 212, 0.17)",
+                  "2": "0px 2px 2px 0px rgba(0, 188, 212, 0.14), 0px 3px 3px -2px rgba(0, 188, 212, 0.11), 0px 1px 8px 0px rgba(0, 188, 212, 0.17)",
+                  "3": "0px 3px 4px 0px rgba(0, 188, 212, 0.14), 0px 3px 3px -2px rgba(0, 188, 212, 0.11), 0px 1px 8px 0px rgba(0, 188, 212, 0.17)",
+                  "4": "0px 4px 5px 0px rgba(0, 188, 212, 0.14), 0px 1px 10px 0px rgba(0, 188, 212, 0.11), 0px 2px 4px -1px rgba(0, 188, 212, 0.17)",
+                  "6": "0px 6px 10px 0px rgba(0, 188, 212, 0.14), 0px 1px 18px 0px rgba(0, 188, 212, 0.11), 0px 3px 5px -1px rgba(0, 188, 212, 0.17)",
+                  "8": "0px 8px 10px 1px rgba(0, 188, 212, 0.14), 0px 3px 14px 2px rgba(0, 188, 212, 0.11), 0px 5px 5px -3px rgba(0, 188, 212, 0.17)",
+                  "9": "0px 9px 12px 1px rgba(0, 188, 212, 0.14), 0px 3px 16px 2px rgba(0, 188, 212, 0.11), 0px 5px 6px -3px rgba(0, 188, 212, 0.17)",
+                  "12": "0px 12px 17px 2px rgba(0, 188, 212, 0.14), 0px 5px 22px 4px rgba(0, 188, 212, 0.11), 0px 7px 7px -4px rgba(0, 188, 212, 0.17)",
+                  "16": "0px 16px 24px 2px rgba(0, 188, 212, 0.14), 0px 6px 30px 5px rgba(0, 188, 212, 0.11), 0px 8px 10px -5px rgba(0, 188, 212, 0.17)",
+                  "24": "0px 24px 37px 3px rgba(0, 188, 212, 0.14), 0px 9px 46px 8px rgba(0, 188, 212, 0.11), 0px 11px 15px -7px rgba(0, 188, 212, 0.17)"
+                },
+                "info": {
+                  "0": "none",
+                  "1": "0px 1px 1px 0px rgba(3, 169, 244, 0.14), 0px 2px 1px -1px rgba(3, 169, 244, 0.11), 0px 1px 3px 0px rgba(3, 169, 244, 0.17)",
+                  "2": "0px 2px 2px 0px rgba(3, 169, 244, 0.14), 0px 3px 3px -2px rgba(3, 169, 244, 0.11), 0px 1px 8px 0px rgba(3, 169, 244, 0.17)",
+                  "3": "0px 3px 4px 0px rgba(3, 169, 244, 0.14), 0px 3px 3px -2px rgba(3, 169, 244, 0.11), 0px 1px 8px 0px rgba(3, 169, 244, 0.17)",
+                  "4": "0px 4px 5px 0px rgba(3, 169, 244, 0.14), 0px 1px 10px 0px rgba(3, 169, 244, 0.11), 0px 2px 4px -1px rgba(3, 169, 244, 0.17)",
+                  "6": "0px 6px 10px 0px rgba(3, 169, 244, 0.14), 0px 1px 18px 0px rgba(3, 169, 244, 0.11), 0px 3px 5px -1px rgba(3, 169, 244, 0.17)",
+                  "8": "0px 8px 10px 1px rgba(3, 169, 244, 0.14), 0px 3px 14px 2px rgba(3, 169, 244, 0.11), 0px 5px 5px -3px rgba(3, 169, 244, 0.17)",
+                  "9": "0px 9px 12px 1px rgba(3, 169, 244, 0.14), 0px 3px 16px 2px rgba(3, 169, 244, 0.11), 0px 5px 6px -3px rgba(3, 169, 244, 0.17)",
+                  "12": "0px 12px 17px 2px rgba(3, 169, 244, 0.14), 0px 5px 22px 4px rgba(3, 169, 244, 0.11), 0px 7px 7px -4px rgba(3, 169, 244, 0.17)",
+                  "16": "0px 16px 24px 2px rgba(3, 169, 244, 0.14), 0px 6px 30px 5px rgba(3, 169, 244, 0.11), 0px 8px 10px -5px rgba(3, 169, 244, 0.17)",
+                  "24": "0px 24px 37px 3px rgba(3, 169, 244, 0.14), 0px 9px 46px 8px rgba(3, 169, 244, 0.11), 0px 11px 15px -7px rgba(3, 169, 244, 0.17)"
+                },
+                "success": {
+                  "0": "none",
+                  "1": "0px 1px 1px 0px rgba(76, 175, 80, 0.14), 0px 2px 1px -1px rgba(76, 175, 80, 0.11), 0px 1px 3px 0px rgba(76, 175, 80, 0.17)",
+                  "2": "0px 2px 2px 0px rgba(76, 175, 80, 0.14), 0px 3px 3px -2px rgba(76, 175, 80, 0.11), 0px 1px 8px 0px rgba(76, 175, 80, 0.17)",
+                  "3": "0px 3px 4px 0px rgba(76, 175, 80, 0.14), 0px 3px 3px -2px rgba(76, 175, 80, 0.11), 0px 1px 8px 0px rgba(76, 175, 80, 0.17)",
+                  "4": "0px 4px 5px 0px rgba(76, 175, 80, 0.14), 0px 1px 10px 0px rgba(76, 175, 80, 0.11), 0px 2px 4px -1px rgba(76, 175, 80, 0.17)",
+                  "6": "0px 6px 10px 0px rgba(76, 175, 80, 0.14), 0px 1px 18px 0px rgba(76, 175, 80, 0.11), 0px 3px 5px -1px rgba(76, 175, 80, 0.17)",
+                  "8": "0px 8px 10px 1px rgba(76, 175, 80, 0.14), 0px 3px 14px 2px rgba(76, 175, 80, 0.11), 0px 5px 5px -3px rgba(76, 175, 80, 0.17)",
+                  "9": "0px 9px 12px 1px rgba(76, 175, 80, 0.14), 0px 3px 16px 2px rgba(76, 175, 80, 0.11), 0px 5px 6px -3px rgba(76, 175, 80, 0.17)",
+                  "12": "0px 12px 17px 2px rgba(76, 175, 80, 0.14), 0px 5px 22px 4px rgba(76, 175, 80, 0.11), 0px 7px 7px -4px rgba(76, 175, 80, 0.17)",
+                  "16": "0px 16px 24px 2px rgba(76, 175, 80, 0.14), 0px 6px 30px 5px rgba(76, 175, 80, 0.11), 0px 8px 10px -5px rgba(76, 175, 80, 0.17)",
+                  "24": "0px 24px 37px 3px rgba(76, 175, 80, 0.14), 0px 9px 46px 8px rgba(76, 175, 80, 0.11), 0px 11px 15px -7px rgba(76, 175, 80, 0.17)"
+                },
+                "warning": {
+                  "0": "none",
+                  "1": "0px 1px 1px 0px rgba(255, 152, 0, 0.14), 0px 2px 1px -1px rgba(255, 152, 0, 0.11), 0px 1px 3px 0px rgba(255, 152, 0, 0.17)",
+                  "2": "0px 2px 2px 0px rgba(255, 152, 0, 0.14), 0px 3px 3px -2px rgba(255, 152, 0, 0.11), 0px 1px 8px 0px rgba(255, 152, 0, 0.17)",
+                  "3": "0px 3px 4px 0px rgba(255, 152, 0, 0.14), 0px 3px 3px -2px rgba(255, 152, 0, 0.11), 0px 1px 8px 0px rgba(255, 152, 0, 0.17)",
+                  "4": "0px 4px 5px 0px rgba(255, 152, 0, 0.14), 0px 1px 10px 0px rgba(255, 152, 0, 0.11), 0px 2px 4px -1px rgba(255, 152, 0, 0.17)",
+                  "6": "0px 6px 10px 0px rgba(255, 152, 0, 0.14), 0px 1px 18px 0px rgba(255, 152, 0, 0.11), 0px 3px 5px -1px rgba(255, 152, 0, 0.17)",
+                  "8": "0px 8px 10px 1px rgba(255, 152, 0, 0.14), 0px 3px 14px 2px rgba(255, 152, 0, 0.11), 0px 5px 5px -3px rgba(255, 152, 0, 0.17)",
+                  "9": "0px 9px 12px 1px rgba(255, 152, 0, 0.14), 0px 3px 16px 2px rgba(255, 152, 0, 0.11), 0px 5px 6px -3px rgba(255, 152, 0, 0.17)",
+                  "12": "0px 12px 17px 2px rgba(255, 152, 0, 0.14), 0px 5px 22px 4px rgba(255, 152, 0, 0.11), 0px 7px 7px -4px rgba(255, 152, 0, 0.17)",
+                  "16": "0px 16px 24px 2px rgba(255, 152, 0, 0.14), 0px 6px 30px 5px rgba(255, 152, 0, 0.11), 0px 8px 10px -5px rgba(255, 152, 0, 0.17)",
+                  "24": "0px 24px 37px 3px rgba(255, 152, 0, 0.14), 0px 9px 46px 8px rgba(255, 152, 0, 0.11), 0px 11px 15px -7px rgba(255, 152, 0, 0.17)"
+                },
+                "error": {
+                  "0": "none",
+                  "1": "0px 1px 1px 0px rgba(255, 87, 34, 0.14), 0px 2px 1px -1px rgba(255, 87, 34, 0.11), 0px 1px 3px 0px rgba(255, 87, 34, 0.17)",
+                  "2": "0px 2px 2px 0px rgba(255, 87, 34, 0.14), 0px 3px 3px -2px rgba(255, 87, 34, 0.11), 0px 1px 8px 0px rgba(255, 87, 34, 0.17)",
+                  "3": "0px 3px 4px 0px rgba(255, 87, 34, 0.14), 0px 3px 3px -2px rgba(255, 87, 34, 0.11), 0px 1px 8px 0px rgba(255, 87, 34, 0.17)",
+                  "4": "0px 4px 5px 0px rgba(255, 87, 34, 0.14), 0px 1px 10px 0px rgba(255, 87, 34, 0.11), 0px 2px 4px -1px rgba(255, 87, 34, 0.17)",
+                  "6": "0px 6px 10px 0px rgba(255, 87, 34, 0.14), 0px 1px 18px 0px rgba(255, 87, 34, 0.11), 0px 3px 5px -1px rgba(255, 87, 34, 0.17)",
+                  "8": "0px 8px 10px 1px rgba(255, 87, 34, 0.14), 0px 3px 14px 2px rgba(255, 87, 34, 0.11), 0px 5px 5px -3px rgba(255, 87, 34, 0.17)",
+                  "9": "0px 9px 12px 1px rgba(255, 87, 34, 0.14), 0px 3px 16px 2px rgba(255, 87, 34, 0.11), 0px 5px 6px -3px rgba(255, 87, 34, 0.17)",
+                  "12": "0px 12px 17px 2px rgba(255, 87, 34, 0.14), 0px 5px 22px 4px rgba(255, 87, 34, 0.11), 0px 7px 7px -4px rgba(255, 87, 34, 0.17)",
+                  "16": "0px 16px 24px 2px rgba(255, 87, 34, 0.14), 0px 6px 30px 5px rgba(255, 87, 34, 0.11), 0px 8px 10px -5px rgba(255, 87, 34, 0.17)",
+                  "24": "0px 24px 37px 3px rgba(255, 87, 34, 0.14), 0px 9px 46px 8px rgba(255, 87, 34, 0.11), 0px 11px 15px -7px rgba(255, 87, 34, 0.17)"
+                },
+                "neutral": {
+                  "0": "none",
+                  "1": "0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.11), 0px 1px 3px 0px rgba(0, 0, 0, 0.17)",
+                  "2": "0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 3px -2px rgba(0, 0, 0, 0.11), 0px 1px 8px 0px rgba(0, 0, 0, 0.17)",
+                  "3": "0px 3px 4px 0px rgba(0, 0, 0, 0.14), 0px 3px 3px -2px rgba(0, 0, 0, 0.11), 0px 1px 8px 0px rgba(0, 0, 0, 0.17)",
+                  "4": "0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.11), 0px 2px 4px -1px rgba(0, 0, 0, 0.17)",
+                  "6": "0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.11), 0px 3px 5px -1px rgba(0, 0, 0, 0.17)",
+                  "8": "0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.11), 0px 5px 5px -3px rgba(0, 0, 0, 0.17)",
+                  "9": "0px 9px 12px 1px rgba(0, 0, 0, 0.14), 0px 3px 16px 2px rgba(0, 0, 0, 0.11), 0px 5px 6px -3px rgba(0, 0, 0, 0.17)",
+                  "12": "0px 12px 17px 2px rgba(0, 0, 0, 0.14), 0px 5px 22px 4px rgba(0, 0, 0, 0.11), 0px 7px 7px -4px rgba(0, 0, 0, 0.17)",
+                  "16": "0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.11), 0px 8px 10px -5px rgba(0, 0, 0, 0.17)",
+                  "24": "0px 24px 37px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.11), 0px 11px 15px -7px rgba(0, 0, 0, 0.17)"
+                }
+              },
+              "opacities": [
+                0.14,
+                0.11,
+                0.17
+              ]
+            },
+            "typography": {
+              "unit": "px",
+              "font_size": {
+                "html": 16
+              },
+              "font_family": {
+                "primary": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                "secondary": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                "mono": "Roboto Mono, monospace"
+              },
+              "values": {
+                "d1": {
+                  "fontSize": "3.5625rem",
+                  "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                  "fontWeight": 400,
+                  "lineHeight": 1.1228070175438596,
+                  "letterSpacing": "0em"
+                },
+                "d2": {
+                  "fontSize": "2.8125rem",
+                  "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                  "fontWeight": 400,
+                  "lineHeight": 1.1555555555555554,
+                  "letterSpacing": "0em"
+                },
+                "d3": {
+                  "fontSize": "2.1875rem",
+                  "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                  "fontWeight": 400,
+                  "lineHeight": 1.2571428571428571,
+                  "letterSpacing": "0em"
+                },
+                "h1": {
+                  "fontSize": "2rem",
+                  "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                  "fontWeight": 400,
+                  "lineHeight": 1.25,
+                  "letterSpacing": "0em"
+                },
+                "h2": {
+                  "fontSize": "1.6875rem",
+                  "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                  "fontWeight": 400,
+                  "lineHeight": 1.2962962962962963,
+                  "letterSpacing": "0em"
+                },
+                "h3": {
+                  "fontSize": "1.5rem",
+                  "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                  "fontWeight": 400,
+                  "lineHeight": 1.3333333333333333,
+                  "letterSpacing": "0em"
+                },
+                "t1": {
+                  "fontSize": "1.3125rem",
+                  "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                  "fontWeight": 400,
+                  "lineHeight": 3.0476190476190474,
+                  "letterSpacing": "0em"
+                },
+                "t2": {
+                  "fontSize": "1rem",
+                  "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                  "fontWeight": 500,
+                  "lineHeight": 1.5,
+                  "letterSpacing": ".15em"
+                },
+                "t3": {
+                  "fontSize": "0.875rem",
+                  "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                  "fontWeight": 500,
+                  "lineHeight": 1.4285714285714286,
+                  "letterSpacing": ".1em"
+                },
+                "l1": {
+                  "fontSize": "0.875rem",
+                  "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                  "fontWeight": 500,
+                  "lineHeight": 1.4285714285714286,
+                  "letterSpacing": ".1em"
+                },
+                "l2": {
+                  "fontSize": "0.75rem",
+                  "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                  "fontWeight": 500,
+                  "lineHeight": 1.25,
+                  "letterSpacing": ".5em"
+                },
+                "l3": {
+                  "fontSize": "0.6875rem",
+                  "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                  "fontWeight": 500,
+                  "lineHeight": 0.45454545454545453,
+                  "letterSpacing": ".5em"
+                },
+                "b1": {
+                  "fontSize": "1rem",
+                  "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                  "fontWeight": 400,
+                  "lineHeight": 1.5,
+                  "letterSpacing": ".5em"
+                },
+                "b2": {
+                  "fontSize": "0.875rem",
+                  "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                  "fontWeight": 400,
+                  "lineHeight": 1.4285714285714286,
+                  "letterSpacing": ".25em"
+                },
+                "b3": {
+                  "fontSize": "0.6875rem",
+                  "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                  "fontWeight": 400,
+                  "lineHeight": 1.3636363636363635,
+                  "letterSpacing": ".4em"
+                }
+              }
+            },
+            "transitions": {
+              "timing_function": {
+                "standard": "cubic-bezier(.4, 0, .2, 1)",
+                "emphasized": "cubic-bezier(.4, 0, .6, 1) ",
+                "decelerated": "cubic-bezier(0, 0, .2, 1)",
+                "accelerated": "cubic-bezier(.4, 0, 1, 1)"
+              },
+              "duration": {
+                "smallest": 100,
+                "smaller": 200,
+                "small": 250,
+                "regular": 300,
+                "enter": 250,
+                "leave": 200,
+                "complex": 500
+              }
+            },
+            "z_index": {
+              "tooltip": 1700,
+              "modal": 1500,
+              "menu_modal": 1400,
+              "menu": 1300,
+              "button_float": 1200,
+              "app_bar": 1100,
+              "main": 1000,
+              "text": 0
+            }
+          }
+        ],
+      ]);
 
       // Node
       const amauiTheme = new AmauiStyle.AmauiTheme(undefined, undefined, { rule: { prefix: false } });
@@ -1778,7 +3237,7 @@ group('@amaui/style/amaui-theme', () => {
               "rtl": false
             }
           },
-          "hash": "0xa84825a47165f38b9994e562e0ab198ef4f31a16d2fe03445c9c6afc32225c51"
+          "hash": "0xb219ec2201b4d2564ee199712b5d04b1ce68f03b1cc685a908f6954663d61d20"
         }
       ]);
     });
@@ -1791,7 +3250,7 @@ group('@amaui/style/amaui-theme', () => {
         });
 
         return amauiTheme.mode;
-      }, { browsers });
+      });
 
       // Node
       const amauiTheme = new AmauiStyle.AmauiTheme({
@@ -1823,7 +3282,7 @@ group('@amaui/style/amaui-theme', () => {
         });
 
         return amauiTheme.palette;
-      }, { browsers });
+      });
 
       // Node
       const amauiTheme = new AmauiStyle.AmauiTheme({
@@ -2246,7 +3705,7 @@ group('@amaui/style/amaui-theme', () => {
             });
 
             return amauiTheme.palette;
-          }, { browsers });
+          });
 
           // Node
           const amauiTheme = new AmauiStyle.AmauiTheme({
@@ -2657,7 +4116,7 @@ group('@amaui/style/amaui-theme', () => {
             });
 
             return amauiTheme.palette;
-          }, { browsers });
+          });
 
           // Node
           const amauiTheme = new AmauiStyle.AmauiTheme({
@@ -3077,7 +4536,7 @@ group('@amaui/style/amaui-theme', () => {
             });
 
             return amauiTheme.palette.color;
-          }, { browsers });
+          });
 
           // Node
           const amauiTheme = new AmauiStyle.AmauiTheme({
@@ -3294,7 +4753,7 @@ group('@amaui/style/amaui-theme', () => {
             });
 
             return amauiTheme.palette.color;
-          }, { browsers });
+          });
 
           // Node
           const amauiTheme = new AmauiStyle.AmauiTheme({
@@ -3511,7 +4970,7 @@ group('@amaui/style/amaui-theme', () => {
             });
 
             return amauiTheme.palette.color;
-          }, { browsers });
+          });
 
           // Node
           const amauiTheme = new AmauiStyle.AmauiTheme({
@@ -3731,7 +5190,7 @@ group('@amaui/style/amaui-theme', () => {
           });
 
           return amauiTheme.palette.text.default;
-        }, { browsers });
+        });
 
         // Node
         const amauiTheme = new AmauiStyle.AmauiTheme({
@@ -3772,7 +5231,7 @@ group('@amaui/style/amaui-theme', () => {
           });
 
           return amauiTheme.palette.color;
-        }, { browsers });
+        });
 
         // Node
         const amauiTheme = new AmauiStyle.AmauiTheme({
@@ -4003,7 +5462,7 @@ group('@amaui/style/amaui-theme', () => {
           });
 
           return amauiTheme.palette.text;
-        }, { browsers });
+        });
 
         // Node
         const amauiTheme = new AmauiStyle.AmauiTheme({
@@ -4101,7 +5560,7 @@ group('@amaui/style/amaui-theme', () => {
           });
 
           return amauiTheme.palette.background;
-        }, { browsers });
+        });
 
         // Node
         const amauiTheme = new AmauiStyle.AmauiTheme({
@@ -4195,7 +5654,7 @@ group('@amaui/style/amaui-theme', () => {
         });
 
         return amauiTheme.shape;
-      }, { browsers });
+      });
 
       // Node
       const amauiTheme = new AmauiStyle.AmauiTheme({
@@ -4235,7 +5694,7 @@ group('@amaui/style/amaui-theme', () => {
         });
 
         return ({ values: amauiTheme.breakpoints.values, unit: amauiTheme.breakpoints.unit, keys: amauiTheme.breakpoints.keys });
-      }, { browsers });
+      });
 
       // Node
       const amauiTheme = new AmauiStyle.AmauiTheme({
@@ -4285,7 +5744,7 @@ group('@amaui/style/amaui-theme', () => {
         });
 
         return ({ values: amauiTheme.space.values, unit: amauiTheme.space.unit, keys: amauiTheme.space.keys });
-      }, { browsers });
+      });
 
       // Node
       const amauiTheme = new AmauiStyle.AmauiTheme({
@@ -4335,7 +5794,7 @@ group('@amaui/style/amaui-theme', () => {
         });
 
         return amauiTheme.shadows;
-      }, { browsers });
+      });
 
       // Node
       const amauiTheme = new AmauiStyle.AmauiTheme({
@@ -4502,7 +5961,7 @@ group('@amaui/style/amaui-theme', () => {
         });
 
         return amauiTheme.typography;
-      }, { browsers });
+      });
 
       // Node
       const amauiTheme = new AmauiStyle.AmauiTheme({
@@ -4664,7 +6123,7 @@ group('@amaui/style/amaui-theme', () => {
         });
 
         return amauiTheme.transitions;
-      }, { browsers });
+      });
 
       // Node
       const amauiTheme = new AmauiStyle.AmauiTheme({
@@ -4714,7 +6173,7 @@ group('@amaui/style/amaui-theme', () => {
         });
 
         return amauiTheme.z_index;
-      }, { browsers });
+      });
 
       // Node
       const amauiTheme = new AmauiStyle.AmauiTheme({
@@ -4750,7 +6209,7 @@ group('@amaui/style/amaui-theme', () => {
             const amauiTheme = new window.AmauiStyle.AmauiTheme();
 
             return await amauiTheme.methods.palette.image(`/utils/images/image.jpg`);
-          }, { browsers });
+          });
 
           // Info
           // Node atm not supported
@@ -4795,7 +6254,7 @@ group('@amaui/style/amaui-theme', () => {
               response.push(amauiTheme.methods.palette.color.value('primary', 40, true));
 
               return response;
-            }, { browsers });
+            });
 
             const amauiTheme = new AmauiStyle.AmauiTheme();
 
@@ -4837,7 +6296,7 @@ group('@amaui/style/amaui-theme', () => {
               response.push(amauiTheme.methods.palette.color.text(amauiTheme.palette.color.primary.main));
 
               return response;
-            }, { browsers });
+            });
 
             const amauiTheme = new AmauiStyle.AmauiTheme({
               preference: {
@@ -4885,7 +6344,7 @@ group('@amaui/style/amaui-theme', () => {
             response.push(amauiTheme.methods.space.value(1e1));
 
             return response;
-          }, { browsers });
+          });
 
           const amauiTheme = new AmauiStyle.AmauiTheme();
 
@@ -4919,7 +6378,7 @@ group('@amaui/style/amaui-theme', () => {
             return [
               amauiTheme.methods.breakpoints.up(amauiTheme.breakpoints.values.md)
             ];
-          }, { browsers });
+          });
 
           const amauiTheme = new AmauiStyle.AmauiTheme();
 
@@ -4942,7 +6401,7 @@ group('@amaui/style/amaui-theme', () => {
             return [
               amauiTheme.methods.breakpoints.down(amauiTheme.breakpoints.values.md)
             ];
-          }, { browsers });
+          });
 
           const amauiTheme = new AmauiStyle.AmauiTheme();
 
@@ -4965,7 +6424,7 @@ group('@amaui/style/amaui-theme', () => {
             return [
               amauiTheme.methods.breakpoints.between(amauiTheme.breakpoints.values.sm, amauiTheme.breakpoints.values.md)
             ];
-          }, { browsers });
+          });
 
           const amauiTheme = new AmauiStyle.AmauiTheme();
 
@@ -4988,7 +6447,7 @@ group('@amaui/style/amaui-theme', () => {
             return [
               amauiTheme.methods.breakpoints.only(amauiTheme.breakpoints.values.md)
             ];
-          }, { browsers });
+          });
 
           const amauiTheme = new AmauiStyle.AmauiTheme();
 
@@ -5011,7 +6470,7 @@ group('@amaui/style/amaui-theme', () => {
             return [
               amauiTheme.methods.breakpoints.not('md')
             ];
-          }, { browsers });
+          });
 
           const amauiTheme = new AmauiStyle.AmauiTheme();
 
@@ -5038,7 +6497,7 @@ group('@amaui/style/amaui-theme', () => {
             return [
               amauiTheme.methods.transitions.make(['width', 'background'], { duration: 'regular', timing_function: 'standard', delay: 114 })
             ];
-          }, { browsers });
+          });
 
           const amauiTheme = new AmauiStyle.AmauiTheme();
 
@@ -5067,7 +6526,7 @@ group('@amaui/style/amaui-theme', () => {
       await amauiTheme.image('/utils/images/image.jpg', { palette: { light: false, color: { primary: { main: '#90ee90' } } } });
 
       return amauiTheme.palette;
-    }, { browsers });
+    });
 
     const values = [...valueBrowsers];
 
@@ -6266,7 +7725,7 @@ group('@amaui/style/amaui-theme', () => {
       amauiTheme.space = { values: amauiTheme.space.values, unit: amauiTheme.space.unit };
 
       return [update, { ...amauiTheme }];
-    }, { browsers });
+    });
 
     // Node
     const amauiTheme = new AmauiStyle.AmauiTheme();
@@ -6299,757 +7758,3012 @@ group('@amaui/style/amaui-theme', () => {
 
     const values = [valueNode, ...valueBrowsers];
 
-    values.forEach(value => assert(value).eql([
+    assert(values).eql([
       [
-        {
-          "palette": {
-            "light": false,
-            "color": {
-              "a": {
-                "main": "#f4f4da"
+        [
+          {
+            "palette": {
+              "light": false,
+              "color": {
+                "a": {
+                  "main": "#f4f4da"
+                }
               }
             }
           }
+        ],
+        {
+          "direction": "ltr",
+          "preference": {
+            "background": {
+              "default": "neutral"
+            },
+            "text": {
+              "default": "neutral"
+            },
+            "visual_contrast": {
+              "default": "regular"
+            }
+          },
+          "mode": "regular",
+          "palette": {
+            "light": false,
+            "accessibility": "regular",
+            "visual_contrast": {
+              "low": {
+                "opacity": {
+                  "primary": 0.77,
+                  "secondary": 0.44,
+                  "tertiary": 0.27,
+                  "quaternary": 0.14,
+                  "active": 0.44,
+                  "disabled": 0.27,
+                  "drag": 0.14,
+                  "divider": 0.13,
+                  "press": 0.1,
+                  "focus": 0.07,
+                  "selected": 0.05,
+                  "hover": 0.03
+                },
+                "contrast_threshold": 2.4
+              },
+              "regular": {
+                "opacity": {
+                  "primary": 0.87,
+                  "secondary": 0.54,
+                  "tertiary": 0.37,
+                  "quaternary": 0.24,
+                  "active": 0.54,
+                  "disabled": 0.37,
+                  "drag": 0.16,
+                  "divider": 0.14,
+                  "press": 0.12,
+                  "focus": 0.11,
+                  "selected": 0.07,
+                  "hover": 0.04
+                },
+                "contrast_threshold": 3
+              },
+              "high": {
+                "opacity": {
+                  "primary": 1,
+                  "secondary": 0.74,
+                  "tertiary": 0.57,
+                  "quaternary": 0.44,
+                  "active": 0.74,
+                  "disabled": 0.57,
+                  "drag": 0.27,
+                  "divider": 0.24,
+                  "press": 0.22,
+                  "focus": 0.21,
+                  "selected": 0.17,
+                  "hover": 0.14
+                },
+                "contrast_threshold": 4
+              },
+              "default": {
+                "opacity": {
+                  "primary": 0.87,
+                  "secondary": 0.54,
+                  "tertiary": 0.37,
+                  "quaternary": 0.24,
+                  "active": 0.54,
+                  "disabled": 0.37,
+                  "drag": 0.16,
+                  "divider": 0.14,
+                  "press": 0.12,
+                  "focus": 0.11,
+                  "selected": 0.07,
+                  "hover": 0.04
+                },
+                "contrast_threshold": 3
+              }
+            },
+            "color": {
+              "primary": {
+                "0": "rgb(0, 0, 0)",
+                "1": "rgb(5, 5, 0)",
+                "5": "rgb(26, 23, 0)",
+                "10": "rgb(51, 46, 0)",
+                "20": "rgb(102, 92, 0)",
+                "30": "rgb(153, 138, 0)",
+                "40": "rgb(204, 184, 0)",
+                "50": "rgb(255, 230, 0)",
+                "60": "rgb(255, 235, 51)",
+                "70": "rgb(255, 240, 102)",
+                "80": "rgb(255, 245, 153)",
+                "90": "rgb(255, 250, 204)",
+                "95": "rgb(255, 252, 229)",
+                "99": "rgb(255, 254, 250)",
+                "100": "rgb(255, 255, 255)",
+                "main": "#FFEB3B",
+                "light": "#FFF176",
+                "dark": "#FBC02D"
+              },
+              "secondary": {
+                "0": "rgb(0, 0, 0)",
+                "1": "rgb(3, 4, 1)",
+                "5": "rgb(13, 19, 6)",
+                "10": "rgb(26, 38, 13)",
+                "20": "rgb(53, 77, 26)",
+                "30": "rgb(79, 115, 38)",
+                "40": "rgb(105, 153, 51)",
+                "50": "rgb(132, 191, 64)",
+                "60": "rgb(156, 204, 102)",
+                "70": "rgb(181, 217, 140)",
+                "80": "rgb(206, 230, 179)",
+                "90": "rgb(230, 242, 217)",
+                "95": "rgb(243, 249, 236)",
+                "99": "rgb(253, 254, 251)",
+                "100": "rgb(255, 255, 255)",
+                "main": "#8BC34A",
+                "light": "#AED581",
+                "dark": "#689F38"
+              },
+              "tertiary": {
+                "0": "rgb(0, 0, 0)",
+                "1": "rgb(5, 4, 0)",
+                "5": "rgb(26, 19, 0)",
+                "10": "rgb(51, 38, 0)",
+                "20": "rgb(102, 77, 0)",
+                "30": "rgb(153, 115, 0)",
+                "40": "rgb(204, 153, 0)",
+                "50": "rgb(255, 191, 0)",
+                "60": "rgb(255, 204, 51)",
+                "70": "rgb(255, 217, 102)",
+                "80": "rgb(255, 230, 153)",
+                "90": "rgb(255, 242, 204)",
+                "95": "rgb(255, 249, 229)",
+                "99": "rgb(255, 254, 250)",
+                "100": "rgb(255, 255, 255)",
+                "main": "#FFC107",
+                "light": "#FFD54F",
+                "dark": "#FFA000"
+              },
+              "quaternary": {
+                "0": "rgb(0, 0, 0)",
+                "1": "rgb(0, 5, 5)",
+                "5": "rgb(0, 23, 26)",
+                "10": "rgb(0, 45, 51)",
+                "20": "rgb(0, 90, 102)",
+                "30": "rgb(0, 135, 153)",
+                "40": "rgb(0, 180, 204)",
+                "50": "rgb(0, 225, 255)",
+                "60": "rgb(51, 231, 255)",
+                "70": "rgb(102, 237, 255)",
+                "80": "rgb(153, 243, 255)",
+                "90": "rgb(204, 249, 255)",
+                "95": "rgb(229, 252, 255)",
+                "99": "rgb(250, 254, 255)",
+                "100": "rgb(255, 255, 255)",
+                "main": "#00BCD4",
+                "light": "#4DD0E1",
+                "dark": "#0097A7"
+              },
+              "info": {
+                "0": "rgb(0, 0, 0)",
+                "1": "rgb(0, 3, 5)",
+                "5": "rgb(0, 17, 25)",
+                "10": "rgb(1, 35, 50)",
+                "20": "rgb(1, 69, 101)",
+                "30": "rgb(2, 104, 151)",
+                "40": "rgb(2, 139, 202)",
+                "50": "rgb(3, 173, 252)",
+                "60": "rgb(53, 190, 253)",
+                "70": "rgb(104, 206, 253)",
+                "80": "rgb(154, 222, 254)",
+                "90": "rgb(205, 239, 254)",
+                "95": "rgb(230, 247, 255)",
+                "99": "rgb(250, 253, 255)",
+                "100": "rgb(255, 255, 255)",
+                "main": "#03A9F4",
+                "light": "#4FC3F7",
+                "dark": "#0288D1"
+              },
+              "success": {
+                "0": "rgb(0, 0, 0)",
+                "1": "rgb(2, 4, 2)",
+                "5": "rgb(8, 18, 8)",
+                "10": "rgb(16, 35, 16)",
+                "20": "rgb(31, 71, 32)",
+                "30": "rgb(47, 106, 49)",
+                "40": "rgb(62, 142, 65)",
+                "50": "rgb(78, 177, 81)",
+                "60": "rgb(113, 193, 116)",
+                "70": "rgb(149, 208, 151)",
+                "80": "rgb(184, 224, 185)",
+                "90": "rgb(220, 239, 220)",
+                "95": "rgb(237, 247, 238)",
+                "99": "rgb(251, 253, 252)",
+                "100": "rgb(255, 255, 255)",
+                "main": "#4CAF50",
+                "light": "#81C784",
+                "dark": "#388E3C"
+              },
+              "warning": {
+                "0": "rgb(0, 0, 0)",
+                "1": "rgb(5, 3, 0)",
+                "5": "rgb(26, 15, 0)",
+                "10": "rgb(51, 31, 0)",
+                "20": "rgb(102, 61, 0)",
+                "30": "rgb(153, 92, 0)",
+                "40": "rgb(204, 122, 0)",
+                "50": "rgb(255, 153, 0)",
+                "60": "rgb(255, 173, 51)",
+                "70": "rgb(255, 194, 102)",
+                "80": "rgb(255, 214, 153)",
+                "90": "rgb(255, 235, 204)",
+                "95": "rgb(255, 245, 229)",
+                "99": "rgb(255, 253, 250)",
+                "100": "rgb(255, 255, 255)",
+                "main": "#FF9800",
+                "light": "#FFB74D",
+                "dark": "#F57C00"
+              },
+              "error": {
+                "0": "rgb(0, 0, 0)",
+                "1": "rgb(5, 1, 0)",
+                "5": "rgb(26, 6, 0)",
+                "10": "rgb(51, 12, 0)",
+                "20": "rgb(102, 24, 0)",
+                "30": "rgb(153, 36, 0)",
+                "40": "rgb(204, 48, 0)",
+                "50": "rgb(255, 60, 0)",
+                "60": "rgb(255, 99, 51)",
+                "70": "rgb(255, 138, 102)",
+                "80": "rgb(255, 177, 153)",
+                "90": "rgb(255, 216, 204)",
+                "95": "rgb(255, 235, 229)",
+                "99": "rgb(255, 251, 250)",
+                "100": "rgb(255, 255, 255)",
+                "main": "#FF5722",
+                "light": "#FF8A65",
+                "dark": "#E64A19"
+              },
+              "neutral": {
+                "0": "rgb(0, 0, 0)",
+                "1": "rgb(3, 3, 3)",
+                "5": "rgb(13, 13, 13)",
+                "10": "rgb(26, 26, 26)",
+                "20": "rgb(51, 51, 51)",
+                "30": "rgb(77, 77, 77)",
+                "40": "rgb(102, 102, 102)",
+                "50": "rgb(128, 128, 128)",
+                "60": "rgb(153, 153, 153)",
+                "70": "rgb(179, 179, 179)",
+                "80": "rgb(204, 204, 204)",
+                "90": "rgb(230, 230, 230)",
+                "95": "rgb(242, 242, 242)",
+                "99": "rgb(252, 252, 252)",
+                "100": "rgb(255, 255, 255)",
+                "main": "#000000",
+                "light": "rgb(26, 26, 26)",
+                "dark": "rgb(26, 26, 26)"
+              },
+              "a": {
+                "0": "rgb(0, 0, 0)",
+                "1": "rgb(4, 4, 1)",
+                "5": "rgb(20, 20, 6)",
+                "10": "rgb(39, 39, 12)",
+                "20": "rgb(79, 79, 23)",
+                "30": "rgb(118, 118, 35)",
+                "40": "rgb(157, 157, 47)",
+                "50": "rgb(196, 196, 59)",
+                "60": "rgb(208, 208, 98)",
+                "70": "rgb(220, 220, 137)",
+                "80": "rgb(232, 232, 176)",
+                "90": "rgb(243, 243, 216)",
+                "95": "rgb(249, 249, 235)",
+                "99": "rgb(254, 254, 251)",
+                "100": "rgb(255, 255, 255)",
+                "main": "#f4f4da",
+                "light": "rgb(243, 243, 216)",
+                "dark": "rgb(220, 220, 137)"
+              }
+            },
+            "text": {
+              "primary": {
+                "primary": "rgba(255, 240, 102, 0.87)",
+                "secondary": "rgba(255, 240, 102, 0.54)",
+                "tertiary": "rgba(255, 240, 102, 0.37)",
+                "quaternary": "rgba(255, 240, 102, 0.24)"
+              },
+              "secondary": {
+                "primary": "rgba(181, 217, 140, 0.87)",
+                "secondary": "rgba(181, 217, 140, 0.54)",
+                "tertiary": "rgba(181, 217, 140, 0.37)",
+                "quaternary": "rgba(181, 217, 140, 0.24)"
+              },
+              "tertiary": {
+                "primary": "rgba(255, 217, 102, 0.87)",
+                "secondary": "rgba(255, 217, 102, 0.54)",
+                "tertiary": "rgba(255, 217, 102, 0.37)",
+                "quaternary": "rgba(255, 217, 102, 0.24)"
+              },
+              "quaternary": {
+                "primary": "rgba(102, 237, 255, 0.87)",
+                "secondary": "rgba(102, 237, 255, 0.54)",
+                "tertiary": "rgba(102, 237, 255, 0.37)",
+                "quaternary": "rgba(102, 237, 255, 0.24)"
+              },
+              "info": {
+                "primary": "rgba(104, 206, 253, 0.87)",
+                "secondary": "rgba(104, 206, 253, 0.54)",
+                "tertiary": "rgba(104, 206, 253, 0.37)",
+                "quaternary": "rgba(104, 206, 253, 0.24)"
+              },
+              "success": {
+                "primary": "rgba(149, 208, 151, 0.87)",
+                "secondary": "rgba(149, 208, 151, 0.54)",
+                "tertiary": "rgba(149, 208, 151, 0.37)",
+                "quaternary": "rgba(149, 208, 151, 0.24)"
+              },
+              "warning": {
+                "primary": "rgba(255, 194, 102, 0.87)",
+                "secondary": "rgba(255, 194, 102, 0.54)",
+                "tertiary": "rgba(255, 194, 102, 0.37)",
+                "quaternary": "rgba(255, 194, 102, 0.24)"
+              },
+              "error": {
+                "primary": "rgba(255, 138, 102, 0.87)",
+                "secondary": "rgba(255, 138, 102, 0.54)",
+                "tertiary": "rgba(255, 138, 102, 0.37)",
+                "quaternary": "rgba(255, 138, 102, 0.24)"
+              },
+              "neutral": {
+                "primary": "rgba(255, 255, 255, 0.87)",
+                "secondary": "rgba(255, 255, 255, 0.54)",
+                "tertiary": "rgba(255, 255, 255, 0.37)",
+                "quaternary": "rgba(255, 255, 255, 0.24)"
+              },
+              "default": {
+                "primary": "rgba(255, 255, 255, 0.87)",
+                "secondary": "rgba(255, 255, 255, 0.54)",
+                "tertiary": "rgba(255, 255, 255, 0.37)",
+                "quaternary": "rgba(255, 255, 255, 0.24)"
+              },
+              "divider": "rgba(255, 255, 255, 0.14)",
+              "active": "rgba(255, 255, 255, 0.54)",
+              "hover": "rgba(255, 255, 255, 0.04)",
+              "selected": "rgba(255, 255, 255, 0.07)",
+              "focus": "rgba(255, 255, 255, 0.11)",
+              "disabled": "rgba(255, 255, 255, 0.37)",
+              "a": {
+                "primary": "rgba(220, 220, 137, 0.87)",
+                "secondary": "rgba(220, 220, 137, 0.54)",
+                "tertiary": "rgba(220, 220, 137, 0.37)",
+                "quaternary": "rgba(220, 220, 137, 0.24)"
+              }
+            },
+            "background": {
+              "primary": {
+                "primary": "rgb(0, 0, 0)",
+                "secondary": "rgb(5, 5, 0)",
+                "tertiary": "rgb(26, 23, 0)",
+                "quaternary": "rgb(51, 46, 0)"
+              },
+              "secondary": {
+                "primary": "rgb(0, 0, 0)",
+                "secondary": "rgb(3, 4, 1)",
+                "tertiary": "rgb(13, 19, 6)",
+                "quaternary": "rgb(26, 38, 13)"
+              },
+              "tertiary": {
+                "primary": "rgb(0, 0, 0)",
+                "secondary": "rgb(5, 4, 0)",
+                "tertiary": "rgb(26, 19, 0)",
+                "quaternary": "rgb(51, 38, 0)"
+              },
+              "quaternary": {
+                "primary": "rgb(0, 0, 0)",
+                "secondary": "rgb(0, 5, 5)",
+                "tertiary": "rgb(0, 23, 26)",
+                "quaternary": "rgb(0, 45, 51)"
+              },
+              "info": {
+                "primary": "rgb(0, 0, 0)",
+                "secondary": "rgb(0, 3, 5)",
+                "tertiary": "rgb(0, 17, 25)",
+                "quaternary": "rgb(1, 35, 50)"
+              },
+              "success": {
+                "primary": "rgb(0, 0, 0)",
+                "secondary": "rgb(2, 4, 2)",
+                "tertiary": "rgb(8, 18, 8)",
+                "quaternary": "rgb(16, 35, 16)"
+              },
+              "warning": {
+                "primary": "rgb(0, 0, 0)",
+                "secondary": "rgb(5, 3, 0)",
+                "tertiary": "rgb(26, 15, 0)",
+                "quaternary": "rgb(51, 31, 0)"
+              },
+              "error": {
+                "primary": "rgb(0, 0, 0)",
+                "secondary": "rgb(5, 1, 0)",
+                "tertiary": "rgb(26, 6, 0)",
+                "quaternary": "rgb(51, 12, 0)"
+              },
+              "neutral": {
+                "primary": "rgb(0, 0, 0)",
+                "secondary": "rgb(3, 3, 3)",
+                "tertiary": "rgb(13, 13, 13)",
+                "quaternary": "rgb(26, 26, 26)"
+              },
+              "default": {
+                "primary": "rgb(0, 0, 0)",
+                "secondary": "rgb(3, 3, 3)",
+                "tertiary": "rgb(13, 13, 13)",
+                "quaternary": "rgb(26, 26, 26)"
+              },
+              "a": {
+                "primary": "rgb(0, 0, 0)",
+                "secondary": "rgb(4, 4, 1)",
+                "tertiary": "rgb(20, 20, 6)",
+                "quaternary": "rgb(39, 39, 12)"
+              }
+            }
+          },
+          "shape": {
+            "radius": {
+              "xs": 4,
+              "sm": 8,
+              "md": 12,
+              "lg": 16,
+              "xl": 28
+            }
+          },
+          "breakpoints": {
+            "values": {
+              "xs": 0,
+              "sm": 600,
+              "md": 1240,
+              "lg": 1440,
+              "xl": 1920
+            },
+            "unit": "px"
+          },
+          "space": {
+            "values": {
+              "xs": 4,
+              "sm": 8,
+              "md": 16,
+              "lg": 32,
+              "xl": 64
+            },
+            "unit": 8
+          },
+          "shadows": {
+            "values": {
+              "primary": {
+                "0": "none",
+                "1": "0px 1px 1px 0px rgba(255, 235, 59, 0.14), 0px 2px 1px -1px rgba(255, 235, 59, 0.11), 0px 1px 3px 0px rgba(255, 235, 59, 0.17)",
+                "2": "0px 2px 2px 0px rgba(255, 235, 59, 0.14), 0px 3px 3px -2px rgba(255, 235, 59, 0.11), 0px 1px 8px 0px rgba(255, 235, 59, 0.17)",
+                "3": "0px 3px 4px 0px rgba(255, 235, 59, 0.14), 0px 3px 3px -2px rgba(255, 235, 59, 0.11), 0px 1px 8px 0px rgba(255, 235, 59, 0.17)",
+                "4": "0px 4px 5px 0px rgba(255, 235, 59, 0.14), 0px 1px 10px 0px rgba(255, 235, 59, 0.11), 0px 2px 4px -1px rgba(255, 235, 59, 0.17)",
+                "6": "0px 6px 10px 0px rgba(255, 235, 59, 0.14), 0px 1px 18px 0px rgba(255, 235, 59, 0.11), 0px 3px 5px -1px rgba(255, 235, 59, 0.17)",
+                "8": "0px 8px 10px 1px rgba(255, 235, 59, 0.14), 0px 3px 14px 2px rgba(255, 235, 59, 0.11), 0px 5px 5px -3px rgba(255, 235, 59, 0.17)",
+                "9": "0px 9px 12px 1px rgba(255, 235, 59, 0.14), 0px 3px 16px 2px rgba(255, 235, 59, 0.11), 0px 5px 6px -3px rgba(255, 235, 59, 0.17)",
+                "12": "0px 12px 17px 2px rgba(255, 235, 59, 0.14), 0px 5px 22px 4px rgba(255, 235, 59, 0.11), 0px 7px 7px -4px rgba(255, 235, 59, 0.17)",
+                "16": "0px 16px 24px 2px rgba(255, 235, 59, 0.14), 0px 6px 30px 5px rgba(255, 235, 59, 0.11), 0px 8px 10px -5px rgba(255, 235, 59, 0.17)",
+                "24": "0px 24px 37px 3px rgba(255, 235, 59, 0.14), 0px 9px 46px 8px rgba(255, 235, 59, 0.11), 0px 11px 15px -7px rgba(255, 235, 59, 0.17)"
+              },
+              "secondary": {
+                "0": "none",
+                "1": "0px 1px 1px 0px rgba(139, 195, 74, 0.14), 0px 2px 1px -1px rgba(139, 195, 74, 0.11), 0px 1px 3px 0px rgba(139, 195, 74, 0.17)",
+                "2": "0px 2px 2px 0px rgba(139, 195, 74, 0.14), 0px 3px 3px -2px rgba(139, 195, 74, 0.11), 0px 1px 8px 0px rgba(139, 195, 74, 0.17)",
+                "3": "0px 3px 4px 0px rgba(139, 195, 74, 0.14), 0px 3px 3px -2px rgba(139, 195, 74, 0.11), 0px 1px 8px 0px rgba(139, 195, 74, 0.17)",
+                "4": "0px 4px 5px 0px rgba(139, 195, 74, 0.14), 0px 1px 10px 0px rgba(139, 195, 74, 0.11), 0px 2px 4px -1px rgba(139, 195, 74, 0.17)",
+                "6": "0px 6px 10px 0px rgba(139, 195, 74, 0.14), 0px 1px 18px 0px rgba(139, 195, 74, 0.11), 0px 3px 5px -1px rgba(139, 195, 74, 0.17)",
+                "8": "0px 8px 10px 1px rgba(139, 195, 74, 0.14), 0px 3px 14px 2px rgba(139, 195, 74, 0.11), 0px 5px 5px -3px rgba(139, 195, 74, 0.17)",
+                "9": "0px 9px 12px 1px rgba(139, 195, 74, 0.14), 0px 3px 16px 2px rgba(139, 195, 74, 0.11), 0px 5px 6px -3px rgba(139, 195, 74, 0.17)",
+                "12": "0px 12px 17px 2px rgba(139, 195, 74, 0.14), 0px 5px 22px 4px rgba(139, 195, 74, 0.11), 0px 7px 7px -4px rgba(139, 195, 74, 0.17)",
+                "16": "0px 16px 24px 2px rgba(139, 195, 74, 0.14), 0px 6px 30px 5px rgba(139, 195, 74, 0.11), 0px 8px 10px -5px rgba(139, 195, 74, 0.17)",
+                "24": "0px 24px 37px 3px rgba(139, 195, 74, 0.14), 0px 9px 46px 8px rgba(139, 195, 74, 0.11), 0px 11px 15px -7px rgba(139, 195, 74, 0.17)"
+              },
+              "tertiary": {
+                "0": "none",
+                "1": "0px 1px 1px 0px rgba(255, 193, 7, 0.14), 0px 2px 1px -1px rgba(255, 193, 7, 0.11), 0px 1px 3px 0px rgba(255, 193, 7, 0.17)",
+                "2": "0px 2px 2px 0px rgba(255, 193, 7, 0.14), 0px 3px 3px -2px rgba(255, 193, 7, 0.11), 0px 1px 8px 0px rgba(255, 193, 7, 0.17)",
+                "3": "0px 3px 4px 0px rgba(255, 193, 7, 0.14), 0px 3px 3px -2px rgba(255, 193, 7, 0.11), 0px 1px 8px 0px rgba(255, 193, 7, 0.17)",
+                "4": "0px 4px 5px 0px rgba(255, 193, 7, 0.14), 0px 1px 10px 0px rgba(255, 193, 7, 0.11), 0px 2px 4px -1px rgba(255, 193, 7, 0.17)",
+                "6": "0px 6px 10px 0px rgba(255, 193, 7, 0.14), 0px 1px 18px 0px rgba(255, 193, 7, 0.11), 0px 3px 5px -1px rgba(255, 193, 7, 0.17)",
+                "8": "0px 8px 10px 1px rgba(255, 193, 7, 0.14), 0px 3px 14px 2px rgba(255, 193, 7, 0.11), 0px 5px 5px -3px rgba(255, 193, 7, 0.17)",
+                "9": "0px 9px 12px 1px rgba(255, 193, 7, 0.14), 0px 3px 16px 2px rgba(255, 193, 7, 0.11), 0px 5px 6px -3px rgba(255, 193, 7, 0.17)",
+                "12": "0px 12px 17px 2px rgba(255, 193, 7, 0.14), 0px 5px 22px 4px rgba(255, 193, 7, 0.11), 0px 7px 7px -4px rgba(255, 193, 7, 0.17)",
+                "16": "0px 16px 24px 2px rgba(255, 193, 7, 0.14), 0px 6px 30px 5px rgba(255, 193, 7, 0.11), 0px 8px 10px -5px rgba(255, 193, 7, 0.17)",
+                "24": "0px 24px 37px 3px rgba(255, 193, 7, 0.14), 0px 9px 46px 8px rgba(255, 193, 7, 0.11), 0px 11px 15px -7px rgba(255, 193, 7, 0.17)"
+              },
+              "quaternary": {
+                "0": "none",
+                "1": "0px 1px 1px 0px rgba(0, 188, 212, 0.14), 0px 2px 1px -1px rgba(0, 188, 212, 0.11), 0px 1px 3px 0px rgba(0, 188, 212, 0.17)",
+                "2": "0px 2px 2px 0px rgba(0, 188, 212, 0.14), 0px 3px 3px -2px rgba(0, 188, 212, 0.11), 0px 1px 8px 0px rgba(0, 188, 212, 0.17)",
+                "3": "0px 3px 4px 0px rgba(0, 188, 212, 0.14), 0px 3px 3px -2px rgba(0, 188, 212, 0.11), 0px 1px 8px 0px rgba(0, 188, 212, 0.17)",
+                "4": "0px 4px 5px 0px rgba(0, 188, 212, 0.14), 0px 1px 10px 0px rgba(0, 188, 212, 0.11), 0px 2px 4px -1px rgba(0, 188, 212, 0.17)",
+                "6": "0px 6px 10px 0px rgba(0, 188, 212, 0.14), 0px 1px 18px 0px rgba(0, 188, 212, 0.11), 0px 3px 5px -1px rgba(0, 188, 212, 0.17)",
+                "8": "0px 8px 10px 1px rgba(0, 188, 212, 0.14), 0px 3px 14px 2px rgba(0, 188, 212, 0.11), 0px 5px 5px -3px rgba(0, 188, 212, 0.17)",
+                "9": "0px 9px 12px 1px rgba(0, 188, 212, 0.14), 0px 3px 16px 2px rgba(0, 188, 212, 0.11), 0px 5px 6px -3px rgba(0, 188, 212, 0.17)",
+                "12": "0px 12px 17px 2px rgba(0, 188, 212, 0.14), 0px 5px 22px 4px rgba(0, 188, 212, 0.11), 0px 7px 7px -4px rgba(0, 188, 212, 0.17)",
+                "16": "0px 16px 24px 2px rgba(0, 188, 212, 0.14), 0px 6px 30px 5px rgba(0, 188, 212, 0.11), 0px 8px 10px -5px rgba(0, 188, 212, 0.17)",
+                "24": "0px 24px 37px 3px rgba(0, 188, 212, 0.14), 0px 9px 46px 8px rgba(0, 188, 212, 0.11), 0px 11px 15px -7px rgba(0, 188, 212, 0.17)"
+              },
+              "info": {
+                "0": "none",
+                "1": "0px 1px 1px 0px rgba(3, 169, 244, 0.14), 0px 2px 1px -1px rgba(3, 169, 244, 0.11), 0px 1px 3px 0px rgba(3, 169, 244, 0.17)",
+                "2": "0px 2px 2px 0px rgba(3, 169, 244, 0.14), 0px 3px 3px -2px rgba(3, 169, 244, 0.11), 0px 1px 8px 0px rgba(3, 169, 244, 0.17)",
+                "3": "0px 3px 4px 0px rgba(3, 169, 244, 0.14), 0px 3px 3px -2px rgba(3, 169, 244, 0.11), 0px 1px 8px 0px rgba(3, 169, 244, 0.17)",
+                "4": "0px 4px 5px 0px rgba(3, 169, 244, 0.14), 0px 1px 10px 0px rgba(3, 169, 244, 0.11), 0px 2px 4px -1px rgba(3, 169, 244, 0.17)",
+                "6": "0px 6px 10px 0px rgba(3, 169, 244, 0.14), 0px 1px 18px 0px rgba(3, 169, 244, 0.11), 0px 3px 5px -1px rgba(3, 169, 244, 0.17)",
+                "8": "0px 8px 10px 1px rgba(3, 169, 244, 0.14), 0px 3px 14px 2px rgba(3, 169, 244, 0.11), 0px 5px 5px -3px rgba(3, 169, 244, 0.17)",
+                "9": "0px 9px 12px 1px rgba(3, 169, 244, 0.14), 0px 3px 16px 2px rgba(3, 169, 244, 0.11), 0px 5px 6px -3px rgba(3, 169, 244, 0.17)",
+                "12": "0px 12px 17px 2px rgba(3, 169, 244, 0.14), 0px 5px 22px 4px rgba(3, 169, 244, 0.11), 0px 7px 7px -4px rgba(3, 169, 244, 0.17)",
+                "16": "0px 16px 24px 2px rgba(3, 169, 244, 0.14), 0px 6px 30px 5px rgba(3, 169, 244, 0.11), 0px 8px 10px -5px rgba(3, 169, 244, 0.17)",
+                "24": "0px 24px 37px 3px rgba(3, 169, 244, 0.14), 0px 9px 46px 8px rgba(3, 169, 244, 0.11), 0px 11px 15px -7px rgba(3, 169, 244, 0.17)"
+              },
+              "success": {
+                "0": "none",
+                "1": "0px 1px 1px 0px rgba(76, 175, 80, 0.14), 0px 2px 1px -1px rgba(76, 175, 80, 0.11), 0px 1px 3px 0px rgba(76, 175, 80, 0.17)",
+                "2": "0px 2px 2px 0px rgba(76, 175, 80, 0.14), 0px 3px 3px -2px rgba(76, 175, 80, 0.11), 0px 1px 8px 0px rgba(76, 175, 80, 0.17)",
+                "3": "0px 3px 4px 0px rgba(76, 175, 80, 0.14), 0px 3px 3px -2px rgba(76, 175, 80, 0.11), 0px 1px 8px 0px rgba(76, 175, 80, 0.17)",
+                "4": "0px 4px 5px 0px rgba(76, 175, 80, 0.14), 0px 1px 10px 0px rgba(76, 175, 80, 0.11), 0px 2px 4px -1px rgba(76, 175, 80, 0.17)",
+                "6": "0px 6px 10px 0px rgba(76, 175, 80, 0.14), 0px 1px 18px 0px rgba(76, 175, 80, 0.11), 0px 3px 5px -1px rgba(76, 175, 80, 0.17)",
+                "8": "0px 8px 10px 1px rgba(76, 175, 80, 0.14), 0px 3px 14px 2px rgba(76, 175, 80, 0.11), 0px 5px 5px -3px rgba(76, 175, 80, 0.17)",
+                "9": "0px 9px 12px 1px rgba(76, 175, 80, 0.14), 0px 3px 16px 2px rgba(76, 175, 80, 0.11), 0px 5px 6px -3px rgba(76, 175, 80, 0.17)",
+                "12": "0px 12px 17px 2px rgba(76, 175, 80, 0.14), 0px 5px 22px 4px rgba(76, 175, 80, 0.11), 0px 7px 7px -4px rgba(76, 175, 80, 0.17)",
+                "16": "0px 16px 24px 2px rgba(76, 175, 80, 0.14), 0px 6px 30px 5px rgba(76, 175, 80, 0.11), 0px 8px 10px -5px rgba(76, 175, 80, 0.17)",
+                "24": "0px 24px 37px 3px rgba(76, 175, 80, 0.14), 0px 9px 46px 8px rgba(76, 175, 80, 0.11), 0px 11px 15px -7px rgba(76, 175, 80, 0.17)"
+              },
+              "warning": {
+                "0": "none",
+                "1": "0px 1px 1px 0px rgba(255, 152, 0, 0.14), 0px 2px 1px -1px rgba(255, 152, 0, 0.11), 0px 1px 3px 0px rgba(255, 152, 0, 0.17)",
+                "2": "0px 2px 2px 0px rgba(255, 152, 0, 0.14), 0px 3px 3px -2px rgba(255, 152, 0, 0.11), 0px 1px 8px 0px rgba(255, 152, 0, 0.17)",
+                "3": "0px 3px 4px 0px rgba(255, 152, 0, 0.14), 0px 3px 3px -2px rgba(255, 152, 0, 0.11), 0px 1px 8px 0px rgba(255, 152, 0, 0.17)",
+                "4": "0px 4px 5px 0px rgba(255, 152, 0, 0.14), 0px 1px 10px 0px rgba(255, 152, 0, 0.11), 0px 2px 4px -1px rgba(255, 152, 0, 0.17)",
+                "6": "0px 6px 10px 0px rgba(255, 152, 0, 0.14), 0px 1px 18px 0px rgba(255, 152, 0, 0.11), 0px 3px 5px -1px rgba(255, 152, 0, 0.17)",
+                "8": "0px 8px 10px 1px rgba(255, 152, 0, 0.14), 0px 3px 14px 2px rgba(255, 152, 0, 0.11), 0px 5px 5px -3px rgba(255, 152, 0, 0.17)",
+                "9": "0px 9px 12px 1px rgba(255, 152, 0, 0.14), 0px 3px 16px 2px rgba(255, 152, 0, 0.11), 0px 5px 6px -3px rgba(255, 152, 0, 0.17)",
+                "12": "0px 12px 17px 2px rgba(255, 152, 0, 0.14), 0px 5px 22px 4px rgba(255, 152, 0, 0.11), 0px 7px 7px -4px rgba(255, 152, 0, 0.17)",
+                "16": "0px 16px 24px 2px rgba(255, 152, 0, 0.14), 0px 6px 30px 5px rgba(255, 152, 0, 0.11), 0px 8px 10px -5px rgba(255, 152, 0, 0.17)",
+                "24": "0px 24px 37px 3px rgba(255, 152, 0, 0.14), 0px 9px 46px 8px rgba(255, 152, 0, 0.11), 0px 11px 15px -7px rgba(255, 152, 0, 0.17)"
+              },
+              "error": {
+                "0": "none",
+                "1": "0px 1px 1px 0px rgba(255, 87, 34, 0.14), 0px 2px 1px -1px rgba(255, 87, 34, 0.11), 0px 1px 3px 0px rgba(255, 87, 34, 0.17)",
+                "2": "0px 2px 2px 0px rgba(255, 87, 34, 0.14), 0px 3px 3px -2px rgba(255, 87, 34, 0.11), 0px 1px 8px 0px rgba(255, 87, 34, 0.17)",
+                "3": "0px 3px 4px 0px rgba(255, 87, 34, 0.14), 0px 3px 3px -2px rgba(255, 87, 34, 0.11), 0px 1px 8px 0px rgba(255, 87, 34, 0.17)",
+                "4": "0px 4px 5px 0px rgba(255, 87, 34, 0.14), 0px 1px 10px 0px rgba(255, 87, 34, 0.11), 0px 2px 4px -1px rgba(255, 87, 34, 0.17)",
+                "6": "0px 6px 10px 0px rgba(255, 87, 34, 0.14), 0px 1px 18px 0px rgba(255, 87, 34, 0.11), 0px 3px 5px -1px rgba(255, 87, 34, 0.17)",
+                "8": "0px 8px 10px 1px rgba(255, 87, 34, 0.14), 0px 3px 14px 2px rgba(255, 87, 34, 0.11), 0px 5px 5px -3px rgba(255, 87, 34, 0.17)",
+                "9": "0px 9px 12px 1px rgba(255, 87, 34, 0.14), 0px 3px 16px 2px rgba(255, 87, 34, 0.11), 0px 5px 6px -3px rgba(255, 87, 34, 0.17)",
+                "12": "0px 12px 17px 2px rgba(255, 87, 34, 0.14), 0px 5px 22px 4px rgba(255, 87, 34, 0.11), 0px 7px 7px -4px rgba(255, 87, 34, 0.17)",
+                "16": "0px 16px 24px 2px rgba(255, 87, 34, 0.14), 0px 6px 30px 5px rgba(255, 87, 34, 0.11), 0px 8px 10px -5px rgba(255, 87, 34, 0.17)",
+                "24": "0px 24px 37px 3px rgba(255, 87, 34, 0.14), 0px 9px 46px 8px rgba(255, 87, 34, 0.11), 0px 11px 15px -7px rgba(255, 87, 34, 0.17)"
+              },
+              "neutral": {
+                "0": "none",
+                "1": "0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.11), 0px 1px 3px 0px rgba(0, 0, 0, 0.17)",
+                "2": "0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 3px -2px rgba(0, 0, 0, 0.11), 0px 1px 8px 0px rgba(0, 0, 0, 0.17)",
+                "3": "0px 3px 4px 0px rgba(0, 0, 0, 0.14), 0px 3px 3px -2px rgba(0, 0, 0, 0.11), 0px 1px 8px 0px rgba(0, 0, 0, 0.17)",
+                "4": "0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.11), 0px 2px 4px -1px rgba(0, 0, 0, 0.17)",
+                "6": "0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.11), 0px 3px 5px -1px rgba(0, 0, 0, 0.17)",
+                "8": "0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.11), 0px 5px 5px -3px rgba(0, 0, 0, 0.17)",
+                "9": "0px 9px 12px 1px rgba(0, 0, 0, 0.14), 0px 3px 16px 2px rgba(0, 0, 0, 0.11), 0px 5px 6px -3px rgba(0, 0, 0, 0.17)",
+                "12": "0px 12px 17px 2px rgba(0, 0, 0, 0.14), 0px 5px 22px 4px rgba(0, 0, 0, 0.11), 0px 7px 7px -4px rgba(0, 0, 0, 0.17)",
+                "16": "0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.11), 0px 8px 10px -5px rgba(0, 0, 0, 0.17)",
+                "24": "0px 24px 37px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.11), 0px 11px 15px -7px rgba(0, 0, 0, 0.17)"
+              },
+              "a": {
+                "0": "none",
+                "1": "0px 1px 1px 0px rgba(244, 244, 218, 0.14), 0px 2px 1px -1px rgba(244, 244, 218, 0.11), 0px 1px 3px 0px rgba(244, 244, 218, 0.17)",
+                "2": "0px 2px 2px 0px rgba(244, 244, 218, 0.14), 0px 3px 3px -2px rgba(244, 244, 218, 0.11), 0px 1px 8px 0px rgba(244, 244, 218, 0.17)",
+                "3": "0px 3px 4px 0px rgba(244, 244, 218, 0.14), 0px 3px 3px -2px rgba(244, 244, 218, 0.11), 0px 1px 8px 0px rgba(244, 244, 218, 0.17)",
+                "4": "0px 4px 5px 0px rgba(244, 244, 218, 0.14), 0px 1px 10px 0px rgba(244, 244, 218, 0.11), 0px 2px 4px -1px rgba(244, 244, 218, 0.17)",
+                "6": "0px 6px 10px 0px rgba(244, 244, 218, 0.14), 0px 1px 18px 0px rgba(244, 244, 218, 0.11), 0px 3px 5px -1px rgba(244, 244, 218, 0.17)",
+                "8": "0px 8px 10px 1px rgba(244, 244, 218, 0.14), 0px 3px 14px 2px rgba(244, 244, 218, 0.11), 0px 5px 5px -3px rgba(244, 244, 218, 0.17)",
+                "9": "0px 9px 12px 1px rgba(244, 244, 218, 0.14), 0px 3px 16px 2px rgba(244, 244, 218, 0.11), 0px 5px 6px -3px rgba(244, 244, 218, 0.17)",
+                "12": "0px 12px 17px 2px rgba(244, 244, 218, 0.14), 0px 5px 22px 4px rgba(244, 244, 218, 0.11), 0px 7px 7px -4px rgba(244, 244, 218, 0.17)",
+                "16": "0px 16px 24px 2px rgba(244, 244, 218, 0.14), 0px 6px 30px 5px rgba(244, 244, 218, 0.11), 0px 8px 10px -5px rgba(244, 244, 218, 0.17)",
+                "24": "0px 24px 37px 3px rgba(244, 244, 218, 0.14), 0px 9px 46px 8px rgba(244, 244, 218, 0.11), 0px 11px 15px -7px rgba(244, 244, 218, 0.17)"
+              }
+            },
+            "opacities": [
+              0.14,
+              0.11,
+              0.17
+            ]
+          },
+          "typography": {
+            "unit": "px",
+            "font_size": {
+              "html": 16
+            },
+            "font_family": {
+              "primary": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+              "secondary": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+              "mono": "Roboto Mono, monospace"
+            },
+            "values": {
+              "d1": {
+                "fontSize": "3.5625rem",
+                "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                "fontWeight": 400,
+                "lineHeight": 1.1228070175438596,
+                "letterSpacing": "0em"
+              },
+              "d2": {
+                "fontSize": "2.8125rem",
+                "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                "fontWeight": 400,
+                "lineHeight": 1.1555555555555554,
+                "letterSpacing": "0em"
+              },
+              "d3": {
+                "fontSize": "2.1875rem",
+                "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                "fontWeight": 400,
+                "lineHeight": 1.2571428571428571,
+                "letterSpacing": "0em"
+              },
+              "h1": {
+                "fontSize": "2rem",
+                "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                "fontWeight": 400,
+                "lineHeight": 1.25,
+                "letterSpacing": "0em"
+              },
+              "h2": {
+                "fontSize": "1.6875rem",
+                "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                "fontWeight": 400,
+                "lineHeight": 1.2962962962962963,
+                "letterSpacing": "0em"
+              },
+              "h3": {
+                "fontSize": "1.5rem",
+                "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                "fontWeight": 400,
+                "lineHeight": 1.3333333333333333,
+                "letterSpacing": "0em"
+              },
+              "t1": {
+                "fontSize": "1.3125rem",
+                "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                "fontWeight": 400,
+                "lineHeight": 3.0476190476190474,
+                "letterSpacing": "0em"
+              },
+              "t2": {
+                "fontSize": "1rem",
+                "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                "fontWeight": 500,
+                "lineHeight": 1.5,
+                "letterSpacing": ".15em"
+              },
+              "t3": {
+                "fontSize": "0.875rem",
+                "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                "fontWeight": 500,
+                "lineHeight": 1.4285714285714286,
+                "letterSpacing": ".1em"
+              },
+              "l1": {
+                "fontSize": "0.875rem",
+                "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                "fontWeight": 500,
+                "lineHeight": 1.4285714285714286,
+                "letterSpacing": ".1em"
+              },
+              "l2": {
+                "fontSize": "0.75rem",
+                "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                "fontWeight": 500,
+                "lineHeight": 1.25,
+                "letterSpacing": ".5em"
+              },
+              "l3": {
+                "fontSize": "0.6875rem",
+                "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                "fontWeight": 500,
+                "lineHeight": 0.45454545454545453,
+                "letterSpacing": ".5em"
+              },
+              "b1": {
+                "fontSize": "1rem",
+                "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                "fontWeight": 400,
+                "lineHeight": 1.5,
+                "letterSpacing": ".5em"
+              },
+              "b2": {
+                "fontSize": "0.875rem",
+                "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                "fontWeight": 400,
+                "lineHeight": 1.4285714285714286,
+                "letterSpacing": ".25em"
+              },
+              "b3": {
+                "fontSize": "0.6875rem",
+                "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                "fontWeight": 400,
+                "lineHeight": 1.3636363636363635,
+                "letterSpacing": ".4em"
+              }
+            }
+          },
+          "z_index": {
+            "tooltip": 1700,
+            "modal": 1500,
+            "menu_modal": 1400,
+            "menu": 1300,
+            "button_float": 1200,
+            "app_bar": 1100,
+            "main": 1000,
+            "text": 0
+          },
+          "options": {
+            "rule": {
+              "sort": true,
+              "prefix": false,
+              "rtl": false
+            }
+          },
+          "hash": "0x67cef080ca263baa68473f735e6e8e3cc716c1ed20ab9123dce2c45d07c67065"
         }
       ],
-      {
-        "direction": "ltr",
-        "preference": {
-          "background": {
-            "default": "neutral"
-          },
-          "text": {
-            "default": "neutral"
-          },
-          "visual_contrast": {
-            "default": "regular"
+      [
+        [
+          {
+            "palette": {
+              "light": false,
+              "color": {
+                "a": {
+                  "main": "#f4f4da"
+                }
+              }
+            }
           }
-        },
-        "mode": "regular",
-        "palette": {
-          "light": false,
-          "accessibility": "regular",
-          "visual_contrast": {
-            "low": {
-              "opacity": {
-                "primary": 0.77,
-                "secondary": 0.44,
-                "tertiary": 0.27,
-                "quaternary": 0.14,
-                "active": 0.44,
-                "disabled": 0.27,
-                "drag": 0.14,
-                "divider": 0.13,
-                "press": 0.1,
-                "focus": 0.07,
-                "selected": 0.05,
-                "hover": 0.03
+        ],
+        {
+          "options": {
+            "rule": {
+              "sort": true,
+              "prefix": false,
+              "rtl": false
+            }
+          },
+          "hash": "0xe357c7ffb810c43b76053916799d91c51d08d0f622231c5c193c0bd13fca7542",
+          "direction": "ltr",
+          "preference": {
+            "background": {
+              "default": "neutral"
+            },
+            "text": {
+              "default": "neutral"
+            },
+            "visual_contrast": {
+              "default": "regular"
+            }
+          },
+          "mode": "regular",
+          "palette": {
+            "light": false,
+            "accessibility": "regular",
+            "visual_contrast": {
+              "low": {
+                "opacity": {
+                  "primary": 0.77,
+                  "secondary": 0.44,
+                  "tertiary": 0.27,
+                  "quaternary": 0.14,
+                  "active": 0.44,
+                  "disabled": 0.27,
+                  "drag": 0.14,
+                  "divider": 0.13,
+                  "press": 0.1,
+                  "focus": 0.07,
+                  "selected": 0.05,
+                  "hover": 0.03
+                },
+                "contrast_threshold": 2.4
               },
-              "contrast_threshold": 2.4
-            },
-            "regular": {
-              "opacity": {
-                "primary": 0.87,
-                "secondary": 0.54,
-                "tertiary": 0.37,
-                "quaternary": 0.24,
-                "active": 0.54,
-                "disabled": 0.37,
-                "drag": 0.16,
-                "divider": 0.14,
-                "press": 0.12,
-                "focus": 0.11,
-                "selected": 0.07,
-                "hover": 0.04
+              "regular": {
+                "opacity": {
+                  "primary": 0.87,
+                  "secondary": 0.54,
+                  "tertiary": 0.37,
+                  "quaternary": 0.24,
+                  "active": 0.54,
+                  "disabled": 0.37,
+                  "drag": 0.16,
+                  "divider": 0.14,
+                  "press": 0.12,
+                  "focus": 0.11,
+                  "selected": 0.07,
+                  "hover": 0.04
+                },
+                "contrast_threshold": 3
               },
-              "contrast_threshold": 3
-            },
-            "high": {
-              "opacity": {
-                "primary": 1,
-                "secondary": 0.74,
-                "tertiary": 0.57,
-                "quaternary": 0.44,
-                "active": 0.74,
-                "disabled": 0.57,
-                "drag": 0.27,
-                "divider": 0.24,
-                "press": 0.22,
-                "focus": 0.21,
-                "selected": 0.17,
-                "hover": 0.14
+              "high": {
+                "opacity": {
+                  "primary": 1,
+                  "secondary": 0.74,
+                  "tertiary": 0.57,
+                  "quaternary": 0.44,
+                  "active": 0.74,
+                  "disabled": 0.57,
+                  "drag": 0.27,
+                  "divider": 0.24,
+                  "press": 0.22,
+                  "focus": 0.21,
+                  "selected": 0.17,
+                  "hover": 0.14
+                },
+                "contrast_threshold": 4
               },
-              "contrast_threshold": 4
+              "default": {
+                "opacity": {
+                  "primary": 0.87,
+                  "secondary": 0.54,
+                  "tertiary": 0.37,
+                  "quaternary": 0.24,
+                  "active": 0.54,
+                  "disabled": 0.37,
+                  "drag": 0.16,
+                  "divider": 0.14,
+                  "press": 0.12,
+                  "focus": 0.11,
+                  "selected": 0.07,
+                  "hover": 0.04
+                },
+                "contrast_threshold": 3
+              }
             },
-            "default": {
-              "opacity": {
-                "primary": 0.87,
-                "secondary": 0.54,
-                "tertiary": 0.37,
-                "quaternary": 0.24,
-                "active": 0.54,
-                "disabled": 0.37,
-                "drag": 0.16,
-                "divider": 0.14,
-                "press": 0.12,
-                "focus": 0.11,
-                "selected": 0.07,
-                "hover": 0.04
+            "color": {
+              "primary": {
+                "0": "rgb(0, 0, 0)",
+                "1": "rgb(5, 5, 0)",
+                "5": "rgb(26, 23, 0)",
+                "10": "rgb(51, 46, 0)",
+                "20": "rgb(102, 92, 0)",
+                "30": "rgb(153, 138, 0)",
+                "40": "rgb(204, 184, 0)",
+                "50": "rgb(255, 230, 0)",
+                "60": "rgb(255, 235, 51)",
+                "70": "rgb(255, 240, 102)",
+                "80": "rgb(255, 245, 153)",
+                "90": "rgb(255, 250, 204)",
+                "95": "rgb(255, 252, 229)",
+                "99": "rgb(255, 254, 250)",
+                "100": "rgb(255, 255, 255)",
+                "main": "#FFEB3B",
+                "light": "#FFF176",
+                "dark": "#FBC02D"
               },
-              "contrast_threshold": 3
+              "secondary": {
+                "0": "rgb(0, 0, 0)",
+                "1": "rgb(3, 4, 1)",
+                "5": "rgb(13, 19, 6)",
+                "10": "rgb(26, 38, 13)",
+                "20": "rgb(53, 77, 26)",
+                "30": "rgb(79, 115, 38)",
+                "40": "rgb(105, 153, 51)",
+                "50": "rgb(132, 191, 64)",
+                "60": "rgb(156, 204, 102)",
+                "70": "rgb(181, 217, 140)",
+                "80": "rgb(206, 230, 179)",
+                "90": "rgb(230, 242, 217)",
+                "95": "rgb(243, 249, 236)",
+                "99": "rgb(253, 254, 251)",
+                "100": "rgb(255, 255, 255)",
+                "main": "#8BC34A",
+                "light": "#AED581",
+                "dark": "#689F38"
+              },
+              "tertiary": {
+                "0": "rgb(0, 0, 0)",
+                "1": "rgb(5, 4, 0)",
+                "5": "rgb(26, 19, 0)",
+                "10": "rgb(51, 38, 0)",
+                "20": "rgb(102, 77, 0)",
+                "30": "rgb(153, 115, 0)",
+                "40": "rgb(204, 153, 0)",
+                "50": "rgb(255, 191, 0)",
+                "60": "rgb(255, 204, 51)",
+                "70": "rgb(255, 217, 102)",
+                "80": "rgb(255, 230, 153)",
+                "90": "rgb(255, 242, 204)",
+                "95": "rgb(255, 249, 229)",
+                "99": "rgb(255, 254, 250)",
+                "100": "rgb(255, 255, 255)",
+                "main": "#FFC107",
+                "light": "#FFD54F",
+                "dark": "#FFA000"
+              },
+              "quaternary": {
+                "0": "rgb(0, 0, 0)",
+                "1": "rgb(0, 5, 5)",
+                "5": "rgb(0, 23, 26)",
+                "10": "rgb(0, 45, 51)",
+                "20": "rgb(0, 90, 102)",
+                "30": "rgb(0, 135, 153)",
+                "40": "rgb(0, 180, 204)",
+                "50": "rgb(0, 225, 255)",
+                "60": "rgb(51, 231, 255)",
+                "70": "rgb(102, 237, 255)",
+                "80": "rgb(153, 243, 255)",
+                "90": "rgb(204, 249, 255)",
+                "95": "rgb(229, 252, 255)",
+                "99": "rgb(250, 254, 255)",
+                "100": "rgb(255, 255, 255)",
+                "main": "#00BCD4",
+                "light": "#4DD0E1",
+                "dark": "#0097A7"
+              },
+              "info": {
+                "0": "rgb(0, 0, 0)",
+                "1": "rgb(0, 3, 5)",
+                "5": "rgb(0, 17, 25)",
+                "10": "rgb(1, 35, 50)",
+                "20": "rgb(1, 69, 101)",
+                "30": "rgb(2, 104, 151)",
+                "40": "rgb(2, 139, 202)",
+                "50": "rgb(3, 173, 252)",
+                "60": "rgb(53, 190, 253)",
+                "70": "rgb(104, 206, 253)",
+                "80": "rgb(154, 222, 254)",
+                "90": "rgb(205, 239, 254)",
+                "95": "rgb(230, 247, 255)",
+                "99": "rgb(250, 253, 255)",
+                "100": "rgb(255, 255, 255)",
+                "main": "#03A9F4",
+                "light": "#4FC3F7",
+                "dark": "#0288D1"
+              },
+              "success": {
+                "0": "rgb(0, 0, 0)",
+                "1": "rgb(2, 4, 2)",
+                "5": "rgb(8, 18, 8)",
+                "10": "rgb(16, 35, 16)",
+                "20": "rgb(31, 71, 32)",
+                "30": "rgb(47, 106, 49)",
+                "40": "rgb(62, 142, 65)",
+                "50": "rgb(78, 177, 81)",
+                "60": "rgb(113, 193, 116)",
+                "70": "rgb(149, 208, 151)",
+                "80": "rgb(184, 224, 185)",
+                "90": "rgb(220, 239, 220)",
+                "95": "rgb(237, 247, 238)",
+                "99": "rgb(251, 253, 252)",
+                "100": "rgb(255, 255, 255)",
+                "main": "#4CAF50",
+                "light": "#81C784",
+                "dark": "#388E3C"
+              },
+              "warning": {
+                "0": "rgb(0, 0, 0)",
+                "1": "rgb(5, 3, 0)",
+                "5": "rgb(26, 15, 0)",
+                "10": "rgb(51, 31, 0)",
+                "20": "rgb(102, 61, 0)",
+                "30": "rgb(153, 92, 0)",
+                "40": "rgb(204, 122, 0)",
+                "50": "rgb(255, 153, 0)",
+                "60": "rgb(255, 173, 51)",
+                "70": "rgb(255, 194, 102)",
+                "80": "rgb(255, 214, 153)",
+                "90": "rgb(255, 235, 204)",
+                "95": "rgb(255, 245, 229)",
+                "99": "rgb(255, 253, 250)",
+                "100": "rgb(255, 255, 255)",
+                "main": "#FF9800",
+                "light": "#FFB74D",
+                "dark": "#F57C00"
+              },
+              "error": {
+                "0": "rgb(0, 0, 0)",
+                "1": "rgb(5, 1, 0)",
+                "5": "rgb(26, 6, 0)",
+                "10": "rgb(51, 12, 0)",
+                "20": "rgb(102, 24, 0)",
+                "30": "rgb(153, 36, 0)",
+                "40": "rgb(204, 48, 0)",
+                "50": "rgb(255, 60, 0)",
+                "60": "rgb(255, 99, 51)",
+                "70": "rgb(255, 138, 102)",
+                "80": "rgb(255, 177, 153)",
+                "90": "rgb(255, 216, 204)",
+                "95": "rgb(255, 235, 229)",
+                "99": "rgb(255, 251, 250)",
+                "100": "rgb(255, 255, 255)",
+                "main": "#FF5722",
+                "light": "#FF8A65",
+                "dark": "#E64A19"
+              },
+              "neutral": {
+                "0": "rgb(0, 0, 0)",
+                "1": "rgb(3, 3, 3)",
+                "5": "rgb(13, 13, 13)",
+                "10": "rgb(26, 26, 26)",
+                "20": "rgb(51, 51, 51)",
+                "30": "rgb(77, 77, 77)",
+                "40": "rgb(102, 102, 102)",
+                "50": "rgb(128, 128, 128)",
+                "60": "rgb(153, 153, 153)",
+                "70": "rgb(179, 179, 179)",
+                "80": "rgb(204, 204, 204)",
+                "90": "rgb(230, 230, 230)",
+                "95": "rgb(242, 242, 242)",
+                "99": "rgb(252, 252, 252)",
+                "100": "rgb(255, 255, 255)",
+                "main": "#000000",
+                "light": "rgb(26, 26, 26)",
+                "dark": "rgb(26, 26, 26)"
+              },
+              "a": {
+                "0": "rgb(0, 0, 0)",
+                "1": "rgb(4, 4, 1)",
+                "5": "rgb(20, 20, 6)",
+                "10": "rgb(39, 39, 12)",
+                "20": "rgb(79, 79, 23)",
+                "30": "rgb(118, 118, 35)",
+                "40": "rgb(157, 157, 47)",
+                "50": "rgb(196, 196, 59)",
+                "60": "rgb(208, 208, 98)",
+                "70": "rgb(220, 220, 137)",
+                "80": "rgb(232, 232, 176)",
+                "90": "rgb(243, 243, 216)",
+                "95": "rgb(249, 249, 235)",
+                "99": "rgb(254, 254, 251)",
+                "100": "rgb(255, 255, 255)",
+                "main": "#f4f4da",
+                "light": "rgb(243, 243, 216)",
+                "dark": "rgb(220, 220, 137)"
+              }
+            },
+            "text": {
+              "primary": {
+                "primary": "rgba(255, 240, 102, 0.87)",
+                "secondary": "rgba(255, 240, 102, 0.54)",
+                "tertiary": "rgba(255, 240, 102, 0.37)",
+                "quaternary": "rgba(255, 240, 102, 0.24)"
+              },
+              "secondary": {
+                "primary": "rgba(181, 217, 140, 0.87)",
+                "secondary": "rgba(181, 217, 140, 0.54)",
+                "tertiary": "rgba(181, 217, 140, 0.37)",
+                "quaternary": "rgba(181, 217, 140, 0.24)"
+              },
+              "tertiary": {
+                "primary": "rgba(255, 217, 102, 0.87)",
+                "secondary": "rgba(255, 217, 102, 0.54)",
+                "tertiary": "rgba(255, 217, 102, 0.37)",
+                "quaternary": "rgba(255, 217, 102, 0.24)"
+              },
+              "quaternary": {
+                "primary": "rgba(102, 237, 255, 0.87)",
+                "secondary": "rgba(102, 237, 255, 0.54)",
+                "tertiary": "rgba(102, 237, 255, 0.37)",
+                "quaternary": "rgba(102, 237, 255, 0.24)"
+              },
+              "info": {
+                "primary": "rgba(104, 206, 253, 0.87)",
+                "secondary": "rgba(104, 206, 253, 0.54)",
+                "tertiary": "rgba(104, 206, 253, 0.37)",
+                "quaternary": "rgba(104, 206, 253, 0.24)"
+              },
+              "success": {
+                "primary": "rgba(149, 208, 151, 0.87)",
+                "secondary": "rgba(149, 208, 151, 0.54)",
+                "tertiary": "rgba(149, 208, 151, 0.37)",
+                "quaternary": "rgba(149, 208, 151, 0.24)"
+              },
+              "warning": {
+                "primary": "rgba(255, 194, 102, 0.87)",
+                "secondary": "rgba(255, 194, 102, 0.54)",
+                "tertiary": "rgba(255, 194, 102, 0.37)",
+                "quaternary": "rgba(255, 194, 102, 0.24)"
+              },
+              "error": {
+                "primary": "rgba(255, 138, 102, 0.87)",
+                "secondary": "rgba(255, 138, 102, 0.54)",
+                "tertiary": "rgba(255, 138, 102, 0.37)",
+                "quaternary": "rgba(255, 138, 102, 0.24)"
+              },
+              "neutral": {
+                "primary": "rgba(255, 255, 255, 0.87)",
+                "secondary": "rgba(255, 255, 255, 0.54)",
+                "tertiary": "rgba(255, 255, 255, 0.37)",
+                "quaternary": "rgba(255, 255, 255, 0.24)"
+              },
+              "default": {
+                "primary": "rgba(255, 255, 255, 0.87)",
+                "secondary": "rgba(255, 255, 255, 0.54)",
+                "tertiary": "rgba(255, 255, 255, 0.37)",
+                "quaternary": "rgba(255, 255, 255, 0.24)"
+              },
+              "divider": "rgba(255, 255, 255, 0.14)",
+              "active": "rgba(255, 255, 255, 0.54)",
+              "hover": "rgba(255, 255, 255, 0.04)",
+              "selected": "rgba(255, 255, 255, 0.07)",
+              "focus": "rgba(255, 255, 255, 0.11)",
+              "disabled": "rgba(255, 255, 255, 0.37)",
+              "a": {
+                "primary": "rgba(220, 220, 137, 0.87)",
+                "secondary": "rgba(220, 220, 137, 0.54)",
+                "tertiary": "rgba(220, 220, 137, 0.37)",
+                "quaternary": "rgba(220, 220, 137, 0.24)"
+              }
+            },
+            "background": {
+              "primary": {
+                "primary": "rgb(0, 0, 0)",
+                "secondary": "rgb(5, 5, 0)",
+                "tertiary": "rgb(26, 23, 0)",
+                "quaternary": "rgb(51, 46, 0)"
+              },
+              "secondary": {
+                "primary": "rgb(0, 0, 0)",
+                "secondary": "rgb(3, 4, 1)",
+                "tertiary": "rgb(13, 19, 6)",
+                "quaternary": "rgb(26, 38, 13)"
+              },
+              "tertiary": {
+                "primary": "rgb(0, 0, 0)",
+                "secondary": "rgb(5, 4, 0)",
+                "tertiary": "rgb(26, 19, 0)",
+                "quaternary": "rgb(51, 38, 0)"
+              },
+              "quaternary": {
+                "primary": "rgb(0, 0, 0)",
+                "secondary": "rgb(0, 5, 5)",
+                "tertiary": "rgb(0, 23, 26)",
+                "quaternary": "rgb(0, 45, 51)"
+              },
+              "info": {
+                "primary": "rgb(0, 0, 0)",
+                "secondary": "rgb(0, 3, 5)",
+                "tertiary": "rgb(0, 17, 25)",
+                "quaternary": "rgb(1, 35, 50)"
+              },
+              "success": {
+                "primary": "rgb(0, 0, 0)",
+                "secondary": "rgb(2, 4, 2)",
+                "tertiary": "rgb(8, 18, 8)",
+                "quaternary": "rgb(16, 35, 16)"
+              },
+              "warning": {
+                "primary": "rgb(0, 0, 0)",
+                "secondary": "rgb(5, 3, 0)",
+                "tertiary": "rgb(26, 15, 0)",
+                "quaternary": "rgb(51, 31, 0)"
+              },
+              "error": {
+                "primary": "rgb(0, 0, 0)",
+                "secondary": "rgb(5, 1, 0)",
+                "tertiary": "rgb(26, 6, 0)",
+                "quaternary": "rgb(51, 12, 0)"
+              },
+              "neutral": {
+                "primary": "rgb(0, 0, 0)",
+                "secondary": "rgb(3, 3, 3)",
+                "tertiary": "rgb(13, 13, 13)",
+                "quaternary": "rgb(26, 26, 26)"
+              },
+              "default": {
+                "primary": "rgb(0, 0, 0)",
+                "secondary": "rgb(3, 3, 3)",
+                "tertiary": "rgb(13, 13, 13)",
+                "quaternary": "rgb(26, 26, 26)"
+              },
+              "a": {
+                "primary": "rgb(0, 0, 0)",
+                "secondary": "rgb(4, 4, 1)",
+                "tertiary": "rgb(20, 20, 6)",
+                "quaternary": "rgb(39, 39, 12)"
+              }
             }
           },
-          "color": {
-            "primary": {
-              "0": "rgb(0, 0, 0)",
-              "1": "rgb(5, 5, 0)",
-              "5": "rgb(26, 23, 0)",
-              "10": "rgb(51, 46, 0)",
-              "20": "rgb(102, 92, 0)",
-              "30": "rgb(153, 138, 0)",
-              "40": "rgb(204, 184, 0)",
-              "50": "rgb(255, 230, 0)",
-              "60": "rgb(255, 235, 51)",
-              "70": "rgb(255, 240, 102)",
-              "80": "rgb(255, 245, 153)",
-              "90": "rgb(255, 250, 204)",
-              "95": "rgb(255, 252, 229)",
-              "99": "rgb(255, 254, 250)",
-              "100": "rgb(255, 255, 255)",
-              "main": "#FFEB3B",
-              "light": "#FFF176",
-              "dark": "#FBC02D"
-            },
-            "secondary": {
-              "0": "rgb(0, 0, 0)",
-              "1": "rgb(3, 4, 1)",
-              "5": "rgb(13, 19, 6)",
-              "10": "rgb(26, 38, 13)",
-              "20": "rgb(53, 77, 26)",
-              "30": "rgb(79, 115, 38)",
-              "40": "rgb(105, 153, 51)",
-              "50": "rgb(132, 191, 64)",
-              "60": "rgb(156, 204, 102)",
-              "70": "rgb(181, 217, 140)",
-              "80": "rgb(206, 230, 179)",
-              "90": "rgb(230, 242, 217)",
-              "95": "rgb(243, 249, 236)",
-              "99": "rgb(253, 254, 251)",
-              "100": "rgb(255, 255, 255)",
-              "main": "#8BC34A",
-              "light": "#AED581",
-              "dark": "#689F38"
-            },
-            "tertiary": {
-              "0": "rgb(0, 0, 0)",
-              "1": "rgb(5, 4, 0)",
-              "5": "rgb(26, 19, 0)",
-              "10": "rgb(51, 38, 0)",
-              "20": "rgb(102, 77, 0)",
-              "30": "rgb(153, 115, 0)",
-              "40": "rgb(204, 153, 0)",
-              "50": "rgb(255, 191, 0)",
-              "60": "rgb(255, 204, 51)",
-              "70": "rgb(255, 217, 102)",
-              "80": "rgb(255, 230, 153)",
-              "90": "rgb(255, 242, 204)",
-              "95": "rgb(255, 249, 229)",
-              "99": "rgb(255, 254, 250)",
-              "100": "rgb(255, 255, 255)",
-              "main": "#FFC107",
-              "light": "#FFD54F",
-              "dark": "#FFA000"
-            },
-            "quaternary": {
-              "0": "rgb(0, 0, 0)",
-              "1": "rgb(0, 5, 5)",
-              "5": "rgb(0, 23, 26)",
-              "10": "rgb(0, 45, 51)",
-              "20": "rgb(0, 90, 102)",
-              "30": "rgb(0, 135, 153)",
-              "40": "rgb(0, 180, 204)",
-              "50": "rgb(0, 225, 255)",
-              "60": "rgb(51, 231, 255)",
-              "70": "rgb(102, 237, 255)",
-              "80": "rgb(153, 243, 255)",
-              "90": "rgb(204, 249, 255)",
-              "95": "rgb(229, 252, 255)",
-              "99": "rgb(250, 254, 255)",
-              "100": "rgb(255, 255, 255)",
-              "main": "#00BCD4",
-              "light": "#4DD0E1",
-              "dark": "#0097A7"
-            },
-            "info": {
-              "0": "rgb(0, 0, 0)",
-              "1": "rgb(0, 3, 5)",
-              "5": "rgb(0, 17, 25)",
-              "10": "rgb(1, 35, 50)",
-              "20": "rgb(1, 69, 101)",
-              "30": "rgb(2, 104, 151)",
-              "40": "rgb(2, 139, 202)",
-              "50": "rgb(3, 173, 252)",
-              "60": "rgb(53, 190, 253)",
-              "70": "rgb(104, 206, 253)",
-              "80": "rgb(154, 222, 254)",
-              "90": "rgb(205, 239, 254)",
-              "95": "rgb(230, 247, 255)",
-              "99": "rgb(250, 253, 255)",
-              "100": "rgb(255, 255, 255)",
-              "main": "#03A9F4",
-              "light": "#4FC3F7",
-              "dark": "#0288D1"
-            },
-            "success": {
-              "0": "rgb(0, 0, 0)",
-              "1": "rgb(2, 4, 2)",
-              "5": "rgb(8, 18, 8)",
-              "10": "rgb(16, 35, 16)",
-              "20": "rgb(31, 71, 32)",
-              "30": "rgb(47, 106, 49)",
-              "40": "rgb(62, 142, 65)",
-              "50": "rgb(78, 177, 81)",
-              "60": "rgb(113, 193, 116)",
-              "70": "rgb(149, 208, 151)",
-              "80": "rgb(184, 224, 185)",
-              "90": "rgb(220, 239, 220)",
-              "95": "rgb(237, 247, 238)",
-              "99": "rgb(251, 253, 252)",
-              "100": "rgb(255, 255, 255)",
-              "main": "#4CAF50",
-              "light": "#81C784",
-              "dark": "#388E3C"
-            },
-            "warning": {
-              "0": "rgb(0, 0, 0)",
-              "1": "rgb(5, 3, 0)",
-              "5": "rgb(26, 15, 0)",
-              "10": "rgb(51, 31, 0)",
-              "20": "rgb(102, 61, 0)",
-              "30": "rgb(153, 92, 0)",
-              "40": "rgb(204, 122, 0)",
-              "50": "rgb(255, 153, 0)",
-              "60": "rgb(255, 173, 51)",
-              "70": "rgb(255, 194, 102)",
-              "80": "rgb(255, 214, 153)",
-              "90": "rgb(255, 235, 204)",
-              "95": "rgb(255, 245, 229)",
-              "99": "rgb(255, 253, 250)",
-              "100": "rgb(255, 255, 255)",
-              "main": "#FF9800",
-              "light": "#FFB74D",
-              "dark": "#F57C00"
-            },
-            "error": {
-              "0": "rgb(0, 0, 0)",
-              "1": "rgb(5, 1, 0)",
-              "5": "rgb(26, 6, 0)",
-              "10": "rgb(51, 12, 0)",
-              "20": "rgb(102, 24, 0)",
-              "30": "rgb(153, 36, 0)",
-              "40": "rgb(204, 48, 0)",
-              "50": "rgb(255, 60, 0)",
-              "60": "rgb(255, 99, 51)",
-              "70": "rgb(255, 138, 102)",
-              "80": "rgb(255, 177, 153)",
-              "90": "rgb(255, 216, 204)",
-              "95": "rgb(255, 235, 229)",
-              "99": "rgb(255, 251, 250)",
-              "100": "rgb(255, 255, 255)",
-              "main": "#FF5722",
-              "light": "#FF8A65",
-              "dark": "#E64A19"
-            },
-            "neutral": {
-              "0": "rgb(0, 0, 0)",
-              "1": "rgb(3, 3, 3)",
-              "5": "rgb(13, 13, 13)",
-              "10": "rgb(26, 26, 26)",
-              "20": "rgb(51, 51, 51)",
-              "30": "rgb(77, 77, 77)",
-              "40": "rgb(102, 102, 102)",
-              "50": "rgb(128, 128, 128)",
-              "60": "rgb(153, 153, 153)",
-              "70": "rgb(179, 179, 179)",
-              "80": "rgb(204, 204, 204)",
-              "90": "rgb(230, 230, 230)",
-              "95": "rgb(242, 242, 242)",
-              "99": "rgb(252, 252, 252)",
-              "100": "rgb(255, 255, 255)",
-              "main": "#000000",
-              "light": "rgb(26, 26, 26)",
-              "dark": "rgb(26, 26, 26)"
-            },
-            "a": {
-              "0": "rgb(0, 0, 0)",
-              "1": "rgb(4, 4, 1)",
-              "5": "rgb(20, 20, 6)",
-              "10": "rgb(39, 39, 12)",
-              "20": "rgb(79, 79, 23)",
-              "30": "rgb(118, 118, 35)",
-              "40": "rgb(157, 157, 47)",
-              "50": "rgb(196, 196, 59)",
-              "60": "rgb(208, 208, 98)",
-              "70": "rgb(220, 220, 137)",
-              "80": "rgb(232, 232, 176)",
-              "90": "rgb(243, 243, 216)",
-              "95": "rgb(249, 249, 235)",
-              "99": "rgb(254, 254, 251)",
-              "100": "rgb(255, 255, 255)",
-              "main": "#f4f4da",
-              "light": "rgb(243, 243, 216)",
-              "dark": "rgb(220, 220, 137)"
+          "shape": {
+            "radius": {
+              "xs": 4,
+              "sm": 8,
+              "md": 12,
+              "lg": 16,
+              "xl": 28
             }
           },
-          "text": {
-            "primary": {
-              "primary": "rgba(255, 240, 102, 0.87)",
-              "secondary": "rgba(255, 240, 102, 0.54)",
-              "tertiary": "rgba(255, 240, 102, 0.37)",
-              "quaternary": "rgba(255, 240, 102, 0.24)"
+          "breakpoints": {
+            "values": {
+              "xs": 0,
+              "sm": 600,
+              "md": 1240,
+              "lg": 1440,
+              "xl": 1920
             },
-            "secondary": {
-              "primary": "rgba(181, 217, 140, 0.87)",
-              "secondary": "rgba(181, 217, 140, 0.54)",
-              "tertiary": "rgba(181, 217, 140, 0.37)",
-              "quaternary": "rgba(181, 217, 140, 0.24)"
+            "unit": "px"
+          },
+          "space": {
+            "values": {
+              "xs": 4,
+              "sm": 8,
+              "md": 16,
+              "lg": 32,
+              "xl": 64
             },
-            "tertiary": {
-              "primary": "rgba(255, 217, 102, 0.87)",
-              "secondary": "rgba(255, 217, 102, 0.54)",
-              "tertiary": "rgba(255, 217, 102, 0.37)",
-              "quaternary": "rgba(255, 217, 102, 0.24)"
+            "unit": 8
+          },
+          "shadows": {
+            "values": {
+              "primary": {
+                "0": "none",
+                "1": "0px 1px 1px 0px rgba(255, 235, 59, 0.14), 0px 2px 1px -1px rgba(255, 235, 59, 0.11), 0px 1px 3px 0px rgba(255, 235, 59, 0.17)",
+                "2": "0px 2px 2px 0px rgba(255, 235, 59, 0.14), 0px 3px 3px -2px rgba(255, 235, 59, 0.11), 0px 1px 8px 0px rgba(255, 235, 59, 0.17)",
+                "3": "0px 3px 4px 0px rgba(255, 235, 59, 0.14), 0px 3px 3px -2px rgba(255, 235, 59, 0.11), 0px 1px 8px 0px rgba(255, 235, 59, 0.17)",
+                "4": "0px 4px 5px 0px rgba(255, 235, 59, 0.14), 0px 1px 10px 0px rgba(255, 235, 59, 0.11), 0px 2px 4px -1px rgba(255, 235, 59, 0.17)",
+                "6": "0px 6px 10px 0px rgba(255, 235, 59, 0.14), 0px 1px 18px 0px rgba(255, 235, 59, 0.11), 0px 3px 5px -1px rgba(255, 235, 59, 0.17)",
+                "8": "0px 8px 10px 1px rgba(255, 235, 59, 0.14), 0px 3px 14px 2px rgba(255, 235, 59, 0.11), 0px 5px 5px -3px rgba(255, 235, 59, 0.17)",
+                "9": "0px 9px 12px 1px rgba(255, 235, 59, 0.14), 0px 3px 16px 2px rgba(255, 235, 59, 0.11), 0px 5px 6px -3px rgba(255, 235, 59, 0.17)",
+                "12": "0px 12px 17px 2px rgba(255, 235, 59, 0.14), 0px 5px 22px 4px rgba(255, 235, 59, 0.11), 0px 7px 7px -4px rgba(255, 235, 59, 0.17)",
+                "16": "0px 16px 24px 2px rgba(255, 235, 59, 0.14), 0px 6px 30px 5px rgba(255, 235, 59, 0.11), 0px 8px 10px -5px rgba(255, 235, 59, 0.17)",
+                "24": "0px 24px 37px 3px rgba(255, 235, 59, 0.14), 0px 9px 46px 8px rgba(255, 235, 59, 0.11), 0px 11px 15px -7px rgba(255, 235, 59, 0.17)"
+              },
+              "secondary": {
+                "0": "none",
+                "1": "0px 1px 1px 0px rgba(139, 195, 74, 0.14), 0px 2px 1px -1px rgba(139, 195, 74, 0.11), 0px 1px 3px 0px rgba(139, 195, 74, 0.17)",
+                "2": "0px 2px 2px 0px rgba(139, 195, 74, 0.14), 0px 3px 3px -2px rgba(139, 195, 74, 0.11), 0px 1px 8px 0px rgba(139, 195, 74, 0.17)",
+                "3": "0px 3px 4px 0px rgba(139, 195, 74, 0.14), 0px 3px 3px -2px rgba(139, 195, 74, 0.11), 0px 1px 8px 0px rgba(139, 195, 74, 0.17)",
+                "4": "0px 4px 5px 0px rgba(139, 195, 74, 0.14), 0px 1px 10px 0px rgba(139, 195, 74, 0.11), 0px 2px 4px -1px rgba(139, 195, 74, 0.17)",
+                "6": "0px 6px 10px 0px rgba(139, 195, 74, 0.14), 0px 1px 18px 0px rgba(139, 195, 74, 0.11), 0px 3px 5px -1px rgba(139, 195, 74, 0.17)",
+                "8": "0px 8px 10px 1px rgba(139, 195, 74, 0.14), 0px 3px 14px 2px rgba(139, 195, 74, 0.11), 0px 5px 5px -3px rgba(139, 195, 74, 0.17)",
+                "9": "0px 9px 12px 1px rgba(139, 195, 74, 0.14), 0px 3px 16px 2px rgba(139, 195, 74, 0.11), 0px 5px 6px -3px rgba(139, 195, 74, 0.17)",
+                "12": "0px 12px 17px 2px rgba(139, 195, 74, 0.14), 0px 5px 22px 4px rgba(139, 195, 74, 0.11), 0px 7px 7px -4px rgba(139, 195, 74, 0.17)",
+                "16": "0px 16px 24px 2px rgba(139, 195, 74, 0.14), 0px 6px 30px 5px rgba(139, 195, 74, 0.11), 0px 8px 10px -5px rgba(139, 195, 74, 0.17)",
+                "24": "0px 24px 37px 3px rgba(139, 195, 74, 0.14), 0px 9px 46px 8px rgba(139, 195, 74, 0.11), 0px 11px 15px -7px rgba(139, 195, 74, 0.17)"
+              },
+              "tertiary": {
+                "0": "none",
+                "1": "0px 1px 1px 0px rgba(255, 193, 7, 0.14), 0px 2px 1px -1px rgba(255, 193, 7, 0.11), 0px 1px 3px 0px rgba(255, 193, 7, 0.17)",
+                "2": "0px 2px 2px 0px rgba(255, 193, 7, 0.14), 0px 3px 3px -2px rgba(255, 193, 7, 0.11), 0px 1px 8px 0px rgba(255, 193, 7, 0.17)",
+                "3": "0px 3px 4px 0px rgba(255, 193, 7, 0.14), 0px 3px 3px -2px rgba(255, 193, 7, 0.11), 0px 1px 8px 0px rgba(255, 193, 7, 0.17)",
+                "4": "0px 4px 5px 0px rgba(255, 193, 7, 0.14), 0px 1px 10px 0px rgba(255, 193, 7, 0.11), 0px 2px 4px -1px rgba(255, 193, 7, 0.17)",
+                "6": "0px 6px 10px 0px rgba(255, 193, 7, 0.14), 0px 1px 18px 0px rgba(255, 193, 7, 0.11), 0px 3px 5px -1px rgba(255, 193, 7, 0.17)",
+                "8": "0px 8px 10px 1px rgba(255, 193, 7, 0.14), 0px 3px 14px 2px rgba(255, 193, 7, 0.11), 0px 5px 5px -3px rgba(255, 193, 7, 0.17)",
+                "9": "0px 9px 12px 1px rgba(255, 193, 7, 0.14), 0px 3px 16px 2px rgba(255, 193, 7, 0.11), 0px 5px 6px -3px rgba(255, 193, 7, 0.17)",
+                "12": "0px 12px 17px 2px rgba(255, 193, 7, 0.14), 0px 5px 22px 4px rgba(255, 193, 7, 0.11), 0px 7px 7px -4px rgba(255, 193, 7, 0.17)",
+                "16": "0px 16px 24px 2px rgba(255, 193, 7, 0.14), 0px 6px 30px 5px rgba(255, 193, 7, 0.11), 0px 8px 10px -5px rgba(255, 193, 7, 0.17)",
+                "24": "0px 24px 37px 3px rgba(255, 193, 7, 0.14), 0px 9px 46px 8px rgba(255, 193, 7, 0.11), 0px 11px 15px -7px rgba(255, 193, 7, 0.17)"
+              },
+              "quaternary": {
+                "0": "none",
+                "1": "0px 1px 1px 0px rgba(0, 188, 212, 0.14), 0px 2px 1px -1px rgba(0, 188, 212, 0.11), 0px 1px 3px 0px rgba(0, 188, 212, 0.17)",
+                "2": "0px 2px 2px 0px rgba(0, 188, 212, 0.14), 0px 3px 3px -2px rgba(0, 188, 212, 0.11), 0px 1px 8px 0px rgba(0, 188, 212, 0.17)",
+                "3": "0px 3px 4px 0px rgba(0, 188, 212, 0.14), 0px 3px 3px -2px rgba(0, 188, 212, 0.11), 0px 1px 8px 0px rgba(0, 188, 212, 0.17)",
+                "4": "0px 4px 5px 0px rgba(0, 188, 212, 0.14), 0px 1px 10px 0px rgba(0, 188, 212, 0.11), 0px 2px 4px -1px rgba(0, 188, 212, 0.17)",
+                "6": "0px 6px 10px 0px rgba(0, 188, 212, 0.14), 0px 1px 18px 0px rgba(0, 188, 212, 0.11), 0px 3px 5px -1px rgba(0, 188, 212, 0.17)",
+                "8": "0px 8px 10px 1px rgba(0, 188, 212, 0.14), 0px 3px 14px 2px rgba(0, 188, 212, 0.11), 0px 5px 5px -3px rgba(0, 188, 212, 0.17)",
+                "9": "0px 9px 12px 1px rgba(0, 188, 212, 0.14), 0px 3px 16px 2px rgba(0, 188, 212, 0.11), 0px 5px 6px -3px rgba(0, 188, 212, 0.17)",
+                "12": "0px 12px 17px 2px rgba(0, 188, 212, 0.14), 0px 5px 22px 4px rgba(0, 188, 212, 0.11), 0px 7px 7px -4px rgba(0, 188, 212, 0.17)",
+                "16": "0px 16px 24px 2px rgba(0, 188, 212, 0.14), 0px 6px 30px 5px rgba(0, 188, 212, 0.11), 0px 8px 10px -5px rgba(0, 188, 212, 0.17)",
+                "24": "0px 24px 37px 3px rgba(0, 188, 212, 0.14), 0px 9px 46px 8px rgba(0, 188, 212, 0.11), 0px 11px 15px -7px rgba(0, 188, 212, 0.17)"
+              },
+              "info": {
+                "0": "none",
+                "1": "0px 1px 1px 0px rgba(3, 169, 244, 0.14), 0px 2px 1px -1px rgba(3, 169, 244, 0.11), 0px 1px 3px 0px rgba(3, 169, 244, 0.17)",
+                "2": "0px 2px 2px 0px rgba(3, 169, 244, 0.14), 0px 3px 3px -2px rgba(3, 169, 244, 0.11), 0px 1px 8px 0px rgba(3, 169, 244, 0.17)",
+                "3": "0px 3px 4px 0px rgba(3, 169, 244, 0.14), 0px 3px 3px -2px rgba(3, 169, 244, 0.11), 0px 1px 8px 0px rgba(3, 169, 244, 0.17)",
+                "4": "0px 4px 5px 0px rgba(3, 169, 244, 0.14), 0px 1px 10px 0px rgba(3, 169, 244, 0.11), 0px 2px 4px -1px rgba(3, 169, 244, 0.17)",
+                "6": "0px 6px 10px 0px rgba(3, 169, 244, 0.14), 0px 1px 18px 0px rgba(3, 169, 244, 0.11), 0px 3px 5px -1px rgba(3, 169, 244, 0.17)",
+                "8": "0px 8px 10px 1px rgba(3, 169, 244, 0.14), 0px 3px 14px 2px rgba(3, 169, 244, 0.11), 0px 5px 5px -3px rgba(3, 169, 244, 0.17)",
+                "9": "0px 9px 12px 1px rgba(3, 169, 244, 0.14), 0px 3px 16px 2px rgba(3, 169, 244, 0.11), 0px 5px 6px -3px rgba(3, 169, 244, 0.17)",
+                "12": "0px 12px 17px 2px rgba(3, 169, 244, 0.14), 0px 5px 22px 4px rgba(3, 169, 244, 0.11), 0px 7px 7px -4px rgba(3, 169, 244, 0.17)",
+                "16": "0px 16px 24px 2px rgba(3, 169, 244, 0.14), 0px 6px 30px 5px rgba(3, 169, 244, 0.11), 0px 8px 10px -5px rgba(3, 169, 244, 0.17)",
+                "24": "0px 24px 37px 3px rgba(3, 169, 244, 0.14), 0px 9px 46px 8px rgba(3, 169, 244, 0.11), 0px 11px 15px -7px rgba(3, 169, 244, 0.17)"
+              },
+              "success": {
+                "0": "none",
+                "1": "0px 1px 1px 0px rgba(76, 175, 80, 0.14), 0px 2px 1px -1px rgba(76, 175, 80, 0.11), 0px 1px 3px 0px rgba(76, 175, 80, 0.17)",
+                "2": "0px 2px 2px 0px rgba(76, 175, 80, 0.14), 0px 3px 3px -2px rgba(76, 175, 80, 0.11), 0px 1px 8px 0px rgba(76, 175, 80, 0.17)",
+                "3": "0px 3px 4px 0px rgba(76, 175, 80, 0.14), 0px 3px 3px -2px rgba(76, 175, 80, 0.11), 0px 1px 8px 0px rgba(76, 175, 80, 0.17)",
+                "4": "0px 4px 5px 0px rgba(76, 175, 80, 0.14), 0px 1px 10px 0px rgba(76, 175, 80, 0.11), 0px 2px 4px -1px rgba(76, 175, 80, 0.17)",
+                "6": "0px 6px 10px 0px rgba(76, 175, 80, 0.14), 0px 1px 18px 0px rgba(76, 175, 80, 0.11), 0px 3px 5px -1px rgba(76, 175, 80, 0.17)",
+                "8": "0px 8px 10px 1px rgba(76, 175, 80, 0.14), 0px 3px 14px 2px rgba(76, 175, 80, 0.11), 0px 5px 5px -3px rgba(76, 175, 80, 0.17)",
+                "9": "0px 9px 12px 1px rgba(76, 175, 80, 0.14), 0px 3px 16px 2px rgba(76, 175, 80, 0.11), 0px 5px 6px -3px rgba(76, 175, 80, 0.17)",
+                "12": "0px 12px 17px 2px rgba(76, 175, 80, 0.14), 0px 5px 22px 4px rgba(76, 175, 80, 0.11), 0px 7px 7px -4px rgba(76, 175, 80, 0.17)",
+                "16": "0px 16px 24px 2px rgba(76, 175, 80, 0.14), 0px 6px 30px 5px rgba(76, 175, 80, 0.11), 0px 8px 10px -5px rgba(76, 175, 80, 0.17)",
+                "24": "0px 24px 37px 3px rgba(76, 175, 80, 0.14), 0px 9px 46px 8px rgba(76, 175, 80, 0.11), 0px 11px 15px -7px rgba(76, 175, 80, 0.17)"
+              },
+              "warning": {
+                "0": "none",
+                "1": "0px 1px 1px 0px rgba(255, 152, 0, 0.14), 0px 2px 1px -1px rgba(255, 152, 0, 0.11), 0px 1px 3px 0px rgba(255, 152, 0, 0.17)",
+                "2": "0px 2px 2px 0px rgba(255, 152, 0, 0.14), 0px 3px 3px -2px rgba(255, 152, 0, 0.11), 0px 1px 8px 0px rgba(255, 152, 0, 0.17)",
+                "3": "0px 3px 4px 0px rgba(255, 152, 0, 0.14), 0px 3px 3px -2px rgba(255, 152, 0, 0.11), 0px 1px 8px 0px rgba(255, 152, 0, 0.17)",
+                "4": "0px 4px 5px 0px rgba(255, 152, 0, 0.14), 0px 1px 10px 0px rgba(255, 152, 0, 0.11), 0px 2px 4px -1px rgba(255, 152, 0, 0.17)",
+                "6": "0px 6px 10px 0px rgba(255, 152, 0, 0.14), 0px 1px 18px 0px rgba(255, 152, 0, 0.11), 0px 3px 5px -1px rgba(255, 152, 0, 0.17)",
+                "8": "0px 8px 10px 1px rgba(255, 152, 0, 0.14), 0px 3px 14px 2px rgba(255, 152, 0, 0.11), 0px 5px 5px -3px rgba(255, 152, 0, 0.17)",
+                "9": "0px 9px 12px 1px rgba(255, 152, 0, 0.14), 0px 3px 16px 2px rgba(255, 152, 0, 0.11), 0px 5px 6px -3px rgba(255, 152, 0, 0.17)",
+                "12": "0px 12px 17px 2px rgba(255, 152, 0, 0.14), 0px 5px 22px 4px rgba(255, 152, 0, 0.11), 0px 7px 7px -4px rgba(255, 152, 0, 0.17)",
+                "16": "0px 16px 24px 2px rgba(255, 152, 0, 0.14), 0px 6px 30px 5px rgba(255, 152, 0, 0.11), 0px 8px 10px -5px rgba(255, 152, 0, 0.17)",
+                "24": "0px 24px 37px 3px rgba(255, 152, 0, 0.14), 0px 9px 46px 8px rgba(255, 152, 0, 0.11), 0px 11px 15px -7px rgba(255, 152, 0, 0.17)"
+              },
+              "error": {
+                "0": "none",
+                "1": "0px 1px 1px 0px rgba(255, 87, 34, 0.14), 0px 2px 1px -1px rgba(255, 87, 34, 0.11), 0px 1px 3px 0px rgba(255, 87, 34, 0.17)",
+                "2": "0px 2px 2px 0px rgba(255, 87, 34, 0.14), 0px 3px 3px -2px rgba(255, 87, 34, 0.11), 0px 1px 8px 0px rgba(255, 87, 34, 0.17)",
+                "3": "0px 3px 4px 0px rgba(255, 87, 34, 0.14), 0px 3px 3px -2px rgba(255, 87, 34, 0.11), 0px 1px 8px 0px rgba(255, 87, 34, 0.17)",
+                "4": "0px 4px 5px 0px rgba(255, 87, 34, 0.14), 0px 1px 10px 0px rgba(255, 87, 34, 0.11), 0px 2px 4px -1px rgba(255, 87, 34, 0.17)",
+                "6": "0px 6px 10px 0px rgba(255, 87, 34, 0.14), 0px 1px 18px 0px rgba(255, 87, 34, 0.11), 0px 3px 5px -1px rgba(255, 87, 34, 0.17)",
+                "8": "0px 8px 10px 1px rgba(255, 87, 34, 0.14), 0px 3px 14px 2px rgba(255, 87, 34, 0.11), 0px 5px 5px -3px rgba(255, 87, 34, 0.17)",
+                "9": "0px 9px 12px 1px rgba(255, 87, 34, 0.14), 0px 3px 16px 2px rgba(255, 87, 34, 0.11), 0px 5px 6px -3px rgba(255, 87, 34, 0.17)",
+                "12": "0px 12px 17px 2px rgba(255, 87, 34, 0.14), 0px 5px 22px 4px rgba(255, 87, 34, 0.11), 0px 7px 7px -4px rgba(255, 87, 34, 0.17)",
+                "16": "0px 16px 24px 2px rgba(255, 87, 34, 0.14), 0px 6px 30px 5px rgba(255, 87, 34, 0.11), 0px 8px 10px -5px rgba(255, 87, 34, 0.17)",
+                "24": "0px 24px 37px 3px rgba(255, 87, 34, 0.14), 0px 9px 46px 8px rgba(255, 87, 34, 0.11), 0px 11px 15px -7px rgba(255, 87, 34, 0.17)"
+              },
+              "neutral": {
+                "0": "none",
+                "1": "0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.11), 0px 1px 3px 0px rgba(0, 0, 0, 0.17)",
+                "2": "0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 3px -2px rgba(0, 0, 0, 0.11), 0px 1px 8px 0px rgba(0, 0, 0, 0.17)",
+                "3": "0px 3px 4px 0px rgba(0, 0, 0, 0.14), 0px 3px 3px -2px rgba(0, 0, 0, 0.11), 0px 1px 8px 0px rgba(0, 0, 0, 0.17)",
+                "4": "0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.11), 0px 2px 4px -1px rgba(0, 0, 0, 0.17)",
+                "6": "0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.11), 0px 3px 5px -1px rgba(0, 0, 0, 0.17)",
+                "8": "0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.11), 0px 5px 5px -3px rgba(0, 0, 0, 0.17)",
+                "9": "0px 9px 12px 1px rgba(0, 0, 0, 0.14), 0px 3px 16px 2px rgba(0, 0, 0, 0.11), 0px 5px 6px -3px rgba(0, 0, 0, 0.17)",
+                "12": "0px 12px 17px 2px rgba(0, 0, 0, 0.14), 0px 5px 22px 4px rgba(0, 0, 0, 0.11), 0px 7px 7px -4px rgba(0, 0, 0, 0.17)",
+                "16": "0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.11), 0px 8px 10px -5px rgba(0, 0, 0, 0.17)",
+                "24": "0px 24px 37px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.11), 0px 11px 15px -7px rgba(0, 0, 0, 0.17)"
+              },
+              "a": {
+                "0": "none",
+                "1": "0px 1px 1px 0px rgba(244, 244, 218, 0.14), 0px 2px 1px -1px rgba(244, 244, 218, 0.11), 0px 1px 3px 0px rgba(244, 244, 218, 0.17)",
+                "2": "0px 2px 2px 0px rgba(244, 244, 218, 0.14), 0px 3px 3px -2px rgba(244, 244, 218, 0.11), 0px 1px 8px 0px rgba(244, 244, 218, 0.17)",
+                "3": "0px 3px 4px 0px rgba(244, 244, 218, 0.14), 0px 3px 3px -2px rgba(244, 244, 218, 0.11), 0px 1px 8px 0px rgba(244, 244, 218, 0.17)",
+                "4": "0px 4px 5px 0px rgba(244, 244, 218, 0.14), 0px 1px 10px 0px rgba(244, 244, 218, 0.11), 0px 2px 4px -1px rgba(244, 244, 218, 0.17)",
+                "6": "0px 6px 10px 0px rgba(244, 244, 218, 0.14), 0px 1px 18px 0px rgba(244, 244, 218, 0.11), 0px 3px 5px -1px rgba(244, 244, 218, 0.17)",
+                "8": "0px 8px 10px 1px rgba(244, 244, 218, 0.14), 0px 3px 14px 2px rgba(244, 244, 218, 0.11), 0px 5px 5px -3px rgba(244, 244, 218, 0.17)",
+                "9": "0px 9px 12px 1px rgba(244, 244, 218, 0.14), 0px 3px 16px 2px rgba(244, 244, 218, 0.11), 0px 5px 6px -3px rgba(244, 244, 218, 0.17)",
+                "12": "0px 12px 17px 2px rgba(244, 244, 218, 0.14), 0px 5px 22px 4px rgba(244, 244, 218, 0.11), 0px 7px 7px -4px rgba(244, 244, 218, 0.17)",
+                "16": "0px 16px 24px 2px rgba(244, 244, 218, 0.14), 0px 6px 30px 5px rgba(244, 244, 218, 0.11), 0px 8px 10px -5px rgba(244, 244, 218, 0.17)",
+                "24": "0px 24px 37px 3px rgba(244, 244, 218, 0.14), 0px 9px 46px 8px rgba(244, 244, 218, 0.11), 0px 11px 15px -7px rgba(244, 244, 218, 0.17)"
+              }
             },
-            "quaternary": {
-              "primary": "rgba(102, 237, 255, 0.87)",
-              "secondary": "rgba(102, 237, 255, 0.54)",
-              "tertiary": "rgba(102, 237, 255, 0.37)",
-              "quaternary": "rgba(102, 237, 255, 0.24)"
+            "opacities": [
+              0.14,
+              0.11,
+              0.17
+            ]
+          },
+          "typography": {
+            "unit": "px",
+            "font_size": {
+              "html": 16
             },
-            "info": {
-              "primary": "rgba(104, 206, 253, 0.87)",
-              "secondary": "rgba(104, 206, 253, 0.54)",
-              "tertiary": "rgba(104, 206, 253, 0.37)",
-              "quaternary": "rgba(104, 206, 253, 0.24)"
+            "font_family": {
+              "primary": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+              "secondary": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+              "mono": "Roboto Mono, monospace"
             },
-            "success": {
-              "primary": "rgba(149, 208, 151, 0.87)",
-              "secondary": "rgba(149, 208, 151, 0.54)",
-              "tertiary": "rgba(149, 208, 151, 0.37)",
-              "quaternary": "rgba(149, 208, 151, 0.24)"
-            },
-            "warning": {
-              "primary": "rgba(255, 194, 102, 0.87)",
-              "secondary": "rgba(255, 194, 102, 0.54)",
-              "tertiary": "rgba(255, 194, 102, 0.37)",
-              "quaternary": "rgba(255, 194, 102, 0.24)"
-            },
-            "error": {
-              "primary": "rgba(255, 138, 102, 0.87)",
-              "secondary": "rgba(255, 138, 102, 0.54)",
-              "tertiary": "rgba(255, 138, 102, 0.37)",
-              "quaternary": "rgba(255, 138, 102, 0.24)"
-            },
-            "neutral": {
-              "primary": "rgba(255, 255, 255, 0.87)",
-              "secondary": "rgba(255, 255, 255, 0.54)",
-              "tertiary": "rgba(255, 255, 255, 0.37)",
-              "quaternary": "rgba(255, 255, 255, 0.24)"
-            },
-            "default": {
-              "primary": "rgba(255, 255, 255, 0.87)",
-              "secondary": "rgba(255, 255, 255, 0.54)",
-              "tertiary": "rgba(255, 255, 255, 0.37)",
-              "quaternary": "rgba(255, 255, 255, 0.24)"
-            },
-            "divider": "rgba(255, 255, 255, 0.14)",
-            "active": "rgba(255, 255, 255, 0.54)",
-            "hover": "rgba(255, 255, 255, 0.04)",
-            "selected": "rgba(255, 255, 255, 0.07)",
-            "focus": "rgba(255, 255, 255, 0.11)",
-            "disabled": "rgba(255, 255, 255, 0.37)",
-            "a": {
-              "primary": "rgba(220, 220, 137, 0.87)",
-              "secondary": "rgba(220, 220, 137, 0.54)",
-              "tertiary": "rgba(220, 220, 137, 0.37)",
-              "quaternary": "rgba(220, 220, 137, 0.24)"
+            "values": {
+              "d1": {
+                "fontSize": "3.5625rem",
+                "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                "fontWeight": 400,
+                "lineHeight": 1.1228070175438596,
+                "letterSpacing": "0em"
+              },
+              "d2": {
+                "fontSize": "2.8125rem",
+                "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                "fontWeight": 400,
+                "lineHeight": 1.1555555555555554,
+                "letterSpacing": "0em"
+              },
+              "d3": {
+                "fontSize": "2.1875rem",
+                "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                "fontWeight": 400,
+                "lineHeight": 1.2571428571428571,
+                "letterSpacing": "0em"
+              },
+              "h1": {
+                "fontSize": "2rem",
+                "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                "fontWeight": 400,
+                "lineHeight": 1.25,
+                "letterSpacing": "0em"
+              },
+              "h2": {
+                "fontSize": "1.6875rem",
+                "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                "fontWeight": 400,
+                "lineHeight": 1.2962962962962963,
+                "letterSpacing": "0em"
+              },
+              "h3": {
+                "fontSize": "1.5rem",
+                "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                "fontWeight": 400,
+                "lineHeight": 1.3333333333333333,
+                "letterSpacing": "0em"
+              },
+              "t1": {
+                "fontSize": "1.3125rem",
+                "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                "fontWeight": 400,
+                "lineHeight": 3.0476190476190474,
+                "letterSpacing": "0em"
+              },
+              "t2": {
+                "fontSize": "1rem",
+                "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                "fontWeight": 500,
+                "lineHeight": 1.5,
+                "letterSpacing": ".15em"
+              },
+              "t3": {
+                "fontSize": "0.875rem",
+                "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                "fontWeight": 500,
+                "lineHeight": 1.4285714285714286,
+                "letterSpacing": ".1em"
+              },
+              "l1": {
+                "fontSize": "0.875rem",
+                "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                "fontWeight": 500,
+                "lineHeight": 1.4285714285714286,
+                "letterSpacing": ".1em"
+              },
+              "l2": {
+                "fontSize": "0.75rem",
+                "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                "fontWeight": 500,
+                "lineHeight": 1.25,
+                "letterSpacing": ".5em"
+              },
+              "l3": {
+                "fontSize": "0.6875rem",
+                "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                "fontWeight": 500,
+                "lineHeight": 0.45454545454545453,
+                "letterSpacing": ".5em"
+              },
+              "b1": {
+                "fontSize": "1rem",
+                "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                "fontWeight": 400,
+                "lineHeight": 1.5,
+                "letterSpacing": ".5em"
+              },
+              "b2": {
+                "fontSize": "0.875rem",
+                "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                "fontWeight": 400,
+                "lineHeight": 1.4285714285714286,
+                "letterSpacing": ".25em"
+              },
+              "b3": {
+                "fontSize": "0.6875rem",
+                "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                "fontWeight": 400,
+                "lineHeight": 1.3636363636363635,
+                "letterSpacing": ".4em"
+              }
             }
           },
-          "background": {
-            "primary": {
-              "primary": "rgb(0, 0, 0)",
-              "secondary": "rgb(5, 5, 0)",
-              "tertiary": "rgb(26, 23, 0)",
-              "quaternary": "rgb(51, 46, 0)"
-            },
-            "secondary": {
-              "primary": "rgb(0, 0, 0)",
-              "secondary": "rgb(3, 4, 1)",
-              "tertiary": "rgb(13, 19, 6)",
-              "quaternary": "rgb(26, 38, 13)"
-            },
-            "tertiary": {
-              "primary": "rgb(0, 0, 0)",
-              "secondary": "rgb(5, 4, 0)",
-              "tertiary": "rgb(26, 19, 0)",
-              "quaternary": "rgb(51, 38, 0)"
-            },
-            "quaternary": {
-              "primary": "rgb(0, 0, 0)",
-              "secondary": "rgb(0, 5, 5)",
-              "tertiary": "rgb(0, 23, 26)",
-              "quaternary": "rgb(0, 45, 51)"
-            },
-            "info": {
-              "primary": "rgb(0, 0, 0)",
-              "secondary": "rgb(0, 3, 5)",
-              "tertiary": "rgb(0, 17, 25)",
-              "quaternary": "rgb(1, 35, 50)"
-            },
-            "success": {
-              "primary": "rgb(0, 0, 0)",
-              "secondary": "rgb(2, 4, 2)",
-              "tertiary": "rgb(8, 18, 8)",
-              "quaternary": "rgb(16, 35, 16)"
-            },
-            "warning": {
-              "primary": "rgb(0, 0, 0)",
-              "secondary": "rgb(5, 3, 0)",
-              "tertiary": "rgb(26, 15, 0)",
-              "quaternary": "rgb(51, 31, 0)"
-            },
-            "error": {
-              "primary": "rgb(0, 0, 0)",
-              "secondary": "rgb(5, 1, 0)",
-              "tertiary": "rgb(26, 6, 0)",
-              "quaternary": "rgb(51, 12, 0)"
-            },
-            "neutral": {
-              "primary": "rgb(0, 0, 0)",
-              "secondary": "rgb(3, 3, 3)",
-              "tertiary": "rgb(13, 13, 13)",
-              "quaternary": "rgb(26, 26, 26)"
-            },
-            "default": {
-              "primary": "rgb(0, 0, 0)",
-              "secondary": "rgb(3, 3, 3)",
-              "tertiary": "rgb(13, 13, 13)",
-              "quaternary": "rgb(26, 26, 26)"
-            },
-            "a": {
-              "primary": "rgb(0, 0, 0)",
-              "secondary": "rgb(4, 4, 1)",
-              "tertiary": "rgb(20, 20, 6)",
-              "quaternary": "rgb(39, 39, 12)"
+          "z_index": {
+            "tooltip": 1700,
+            "modal": 1500,
+            "menu_modal": 1400,
+            "menu": 1300,
+            "button_float": 1200,
+            "app_bar": 1100,
+            "main": 1000,
+            "text": 0
+          }
+        }
+      ],
+      [
+        [
+          {
+            "palette": {
+              "light": false,
+              "color": {
+                "a": {
+                  "main": "#f4f4da"
+                }
+              }
             }
           }
-        },
-        "shape": {
-          "radius": {
-            "xs": 4,
-            "sm": 8,
-            "md": 12,
-            "lg": 16,
-            "xl": 28
-          }
-        },
-        "breakpoints": {
-          "values": {
-            "xs": 0,
-            "sm": 600,
-            "md": 1240,
-            "lg": 1440,
-            "xl": 1920
-          },
-          "unit": "px"
-        },
-        "space": {
-          "values": {
-            "xs": 4,
-            "sm": 8,
-            "md": 16,
-            "lg": 32,
-            "xl": 64
-          },
-          "unit": 8
-        },
-        "shadows": {
-          "values": {
-            "primary": {
-              "0": "none",
-              "1": "0px 1px 1px 0px rgba(255, 235, 59, 0.14), 0px 2px 1px -1px rgba(255, 235, 59, 0.11), 0px 1px 3px 0px rgba(255, 235, 59, 0.17)",
-              "2": "0px 2px 2px 0px rgba(255, 235, 59, 0.14), 0px 3px 3px -2px rgba(255, 235, 59, 0.11), 0px 1px 8px 0px rgba(255, 235, 59, 0.17)",
-              "3": "0px 3px 4px 0px rgba(255, 235, 59, 0.14), 0px 3px 3px -2px rgba(255, 235, 59, 0.11), 0px 1px 8px 0px rgba(255, 235, 59, 0.17)",
-              "4": "0px 4px 5px 0px rgba(255, 235, 59, 0.14), 0px 1px 10px 0px rgba(255, 235, 59, 0.11), 0px 2px 4px -1px rgba(255, 235, 59, 0.17)",
-              "6": "0px 6px 10px 0px rgba(255, 235, 59, 0.14), 0px 1px 18px 0px rgba(255, 235, 59, 0.11), 0px 3px 5px -1px rgba(255, 235, 59, 0.17)",
-              "8": "0px 8px 10px 1px rgba(255, 235, 59, 0.14), 0px 3px 14px 2px rgba(255, 235, 59, 0.11), 0px 5px 5px -3px rgba(255, 235, 59, 0.17)",
-              "9": "0px 9px 12px 1px rgba(255, 235, 59, 0.14), 0px 3px 16px 2px rgba(255, 235, 59, 0.11), 0px 5px 6px -3px rgba(255, 235, 59, 0.17)",
-              "12": "0px 12px 17px 2px rgba(255, 235, 59, 0.14), 0px 5px 22px 4px rgba(255, 235, 59, 0.11), 0px 7px 7px -4px rgba(255, 235, 59, 0.17)",
-              "16": "0px 16px 24px 2px rgba(255, 235, 59, 0.14), 0px 6px 30px 5px rgba(255, 235, 59, 0.11), 0px 8px 10px -5px rgba(255, 235, 59, 0.17)",
-              "24": "0px 24px 37px 3px rgba(255, 235, 59, 0.14), 0px 9px 46px 8px rgba(255, 235, 59, 0.11), 0px 11px 15px -7px rgba(255, 235, 59, 0.17)"
-            },
-            "secondary": {
-              "0": "none",
-              "1": "0px 1px 1px 0px rgba(139, 195, 74, 0.14), 0px 2px 1px -1px rgba(139, 195, 74, 0.11), 0px 1px 3px 0px rgba(139, 195, 74, 0.17)",
-              "2": "0px 2px 2px 0px rgba(139, 195, 74, 0.14), 0px 3px 3px -2px rgba(139, 195, 74, 0.11), 0px 1px 8px 0px rgba(139, 195, 74, 0.17)",
-              "3": "0px 3px 4px 0px rgba(139, 195, 74, 0.14), 0px 3px 3px -2px rgba(139, 195, 74, 0.11), 0px 1px 8px 0px rgba(139, 195, 74, 0.17)",
-              "4": "0px 4px 5px 0px rgba(139, 195, 74, 0.14), 0px 1px 10px 0px rgba(139, 195, 74, 0.11), 0px 2px 4px -1px rgba(139, 195, 74, 0.17)",
-              "6": "0px 6px 10px 0px rgba(139, 195, 74, 0.14), 0px 1px 18px 0px rgba(139, 195, 74, 0.11), 0px 3px 5px -1px rgba(139, 195, 74, 0.17)",
-              "8": "0px 8px 10px 1px rgba(139, 195, 74, 0.14), 0px 3px 14px 2px rgba(139, 195, 74, 0.11), 0px 5px 5px -3px rgba(139, 195, 74, 0.17)",
-              "9": "0px 9px 12px 1px rgba(139, 195, 74, 0.14), 0px 3px 16px 2px rgba(139, 195, 74, 0.11), 0px 5px 6px -3px rgba(139, 195, 74, 0.17)",
-              "12": "0px 12px 17px 2px rgba(139, 195, 74, 0.14), 0px 5px 22px 4px rgba(139, 195, 74, 0.11), 0px 7px 7px -4px rgba(139, 195, 74, 0.17)",
-              "16": "0px 16px 24px 2px rgba(139, 195, 74, 0.14), 0px 6px 30px 5px rgba(139, 195, 74, 0.11), 0px 8px 10px -5px rgba(139, 195, 74, 0.17)",
-              "24": "0px 24px 37px 3px rgba(139, 195, 74, 0.14), 0px 9px 46px 8px rgba(139, 195, 74, 0.11), 0px 11px 15px -7px rgba(139, 195, 74, 0.17)"
-            },
-            "tertiary": {
-              "0": "none",
-              "1": "0px 1px 1px 0px rgba(255, 193, 7, 0.14), 0px 2px 1px -1px rgba(255, 193, 7, 0.11), 0px 1px 3px 0px rgba(255, 193, 7, 0.17)",
-              "2": "0px 2px 2px 0px rgba(255, 193, 7, 0.14), 0px 3px 3px -2px rgba(255, 193, 7, 0.11), 0px 1px 8px 0px rgba(255, 193, 7, 0.17)",
-              "3": "0px 3px 4px 0px rgba(255, 193, 7, 0.14), 0px 3px 3px -2px rgba(255, 193, 7, 0.11), 0px 1px 8px 0px rgba(255, 193, 7, 0.17)",
-              "4": "0px 4px 5px 0px rgba(255, 193, 7, 0.14), 0px 1px 10px 0px rgba(255, 193, 7, 0.11), 0px 2px 4px -1px rgba(255, 193, 7, 0.17)",
-              "6": "0px 6px 10px 0px rgba(255, 193, 7, 0.14), 0px 1px 18px 0px rgba(255, 193, 7, 0.11), 0px 3px 5px -1px rgba(255, 193, 7, 0.17)",
-              "8": "0px 8px 10px 1px rgba(255, 193, 7, 0.14), 0px 3px 14px 2px rgba(255, 193, 7, 0.11), 0px 5px 5px -3px rgba(255, 193, 7, 0.17)",
-              "9": "0px 9px 12px 1px rgba(255, 193, 7, 0.14), 0px 3px 16px 2px rgba(255, 193, 7, 0.11), 0px 5px 6px -3px rgba(255, 193, 7, 0.17)",
-              "12": "0px 12px 17px 2px rgba(255, 193, 7, 0.14), 0px 5px 22px 4px rgba(255, 193, 7, 0.11), 0px 7px 7px -4px rgba(255, 193, 7, 0.17)",
-              "16": "0px 16px 24px 2px rgba(255, 193, 7, 0.14), 0px 6px 30px 5px rgba(255, 193, 7, 0.11), 0px 8px 10px -5px rgba(255, 193, 7, 0.17)",
-              "24": "0px 24px 37px 3px rgba(255, 193, 7, 0.14), 0px 9px 46px 8px rgba(255, 193, 7, 0.11), 0px 11px 15px -7px rgba(255, 193, 7, 0.17)"
-            },
-            "quaternary": {
-              "0": "none",
-              "1": "0px 1px 1px 0px rgba(0, 188, 212, 0.14), 0px 2px 1px -1px rgba(0, 188, 212, 0.11), 0px 1px 3px 0px rgba(0, 188, 212, 0.17)",
-              "2": "0px 2px 2px 0px rgba(0, 188, 212, 0.14), 0px 3px 3px -2px rgba(0, 188, 212, 0.11), 0px 1px 8px 0px rgba(0, 188, 212, 0.17)",
-              "3": "0px 3px 4px 0px rgba(0, 188, 212, 0.14), 0px 3px 3px -2px rgba(0, 188, 212, 0.11), 0px 1px 8px 0px rgba(0, 188, 212, 0.17)",
-              "4": "0px 4px 5px 0px rgba(0, 188, 212, 0.14), 0px 1px 10px 0px rgba(0, 188, 212, 0.11), 0px 2px 4px -1px rgba(0, 188, 212, 0.17)",
-              "6": "0px 6px 10px 0px rgba(0, 188, 212, 0.14), 0px 1px 18px 0px rgba(0, 188, 212, 0.11), 0px 3px 5px -1px rgba(0, 188, 212, 0.17)",
-              "8": "0px 8px 10px 1px rgba(0, 188, 212, 0.14), 0px 3px 14px 2px rgba(0, 188, 212, 0.11), 0px 5px 5px -3px rgba(0, 188, 212, 0.17)",
-              "9": "0px 9px 12px 1px rgba(0, 188, 212, 0.14), 0px 3px 16px 2px rgba(0, 188, 212, 0.11), 0px 5px 6px -3px rgba(0, 188, 212, 0.17)",
-              "12": "0px 12px 17px 2px rgba(0, 188, 212, 0.14), 0px 5px 22px 4px rgba(0, 188, 212, 0.11), 0px 7px 7px -4px rgba(0, 188, 212, 0.17)",
-              "16": "0px 16px 24px 2px rgba(0, 188, 212, 0.14), 0px 6px 30px 5px rgba(0, 188, 212, 0.11), 0px 8px 10px -5px rgba(0, 188, 212, 0.17)",
-              "24": "0px 24px 37px 3px rgba(0, 188, 212, 0.14), 0px 9px 46px 8px rgba(0, 188, 212, 0.11), 0px 11px 15px -7px rgba(0, 188, 212, 0.17)"
-            },
-            "info": {
-              "0": "none",
-              "1": "0px 1px 1px 0px rgba(3, 169, 244, 0.14), 0px 2px 1px -1px rgba(3, 169, 244, 0.11), 0px 1px 3px 0px rgba(3, 169, 244, 0.17)",
-              "2": "0px 2px 2px 0px rgba(3, 169, 244, 0.14), 0px 3px 3px -2px rgba(3, 169, 244, 0.11), 0px 1px 8px 0px rgba(3, 169, 244, 0.17)",
-              "3": "0px 3px 4px 0px rgba(3, 169, 244, 0.14), 0px 3px 3px -2px rgba(3, 169, 244, 0.11), 0px 1px 8px 0px rgba(3, 169, 244, 0.17)",
-              "4": "0px 4px 5px 0px rgba(3, 169, 244, 0.14), 0px 1px 10px 0px rgba(3, 169, 244, 0.11), 0px 2px 4px -1px rgba(3, 169, 244, 0.17)",
-              "6": "0px 6px 10px 0px rgba(3, 169, 244, 0.14), 0px 1px 18px 0px rgba(3, 169, 244, 0.11), 0px 3px 5px -1px rgba(3, 169, 244, 0.17)",
-              "8": "0px 8px 10px 1px rgba(3, 169, 244, 0.14), 0px 3px 14px 2px rgba(3, 169, 244, 0.11), 0px 5px 5px -3px rgba(3, 169, 244, 0.17)",
-              "9": "0px 9px 12px 1px rgba(3, 169, 244, 0.14), 0px 3px 16px 2px rgba(3, 169, 244, 0.11), 0px 5px 6px -3px rgba(3, 169, 244, 0.17)",
-              "12": "0px 12px 17px 2px rgba(3, 169, 244, 0.14), 0px 5px 22px 4px rgba(3, 169, 244, 0.11), 0px 7px 7px -4px rgba(3, 169, 244, 0.17)",
-              "16": "0px 16px 24px 2px rgba(3, 169, 244, 0.14), 0px 6px 30px 5px rgba(3, 169, 244, 0.11), 0px 8px 10px -5px rgba(3, 169, 244, 0.17)",
-              "24": "0px 24px 37px 3px rgba(3, 169, 244, 0.14), 0px 9px 46px 8px rgba(3, 169, 244, 0.11), 0px 11px 15px -7px rgba(3, 169, 244, 0.17)"
-            },
-            "success": {
-              "0": "none",
-              "1": "0px 1px 1px 0px rgba(76, 175, 80, 0.14), 0px 2px 1px -1px rgba(76, 175, 80, 0.11), 0px 1px 3px 0px rgba(76, 175, 80, 0.17)",
-              "2": "0px 2px 2px 0px rgba(76, 175, 80, 0.14), 0px 3px 3px -2px rgba(76, 175, 80, 0.11), 0px 1px 8px 0px rgba(76, 175, 80, 0.17)",
-              "3": "0px 3px 4px 0px rgba(76, 175, 80, 0.14), 0px 3px 3px -2px rgba(76, 175, 80, 0.11), 0px 1px 8px 0px rgba(76, 175, 80, 0.17)",
-              "4": "0px 4px 5px 0px rgba(76, 175, 80, 0.14), 0px 1px 10px 0px rgba(76, 175, 80, 0.11), 0px 2px 4px -1px rgba(76, 175, 80, 0.17)",
-              "6": "0px 6px 10px 0px rgba(76, 175, 80, 0.14), 0px 1px 18px 0px rgba(76, 175, 80, 0.11), 0px 3px 5px -1px rgba(76, 175, 80, 0.17)",
-              "8": "0px 8px 10px 1px rgba(76, 175, 80, 0.14), 0px 3px 14px 2px rgba(76, 175, 80, 0.11), 0px 5px 5px -3px rgba(76, 175, 80, 0.17)",
-              "9": "0px 9px 12px 1px rgba(76, 175, 80, 0.14), 0px 3px 16px 2px rgba(76, 175, 80, 0.11), 0px 5px 6px -3px rgba(76, 175, 80, 0.17)",
-              "12": "0px 12px 17px 2px rgba(76, 175, 80, 0.14), 0px 5px 22px 4px rgba(76, 175, 80, 0.11), 0px 7px 7px -4px rgba(76, 175, 80, 0.17)",
-              "16": "0px 16px 24px 2px rgba(76, 175, 80, 0.14), 0px 6px 30px 5px rgba(76, 175, 80, 0.11), 0px 8px 10px -5px rgba(76, 175, 80, 0.17)",
-              "24": "0px 24px 37px 3px rgba(76, 175, 80, 0.14), 0px 9px 46px 8px rgba(76, 175, 80, 0.11), 0px 11px 15px -7px rgba(76, 175, 80, 0.17)"
-            },
-            "warning": {
-              "0": "none",
-              "1": "0px 1px 1px 0px rgba(255, 152, 0, 0.14), 0px 2px 1px -1px rgba(255, 152, 0, 0.11), 0px 1px 3px 0px rgba(255, 152, 0, 0.17)",
-              "2": "0px 2px 2px 0px rgba(255, 152, 0, 0.14), 0px 3px 3px -2px rgba(255, 152, 0, 0.11), 0px 1px 8px 0px rgba(255, 152, 0, 0.17)",
-              "3": "0px 3px 4px 0px rgba(255, 152, 0, 0.14), 0px 3px 3px -2px rgba(255, 152, 0, 0.11), 0px 1px 8px 0px rgba(255, 152, 0, 0.17)",
-              "4": "0px 4px 5px 0px rgba(255, 152, 0, 0.14), 0px 1px 10px 0px rgba(255, 152, 0, 0.11), 0px 2px 4px -1px rgba(255, 152, 0, 0.17)",
-              "6": "0px 6px 10px 0px rgba(255, 152, 0, 0.14), 0px 1px 18px 0px rgba(255, 152, 0, 0.11), 0px 3px 5px -1px rgba(255, 152, 0, 0.17)",
-              "8": "0px 8px 10px 1px rgba(255, 152, 0, 0.14), 0px 3px 14px 2px rgba(255, 152, 0, 0.11), 0px 5px 5px -3px rgba(255, 152, 0, 0.17)",
-              "9": "0px 9px 12px 1px rgba(255, 152, 0, 0.14), 0px 3px 16px 2px rgba(255, 152, 0, 0.11), 0px 5px 6px -3px rgba(255, 152, 0, 0.17)",
-              "12": "0px 12px 17px 2px rgba(255, 152, 0, 0.14), 0px 5px 22px 4px rgba(255, 152, 0, 0.11), 0px 7px 7px -4px rgba(255, 152, 0, 0.17)",
-              "16": "0px 16px 24px 2px rgba(255, 152, 0, 0.14), 0px 6px 30px 5px rgba(255, 152, 0, 0.11), 0px 8px 10px -5px rgba(255, 152, 0, 0.17)",
-              "24": "0px 24px 37px 3px rgba(255, 152, 0, 0.14), 0px 9px 46px 8px rgba(255, 152, 0, 0.11), 0px 11px 15px -7px rgba(255, 152, 0, 0.17)"
-            },
-            "error": {
-              "0": "none",
-              "1": "0px 1px 1px 0px rgba(255, 87, 34, 0.14), 0px 2px 1px -1px rgba(255, 87, 34, 0.11), 0px 1px 3px 0px rgba(255, 87, 34, 0.17)",
-              "2": "0px 2px 2px 0px rgba(255, 87, 34, 0.14), 0px 3px 3px -2px rgba(255, 87, 34, 0.11), 0px 1px 8px 0px rgba(255, 87, 34, 0.17)",
-              "3": "0px 3px 4px 0px rgba(255, 87, 34, 0.14), 0px 3px 3px -2px rgba(255, 87, 34, 0.11), 0px 1px 8px 0px rgba(255, 87, 34, 0.17)",
-              "4": "0px 4px 5px 0px rgba(255, 87, 34, 0.14), 0px 1px 10px 0px rgba(255, 87, 34, 0.11), 0px 2px 4px -1px rgba(255, 87, 34, 0.17)",
-              "6": "0px 6px 10px 0px rgba(255, 87, 34, 0.14), 0px 1px 18px 0px rgba(255, 87, 34, 0.11), 0px 3px 5px -1px rgba(255, 87, 34, 0.17)",
-              "8": "0px 8px 10px 1px rgba(255, 87, 34, 0.14), 0px 3px 14px 2px rgba(255, 87, 34, 0.11), 0px 5px 5px -3px rgba(255, 87, 34, 0.17)",
-              "9": "0px 9px 12px 1px rgba(255, 87, 34, 0.14), 0px 3px 16px 2px rgba(255, 87, 34, 0.11), 0px 5px 6px -3px rgba(255, 87, 34, 0.17)",
-              "12": "0px 12px 17px 2px rgba(255, 87, 34, 0.14), 0px 5px 22px 4px rgba(255, 87, 34, 0.11), 0px 7px 7px -4px rgba(255, 87, 34, 0.17)",
-              "16": "0px 16px 24px 2px rgba(255, 87, 34, 0.14), 0px 6px 30px 5px rgba(255, 87, 34, 0.11), 0px 8px 10px -5px rgba(255, 87, 34, 0.17)",
-              "24": "0px 24px 37px 3px rgba(255, 87, 34, 0.14), 0px 9px 46px 8px rgba(255, 87, 34, 0.11), 0px 11px 15px -7px rgba(255, 87, 34, 0.17)"
-            },
-            "neutral": {
-              "0": "none",
-              "1": "0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.11), 0px 1px 3px 0px rgba(0, 0, 0, 0.17)",
-              "2": "0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 3px -2px rgba(0, 0, 0, 0.11), 0px 1px 8px 0px rgba(0, 0, 0, 0.17)",
-              "3": "0px 3px 4px 0px rgba(0, 0, 0, 0.14), 0px 3px 3px -2px rgba(0, 0, 0, 0.11), 0px 1px 8px 0px rgba(0, 0, 0, 0.17)",
-              "4": "0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.11), 0px 2px 4px -1px rgba(0, 0, 0, 0.17)",
-              "6": "0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.11), 0px 3px 5px -1px rgba(0, 0, 0, 0.17)",
-              "8": "0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.11), 0px 5px 5px -3px rgba(0, 0, 0, 0.17)",
-              "9": "0px 9px 12px 1px rgba(0, 0, 0, 0.14), 0px 3px 16px 2px rgba(0, 0, 0, 0.11), 0px 5px 6px -3px rgba(0, 0, 0, 0.17)",
-              "12": "0px 12px 17px 2px rgba(0, 0, 0, 0.14), 0px 5px 22px 4px rgba(0, 0, 0, 0.11), 0px 7px 7px -4px rgba(0, 0, 0, 0.17)",
-              "16": "0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.11), 0px 8px 10px -5px rgba(0, 0, 0, 0.17)",
-              "24": "0px 24px 37px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.11), 0px 11px 15px -7px rgba(0, 0, 0, 0.17)"
-            },
-            "a": {
-              "0": "none",
-              "1": "0px 1px 1px 0px rgba(244, 244, 218, 0.14), 0px 2px 1px -1px rgba(244, 244, 218, 0.11), 0px 1px 3px 0px rgba(244, 244, 218, 0.17)",
-              "2": "0px 2px 2px 0px rgba(244, 244, 218, 0.14), 0px 3px 3px -2px rgba(244, 244, 218, 0.11), 0px 1px 8px 0px rgba(244, 244, 218, 0.17)",
-              "3": "0px 3px 4px 0px rgba(244, 244, 218, 0.14), 0px 3px 3px -2px rgba(244, 244, 218, 0.11), 0px 1px 8px 0px rgba(244, 244, 218, 0.17)",
-              "4": "0px 4px 5px 0px rgba(244, 244, 218, 0.14), 0px 1px 10px 0px rgba(244, 244, 218, 0.11), 0px 2px 4px -1px rgba(244, 244, 218, 0.17)",
-              "6": "0px 6px 10px 0px rgba(244, 244, 218, 0.14), 0px 1px 18px 0px rgba(244, 244, 218, 0.11), 0px 3px 5px -1px rgba(244, 244, 218, 0.17)",
-              "8": "0px 8px 10px 1px rgba(244, 244, 218, 0.14), 0px 3px 14px 2px rgba(244, 244, 218, 0.11), 0px 5px 5px -3px rgba(244, 244, 218, 0.17)",
-              "9": "0px 9px 12px 1px rgba(244, 244, 218, 0.14), 0px 3px 16px 2px rgba(244, 244, 218, 0.11), 0px 5px 6px -3px rgba(244, 244, 218, 0.17)",
-              "12": "0px 12px 17px 2px rgba(244, 244, 218, 0.14), 0px 5px 22px 4px rgba(244, 244, 218, 0.11), 0px 7px 7px -4px rgba(244, 244, 218, 0.17)",
-              "16": "0px 16px 24px 2px rgba(244, 244, 218, 0.14), 0px 6px 30px 5px rgba(244, 244, 218, 0.11), 0px 8px 10px -5px rgba(244, 244, 218, 0.17)",
-              "24": "0px 24px 37px 3px rgba(244, 244, 218, 0.14), 0px 9px 46px 8px rgba(244, 244, 218, 0.11), 0px 11px 15px -7px rgba(244, 244, 218, 0.17)"
+        ],
+        {
+          "options": {
+            "rule": {
+              "sort": true,
+              "prefix": false,
+              "rtl": false
             }
           },
-          "opacities": [
-            0.14,
-            0.11,
-            0.17
-          ]
-        },
-        "typography": {
-          "unit": "px",
-          "font_size": {
-            "html": 16
+          "hash": "0xe357c7ffb810c43b76053916799d91c51d08d0f622231c5c193c0bd13fca7542",
+          "direction": "ltr",
+          "preference": {
+            "background": {
+              "default": "neutral"
+            },
+            "text": {
+              "default": "neutral"
+            },
+            "visual_contrast": {
+              "default": "regular"
+            }
           },
-          "font_family": {
-            "primary": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
-            "secondary": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
-            "mono": "Roboto Mono, monospace"
+          "mode": "regular",
+          "palette": {
+            "light": false,
+            "accessibility": "regular",
+            "visual_contrast": {
+              "low": {
+                "opacity": {
+                  "primary": 0.77,
+                  "secondary": 0.44,
+                  "tertiary": 0.27,
+                  "quaternary": 0.14,
+                  "active": 0.44,
+                  "disabled": 0.27,
+                  "drag": 0.14,
+                  "divider": 0.13,
+                  "press": 0.1,
+                  "focus": 0.07,
+                  "selected": 0.05,
+                  "hover": 0.03
+                },
+                "contrast_threshold": 2.4
+              },
+              "regular": {
+                "opacity": {
+                  "primary": 0.87,
+                  "secondary": 0.54,
+                  "tertiary": 0.37,
+                  "quaternary": 0.24,
+                  "active": 0.54,
+                  "disabled": 0.37,
+                  "drag": 0.16,
+                  "divider": 0.14,
+                  "press": 0.12,
+                  "focus": 0.11,
+                  "selected": 0.07,
+                  "hover": 0.04
+                },
+                "contrast_threshold": 3
+              },
+              "high": {
+                "opacity": {
+                  "primary": 1,
+                  "secondary": 0.74,
+                  "tertiary": 0.57,
+                  "quaternary": 0.44,
+                  "active": 0.74,
+                  "disabled": 0.57,
+                  "drag": 0.27,
+                  "divider": 0.24,
+                  "press": 0.22,
+                  "focus": 0.21,
+                  "selected": 0.17,
+                  "hover": 0.14
+                },
+                "contrast_threshold": 4
+              },
+              "default": {
+                "opacity": {
+                  "primary": 0.87,
+                  "secondary": 0.54,
+                  "tertiary": 0.37,
+                  "quaternary": 0.24,
+                  "active": 0.54,
+                  "disabled": 0.37,
+                  "drag": 0.16,
+                  "divider": 0.14,
+                  "press": 0.12,
+                  "focus": 0.11,
+                  "selected": 0.07,
+                  "hover": 0.04
+                },
+                "contrast_threshold": 3
+              }
+            },
+            "color": {
+              "primary": {
+                "0": "rgb(0, 0, 0)",
+                "1": "rgb(5, 5, 0)",
+                "5": "rgb(26, 23, 0)",
+                "10": "rgb(51, 46, 0)",
+                "20": "rgb(102, 92, 0)",
+                "30": "rgb(153, 138, 0)",
+                "40": "rgb(204, 184, 0)",
+                "50": "rgb(255, 230, 0)",
+                "60": "rgb(255, 235, 51)",
+                "70": "rgb(255, 240, 102)",
+                "80": "rgb(255, 245, 153)",
+                "90": "rgb(255, 250, 204)",
+                "95": "rgb(255, 252, 229)",
+                "99": "rgb(255, 254, 250)",
+                "100": "rgb(255, 255, 255)",
+                "main": "#FFEB3B",
+                "light": "#FFF176",
+                "dark": "#FBC02D"
+              },
+              "secondary": {
+                "0": "rgb(0, 0, 0)",
+                "1": "rgb(3, 4, 1)",
+                "5": "rgb(13, 19, 6)",
+                "10": "rgb(26, 38, 13)",
+                "20": "rgb(53, 77, 26)",
+                "30": "rgb(79, 115, 38)",
+                "40": "rgb(105, 153, 51)",
+                "50": "rgb(132, 191, 64)",
+                "60": "rgb(156, 204, 102)",
+                "70": "rgb(181, 217, 140)",
+                "80": "rgb(206, 230, 179)",
+                "90": "rgb(230, 242, 217)",
+                "95": "rgb(243, 249, 236)",
+                "99": "rgb(253, 254, 251)",
+                "100": "rgb(255, 255, 255)",
+                "main": "#8BC34A",
+                "light": "#AED581",
+                "dark": "#689F38"
+              },
+              "tertiary": {
+                "0": "rgb(0, 0, 0)",
+                "1": "rgb(5, 4, 0)",
+                "5": "rgb(26, 19, 0)",
+                "10": "rgb(51, 38, 0)",
+                "20": "rgb(102, 77, 0)",
+                "30": "rgb(153, 115, 0)",
+                "40": "rgb(204, 153, 0)",
+                "50": "rgb(255, 191, 0)",
+                "60": "rgb(255, 204, 51)",
+                "70": "rgb(255, 217, 102)",
+                "80": "rgb(255, 230, 153)",
+                "90": "rgb(255, 242, 204)",
+                "95": "rgb(255, 249, 229)",
+                "99": "rgb(255, 254, 250)",
+                "100": "rgb(255, 255, 255)",
+                "main": "#FFC107",
+                "light": "#FFD54F",
+                "dark": "#FFA000"
+              },
+              "quaternary": {
+                "0": "rgb(0, 0, 0)",
+                "1": "rgb(0, 5, 5)",
+                "5": "rgb(0, 23, 26)",
+                "10": "rgb(0, 45, 51)",
+                "20": "rgb(0, 90, 102)",
+                "30": "rgb(0, 135, 153)",
+                "40": "rgb(0, 180, 204)",
+                "50": "rgb(0, 225, 255)",
+                "60": "rgb(51, 231, 255)",
+                "70": "rgb(102, 237, 255)",
+                "80": "rgb(153, 243, 255)",
+                "90": "rgb(204, 249, 255)",
+                "95": "rgb(229, 252, 255)",
+                "99": "rgb(250, 254, 255)",
+                "100": "rgb(255, 255, 255)",
+                "main": "#00BCD4",
+                "light": "#4DD0E1",
+                "dark": "#0097A7"
+              },
+              "info": {
+                "0": "rgb(0, 0, 0)",
+                "1": "rgb(0, 3, 5)",
+                "5": "rgb(0, 17, 25)",
+                "10": "rgb(1, 35, 50)",
+                "20": "rgb(1, 69, 101)",
+                "30": "rgb(2, 104, 151)",
+                "40": "rgb(2, 139, 202)",
+                "50": "rgb(3, 173, 252)",
+                "60": "rgb(53, 190, 253)",
+                "70": "rgb(104, 206, 253)",
+                "80": "rgb(154, 222, 254)",
+                "90": "rgb(205, 239, 254)",
+                "95": "rgb(230, 247, 255)",
+                "99": "rgb(250, 253, 255)",
+                "100": "rgb(255, 255, 255)",
+                "main": "#03A9F4",
+                "light": "#4FC3F7",
+                "dark": "#0288D1"
+              },
+              "success": {
+                "0": "rgb(0, 0, 0)",
+                "1": "rgb(2, 4, 2)",
+                "5": "rgb(8, 18, 8)",
+                "10": "rgb(16, 35, 16)",
+                "20": "rgb(31, 71, 32)",
+                "30": "rgb(47, 106, 49)",
+                "40": "rgb(62, 142, 65)",
+                "50": "rgb(78, 177, 81)",
+                "60": "rgb(113, 193, 116)",
+                "70": "rgb(149, 208, 151)",
+                "80": "rgb(184, 224, 185)",
+                "90": "rgb(220, 239, 220)",
+                "95": "rgb(237, 247, 238)",
+                "99": "rgb(251, 253, 252)",
+                "100": "rgb(255, 255, 255)",
+                "main": "#4CAF50",
+                "light": "#81C784",
+                "dark": "#388E3C"
+              },
+              "warning": {
+                "0": "rgb(0, 0, 0)",
+                "1": "rgb(5, 3, 0)",
+                "5": "rgb(26, 15, 0)",
+                "10": "rgb(51, 31, 0)",
+                "20": "rgb(102, 61, 0)",
+                "30": "rgb(153, 92, 0)",
+                "40": "rgb(204, 122, 0)",
+                "50": "rgb(255, 153, 0)",
+                "60": "rgb(255, 173, 51)",
+                "70": "rgb(255, 194, 102)",
+                "80": "rgb(255, 214, 153)",
+                "90": "rgb(255, 235, 204)",
+                "95": "rgb(255, 245, 229)",
+                "99": "rgb(255, 253, 250)",
+                "100": "rgb(255, 255, 255)",
+                "main": "#FF9800",
+                "light": "#FFB74D",
+                "dark": "#F57C00"
+              },
+              "error": {
+                "0": "rgb(0, 0, 0)",
+                "1": "rgb(5, 1, 0)",
+                "5": "rgb(26, 6, 0)",
+                "10": "rgb(51, 12, 0)",
+                "20": "rgb(102, 24, 0)",
+                "30": "rgb(153, 36, 0)",
+                "40": "rgb(204, 48, 0)",
+                "50": "rgb(255, 60, 0)",
+                "60": "rgb(255, 99, 51)",
+                "70": "rgb(255, 138, 102)",
+                "80": "rgb(255, 177, 153)",
+                "90": "rgb(255, 216, 204)",
+                "95": "rgb(255, 235, 229)",
+                "99": "rgb(255, 251, 250)",
+                "100": "rgb(255, 255, 255)",
+                "main": "#FF5722",
+                "light": "#FF8A65",
+                "dark": "#E64A19"
+              },
+              "neutral": {
+                "0": "rgb(0, 0, 0)",
+                "1": "rgb(3, 3, 3)",
+                "5": "rgb(13, 13, 13)",
+                "10": "rgb(26, 26, 26)",
+                "20": "rgb(51, 51, 51)",
+                "30": "rgb(77, 77, 77)",
+                "40": "rgb(102, 102, 102)",
+                "50": "rgb(128, 128, 128)",
+                "60": "rgb(153, 153, 153)",
+                "70": "rgb(179, 179, 179)",
+                "80": "rgb(204, 204, 204)",
+                "90": "rgb(230, 230, 230)",
+                "95": "rgb(242, 242, 242)",
+                "99": "rgb(252, 252, 252)",
+                "100": "rgb(255, 255, 255)",
+                "main": "#000000",
+                "light": "rgb(26, 26, 26)",
+                "dark": "rgb(26, 26, 26)"
+              },
+              "a": {
+                "0": "rgb(0, 0, 0)",
+                "1": "rgb(4, 4, 1)",
+                "5": "rgb(20, 20, 6)",
+                "10": "rgb(39, 39, 12)",
+                "20": "rgb(79, 79, 23)",
+                "30": "rgb(118, 118, 35)",
+                "40": "rgb(157, 157, 47)",
+                "50": "rgb(196, 196, 59)",
+                "60": "rgb(208, 208, 98)",
+                "70": "rgb(220, 220, 137)",
+                "80": "rgb(232, 232, 176)",
+                "90": "rgb(243, 243, 216)",
+                "95": "rgb(249, 249, 235)",
+                "99": "rgb(254, 254, 251)",
+                "100": "rgb(255, 255, 255)",
+                "main": "#f4f4da",
+                "light": "rgb(243, 243, 216)",
+                "dark": "rgb(220, 220, 137)"
+              }
+            },
+            "text": {
+              "primary": {
+                "primary": "rgba(255, 240, 102, 0.87)",
+                "secondary": "rgba(255, 240, 102, 0.54)",
+                "tertiary": "rgba(255, 240, 102, 0.37)",
+                "quaternary": "rgba(255, 240, 102, 0.24)"
+              },
+              "secondary": {
+                "primary": "rgba(181, 217, 140, 0.87)",
+                "secondary": "rgba(181, 217, 140, 0.54)",
+                "tertiary": "rgba(181, 217, 140, 0.37)",
+                "quaternary": "rgba(181, 217, 140, 0.24)"
+              },
+              "tertiary": {
+                "primary": "rgba(255, 217, 102, 0.87)",
+                "secondary": "rgba(255, 217, 102, 0.54)",
+                "tertiary": "rgba(255, 217, 102, 0.37)",
+                "quaternary": "rgba(255, 217, 102, 0.24)"
+              },
+              "quaternary": {
+                "primary": "rgba(102, 237, 255, 0.87)",
+                "secondary": "rgba(102, 237, 255, 0.54)",
+                "tertiary": "rgba(102, 237, 255, 0.37)",
+                "quaternary": "rgba(102, 237, 255, 0.24)"
+              },
+              "info": {
+                "primary": "rgba(104, 206, 253, 0.87)",
+                "secondary": "rgba(104, 206, 253, 0.54)",
+                "tertiary": "rgba(104, 206, 253, 0.37)",
+                "quaternary": "rgba(104, 206, 253, 0.24)"
+              },
+              "success": {
+                "primary": "rgba(149, 208, 151, 0.87)",
+                "secondary": "rgba(149, 208, 151, 0.54)",
+                "tertiary": "rgba(149, 208, 151, 0.37)",
+                "quaternary": "rgba(149, 208, 151, 0.24)"
+              },
+              "warning": {
+                "primary": "rgba(255, 194, 102, 0.87)",
+                "secondary": "rgba(255, 194, 102, 0.54)",
+                "tertiary": "rgba(255, 194, 102, 0.37)",
+                "quaternary": "rgba(255, 194, 102, 0.24)"
+              },
+              "error": {
+                "primary": "rgba(255, 138, 102, 0.87)",
+                "secondary": "rgba(255, 138, 102, 0.54)",
+                "tertiary": "rgba(255, 138, 102, 0.37)",
+                "quaternary": "rgba(255, 138, 102, 0.24)"
+              },
+              "neutral": {
+                "primary": "rgba(255, 255, 255, 0.87)",
+                "secondary": "rgba(255, 255, 255, 0.54)",
+                "tertiary": "rgba(255, 255, 255, 0.37)",
+                "quaternary": "rgba(255, 255, 255, 0.24)"
+              },
+              "default": {
+                "primary": "rgba(255, 255, 255, 0.87)",
+                "secondary": "rgba(255, 255, 255, 0.54)",
+                "tertiary": "rgba(255, 255, 255, 0.37)",
+                "quaternary": "rgba(255, 255, 255, 0.24)"
+              },
+              "divider": "rgba(255, 255, 255, 0.14)",
+              "active": "rgba(255, 255, 255, 0.54)",
+              "hover": "rgba(255, 255, 255, 0.04)",
+              "selected": "rgba(255, 255, 255, 0.07)",
+              "focus": "rgba(255, 255, 255, 0.11)",
+              "disabled": "rgba(255, 255, 255, 0.37)",
+              "a": {
+                "primary": "rgba(220, 220, 137, 0.87)",
+                "secondary": "rgba(220, 220, 137, 0.54)",
+                "tertiary": "rgba(220, 220, 137, 0.37)",
+                "quaternary": "rgba(220, 220, 137, 0.24)"
+              }
+            },
+            "background": {
+              "primary": {
+                "primary": "rgb(0, 0, 0)",
+                "secondary": "rgb(5, 5, 0)",
+                "tertiary": "rgb(26, 23, 0)",
+                "quaternary": "rgb(51, 46, 0)"
+              },
+              "secondary": {
+                "primary": "rgb(0, 0, 0)",
+                "secondary": "rgb(3, 4, 1)",
+                "tertiary": "rgb(13, 19, 6)",
+                "quaternary": "rgb(26, 38, 13)"
+              },
+              "tertiary": {
+                "primary": "rgb(0, 0, 0)",
+                "secondary": "rgb(5, 4, 0)",
+                "tertiary": "rgb(26, 19, 0)",
+                "quaternary": "rgb(51, 38, 0)"
+              },
+              "quaternary": {
+                "primary": "rgb(0, 0, 0)",
+                "secondary": "rgb(0, 5, 5)",
+                "tertiary": "rgb(0, 23, 26)",
+                "quaternary": "rgb(0, 45, 51)"
+              },
+              "info": {
+                "primary": "rgb(0, 0, 0)",
+                "secondary": "rgb(0, 3, 5)",
+                "tertiary": "rgb(0, 17, 25)",
+                "quaternary": "rgb(1, 35, 50)"
+              },
+              "success": {
+                "primary": "rgb(0, 0, 0)",
+                "secondary": "rgb(2, 4, 2)",
+                "tertiary": "rgb(8, 18, 8)",
+                "quaternary": "rgb(16, 35, 16)"
+              },
+              "warning": {
+                "primary": "rgb(0, 0, 0)",
+                "secondary": "rgb(5, 3, 0)",
+                "tertiary": "rgb(26, 15, 0)",
+                "quaternary": "rgb(51, 31, 0)"
+              },
+              "error": {
+                "primary": "rgb(0, 0, 0)",
+                "secondary": "rgb(5, 1, 0)",
+                "tertiary": "rgb(26, 6, 0)",
+                "quaternary": "rgb(51, 12, 0)"
+              },
+              "neutral": {
+                "primary": "rgb(0, 0, 0)",
+                "secondary": "rgb(3, 3, 3)",
+                "tertiary": "rgb(13, 13, 13)",
+                "quaternary": "rgb(26, 26, 26)"
+              },
+              "default": {
+                "primary": "rgb(0, 0, 0)",
+                "secondary": "rgb(3, 3, 3)",
+                "tertiary": "rgb(13, 13, 13)",
+                "quaternary": "rgb(26, 26, 26)"
+              },
+              "a": {
+                "primary": "rgb(0, 0, 0)",
+                "secondary": "rgb(4, 4, 1)",
+                "tertiary": "rgb(20, 20, 6)",
+                "quaternary": "rgb(39, 39, 12)"
+              }
+            }
           },
-          "values": {
-            "d1": {
-              "fontSize": "3.5625rem",
-              "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
-              "fontWeight": 400,
-              "lineHeight": 1.1228070175438596,
-              "letterSpacing": "0em"
+          "shape": {
+            "radius": {
+              "xs": 4,
+              "sm": 8,
+              "md": 12,
+              "lg": 16,
+              "xl": 28
+            }
+          },
+          "breakpoints": {
+            "values": {
+              "xs": 0,
+              "sm": 600,
+              "md": 1240,
+              "lg": 1440,
+              "xl": 1920
             },
-            "d2": {
-              "fontSize": "2.8125rem",
-              "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
-              "fontWeight": 400,
-              "lineHeight": 1.1555555555555554,
-              "letterSpacing": "0em"
+            "unit": "px"
+          },
+          "space": {
+            "values": {
+              "xs": 4,
+              "sm": 8,
+              "md": 16,
+              "lg": 32,
+              "xl": 64
             },
-            "d3": {
-              "fontSize": "2.1875rem",
-              "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
-              "fontWeight": 400,
-              "lineHeight": 1.2571428571428571,
-              "letterSpacing": "0em"
+            "unit": 8
+          },
+          "shadows": {
+            "values": {
+              "primary": {
+                "0": "none",
+                "1": "0px 1px 1px 0px rgba(255, 235, 59, 0.14), 0px 2px 1px -1px rgba(255, 235, 59, 0.11), 0px 1px 3px 0px rgba(255, 235, 59, 0.17)",
+                "2": "0px 2px 2px 0px rgba(255, 235, 59, 0.14), 0px 3px 3px -2px rgba(255, 235, 59, 0.11), 0px 1px 8px 0px rgba(255, 235, 59, 0.17)",
+                "3": "0px 3px 4px 0px rgba(255, 235, 59, 0.14), 0px 3px 3px -2px rgba(255, 235, 59, 0.11), 0px 1px 8px 0px rgba(255, 235, 59, 0.17)",
+                "4": "0px 4px 5px 0px rgba(255, 235, 59, 0.14), 0px 1px 10px 0px rgba(255, 235, 59, 0.11), 0px 2px 4px -1px rgba(255, 235, 59, 0.17)",
+                "6": "0px 6px 10px 0px rgba(255, 235, 59, 0.14), 0px 1px 18px 0px rgba(255, 235, 59, 0.11), 0px 3px 5px -1px rgba(255, 235, 59, 0.17)",
+                "8": "0px 8px 10px 1px rgba(255, 235, 59, 0.14), 0px 3px 14px 2px rgba(255, 235, 59, 0.11), 0px 5px 5px -3px rgba(255, 235, 59, 0.17)",
+                "9": "0px 9px 12px 1px rgba(255, 235, 59, 0.14), 0px 3px 16px 2px rgba(255, 235, 59, 0.11), 0px 5px 6px -3px rgba(255, 235, 59, 0.17)",
+                "12": "0px 12px 17px 2px rgba(255, 235, 59, 0.14), 0px 5px 22px 4px rgba(255, 235, 59, 0.11), 0px 7px 7px -4px rgba(255, 235, 59, 0.17)",
+                "16": "0px 16px 24px 2px rgba(255, 235, 59, 0.14), 0px 6px 30px 5px rgba(255, 235, 59, 0.11), 0px 8px 10px -5px rgba(255, 235, 59, 0.17)",
+                "24": "0px 24px 37px 3px rgba(255, 235, 59, 0.14), 0px 9px 46px 8px rgba(255, 235, 59, 0.11), 0px 11px 15px -7px rgba(255, 235, 59, 0.17)"
+              },
+              "secondary": {
+                "0": "none",
+                "1": "0px 1px 1px 0px rgba(139, 195, 74, 0.14), 0px 2px 1px -1px rgba(139, 195, 74, 0.11), 0px 1px 3px 0px rgba(139, 195, 74, 0.17)",
+                "2": "0px 2px 2px 0px rgba(139, 195, 74, 0.14), 0px 3px 3px -2px rgba(139, 195, 74, 0.11), 0px 1px 8px 0px rgba(139, 195, 74, 0.17)",
+                "3": "0px 3px 4px 0px rgba(139, 195, 74, 0.14), 0px 3px 3px -2px rgba(139, 195, 74, 0.11), 0px 1px 8px 0px rgba(139, 195, 74, 0.17)",
+                "4": "0px 4px 5px 0px rgba(139, 195, 74, 0.14), 0px 1px 10px 0px rgba(139, 195, 74, 0.11), 0px 2px 4px -1px rgba(139, 195, 74, 0.17)",
+                "6": "0px 6px 10px 0px rgba(139, 195, 74, 0.14), 0px 1px 18px 0px rgba(139, 195, 74, 0.11), 0px 3px 5px -1px rgba(139, 195, 74, 0.17)",
+                "8": "0px 8px 10px 1px rgba(139, 195, 74, 0.14), 0px 3px 14px 2px rgba(139, 195, 74, 0.11), 0px 5px 5px -3px rgba(139, 195, 74, 0.17)",
+                "9": "0px 9px 12px 1px rgba(139, 195, 74, 0.14), 0px 3px 16px 2px rgba(139, 195, 74, 0.11), 0px 5px 6px -3px rgba(139, 195, 74, 0.17)",
+                "12": "0px 12px 17px 2px rgba(139, 195, 74, 0.14), 0px 5px 22px 4px rgba(139, 195, 74, 0.11), 0px 7px 7px -4px rgba(139, 195, 74, 0.17)",
+                "16": "0px 16px 24px 2px rgba(139, 195, 74, 0.14), 0px 6px 30px 5px rgba(139, 195, 74, 0.11), 0px 8px 10px -5px rgba(139, 195, 74, 0.17)",
+                "24": "0px 24px 37px 3px rgba(139, 195, 74, 0.14), 0px 9px 46px 8px rgba(139, 195, 74, 0.11), 0px 11px 15px -7px rgba(139, 195, 74, 0.17)"
+              },
+              "tertiary": {
+                "0": "none",
+                "1": "0px 1px 1px 0px rgba(255, 193, 7, 0.14), 0px 2px 1px -1px rgba(255, 193, 7, 0.11), 0px 1px 3px 0px rgba(255, 193, 7, 0.17)",
+                "2": "0px 2px 2px 0px rgba(255, 193, 7, 0.14), 0px 3px 3px -2px rgba(255, 193, 7, 0.11), 0px 1px 8px 0px rgba(255, 193, 7, 0.17)",
+                "3": "0px 3px 4px 0px rgba(255, 193, 7, 0.14), 0px 3px 3px -2px rgba(255, 193, 7, 0.11), 0px 1px 8px 0px rgba(255, 193, 7, 0.17)",
+                "4": "0px 4px 5px 0px rgba(255, 193, 7, 0.14), 0px 1px 10px 0px rgba(255, 193, 7, 0.11), 0px 2px 4px -1px rgba(255, 193, 7, 0.17)",
+                "6": "0px 6px 10px 0px rgba(255, 193, 7, 0.14), 0px 1px 18px 0px rgba(255, 193, 7, 0.11), 0px 3px 5px -1px rgba(255, 193, 7, 0.17)",
+                "8": "0px 8px 10px 1px rgba(255, 193, 7, 0.14), 0px 3px 14px 2px rgba(255, 193, 7, 0.11), 0px 5px 5px -3px rgba(255, 193, 7, 0.17)",
+                "9": "0px 9px 12px 1px rgba(255, 193, 7, 0.14), 0px 3px 16px 2px rgba(255, 193, 7, 0.11), 0px 5px 6px -3px rgba(255, 193, 7, 0.17)",
+                "12": "0px 12px 17px 2px rgba(255, 193, 7, 0.14), 0px 5px 22px 4px rgba(255, 193, 7, 0.11), 0px 7px 7px -4px rgba(255, 193, 7, 0.17)",
+                "16": "0px 16px 24px 2px rgba(255, 193, 7, 0.14), 0px 6px 30px 5px rgba(255, 193, 7, 0.11), 0px 8px 10px -5px rgba(255, 193, 7, 0.17)",
+                "24": "0px 24px 37px 3px rgba(255, 193, 7, 0.14), 0px 9px 46px 8px rgba(255, 193, 7, 0.11), 0px 11px 15px -7px rgba(255, 193, 7, 0.17)"
+              },
+              "quaternary": {
+                "0": "none",
+                "1": "0px 1px 1px 0px rgba(0, 188, 212, 0.14), 0px 2px 1px -1px rgba(0, 188, 212, 0.11), 0px 1px 3px 0px rgba(0, 188, 212, 0.17)",
+                "2": "0px 2px 2px 0px rgba(0, 188, 212, 0.14), 0px 3px 3px -2px rgba(0, 188, 212, 0.11), 0px 1px 8px 0px rgba(0, 188, 212, 0.17)",
+                "3": "0px 3px 4px 0px rgba(0, 188, 212, 0.14), 0px 3px 3px -2px rgba(0, 188, 212, 0.11), 0px 1px 8px 0px rgba(0, 188, 212, 0.17)",
+                "4": "0px 4px 5px 0px rgba(0, 188, 212, 0.14), 0px 1px 10px 0px rgba(0, 188, 212, 0.11), 0px 2px 4px -1px rgba(0, 188, 212, 0.17)",
+                "6": "0px 6px 10px 0px rgba(0, 188, 212, 0.14), 0px 1px 18px 0px rgba(0, 188, 212, 0.11), 0px 3px 5px -1px rgba(0, 188, 212, 0.17)",
+                "8": "0px 8px 10px 1px rgba(0, 188, 212, 0.14), 0px 3px 14px 2px rgba(0, 188, 212, 0.11), 0px 5px 5px -3px rgba(0, 188, 212, 0.17)",
+                "9": "0px 9px 12px 1px rgba(0, 188, 212, 0.14), 0px 3px 16px 2px rgba(0, 188, 212, 0.11), 0px 5px 6px -3px rgba(0, 188, 212, 0.17)",
+                "12": "0px 12px 17px 2px rgba(0, 188, 212, 0.14), 0px 5px 22px 4px rgba(0, 188, 212, 0.11), 0px 7px 7px -4px rgba(0, 188, 212, 0.17)",
+                "16": "0px 16px 24px 2px rgba(0, 188, 212, 0.14), 0px 6px 30px 5px rgba(0, 188, 212, 0.11), 0px 8px 10px -5px rgba(0, 188, 212, 0.17)",
+                "24": "0px 24px 37px 3px rgba(0, 188, 212, 0.14), 0px 9px 46px 8px rgba(0, 188, 212, 0.11), 0px 11px 15px -7px rgba(0, 188, 212, 0.17)"
+              },
+              "info": {
+                "0": "none",
+                "1": "0px 1px 1px 0px rgba(3, 169, 244, 0.14), 0px 2px 1px -1px rgba(3, 169, 244, 0.11), 0px 1px 3px 0px rgba(3, 169, 244, 0.17)",
+                "2": "0px 2px 2px 0px rgba(3, 169, 244, 0.14), 0px 3px 3px -2px rgba(3, 169, 244, 0.11), 0px 1px 8px 0px rgba(3, 169, 244, 0.17)",
+                "3": "0px 3px 4px 0px rgba(3, 169, 244, 0.14), 0px 3px 3px -2px rgba(3, 169, 244, 0.11), 0px 1px 8px 0px rgba(3, 169, 244, 0.17)",
+                "4": "0px 4px 5px 0px rgba(3, 169, 244, 0.14), 0px 1px 10px 0px rgba(3, 169, 244, 0.11), 0px 2px 4px -1px rgba(3, 169, 244, 0.17)",
+                "6": "0px 6px 10px 0px rgba(3, 169, 244, 0.14), 0px 1px 18px 0px rgba(3, 169, 244, 0.11), 0px 3px 5px -1px rgba(3, 169, 244, 0.17)",
+                "8": "0px 8px 10px 1px rgba(3, 169, 244, 0.14), 0px 3px 14px 2px rgba(3, 169, 244, 0.11), 0px 5px 5px -3px rgba(3, 169, 244, 0.17)",
+                "9": "0px 9px 12px 1px rgba(3, 169, 244, 0.14), 0px 3px 16px 2px rgba(3, 169, 244, 0.11), 0px 5px 6px -3px rgba(3, 169, 244, 0.17)",
+                "12": "0px 12px 17px 2px rgba(3, 169, 244, 0.14), 0px 5px 22px 4px rgba(3, 169, 244, 0.11), 0px 7px 7px -4px rgba(3, 169, 244, 0.17)",
+                "16": "0px 16px 24px 2px rgba(3, 169, 244, 0.14), 0px 6px 30px 5px rgba(3, 169, 244, 0.11), 0px 8px 10px -5px rgba(3, 169, 244, 0.17)",
+                "24": "0px 24px 37px 3px rgba(3, 169, 244, 0.14), 0px 9px 46px 8px rgba(3, 169, 244, 0.11), 0px 11px 15px -7px rgba(3, 169, 244, 0.17)"
+              },
+              "success": {
+                "0": "none",
+                "1": "0px 1px 1px 0px rgba(76, 175, 80, 0.14), 0px 2px 1px -1px rgba(76, 175, 80, 0.11), 0px 1px 3px 0px rgba(76, 175, 80, 0.17)",
+                "2": "0px 2px 2px 0px rgba(76, 175, 80, 0.14), 0px 3px 3px -2px rgba(76, 175, 80, 0.11), 0px 1px 8px 0px rgba(76, 175, 80, 0.17)",
+                "3": "0px 3px 4px 0px rgba(76, 175, 80, 0.14), 0px 3px 3px -2px rgba(76, 175, 80, 0.11), 0px 1px 8px 0px rgba(76, 175, 80, 0.17)",
+                "4": "0px 4px 5px 0px rgba(76, 175, 80, 0.14), 0px 1px 10px 0px rgba(76, 175, 80, 0.11), 0px 2px 4px -1px rgba(76, 175, 80, 0.17)",
+                "6": "0px 6px 10px 0px rgba(76, 175, 80, 0.14), 0px 1px 18px 0px rgba(76, 175, 80, 0.11), 0px 3px 5px -1px rgba(76, 175, 80, 0.17)",
+                "8": "0px 8px 10px 1px rgba(76, 175, 80, 0.14), 0px 3px 14px 2px rgba(76, 175, 80, 0.11), 0px 5px 5px -3px rgba(76, 175, 80, 0.17)",
+                "9": "0px 9px 12px 1px rgba(76, 175, 80, 0.14), 0px 3px 16px 2px rgba(76, 175, 80, 0.11), 0px 5px 6px -3px rgba(76, 175, 80, 0.17)",
+                "12": "0px 12px 17px 2px rgba(76, 175, 80, 0.14), 0px 5px 22px 4px rgba(76, 175, 80, 0.11), 0px 7px 7px -4px rgba(76, 175, 80, 0.17)",
+                "16": "0px 16px 24px 2px rgba(76, 175, 80, 0.14), 0px 6px 30px 5px rgba(76, 175, 80, 0.11), 0px 8px 10px -5px rgba(76, 175, 80, 0.17)",
+                "24": "0px 24px 37px 3px rgba(76, 175, 80, 0.14), 0px 9px 46px 8px rgba(76, 175, 80, 0.11), 0px 11px 15px -7px rgba(76, 175, 80, 0.17)"
+              },
+              "warning": {
+                "0": "none",
+                "1": "0px 1px 1px 0px rgba(255, 152, 0, 0.14), 0px 2px 1px -1px rgba(255, 152, 0, 0.11), 0px 1px 3px 0px rgba(255, 152, 0, 0.17)",
+                "2": "0px 2px 2px 0px rgba(255, 152, 0, 0.14), 0px 3px 3px -2px rgba(255, 152, 0, 0.11), 0px 1px 8px 0px rgba(255, 152, 0, 0.17)",
+                "3": "0px 3px 4px 0px rgba(255, 152, 0, 0.14), 0px 3px 3px -2px rgba(255, 152, 0, 0.11), 0px 1px 8px 0px rgba(255, 152, 0, 0.17)",
+                "4": "0px 4px 5px 0px rgba(255, 152, 0, 0.14), 0px 1px 10px 0px rgba(255, 152, 0, 0.11), 0px 2px 4px -1px rgba(255, 152, 0, 0.17)",
+                "6": "0px 6px 10px 0px rgba(255, 152, 0, 0.14), 0px 1px 18px 0px rgba(255, 152, 0, 0.11), 0px 3px 5px -1px rgba(255, 152, 0, 0.17)",
+                "8": "0px 8px 10px 1px rgba(255, 152, 0, 0.14), 0px 3px 14px 2px rgba(255, 152, 0, 0.11), 0px 5px 5px -3px rgba(255, 152, 0, 0.17)",
+                "9": "0px 9px 12px 1px rgba(255, 152, 0, 0.14), 0px 3px 16px 2px rgba(255, 152, 0, 0.11), 0px 5px 6px -3px rgba(255, 152, 0, 0.17)",
+                "12": "0px 12px 17px 2px rgba(255, 152, 0, 0.14), 0px 5px 22px 4px rgba(255, 152, 0, 0.11), 0px 7px 7px -4px rgba(255, 152, 0, 0.17)",
+                "16": "0px 16px 24px 2px rgba(255, 152, 0, 0.14), 0px 6px 30px 5px rgba(255, 152, 0, 0.11), 0px 8px 10px -5px rgba(255, 152, 0, 0.17)",
+                "24": "0px 24px 37px 3px rgba(255, 152, 0, 0.14), 0px 9px 46px 8px rgba(255, 152, 0, 0.11), 0px 11px 15px -7px rgba(255, 152, 0, 0.17)"
+              },
+              "error": {
+                "0": "none",
+                "1": "0px 1px 1px 0px rgba(255, 87, 34, 0.14), 0px 2px 1px -1px rgba(255, 87, 34, 0.11), 0px 1px 3px 0px rgba(255, 87, 34, 0.17)",
+                "2": "0px 2px 2px 0px rgba(255, 87, 34, 0.14), 0px 3px 3px -2px rgba(255, 87, 34, 0.11), 0px 1px 8px 0px rgba(255, 87, 34, 0.17)",
+                "3": "0px 3px 4px 0px rgba(255, 87, 34, 0.14), 0px 3px 3px -2px rgba(255, 87, 34, 0.11), 0px 1px 8px 0px rgba(255, 87, 34, 0.17)",
+                "4": "0px 4px 5px 0px rgba(255, 87, 34, 0.14), 0px 1px 10px 0px rgba(255, 87, 34, 0.11), 0px 2px 4px -1px rgba(255, 87, 34, 0.17)",
+                "6": "0px 6px 10px 0px rgba(255, 87, 34, 0.14), 0px 1px 18px 0px rgba(255, 87, 34, 0.11), 0px 3px 5px -1px rgba(255, 87, 34, 0.17)",
+                "8": "0px 8px 10px 1px rgba(255, 87, 34, 0.14), 0px 3px 14px 2px rgba(255, 87, 34, 0.11), 0px 5px 5px -3px rgba(255, 87, 34, 0.17)",
+                "9": "0px 9px 12px 1px rgba(255, 87, 34, 0.14), 0px 3px 16px 2px rgba(255, 87, 34, 0.11), 0px 5px 6px -3px rgba(255, 87, 34, 0.17)",
+                "12": "0px 12px 17px 2px rgba(255, 87, 34, 0.14), 0px 5px 22px 4px rgba(255, 87, 34, 0.11), 0px 7px 7px -4px rgba(255, 87, 34, 0.17)",
+                "16": "0px 16px 24px 2px rgba(255, 87, 34, 0.14), 0px 6px 30px 5px rgba(255, 87, 34, 0.11), 0px 8px 10px -5px rgba(255, 87, 34, 0.17)",
+                "24": "0px 24px 37px 3px rgba(255, 87, 34, 0.14), 0px 9px 46px 8px rgba(255, 87, 34, 0.11), 0px 11px 15px -7px rgba(255, 87, 34, 0.17)"
+              },
+              "neutral": {
+                "0": "none",
+                "1": "0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.11), 0px 1px 3px 0px rgba(0, 0, 0, 0.17)",
+                "2": "0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 3px -2px rgba(0, 0, 0, 0.11), 0px 1px 8px 0px rgba(0, 0, 0, 0.17)",
+                "3": "0px 3px 4px 0px rgba(0, 0, 0, 0.14), 0px 3px 3px -2px rgba(0, 0, 0, 0.11), 0px 1px 8px 0px rgba(0, 0, 0, 0.17)",
+                "4": "0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.11), 0px 2px 4px -1px rgba(0, 0, 0, 0.17)",
+                "6": "0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.11), 0px 3px 5px -1px rgba(0, 0, 0, 0.17)",
+                "8": "0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.11), 0px 5px 5px -3px rgba(0, 0, 0, 0.17)",
+                "9": "0px 9px 12px 1px rgba(0, 0, 0, 0.14), 0px 3px 16px 2px rgba(0, 0, 0, 0.11), 0px 5px 6px -3px rgba(0, 0, 0, 0.17)",
+                "12": "0px 12px 17px 2px rgba(0, 0, 0, 0.14), 0px 5px 22px 4px rgba(0, 0, 0, 0.11), 0px 7px 7px -4px rgba(0, 0, 0, 0.17)",
+                "16": "0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.11), 0px 8px 10px -5px rgba(0, 0, 0, 0.17)",
+                "24": "0px 24px 37px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.11), 0px 11px 15px -7px rgba(0, 0, 0, 0.17)"
+              },
+              "a": {
+                "0": "none",
+                "1": "0px 1px 1px 0px rgba(244, 244, 218, 0.14), 0px 2px 1px -1px rgba(244, 244, 218, 0.11), 0px 1px 3px 0px rgba(244, 244, 218, 0.17)",
+                "2": "0px 2px 2px 0px rgba(244, 244, 218, 0.14), 0px 3px 3px -2px rgba(244, 244, 218, 0.11), 0px 1px 8px 0px rgba(244, 244, 218, 0.17)",
+                "3": "0px 3px 4px 0px rgba(244, 244, 218, 0.14), 0px 3px 3px -2px rgba(244, 244, 218, 0.11), 0px 1px 8px 0px rgba(244, 244, 218, 0.17)",
+                "4": "0px 4px 5px 0px rgba(244, 244, 218, 0.14), 0px 1px 10px 0px rgba(244, 244, 218, 0.11), 0px 2px 4px -1px rgba(244, 244, 218, 0.17)",
+                "6": "0px 6px 10px 0px rgba(244, 244, 218, 0.14), 0px 1px 18px 0px rgba(244, 244, 218, 0.11), 0px 3px 5px -1px rgba(244, 244, 218, 0.17)",
+                "8": "0px 8px 10px 1px rgba(244, 244, 218, 0.14), 0px 3px 14px 2px rgba(244, 244, 218, 0.11), 0px 5px 5px -3px rgba(244, 244, 218, 0.17)",
+                "9": "0px 9px 12px 1px rgba(244, 244, 218, 0.14), 0px 3px 16px 2px rgba(244, 244, 218, 0.11), 0px 5px 6px -3px rgba(244, 244, 218, 0.17)",
+                "12": "0px 12px 17px 2px rgba(244, 244, 218, 0.14), 0px 5px 22px 4px rgba(244, 244, 218, 0.11), 0px 7px 7px -4px rgba(244, 244, 218, 0.17)",
+                "16": "0px 16px 24px 2px rgba(244, 244, 218, 0.14), 0px 6px 30px 5px rgba(244, 244, 218, 0.11), 0px 8px 10px -5px rgba(244, 244, 218, 0.17)",
+                "24": "0px 24px 37px 3px rgba(244, 244, 218, 0.14), 0px 9px 46px 8px rgba(244, 244, 218, 0.11), 0px 11px 15px -7px rgba(244, 244, 218, 0.17)"
+              }
             },
-            "h1": {
-              "fontSize": "2rem",
-              "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
-              "fontWeight": 400,
-              "lineHeight": 1.25,
-              "letterSpacing": "0em"
+            "opacities": [
+              0.14,
+              0.11,
+              0.17
+            ]
+          },
+          "typography": {
+            "unit": "px",
+            "font_size": {
+              "html": 16
             },
-            "h2": {
-              "fontSize": "1.6875rem",
-              "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
-              "fontWeight": 400,
-              "lineHeight": 1.2962962962962963,
-              "letterSpacing": "0em"
+            "font_family": {
+              "primary": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+              "secondary": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+              "mono": "Roboto Mono, monospace"
             },
-            "h3": {
-              "fontSize": "1.5rem",
-              "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
-              "fontWeight": 400,
-              "lineHeight": 1.3333333333333333,
-              "letterSpacing": "0em"
-            },
-            "t1": {
-              "fontSize": "1.3125rem",
-              "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
-              "fontWeight": 400,
-              "lineHeight": 3.0476190476190474,
-              "letterSpacing": "0em"
-            },
-            "t2": {
-              "fontSize": "1rem",
-              "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
-              "fontWeight": 500,
-              "lineHeight": 1.5,
-              "letterSpacing": ".15em"
-            },
-            "t3": {
-              "fontSize": "0.875rem",
-              "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
-              "fontWeight": 500,
-              "lineHeight": 1.4285714285714286,
-              "letterSpacing": ".1em"
-            },
-            "l1": {
-              "fontSize": "0.875rem",
-              "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
-              "fontWeight": 500,
-              "lineHeight": 1.4285714285714286,
-              "letterSpacing": ".1em"
-            },
-            "l2": {
-              "fontSize": "0.75rem",
-              "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
-              "fontWeight": 500,
-              "lineHeight": 1.25,
-              "letterSpacing": ".5em"
-            },
-            "l3": {
-              "fontSize": "0.6875rem",
-              "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
-              "fontWeight": 500,
-              "lineHeight": 0.45454545454545453,
-              "letterSpacing": ".5em"
-            },
-            "b1": {
-              "fontSize": "1rem",
-              "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
-              "fontWeight": 400,
-              "lineHeight": 1.5,
-              "letterSpacing": ".5em"
-            },
-            "b2": {
-              "fontSize": "0.875rem",
-              "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
-              "fontWeight": 400,
-              "lineHeight": 1.4285714285714286,
-              "letterSpacing": ".25em"
-            },
-            "b3": {
-              "fontSize": "0.6875rem",
-              "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
-              "fontWeight": 400,
-              "lineHeight": 1.3636363636363635,
-              "letterSpacing": ".4em"
+            "values": {
+              "d1": {
+                "fontSize": "3.5625rem",
+                "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                "fontWeight": 400,
+                "lineHeight": 1.1228070175438596,
+                "letterSpacing": "0em"
+              },
+              "d2": {
+                "fontSize": "2.8125rem",
+                "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                "fontWeight": 400,
+                "lineHeight": 1.1555555555555554,
+                "letterSpacing": "0em"
+              },
+              "d3": {
+                "fontSize": "2.1875rem",
+                "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                "fontWeight": 400,
+                "lineHeight": 1.2571428571428571,
+                "letterSpacing": "0em"
+              },
+              "h1": {
+                "fontSize": "2rem",
+                "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                "fontWeight": 400,
+                "lineHeight": 1.25,
+                "letterSpacing": "0em"
+              },
+              "h2": {
+                "fontSize": "1.6875rem",
+                "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                "fontWeight": 400,
+                "lineHeight": 1.2962962962962963,
+                "letterSpacing": "0em"
+              },
+              "h3": {
+                "fontSize": "1.5rem",
+                "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                "fontWeight": 400,
+                "lineHeight": 1.3333333333333333,
+                "letterSpacing": "0em"
+              },
+              "t1": {
+                "fontSize": "1.3125rem",
+                "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                "fontWeight": 400,
+                "lineHeight": 3.0476190476190474,
+                "letterSpacing": "0em"
+              },
+              "t2": {
+                "fontSize": "1rem",
+                "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                "fontWeight": 500,
+                "lineHeight": 1.5,
+                "letterSpacing": ".15em"
+              },
+              "t3": {
+                "fontSize": "0.875rem",
+                "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                "fontWeight": 500,
+                "lineHeight": 1.4285714285714286,
+                "letterSpacing": ".1em"
+              },
+              "l1": {
+                "fontSize": "0.875rem",
+                "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                "fontWeight": 500,
+                "lineHeight": 1.4285714285714286,
+                "letterSpacing": ".1em"
+              },
+              "l2": {
+                "fontSize": "0.75rem",
+                "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                "fontWeight": 500,
+                "lineHeight": 1.25,
+                "letterSpacing": ".5em"
+              },
+              "l3": {
+                "fontSize": "0.6875rem",
+                "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                "fontWeight": 500,
+                "lineHeight": 0.45454545454545453,
+                "letterSpacing": ".5em"
+              },
+              "b1": {
+                "fontSize": "1rem",
+                "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                "fontWeight": 400,
+                "lineHeight": 1.5,
+                "letterSpacing": ".5em"
+              },
+              "b2": {
+                "fontSize": "0.875rem",
+                "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                "fontWeight": 400,
+                "lineHeight": 1.4285714285714286,
+                "letterSpacing": ".25em"
+              },
+              "b3": {
+                "fontSize": "0.6875rem",
+                "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                "fontWeight": 400,
+                "lineHeight": 1.3636363636363635,
+                "letterSpacing": ".4em"
+              }
+            }
+          },
+          "z_index": {
+            "tooltip": 1700,
+            "modal": 1500,
+            "menu_modal": 1400,
+            "menu": 1300,
+            "button_float": 1200,
+            "app_bar": 1100,
+            "main": 1000,
+            "text": 0
+          }
+        }
+      ],
+      [
+        [
+          {
+            "palette": {
+              "light": false,
+              "color": {
+                "a": {
+                  "main": "#f4f4da"
+                }
+              }
             }
           }
-        },
-        "z_index": {
-          "tooltip": 1700,
-          "modal": 1500,
-          "menu_modal": 1400,
-          "menu": 1300,
-          "button_float": 1200,
-          "app_bar": 1100,
-          "main": 1000,
-          "text": 0
-        },
-        "options": {
-          "rule": {
-            "sort": true,
-            "prefix": false,
-            "rtl": false
+        ],
+        {
+          "options": {
+            "rule": {
+              "sort": true,
+              "prefix": false,
+              "rtl": false
+            }
+          },
+          "hash": "0x61bd72da5fdb0573b9689a9c976c11d5e84b3ecb33cfa3bb47fbccfa582fb689",
+          "direction": "ltr",
+          "preference": {
+            "background": {
+              "default": "neutral"
+            },
+            "text": {
+              "default": "neutral"
+            },
+            "visual_contrast": {
+              "default": "regular"
+            }
+          },
+          "mode": "regular",
+          "palette": {
+            "light": false,
+            "accessibility": "regular",
+            "visual_contrast": {
+              "low": {
+                "opacity": {
+                  "primary": 0.77,
+                  "secondary": 0.44,
+                  "tertiary": 0.27,
+                  "quaternary": 0.14,
+                  "active": 0.44,
+                  "disabled": 0.27,
+                  "drag": 0.14,
+                  "divider": 0.13,
+                  "press": 0.1,
+                  "focus": 0.07,
+                  "selected": 0.05,
+                  "hover": 0.03
+                },
+                "contrast_threshold": 2.4
+              },
+              "regular": {
+                "opacity": {
+                  "primary": 0.87,
+                  "secondary": 0.54,
+                  "tertiary": 0.37,
+                  "quaternary": 0.24,
+                  "active": 0.54,
+                  "disabled": 0.37,
+                  "drag": 0.16,
+                  "divider": 0.14,
+                  "press": 0.12,
+                  "focus": 0.11,
+                  "selected": 0.07,
+                  "hover": 0.04
+                },
+                "contrast_threshold": 3
+              },
+              "high": {
+                "opacity": {
+                  "primary": 1,
+                  "secondary": 0.74,
+                  "tertiary": 0.57,
+                  "quaternary": 0.44,
+                  "active": 0.74,
+                  "disabled": 0.57,
+                  "drag": 0.27,
+                  "divider": 0.24,
+                  "press": 0.22,
+                  "focus": 0.21,
+                  "selected": 0.17,
+                  "hover": 0.14
+                },
+                "contrast_threshold": 4
+              },
+              "default": {
+                "opacity": {
+                  "primary": 0.87,
+                  "secondary": 0.54,
+                  "tertiary": 0.37,
+                  "quaternary": 0.24,
+                  "active": 0.54,
+                  "disabled": 0.37,
+                  "drag": 0.16,
+                  "divider": 0.14,
+                  "press": 0.12,
+                  "focus": 0.11,
+                  "selected": 0.07,
+                  "hover": 0.04
+                },
+                "contrast_threshold": 3
+              }
+            },
+            "color": {
+              "primary": {
+                "0": "rgb(0, 0, 0)",
+                "1": "rgb(5, 5, 0)",
+                "5": "rgb(26, 23, 0)",
+                "10": "rgb(51, 46, 0)",
+                "20": "rgb(102, 92, 0)",
+                "30": "rgb(153, 138, 0)",
+                "40": "rgb(204, 184, 0)",
+                "50": "rgb(255, 230, 0)",
+                "60": "rgb(255, 235, 51)",
+                "70": "rgb(255, 240, 102)",
+                "80": "rgb(255, 245, 153)",
+                "90": "rgb(255, 250, 204)",
+                "95": "rgb(255, 252, 229)",
+                "99": "rgb(255, 254, 250)",
+                "100": "rgb(255, 255, 255)",
+                "main": "#FFEB3B",
+                "light": "#FFF176",
+                "dark": "#FBC02D"
+              },
+              "secondary": {
+                "0": "rgb(0, 0, 0)",
+                "1": "rgb(3, 4, 1)",
+                "5": "rgb(13, 19, 6)",
+                "10": "rgb(26, 38, 13)",
+                "20": "rgb(53, 77, 26)",
+                "30": "rgb(79, 115, 38)",
+                "40": "rgb(105, 153, 51)",
+                "50": "rgb(132, 191, 64)",
+                "60": "rgb(156, 204, 102)",
+                "70": "rgb(181, 217, 140)",
+                "80": "rgb(206, 230, 179)",
+                "90": "rgb(230, 242, 217)",
+                "95": "rgb(243, 249, 236)",
+                "99": "rgb(253, 254, 251)",
+                "100": "rgb(255, 255, 255)",
+                "main": "#8BC34A",
+                "light": "#AED581",
+                "dark": "#689F38"
+              },
+              "tertiary": {
+                "0": "rgb(0, 0, 0)",
+                "1": "rgb(5, 4, 0)",
+                "5": "rgb(26, 19, 0)",
+                "10": "rgb(51, 38, 0)",
+                "20": "rgb(102, 77, 0)",
+                "30": "rgb(153, 115, 0)",
+                "40": "rgb(204, 153, 0)",
+                "50": "rgb(255, 191, 0)",
+                "60": "rgb(255, 204, 51)",
+                "70": "rgb(255, 217, 102)",
+                "80": "rgb(255, 230, 153)",
+                "90": "rgb(255, 242, 204)",
+                "95": "rgb(255, 249, 229)",
+                "99": "rgb(255, 254, 250)",
+                "100": "rgb(255, 255, 255)",
+                "main": "#FFC107",
+                "light": "#FFD54F",
+                "dark": "#FFA000"
+              },
+              "quaternary": {
+                "0": "rgb(0, 0, 0)",
+                "1": "rgb(0, 5, 5)",
+                "5": "rgb(0, 23, 26)",
+                "10": "rgb(0, 45, 51)",
+                "20": "rgb(0, 90, 102)",
+                "30": "rgb(0, 135, 153)",
+                "40": "rgb(0, 180, 204)",
+                "50": "rgb(0, 225, 255)",
+                "60": "rgb(51, 231, 255)",
+                "70": "rgb(102, 237, 255)",
+                "80": "rgb(153, 243, 255)",
+                "90": "rgb(204, 249, 255)",
+                "95": "rgb(229, 252, 255)",
+                "99": "rgb(250, 254, 255)",
+                "100": "rgb(255, 255, 255)",
+                "main": "#00BCD4",
+                "light": "#4DD0E1",
+                "dark": "#0097A7"
+              },
+              "info": {
+                "0": "rgb(0, 0, 0)",
+                "1": "rgb(0, 3, 5)",
+                "5": "rgb(0, 17, 25)",
+                "10": "rgb(1, 35, 50)",
+                "20": "rgb(1, 69, 101)",
+                "30": "rgb(2, 104, 151)",
+                "40": "rgb(2, 139, 202)",
+                "50": "rgb(3, 173, 252)",
+                "60": "rgb(53, 190, 253)",
+                "70": "rgb(104, 206, 253)",
+                "80": "rgb(154, 222, 254)",
+                "90": "rgb(205, 239, 254)",
+                "95": "rgb(230, 247, 255)",
+                "99": "rgb(250, 253, 255)",
+                "100": "rgb(255, 255, 255)",
+                "main": "#03A9F4",
+                "light": "#4FC3F7",
+                "dark": "#0288D1"
+              },
+              "success": {
+                "0": "rgb(0, 0, 0)",
+                "1": "rgb(2, 4, 2)",
+                "5": "rgb(8, 18, 8)",
+                "10": "rgb(16, 35, 16)",
+                "20": "rgb(31, 71, 32)",
+                "30": "rgb(47, 106, 49)",
+                "40": "rgb(62, 142, 65)",
+                "50": "rgb(78, 177, 81)",
+                "60": "rgb(113, 193, 116)",
+                "70": "rgb(149, 208, 151)",
+                "80": "rgb(184, 224, 185)",
+                "90": "rgb(220, 239, 220)",
+                "95": "rgb(237, 247, 238)",
+                "99": "rgb(251, 253, 252)",
+                "100": "rgb(255, 255, 255)",
+                "main": "#4CAF50",
+                "light": "#81C784",
+                "dark": "#388E3C"
+              },
+              "warning": {
+                "0": "rgb(0, 0, 0)",
+                "1": "rgb(5, 3, 0)",
+                "5": "rgb(26, 15, 0)",
+                "10": "rgb(51, 31, 0)",
+                "20": "rgb(102, 61, 0)",
+                "30": "rgb(153, 92, 0)",
+                "40": "rgb(204, 122, 0)",
+                "50": "rgb(255, 153, 0)",
+                "60": "rgb(255, 173, 51)",
+                "70": "rgb(255, 194, 102)",
+                "80": "rgb(255, 214, 153)",
+                "90": "rgb(255, 235, 204)",
+                "95": "rgb(255, 245, 229)",
+                "99": "rgb(255, 253, 250)",
+                "100": "rgb(255, 255, 255)",
+                "main": "#FF9800",
+                "light": "#FFB74D",
+                "dark": "#F57C00"
+              },
+              "error": {
+                "0": "rgb(0, 0, 0)",
+                "1": "rgb(5, 1, 0)",
+                "5": "rgb(26, 6, 0)",
+                "10": "rgb(51, 12, 0)",
+                "20": "rgb(102, 24, 0)",
+                "30": "rgb(153, 36, 0)",
+                "40": "rgb(204, 48, 0)",
+                "50": "rgb(255, 60, 0)",
+                "60": "rgb(255, 99, 51)",
+                "70": "rgb(255, 138, 102)",
+                "80": "rgb(255, 177, 153)",
+                "90": "rgb(255, 216, 204)",
+                "95": "rgb(255, 235, 229)",
+                "99": "rgb(255, 251, 250)",
+                "100": "rgb(255, 255, 255)",
+                "main": "#FF5722",
+                "light": "#FF8A65",
+                "dark": "#E64A19"
+              },
+              "neutral": {
+                "0": "rgb(0, 0, 0)",
+                "1": "rgb(3, 3, 3)",
+                "5": "rgb(13, 13, 13)",
+                "10": "rgb(26, 26, 26)",
+                "20": "rgb(51, 51, 51)",
+                "30": "rgb(77, 77, 77)",
+                "40": "rgb(102, 102, 102)",
+                "50": "rgb(128, 128, 128)",
+                "60": "rgb(153, 153, 153)",
+                "70": "rgb(179, 179, 179)",
+                "80": "rgb(204, 204, 204)",
+                "90": "rgb(230, 230, 230)",
+                "95": "rgb(242, 242, 242)",
+                "99": "rgb(252, 252, 252)",
+                "100": "rgb(255, 255, 255)",
+                "main": "#000000",
+                "light": "rgb(26, 26, 26)",
+                "dark": "rgb(26, 26, 26)"
+              },
+              "a": {
+                "0": "rgb(0, 0, 0)",
+                "1": "rgb(4, 4, 1)",
+                "5": "rgb(20, 20, 6)",
+                "10": "rgb(39, 39, 12)",
+                "20": "rgb(79, 79, 23)",
+                "30": "rgb(118, 118, 35)",
+                "40": "rgb(157, 157, 47)",
+                "50": "rgb(196, 196, 59)",
+                "60": "rgb(208, 208, 98)",
+                "70": "rgb(220, 220, 137)",
+                "80": "rgb(232, 232, 176)",
+                "90": "rgb(243, 243, 216)",
+                "95": "rgb(249, 249, 235)",
+                "99": "rgb(254, 254, 251)",
+                "100": "rgb(255, 255, 255)",
+                "main": "#f4f4da",
+                "light": "rgb(243, 243, 216)",
+                "dark": "rgb(220, 220, 137)"
+              }
+            },
+            "text": {
+              "primary": {
+                "primary": "rgba(255, 240, 102, 0.87)",
+                "secondary": "rgba(255, 240, 102, 0.54)",
+                "tertiary": "rgba(255, 240, 102, 0.37)",
+                "quaternary": "rgba(255, 240, 102, 0.24)"
+              },
+              "secondary": {
+                "primary": "rgba(181, 217, 140, 0.87)",
+                "secondary": "rgba(181, 217, 140, 0.54)",
+                "tertiary": "rgba(181, 217, 140, 0.37)",
+                "quaternary": "rgba(181, 217, 140, 0.24)"
+              },
+              "tertiary": {
+                "primary": "rgba(255, 217, 102, 0.87)",
+                "secondary": "rgba(255, 217, 102, 0.54)",
+                "tertiary": "rgba(255, 217, 102, 0.37)",
+                "quaternary": "rgba(255, 217, 102, 0.24)"
+              },
+              "quaternary": {
+                "primary": "rgba(102, 237, 255, 0.87)",
+                "secondary": "rgba(102, 237, 255, 0.54)",
+                "tertiary": "rgba(102, 237, 255, 0.37)",
+                "quaternary": "rgba(102, 237, 255, 0.24)"
+              },
+              "info": {
+                "primary": "rgba(104, 206, 253, 0.87)",
+                "secondary": "rgba(104, 206, 253, 0.54)",
+                "tertiary": "rgba(104, 206, 253, 0.37)",
+                "quaternary": "rgba(104, 206, 253, 0.24)"
+              },
+              "success": {
+                "primary": "rgba(149, 208, 151, 0.87)",
+                "secondary": "rgba(149, 208, 151, 0.54)",
+                "tertiary": "rgba(149, 208, 151, 0.37)",
+                "quaternary": "rgba(149, 208, 151, 0.24)"
+              },
+              "warning": {
+                "primary": "rgba(255, 194, 102, 0.87)",
+                "secondary": "rgba(255, 194, 102, 0.54)",
+                "tertiary": "rgba(255, 194, 102, 0.37)",
+                "quaternary": "rgba(255, 194, 102, 0.24)"
+              },
+              "error": {
+                "primary": "rgba(255, 138, 102, 0.87)",
+                "secondary": "rgba(255, 138, 102, 0.54)",
+                "tertiary": "rgba(255, 138, 102, 0.37)",
+                "quaternary": "rgba(255, 138, 102, 0.24)"
+              },
+              "neutral": {
+                "primary": "rgba(255, 255, 255, 0.87)",
+                "secondary": "rgba(255, 255, 255, 0.54)",
+                "tertiary": "rgba(255, 255, 255, 0.37)",
+                "quaternary": "rgba(255, 255, 255, 0.24)"
+              },
+              "default": {
+                "primary": "rgba(255, 255, 255, 0.87)",
+                "secondary": "rgba(255, 255, 255, 0.54)",
+                "tertiary": "rgba(255, 255, 255, 0.37)",
+                "quaternary": "rgba(255, 255, 255, 0.24)"
+              },
+              "divider": "rgba(255, 255, 255, 0.14)",
+              "active": "rgba(255, 255, 255, 0.54)",
+              "hover": "rgba(255, 255, 255, 0.04)",
+              "selected": "rgba(255, 255, 255, 0.07)",
+              "focus": "rgba(255, 255, 255, 0.11)",
+              "disabled": "rgba(255, 255, 255, 0.37)",
+              "a": {
+                "primary": "rgba(220, 220, 137, 0.87)",
+                "secondary": "rgba(220, 220, 137, 0.54)",
+                "tertiary": "rgba(220, 220, 137, 0.37)",
+                "quaternary": "rgba(220, 220, 137, 0.24)"
+              }
+            },
+            "background": {
+              "primary": {
+                "primary": "rgb(0, 0, 0)",
+                "secondary": "rgb(5, 5, 0)",
+                "tertiary": "rgb(26, 23, 0)",
+                "quaternary": "rgb(51, 46, 0)"
+              },
+              "secondary": {
+                "primary": "rgb(0, 0, 0)",
+                "secondary": "rgb(3, 4, 1)",
+                "tertiary": "rgb(13, 19, 6)",
+                "quaternary": "rgb(26, 38, 13)"
+              },
+              "tertiary": {
+                "primary": "rgb(0, 0, 0)",
+                "secondary": "rgb(5, 4, 0)",
+                "tertiary": "rgb(26, 19, 0)",
+                "quaternary": "rgb(51, 38, 0)"
+              },
+              "quaternary": {
+                "primary": "rgb(0, 0, 0)",
+                "secondary": "rgb(0, 5, 5)",
+                "tertiary": "rgb(0, 23, 26)",
+                "quaternary": "rgb(0, 45, 51)"
+              },
+              "info": {
+                "primary": "rgb(0, 0, 0)",
+                "secondary": "rgb(0, 3, 5)",
+                "tertiary": "rgb(0, 17, 25)",
+                "quaternary": "rgb(1, 35, 50)"
+              },
+              "success": {
+                "primary": "rgb(0, 0, 0)",
+                "secondary": "rgb(2, 4, 2)",
+                "tertiary": "rgb(8, 18, 8)",
+                "quaternary": "rgb(16, 35, 16)"
+              },
+              "warning": {
+                "primary": "rgb(0, 0, 0)",
+                "secondary": "rgb(5, 3, 0)",
+                "tertiary": "rgb(26, 15, 0)",
+                "quaternary": "rgb(51, 31, 0)"
+              },
+              "error": {
+                "primary": "rgb(0, 0, 0)",
+                "secondary": "rgb(5, 1, 0)",
+                "tertiary": "rgb(26, 6, 0)",
+                "quaternary": "rgb(51, 12, 0)"
+              },
+              "neutral": {
+                "primary": "rgb(0, 0, 0)",
+                "secondary": "rgb(3, 3, 3)",
+                "tertiary": "rgb(13, 13, 13)",
+                "quaternary": "rgb(26, 26, 26)"
+              },
+              "default": {
+                "primary": "rgb(0, 0, 0)",
+                "secondary": "rgb(3, 3, 3)",
+                "tertiary": "rgb(13, 13, 13)",
+                "quaternary": "rgb(26, 26, 26)"
+              },
+              "a": {
+                "primary": "rgb(0, 0, 0)",
+                "secondary": "rgb(4, 4, 1)",
+                "tertiary": "rgb(20, 20, 6)",
+                "quaternary": "rgb(39, 39, 12)"
+              }
+            }
+          },
+          "shape": {
+            "radius": {
+              "xs": 4,
+              "sm": 8,
+              "md": 12,
+              "lg": 16,
+              "xl": 28
+            }
+          },
+          "breakpoints": {
+            "values": {
+              "xs": 0,
+              "sm": 600,
+              "md": 1240,
+              "lg": 1440,
+              "xl": 1920
+            },
+            "unit": "px"
+          },
+          "space": {
+            "values": {
+              "xs": 4,
+              "sm": 8,
+              "md": 16,
+              "lg": 32,
+              "xl": 64
+            },
+            "unit": 8
+          },
+          "shadows": {
+            "values": {
+              "primary": {
+                "0": "none",
+                "1": "0px 1px 1px 0px rgba(255, 235, 59, 0.14), 0px 2px 1px -1px rgba(255, 235, 59, 0.11), 0px 1px 3px 0px rgba(255, 235, 59, 0.17)",
+                "2": "0px 2px 2px 0px rgba(255, 235, 59, 0.14), 0px 3px 3px -2px rgba(255, 235, 59, 0.11), 0px 1px 8px 0px rgba(255, 235, 59, 0.17)",
+                "3": "0px 3px 4px 0px rgba(255, 235, 59, 0.14), 0px 3px 3px -2px rgba(255, 235, 59, 0.11), 0px 1px 8px 0px rgba(255, 235, 59, 0.17)",
+                "4": "0px 4px 5px 0px rgba(255, 235, 59, 0.14), 0px 1px 10px 0px rgba(255, 235, 59, 0.11), 0px 2px 4px -1px rgba(255, 235, 59, 0.17)",
+                "6": "0px 6px 10px 0px rgba(255, 235, 59, 0.14), 0px 1px 18px 0px rgba(255, 235, 59, 0.11), 0px 3px 5px -1px rgba(255, 235, 59, 0.17)",
+                "8": "0px 8px 10px 1px rgba(255, 235, 59, 0.14), 0px 3px 14px 2px rgba(255, 235, 59, 0.11), 0px 5px 5px -3px rgba(255, 235, 59, 0.17)",
+                "9": "0px 9px 12px 1px rgba(255, 235, 59, 0.14), 0px 3px 16px 2px rgba(255, 235, 59, 0.11), 0px 5px 6px -3px rgba(255, 235, 59, 0.17)",
+                "12": "0px 12px 17px 2px rgba(255, 235, 59, 0.14), 0px 5px 22px 4px rgba(255, 235, 59, 0.11), 0px 7px 7px -4px rgba(255, 235, 59, 0.17)",
+                "16": "0px 16px 24px 2px rgba(255, 235, 59, 0.14), 0px 6px 30px 5px rgba(255, 235, 59, 0.11), 0px 8px 10px -5px rgba(255, 235, 59, 0.17)",
+                "24": "0px 24px 37px 3px rgba(255, 235, 59, 0.14), 0px 9px 46px 8px rgba(255, 235, 59, 0.11), 0px 11px 15px -7px rgba(255, 235, 59, 0.17)"
+              },
+              "secondary": {
+                "0": "none",
+                "1": "0px 1px 1px 0px rgba(139, 195, 74, 0.14), 0px 2px 1px -1px rgba(139, 195, 74, 0.11), 0px 1px 3px 0px rgba(139, 195, 74, 0.17)",
+                "2": "0px 2px 2px 0px rgba(139, 195, 74, 0.14), 0px 3px 3px -2px rgba(139, 195, 74, 0.11), 0px 1px 8px 0px rgba(139, 195, 74, 0.17)",
+                "3": "0px 3px 4px 0px rgba(139, 195, 74, 0.14), 0px 3px 3px -2px rgba(139, 195, 74, 0.11), 0px 1px 8px 0px rgba(139, 195, 74, 0.17)",
+                "4": "0px 4px 5px 0px rgba(139, 195, 74, 0.14), 0px 1px 10px 0px rgba(139, 195, 74, 0.11), 0px 2px 4px -1px rgba(139, 195, 74, 0.17)",
+                "6": "0px 6px 10px 0px rgba(139, 195, 74, 0.14), 0px 1px 18px 0px rgba(139, 195, 74, 0.11), 0px 3px 5px -1px rgba(139, 195, 74, 0.17)",
+                "8": "0px 8px 10px 1px rgba(139, 195, 74, 0.14), 0px 3px 14px 2px rgba(139, 195, 74, 0.11), 0px 5px 5px -3px rgba(139, 195, 74, 0.17)",
+                "9": "0px 9px 12px 1px rgba(139, 195, 74, 0.14), 0px 3px 16px 2px rgba(139, 195, 74, 0.11), 0px 5px 6px -3px rgba(139, 195, 74, 0.17)",
+                "12": "0px 12px 17px 2px rgba(139, 195, 74, 0.14), 0px 5px 22px 4px rgba(139, 195, 74, 0.11), 0px 7px 7px -4px rgba(139, 195, 74, 0.17)",
+                "16": "0px 16px 24px 2px rgba(139, 195, 74, 0.14), 0px 6px 30px 5px rgba(139, 195, 74, 0.11), 0px 8px 10px -5px rgba(139, 195, 74, 0.17)",
+                "24": "0px 24px 37px 3px rgba(139, 195, 74, 0.14), 0px 9px 46px 8px rgba(139, 195, 74, 0.11), 0px 11px 15px -7px rgba(139, 195, 74, 0.17)"
+              },
+              "tertiary": {
+                "0": "none",
+                "1": "0px 1px 1px 0px rgba(255, 193, 7, 0.14), 0px 2px 1px -1px rgba(255, 193, 7, 0.11), 0px 1px 3px 0px rgba(255, 193, 7, 0.17)",
+                "2": "0px 2px 2px 0px rgba(255, 193, 7, 0.14), 0px 3px 3px -2px rgba(255, 193, 7, 0.11), 0px 1px 8px 0px rgba(255, 193, 7, 0.17)",
+                "3": "0px 3px 4px 0px rgba(255, 193, 7, 0.14), 0px 3px 3px -2px rgba(255, 193, 7, 0.11), 0px 1px 8px 0px rgba(255, 193, 7, 0.17)",
+                "4": "0px 4px 5px 0px rgba(255, 193, 7, 0.14), 0px 1px 10px 0px rgba(255, 193, 7, 0.11), 0px 2px 4px -1px rgba(255, 193, 7, 0.17)",
+                "6": "0px 6px 10px 0px rgba(255, 193, 7, 0.14), 0px 1px 18px 0px rgba(255, 193, 7, 0.11), 0px 3px 5px -1px rgba(255, 193, 7, 0.17)",
+                "8": "0px 8px 10px 1px rgba(255, 193, 7, 0.14), 0px 3px 14px 2px rgba(255, 193, 7, 0.11), 0px 5px 5px -3px rgba(255, 193, 7, 0.17)",
+                "9": "0px 9px 12px 1px rgba(255, 193, 7, 0.14), 0px 3px 16px 2px rgba(255, 193, 7, 0.11), 0px 5px 6px -3px rgba(255, 193, 7, 0.17)",
+                "12": "0px 12px 17px 2px rgba(255, 193, 7, 0.14), 0px 5px 22px 4px rgba(255, 193, 7, 0.11), 0px 7px 7px -4px rgba(255, 193, 7, 0.17)",
+                "16": "0px 16px 24px 2px rgba(255, 193, 7, 0.14), 0px 6px 30px 5px rgba(255, 193, 7, 0.11), 0px 8px 10px -5px rgba(255, 193, 7, 0.17)",
+                "24": "0px 24px 37px 3px rgba(255, 193, 7, 0.14), 0px 9px 46px 8px rgba(255, 193, 7, 0.11), 0px 11px 15px -7px rgba(255, 193, 7, 0.17)"
+              },
+              "quaternary": {
+                "0": "none",
+                "1": "0px 1px 1px 0px rgba(0, 188, 212, 0.14), 0px 2px 1px -1px rgba(0, 188, 212, 0.11), 0px 1px 3px 0px rgba(0, 188, 212, 0.17)",
+                "2": "0px 2px 2px 0px rgba(0, 188, 212, 0.14), 0px 3px 3px -2px rgba(0, 188, 212, 0.11), 0px 1px 8px 0px rgba(0, 188, 212, 0.17)",
+                "3": "0px 3px 4px 0px rgba(0, 188, 212, 0.14), 0px 3px 3px -2px rgba(0, 188, 212, 0.11), 0px 1px 8px 0px rgba(0, 188, 212, 0.17)",
+                "4": "0px 4px 5px 0px rgba(0, 188, 212, 0.14), 0px 1px 10px 0px rgba(0, 188, 212, 0.11), 0px 2px 4px -1px rgba(0, 188, 212, 0.17)",
+                "6": "0px 6px 10px 0px rgba(0, 188, 212, 0.14), 0px 1px 18px 0px rgba(0, 188, 212, 0.11), 0px 3px 5px -1px rgba(0, 188, 212, 0.17)",
+                "8": "0px 8px 10px 1px rgba(0, 188, 212, 0.14), 0px 3px 14px 2px rgba(0, 188, 212, 0.11), 0px 5px 5px -3px rgba(0, 188, 212, 0.17)",
+                "9": "0px 9px 12px 1px rgba(0, 188, 212, 0.14), 0px 3px 16px 2px rgba(0, 188, 212, 0.11), 0px 5px 6px -3px rgba(0, 188, 212, 0.17)",
+                "12": "0px 12px 17px 2px rgba(0, 188, 212, 0.14), 0px 5px 22px 4px rgba(0, 188, 212, 0.11), 0px 7px 7px -4px rgba(0, 188, 212, 0.17)",
+                "16": "0px 16px 24px 2px rgba(0, 188, 212, 0.14), 0px 6px 30px 5px rgba(0, 188, 212, 0.11), 0px 8px 10px -5px rgba(0, 188, 212, 0.17)",
+                "24": "0px 24px 37px 3px rgba(0, 188, 212, 0.14), 0px 9px 46px 8px rgba(0, 188, 212, 0.11), 0px 11px 15px -7px rgba(0, 188, 212, 0.17)"
+              },
+              "info": {
+                "0": "none",
+                "1": "0px 1px 1px 0px rgba(3, 169, 244, 0.14), 0px 2px 1px -1px rgba(3, 169, 244, 0.11), 0px 1px 3px 0px rgba(3, 169, 244, 0.17)",
+                "2": "0px 2px 2px 0px rgba(3, 169, 244, 0.14), 0px 3px 3px -2px rgba(3, 169, 244, 0.11), 0px 1px 8px 0px rgba(3, 169, 244, 0.17)",
+                "3": "0px 3px 4px 0px rgba(3, 169, 244, 0.14), 0px 3px 3px -2px rgba(3, 169, 244, 0.11), 0px 1px 8px 0px rgba(3, 169, 244, 0.17)",
+                "4": "0px 4px 5px 0px rgba(3, 169, 244, 0.14), 0px 1px 10px 0px rgba(3, 169, 244, 0.11), 0px 2px 4px -1px rgba(3, 169, 244, 0.17)",
+                "6": "0px 6px 10px 0px rgba(3, 169, 244, 0.14), 0px 1px 18px 0px rgba(3, 169, 244, 0.11), 0px 3px 5px -1px rgba(3, 169, 244, 0.17)",
+                "8": "0px 8px 10px 1px rgba(3, 169, 244, 0.14), 0px 3px 14px 2px rgba(3, 169, 244, 0.11), 0px 5px 5px -3px rgba(3, 169, 244, 0.17)",
+                "9": "0px 9px 12px 1px rgba(3, 169, 244, 0.14), 0px 3px 16px 2px rgba(3, 169, 244, 0.11), 0px 5px 6px -3px rgba(3, 169, 244, 0.17)",
+                "12": "0px 12px 17px 2px rgba(3, 169, 244, 0.14), 0px 5px 22px 4px rgba(3, 169, 244, 0.11), 0px 7px 7px -4px rgba(3, 169, 244, 0.17)",
+                "16": "0px 16px 24px 2px rgba(3, 169, 244, 0.14), 0px 6px 30px 5px rgba(3, 169, 244, 0.11), 0px 8px 10px -5px rgba(3, 169, 244, 0.17)",
+                "24": "0px 24px 37px 3px rgba(3, 169, 244, 0.14), 0px 9px 46px 8px rgba(3, 169, 244, 0.11), 0px 11px 15px -7px rgba(3, 169, 244, 0.17)"
+              },
+              "success": {
+                "0": "none",
+                "1": "0px 1px 1px 0px rgba(76, 175, 80, 0.14), 0px 2px 1px -1px rgba(76, 175, 80, 0.11), 0px 1px 3px 0px rgba(76, 175, 80, 0.17)",
+                "2": "0px 2px 2px 0px rgba(76, 175, 80, 0.14), 0px 3px 3px -2px rgba(76, 175, 80, 0.11), 0px 1px 8px 0px rgba(76, 175, 80, 0.17)",
+                "3": "0px 3px 4px 0px rgba(76, 175, 80, 0.14), 0px 3px 3px -2px rgba(76, 175, 80, 0.11), 0px 1px 8px 0px rgba(76, 175, 80, 0.17)",
+                "4": "0px 4px 5px 0px rgba(76, 175, 80, 0.14), 0px 1px 10px 0px rgba(76, 175, 80, 0.11), 0px 2px 4px -1px rgba(76, 175, 80, 0.17)",
+                "6": "0px 6px 10px 0px rgba(76, 175, 80, 0.14), 0px 1px 18px 0px rgba(76, 175, 80, 0.11), 0px 3px 5px -1px rgba(76, 175, 80, 0.17)",
+                "8": "0px 8px 10px 1px rgba(76, 175, 80, 0.14), 0px 3px 14px 2px rgba(76, 175, 80, 0.11), 0px 5px 5px -3px rgba(76, 175, 80, 0.17)",
+                "9": "0px 9px 12px 1px rgba(76, 175, 80, 0.14), 0px 3px 16px 2px rgba(76, 175, 80, 0.11), 0px 5px 6px -3px rgba(76, 175, 80, 0.17)",
+                "12": "0px 12px 17px 2px rgba(76, 175, 80, 0.14), 0px 5px 22px 4px rgba(76, 175, 80, 0.11), 0px 7px 7px -4px rgba(76, 175, 80, 0.17)",
+                "16": "0px 16px 24px 2px rgba(76, 175, 80, 0.14), 0px 6px 30px 5px rgba(76, 175, 80, 0.11), 0px 8px 10px -5px rgba(76, 175, 80, 0.17)",
+                "24": "0px 24px 37px 3px rgba(76, 175, 80, 0.14), 0px 9px 46px 8px rgba(76, 175, 80, 0.11), 0px 11px 15px -7px rgba(76, 175, 80, 0.17)"
+              },
+              "warning": {
+                "0": "none",
+                "1": "0px 1px 1px 0px rgba(255, 152, 0, 0.14), 0px 2px 1px -1px rgba(255, 152, 0, 0.11), 0px 1px 3px 0px rgba(255, 152, 0, 0.17)",
+                "2": "0px 2px 2px 0px rgba(255, 152, 0, 0.14), 0px 3px 3px -2px rgba(255, 152, 0, 0.11), 0px 1px 8px 0px rgba(255, 152, 0, 0.17)",
+                "3": "0px 3px 4px 0px rgba(255, 152, 0, 0.14), 0px 3px 3px -2px rgba(255, 152, 0, 0.11), 0px 1px 8px 0px rgba(255, 152, 0, 0.17)",
+                "4": "0px 4px 5px 0px rgba(255, 152, 0, 0.14), 0px 1px 10px 0px rgba(255, 152, 0, 0.11), 0px 2px 4px -1px rgba(255, 152, 0, 0.17)",
+                "6": "0px 6px 10px 0px rgba(255, 152, 0, 0.14), 0px 1px 18px 0px rgba(255, 152, 0, 0.11), 0px 3px 5px -1px rgba(255, 152, 0, 0.17)",
+                "8": "0px 8px 10px 1px rgba(255, 152, 0, 0.14), 0px 3px 14px 2px rgba(255, 152, 0, 0.11), 0px 5px 5px -3px rgba(255, 152, 0, 0.17)",
+                "9": "0px 9px 12px 1px rgba(255, 152, 0, 0.14), 0px 3px 16px 2px rgba(255, 152, 0, 0.11), 0px 5px 6px -3px rgba(255, 152, 0, 0.17)",
+                "12": "0px 12px 17px 2px rgba(255, 152, 0, 0.14), 0px 5px 22px 4px rgba(255, 152, 0, 0.11), 0px 7px 7px -4px rgba(255, 152, 0, 0.17)",
+                "16": "0px 16px 24px 2px rgba(255, 152, 0, 0.14), 0px 6px 30px 5px rgba(255, 152, 0, 0.11), 0px 8px 10px -5px rgba(255, 152, 0, 0.17)",
+                "24": "0px 24px 37px 3px rgba(255, 152, 0, 0.14), 0px 9px 46px 8px rgba(255, 152, 0, 0.11), 0px 11px 15px -7px rgba(255, 152, 0, 0.17)"
+              },
+              "error": {
+                "0": "none",
+                "1": "0px 1px 1px 0px rgba(255, 87, 34, 0.14), 0px 2px 1px -1px rgba(255, 87, 34, 0.11), 0px 1px 3px 0px rgba(255, 87, 34, 0.17)",
+                "2": "0px 2px 2px 0px rgba(255, 87, 34, 0.14), 0px 3px 3px -2px rgba(255, 87, 34, 0.11), 0px 1px 8px 0px rgba(255, 87, 34, 0.17)",
+                "3": "0px 3px 4px 0px rgba(255, 87, 34, 0.14), 0px 3px 3px -2px rgba(255, 87, 34, 0.11), 0px 1px 8px 0px rgba(255, 87, 34, 0.17)",
+                "4": "0px 4px 5px 0px rgba(255, 87, 34, 0.14), 0px 1px 10px 0px rgba(255, 87, 34, 0.11), 0px 2px 4px -1px rgba(255, 87, 34, 0.17)",
+                "6": "0px 6px 10px 0px rgba(255, 87, 34, 0.14), 0px 1px 18px 0px rgba(255, 87, 34, 0.11), 0px 3px 5px -1px rgba(255, 87, 34, 0.17)",
+                "8": "0px 8px 10px 1px rgba(255, 87, 34, 0.14), 0px 3px 14px 2px rgba(255, 87, 34, 0.11), 0px 5px 5px -3px rgba(255, 87, 34, 0.17)",
+                "9": "0px 9px 12px 1px rgba(255, 87, 34, 0.14), 0px 3px 16px 2px rgba(255, 87, 34, 0.11), 0px 5px 6px -3px rgba(255, 87, 34, 0.17)",
+                "12": "0px 12px 17px 2px rgba(255, 87, 34, 0.14), 0px 5px 22px 4px rgba(255, 87, 34, 0.11), 0px 7px 7px -4px rgba(255, 87, 34, 0.17)",
+                "16": "0px 16px 24px 2px rgba(255, 87, 34, 0.14), 0px 6px 30px 5px rgba(255, 87, 34, 0.11), 0px 8px 10px -5px rgba(255, 87, 34, 0.17)",
+                "24": "0px 24px 37px 3px rgba(255, 87, 34, 0.14), 0px 9px 46px 8px rgba(255, 87, 34, 0.11), 0px 11px 15px -7px rgba(255, 87, 34, 0.17)"
+              },
+              "neutral": {
+                "0": "none",
+                "1": "0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.11), 0px 1px 3px 0px rgba(0, 0, 0, 0.17)",
+                "2": "0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 3px -2px rgba(0, 0, 0, 0.11), 0px 1px 8px 0px rgba(0, 0, 0, 0.17)",
+                "3": "0px 3px 4px 0px rgba(0, 0, 0, 0.14), 0px 3px 3px -2px rgba(0, 0, 0, 0.11), 0px 1px 8px 0px rgba(0, 0, 0, 0.17)",
+                "4": "0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.11), 0px 2px 4px -1px rgba(0, 0, 0, 0.17)",
+                "6": "0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.11), 0px 3px 5px -1px rgba(0, 0, 0, 0.17)",
+                "8": "0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.11), 0px 5px 5px -3px rgba(0, 0, 0, 0.17)",
+                "9": "0px 9px 12px 1px rgba(0, 0, 0, 0.14), 0px 3px 16px 2px rgba(0, 0, 0, 0.11), 0px 5px 6px -3px rgba(0, 0, 0, 0.17)",
+                "12": "0px 12px 17px 2px rgba(0, 0, 0, 0.14), 0px 5px 22px 4px rgba(0, 0, 0, 0.11), 0px 7px 7px -4px rgba(0, 0, 0, 0.17)",
+                "16": "0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.11), 0px 8px 10px -5px rgba(0, 0, 0, 0.17)",
+                "24": "0px 24px 37px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.11), 0px 11px 15px -7px rgba(0, 0, 0, 0.17)"
+              },
+              "a": {
+                "0": "none",
+                "1": "0px 1px 1px 0px rgba(244, 244, 218, 0.14), 0px 2px 1px -1px rgba(244, 244, 218, 0.11), 0px 1px 3px 0px rgba(244, 244, 218, 0.17)",
+                "2": "0px 2px 2px 0px rgba(244, 244, 218, 0.14), 0px 3px 3px -2px rgba(244, 244, 218, 0.11), 0px 1px 8px 0px rgba(244, 244, 218, 0.17)",
+                "3": "0px 3px 4px 0px rgba(244, 244, 218, 0.14), 0px 3px 3px -2px rgba(244, 244, 218, 0.11), 0px 1px 8px 0px rgba(244, 244, 218, 0.17)",
+                "4": "0px 4px 5px 0px rgba(244, 244, 218, 0.14), 0px 1px 10px 0px rgba(244, 244, 218, 0.11), 0px 2px 4px -1px rgba(244, 244, 218, 0.17)",
+                "6": "0px 6px 10px 0px rgba(244, 244, 218, 0.14), 0px 1px 18px 0px rgba(244, 244, 218, 0.11), 0px 3px 5px -1px rgba(244, 244, 218, 0.17)",
+                "8": "0px 8px 10px 1px rgba(244, 244, 218, 0.14), 0px 3px 14px 2px rgba(244, 244, 218, 0.11), 0px 5px 5px -3px rgba(244, 244, 218, 0.17)",
+                "9": "0px 9px 12px 1px rgba(244, 244, 218, 0.14), 0px 3px 16px 2px rgba(244, 244, 218, 0.11), 0px 5px 6px -3px rgba(244, 244, 218, 0.17)",
+                "12": "0px 12px 17px 2px rgba(244, 244, 218, 0.14), 0px 5px 22px 4px rgba(244, 244, 218, 0.11), 0px 7px 7px -4px rgba(244, 244, 218, 0.17)",
+                "16": "0px 16px 24px 2px rgba(244, 244, 218, 0.14), 0px 6px 30px 5px rgba(244, 244, 218, 0.11), 0px 8px 10px -5px rgba(244, 244, 218, 0.17)",
+                "24": "0px 24px 37px 3px rgba(244, 244, 218, 0.14), 0px 9px 46px 8px rgba(244, 244, 218, 0.11), 0px 11px 15px -7px rgba(244, 244, 218, 0.17)"
+              }
+            },
+            "opacities": [
+              0.14,
+              0.11,
+              0.17
+            ]
+          },
+          "typography": {
+            "unit": "px",
+            "font_size": {
+              "html": 16
+            },
+            "font_family": {
+              "primary": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+              "secondary": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+              "mono": "Roboto Mono, monospace"
+            },
+            "values": {
+              "d1": {
+                "fontSize": "3.5625rem",
+                "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                "fontWeight": 400,
+                "lineHeight": 1.1228070175438596,
+                "letterSpacing": "0em"
+              },
+              "d2": {
+                "fontSize": "2.8125rem",
+                "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                "fontWeight": 400,
+                "lineHeight": 1.1555555555555554,
+                "letterSpacing": "0em"
+              },
+              "d3": {
+                "fontSize": "2.1875rem",
+                "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                "fontWeight": 400,
+                "lineHeight": 1.2571428571428571,
+                "letterSpacing": "0em"
+              },
+              "h1": {
+                "fontSize": "2rem",
+                "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                "fontWeight": 400,
+                "lineHeight": 1.25,
+                "letterSpacing": "0em"
+              },
+              "h2": {
+                "fontSize": "1.6875rem",
+                "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                "fontWeight": 400,
+                "lineHeight": 1.2962962962962963,
+                "letterSpacing": "0em"
+              },
+              "h3": {
+                "fontSize": "1.5rem",
+                "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                "fontWeight": 400,
+                "lineHeight": 1.3333333333333333,
+                "letterSpacing": "0em"
+              },
+              "t1": {
+                "fontSize": "1.3125rem",
+                "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                "fontWeight": 400,
+                "lineHeight": 3.0476190476190474,
+                "letterSpacing": "0em"
+              },
+              "t2": {
+                "fontSize": "1rem",
+                "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                "fontWeight": 500,
+                "lineHeight": 1.5,
+                "letterSpacing": ".15em"
+              },
+              "t3": {
+                "fontSize": "0.875rem",
+                "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                "fontWeight": 500,
+                "lineHeight": 1.4285714285714286,
+                "letterSpacing": ".1em"
+              },
+              "l1": {
+                "fontSize": "0.875rem",
+                "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                "fontWeight": 500,
+                "lineHeight": 1.4285714285714286,
+                "letterSpacing": ".1em"
+              },
+              "l2": {
+                "fontSize": "0.75rem",
+                "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                "fontWeight": 500,
+                "lineHeight": 1.25,
+                "letterSpacing": ".5em"
+              },
+              "l3": {
+                "fontSize": "0.6875rem",
+                "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                "fontWeight": 500,
+                "lineHeight": 0.45454545454545453,
+                "letterSpacing": ".5em"
+              },
+              "b1": {
+                "fontSize": "1rem",
+                "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                "fontWeight": 400,
+                "lineHeight": 1.5,
+                "letterSpacing": ".5em"
+              },
+              "b2": {
+                "fontSize": "0.875rem",
+                "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                "fontWeight": 400,
+                "lineHeight": 1.4285714285714286,
+                "letterSpacing": ".25em"
+              },
+              "b3": {
+                "fontSize": "0.6875rem",
+                "fontFamily": "Roboto, Helvetica, \"Helvetica Neue\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+                "fontWeight": 400,
+                "lineHeight": 1.3636363636363635,
+                "letterSpacing": ".4em"
+              }
+            }
+          },
+          "z_index": {
+            "tooltip": 1700,
+            "modal": 1500,
+            "menu_modal": 1400,
+            "menu": 1300,
+            "button_float": 1200,
+            "app_bar": 1100,
+            "main": 1000,
+            "text": 0
           }
-        },
-        "hash": "0xa84825a47165f38b9994e562e0ab198ef4f31a16d2fe03445c9c6afc32225c51"
-      }
-    ]));
+        }
+      ]
+    ]);
   });
 
 });

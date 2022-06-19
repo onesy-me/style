@@ -2,64 +2,41 @@
 import { assert } from '@amaui/test';
 import * as AmauiUtils from '@amaui/utils';
 
-import { startBrowsers, IBrowsers, evaluate, closeBrowsers } from '../utils/js/test/utils';
+import { evaluate } from '../utils/js/test/utils';
 
 import * as AmauiStyle from '../src';
 import { TValue } from '../src';
-import { counter } from '../src/amaui-style-rule';
 
 group('@amaui/style/amaui-style', () => {
-  let browsers: IBrowsers;
 
-  pre(async () => browsers = await startBrowsers());
-
-  post(async () => await closeBrowsers(browsers));
-
-  preEveryTo(async () => {
-    // Counter
-    counter.className = 0;
-    counter.keyframesName = 0;
-
+  preEveryGroupTo(async () => {
     await evaluate((window: any) => {
       // Body
       window.document.body.dir = 'ltr';
 
       window.document.body.innerHTML = `
-      <main id='a'>
-        <section id='a1'>
-          <div id='a14'>
-            a
-          </div>
-        </section>
-      </main>
+        <main id='a'>
+          <section id='a1'>
+            <div id='a14'>
+              a
+            </div>
+          </section>
+        </main>
     `;
 
       new window.AmauiStyle.AmauiStyle(window.document.getElementById('a14'));
       new window.AmauiStyle.AmauiStyle(window.document.getElementById('a1'));
       new window.AmauiStyle.AmauiStyle(window.document.getElementById('a'));
       new window.AmauiStyle.AmauiStyle(window.document.body);
-    }, { browsers });
+    });
   });
-
-  postEveryTo(async () => await evaluate((window: any) => {
-    // Style sheets
-    const styleSheets: any = Array.from(window.document.styleSheets);
-
-    styleSheets.forEach(sheet => sheet.ownerNode.remove());
-
-    // Body
-    window.document.body.innerHTML = '';
-    window.document.body.dir = 'ltr';
-    // Html
-    window.document.documentElement.html.dir = 'ltr';
-  }, { browsers }));
 
   group('AmauiStyle', () => {
 
     to('all', async () => {
       const valueBrowsers = await evaluate((window: any) => {
         return window.AmauiStyle.AmauiStyle.all(window.document.getElementById('a14')).map(item => item.element.id || item.element.tagName.toLowerCase());
-      }, { browsers });
+      });
 
       const values = [...valueBrowsers];
 
@@ -76,7 +53,7 @@ group('@amaui/style/amaui-style', () => {
         const item = window.AmauiStyle.AmauiStyle.nearest(window.document.getElementById('a14'));
 
         return item.element.id || item.element.tagName.toLowerCase();
-      }, { browsers });
+      });
 
       const values = [...valueBrowsers];
 
@@ -88,7 +65,7 @@ group('@amaui/style/amaui-style', () => {
         const item = window.AmauiStyle.AmauiStyle.furthest(window.document.getElementById('a14'));
 
         return item.element.id || item.element.tagName.toLowerCase();
-      }, { browsers });
+      });
 
       const values = [...valueBrowsers];
 
@@ -100,7 +77,7 @@ group('@amaui/style/amaui-style', () => {
         const item = window.AmauiStyle.AmauiStyle.first(window.document.getElementById('a14'));
 
         return item.element.id || item.element.tagName.toLowerCase();
-      }, { browsers });
+      });
 
       const values = [...valueBrowsers];
 
@@ -112,7 +89,7 @@ group('@amaui/style/amaui-style', () => {
         const item = window.AmauiStyle.AmauiStyle.last(window.document.getElementById('a14'));
 
         return item.element.id || item.element.tagName.toLowerCase();
-      }, { browsers });
+      });
 
       const values = [...valueBrowsers];
 
@@ -126,7 +103,7 @@ group('@amaui/style/amaui-style', () => {
           const item = window.AmauiStyle.AmauiStyle.get(window.document.getElementById('a14'), 0);
 
           return item.element.id || item.element.tagName.toLowerCase();
-        }, { browsers });
+        });
 
         const values = [...valueBrowsers];
 
@@ -138,7 +115,7 @@ group('@amaui/style/amaui-style', () => {
           const item = window.AmauiStyle.AmauiStyle.get(window.document.getElementById('a14'), 1);
 
           return item.element.id || item.element.tagName.toLowerCase();
-        }, { browsers });
+        });
 
         const values = [...valueBrowsers];
 
@@ -150,7 +127,7 @@ group('@amaui/style/amaui-style', () => {
           const item = window.AmauiStyle.AmauiStyle.get(window.document.getElementById('a14'), -1);
 
           return item.element.id || item.element.tagName.toLowerCase();
-        }, { browsers });
+        });
 
         const values = [...valueBrowsers];
 
@@ -175,7 +152,7 @@ group('@amaui/style/amaui-style', () => {
         amauiStyle.options,
         amauiStyle.renderer instanceof window.AmauiStyle.AmauiStyleRenderer,
       ];
-    }, { browsers });
+    });
 
     const values = [...valueBrowsers];
 
@@ -237,7 +214,7 @@ group('@amaui/style/amaui-style', () => {
         amauiStyle1.direction,
         amauiStyle1.options.rule.rtl,
       ];
-    }, { browsers });
+    });
 
     const values = [...valueBrowsers];
 
@@ -292,7 +269,7 @@ group('@amaui/style/amaui-style', () => {
       window.AmauiStyle.style(a, { amaui_style: { value: amauiStyle } });
 
       return amauiStyle.sheet_managers.length;
-    }, { browsers });
+    });
 
     const amauiStyle = new AmauiStyle.AmauiStyle();
 
@@ -384,7 +361,7 @@ group('@amaui/style/amaui-style', () => {
       window.AmauiStyle.style(a, { amaui_style: { value: amauiStyle } });
 
       return amauiStyle.sheets.length;
-    }, { browsers });
+    });
 
     const amauiStyle = new AmauiStyle.AmauiStyle();
 
@@ -476,7 +453,7 @@ group('@amaui/style/amaui-style', () => {
       window.AmauiStyle.style(a, { amaui_style: { value: amauiStyle } });
 
       return [AmauiUtils.equalDeep(amauiStyle.values, amauiStyle.response), amauiStyle.values];
-    }, { browsers });
+    });
 
     const amauiStyle = new AmauiStyle.AmauiStyle();
 
@@ -592,7 +569,7 @@ group('@amaui/style/amaui-style', () => {
         window.AmauiStyle.style(a, { amaui_style: { value: amauiStyle } });
 
         return [window.AmauiUtils.equalDeep(amauiStyle.values, amauiStyle.response), amauiStyle.response];
-      }, { browsers });
+      });
 
       const amauiStyle = new AmauiStyle.AmauiStyle();
 
@@ -706,7 +683,7 @@ group('@amaui/style/amaui-style', () => {
         window.AmauiStyle.style(a, { amaui_style: { value: amauiStyle } });
 
         return [AmauiUtils.equalDeep(amauiStyle.css, amauiStyle.values.css), amauiStyle.css];
-      }, { browsers });
+      });
 
       const amauiStyle = new AmauiStyle.AmauiStyle();
 
@@ -801,7 +778,7 @@ group('@amaui/style/amaui-style', () => {
         window.AmauiStyle.style(a, { amaui_style: { value: amauiStyle } });
 
         return [AmauiUtils.equalDeep(amauiStyle.values.json, amauiStyle.json), amauiStyle.json];
-      }, { browsers });
+      });
 
       const amauiStyle = new AmauiStyle.AmauiStyle();
 
@@ -895,7 +872,7 @@ group('@amaui/style/amaui-style', () => {
           amauiStyle.subscriptions.className.name.length,
           amauiStyle.subscriptions.rule.rtl.length,
         ];
-      }, { browsers });
+      });
 
       const amauiStyle = new AmauiStyle.AmauiStyle();
 
@@ -966,7 +943,7 @@ group('@amaui/style/amaui-style', () => {
         );
 
         return response;
-      }, { browsers });
+      });
 
       const amauiStyle = new AmauiStyle.AmauiStyle();
 

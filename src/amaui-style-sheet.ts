@@ -1,11 +1,11 @@
-import { copy, equalDeep, getID, is, isEnvironment, merge } from '@amaui/utils';
+import { copy, equalDeep, getEnvironment, getID, is, isEnvironment, merge } from '@amaui/utils';
 
 import AmauiStyle from './amaui-style';
 import AmauiStyleRule from './amaui-style-rule';
 import AmauiStyleSheetManager from './amaui-style-sheet-manager';
 import AmauiTheme from './amaui-theme';
 import { TMode, IOptionsRule, IValuesVariant, TStatus, TPriority, IAddRuleResponse, TValueObject } from './interfaces';
-import { dynamic, methods } from './utils';
+import { dynamic } from './utils';
 
 type TVariant = 'all' | 'static' | 'dynamic';
 
@@ -22,6 +22,8 @@ export interface IOptions {
   style?: IOptionsStyle;
   rule?: IOptionsRule;
 }
+
+const env = getEnvironment();
 
 const optionsDefault: IOptions = {
   style: {
@@ -207,11 +209,11 @@ class AmauiStyleSheet {
         (this.variant === 'dynamic' && isDynamic)
       )
     ) {
-      let property = property_ !== undefined ? property_ : methods.makeName.next().value;
+      let property = property_ !== undefined ? property_ : env.amaui_methods.makeName.next().value;
 
       const props = (is('object', this.value) && Object.keys(this.value)) || [];
 
-      if (!!props.length) while (props.indexOf(property) > -1) property = methods.makeName.next().value;
+      if (!!props.length) while (props.indexOf(property) > -1) property = env.amaui_methods.makeName.next().value;
 
       const isPure = ['@pure', '@p'];
 

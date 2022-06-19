@@ -1,17 +1,12 @@
 /* tslint:disable: no-shadowed-variable */
 import { assert } from '@amaui/test';
 
-import { startBrowsers, IBrowsers, evaluate, closeBrowsers } from '../utils/js/test/utils';
+import { evaluate } from '../utils/js/test/utils';
 
 import * as AmauiStyle from '../src';
 import { TValue } from '../src';
 
 group('@amaui/style/pure', () => {
-  let browsers: IBrowsers;
-
-  pre(async () => browsers = await startBrowsers());
-
-  post(async () => await closeBrowsers(browsers));
 
   group('browser', () => {
 
@@ -87,7 +82,7 @@ group('@amaui/style/pure', () => {
           valueCSS,
           amauiStyle.css,
         ];
-      }, { browsers });
+      });
 
       const values = [...valueBrowsers];
 

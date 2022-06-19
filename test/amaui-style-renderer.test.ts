@@ -1,24 +1,9 @@
 /* tslint:disable: no-shadowed-variable */
 import { assert } from '@amaui/test';
 
-import { startBrowsers, IBrowsers, evaluate, closeBrowsers } from '../utils/js/test/utils';
+import { evaluate } from '../utils/js/test/utils';
 
 group('@amaui/style/amaui-style-renderer', () => {
-  let browsers: IBrowsers;
-
-  pre(async () => browsers = await startBrowsers());
-
-  post(async () => await closeBrowsers(browsers));
-
-  postEveryTo(async () => await evaluate((window: any) => {
-    // Style sheets
-    const styleSheets: any = Array.from(window.document.styleSheets);
-
-    styleSheets.forEach(sheet => sheet.ownerNode.remove());
-
-    // Body
-    document.body.dir = 'ltr';
-  }, { browsers }));
 
   to('make', async () => {
     const valueBrowsers = await evaluate((window: any) => {
@@ -33,7 +18,7 @@ group('@amaui/style/amaui-style-renderer', () => {
       response.push(element.tagName.toLowerCase(), element.type, element.amaui);
 
       return response;
-    }, { browsers });
+    });
 
     const values = [...valueBrowsers];
 
@@ -64,7 +49,7 @@ group('@amaui/style/amaui-style-renderer', () => {
         response.push(element.tagName.toLowerCase(), element.type, element.amaui);
 
         return response;
-      }, { browsers });
+      });
 
       const values = [...valueBrowsers];
 
@@ -101,7 +86,7 @@ group('@amaui/style/amaui-style-renderer', () => {
           response.push(window.document.styleSheets.length);
 
           return response;
-        }, { browsers });
+        });
 
         const values = [...valueBrowsers];
 
@@ -135,7 +120,7 @@ group('@amaui/style/amaui-style-renderer', () => {
           response.push(window.document.styleSheets.length);
 
           return response;
-        }, { browsers });
+        });
 
         const values = [...valueBrowsers];
 
@@ -173,7 +158,7 @@ group('@amaui/style/amaui-style-renderer', () => {
           response.push(window.document.styleSheets.length);
 
           return response;
-        }, { browsers });
+        });
 
         const values = [...valueBrowsers];
 
@@ -220,7 +205,7 @@ group('@amaui/style/amaui-style-renderer', () => {
           response.push(window.document.styleSheets.length);
 
           return response;
-        }, { browsers });
+        });
 
         const values = [...valueBrowsers];
 
@@ -258,7 +243,7 @@ group('@amaui/style/amaui-style-renderer', () => {
       response.push(window.document.styleSheets.length);
 
       return response;
-    }, { browsers });
+    });
 
     const values = [...valueBrowsers];
 

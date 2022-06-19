@@ -1,4 +1,4 @@
-import { is, isEnvironment, merge } from '@amaui/utils';
+import { isEnvironment, merge } from '@amaui/utils';
 import AmauiCache from '@amaui/cache';
 
 import AmauiStyle from './amaui-style';
@@ -40,8 +40,6 @@ function makeClassName(amauiStyle: AmauiStyle, options_: IOptions = {}) {
     return allClassNames.indexOf(value) === -1;
   };
 
-  let inc = 0;
-
   const method = (value_: { property: string; value: any; }): IMakeClassName => {
     // Check in cache if class name already exists with these values
     const valueCached = AmauiCache.get(value_, options, amauiStyle?.id);
@@ -55,6 +53,8 @@ function makeClassName(amauiStyle: AmauiStyle, options_: IOptions = {}) {
     };
 
     const makeClassNameNames = AmauiCache.get('amaui-makeClassName-values', amauiStyle?.id) || [];
+
+    let inc = 0;
 
     // Make a class name
     // Production

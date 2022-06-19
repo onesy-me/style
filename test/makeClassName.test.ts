@@ -1,16 +1,11 @@
 /* tslint:disable: no-shadowed-variable */
 import { assert } from '@amaui/test';
 
-import { startBrowsers, IBrowsers, evaluate, closeBrowsers } from '../utils/js/test/utils';
+import { evaluate } from '../utils/js/test/utils';
 
 import * as AmauiStyle from '../src';
 
 group('@amaui/style/makeClassName', () => {
-  let browsers: IBrowsers;
-
-  pre(async () => browsers = await startBrowsers());
-
-  post(async () => await closeBrowsers(browsers));
 
   group('amauiStyle', () => {
 
@@ -21,7 +16,7 @@ group('@amaui/style/makeClassName', () => {
         amauiStyle.plugins.add = window.AmauiStyle.makeClassName;
 
         return amauiStyle.subscriptions.className.name.length === 1;
-      }, { browsers });
+      });
 
       const amauiStyle = new AmauiStyle.AmauiStyle();
 
@@ -45,7 +40,7 @@ group('@amaui/style/makeClassName', () => {
           (amauiStyle.plugins.remove = window.AmauiStyle.makeClassName) &&
           amauiStyle.subscriptions.className.name.length === 0
         );
-      }, { browsers });
+      });
 
       const amauiStyle = new AmauiStyle.AmauiStyle();
 
@@ -71,7 +66,7 @@ group('@amaui/style/makeClassName', () => {
       to('response', async () => {
         const valueBrowsers = await evaluate((window: any) => {
           return window.AmauiStyle.makeClassName(undefined, { production: true }).methods.method({ property: 'width', value: '14px' });
-        }, { browsers });
+        });
 
         const valueNode = AmauiStyle.makeClassName(undefined, { production: true }).methods.method({ property: 'width', value: '14px' });
 
@@ -93,7 +88,7 @@ group('@amaui/style/makeClassName', () => {
           const method = window.AmauiStyle.makeClassName(undefined, { production: true }).methods.method;
 
           return method({ property: 'width', value: '14px' }).value;
-        }, { browsers });
+        });
 
         const method = AmauiStyle.makeClassName(undefined, { production: true }).methods.method;
 
@@ -121,7 +116,7 @@ group('@amaui/style/makeClassName', () => {
             method({ property: 'width', value: '14px' }).value,
             method({ property: 'width', value: '114px' }).value
           ];
-        }, { browsers });
+        });
 
         const method = AmauiStyle.makeClassName(undefined, { production: false }).methods.method;
 
@@ -149,7 +144,7 @@ group('@amaui/style/makeClassName', () => {
             method({ property: 'width', value: '14px' }).value,
             method({ property: 'width', value: '114px' }).value
           ];
-        }, { browsers });
+        });
 
         const method = AmauiStyle.makeClassName(undefined, { production: true }).methods.method;
 
@@ -190,14 +185,14 @@ group('@amaui/style/makeClassName', () => {
           window.document.head.className = '';
 
           return response;
-        }, { browsers });
+        });
 
         const values = [...valueBrowsers];
 
         values.forEach(value => assert(value).eql([
-          'aa',
-          'width-1',
-          'ac'
+          'ac',
+          'width-2',
+          'ad'
         ]));
       });
 

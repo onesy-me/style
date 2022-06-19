@@ -1,4 +1,4 @@
-import { is, cleanValue, variationWithRepetition } from '@amaui/utils';
+import { is, cleanValue, variationWithRepetition, getEnvironment } from '@amaui/utils';
 import AmauiSubscription from '@amaui/subscription';
 
 import AmauiStyle from './amaui-style';
@@ -118,7 +118,9 @@ export function* makeName(length_ = 2, input_ = 'abcdefghijklmnopqrstuvwxyz') {
 
 export const pxToRem = (value: number, htmlFontSize = 16) => Number((value / htmlFontSize).toFixed(4));
 
-export const methods = {
+const env = getEnvironment();
+
+env.amaui_methods = {
   makeName: makeName(),
 };
 

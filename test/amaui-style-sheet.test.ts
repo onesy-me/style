@@ -2,59 +2,12 @@
 import { assert } from '@amaui/test';
 import * as AmauiUtils from '@amaui/utils';
 
-import { startBrowsers, IBrowsers, evaluate, closeBrowsers } from '../utils/js/test/utils';
+import { evaluate } from '../utils/js/test/utils';
 
 import * as AmauiStyle from '../src';
-import { methods, makeName, TValue, TValueObject } from '../src';
-import { counter } from '../src/amaui-style-rule';
+import { TValue, TValueObject } from '../src';
 
 group('@amaui/style/amaui-style-sheet', () => {
-  let browsers: IBrowsers;
-
-  pre(async () => browsers = await startBrowsers());
-
-  post(async () => await closeBrowsers(browsers));
-
-  preEveryTo(async () => {
-    // Counter
-    counter.className = 0;
-    counter.keyframesName = 0;
-
-    methods.makeName = makeName();
-
-    await evaluate((window: any) => {
-      // Body
-      window.document.body.dir = 'ltr';
-
-      window.document.body.innerHTML = `
-      <main id='a'>
-        <section id='a1'>
-          <div id='a14'>
-            a
-          </div>
-        </section>
-      </main>
-    `;
-
-      new window.AmauiStyle.AmauiStyle(window.document.getElementById('a14'));
-      new window.AmauiStyle.AmauiStyle(window.document.getElementById('a1'));
-      new window.AmauiStyle.AmauiStyle(window.document.getElementById('a'));
-      new window.AmauiStyle.AmauiStyle(window.document.body);
-    }, { browsers });
-  });
-
-  postEveryTo(async () => await evaluate((window: any) => {
-    // Style sheets
-    const styleSheets: any = Array.from(window.document.styleSheets);
-
-    styleSheets.forEach(sheet => sheet.ownerNode.remove());
-
-    // Body
-    window.document.body.innerHTML = '';
-    window.document.body.dir = 'ltr';
-    // Html
-    window.document.documentElement.html.dir = 'ltr';
-  }, { browsers }));
 
   to('amauiStyleSheet', async () => {
     const valueBrowsers = await evaluate((window: any) => {
@@ -141,7 +94,7 @@ group('@amaui/style/amaui-style-sheet', () => {
           }
         })
       ];
-    }, { browsers });
+    });
 
     const amauiStyle = new AmauiStyle.AmauiStyle();
 
@@ -282,7 +235,7 @@ group('@amaui/style/amaui-style-sheet', () => {
         );
 
         return response;
-      }, { browsers });
+      });
 
       const amauiStyle = new AmauiStyle.AmauiStyle();
 
@@ -382,7 +335,7 @@ group('@amaui/style/amaui-style-sheet', () => {
         );
 
         return response;
-      }, { browsers });
+      });
 
       const amauiStyle = new AmauiStyle.AmauiStyle();
 
@@ -494,7 +447,7 @@ group('@amaui/style/amaui-style-sheet', () => {
         amauiStyleSheet.names.keyframes,
         amauiStyleSheet.names.styles('a', 'a4'),
       ];
-    }, { browsers });
+    });
 
     const amauiStyle = new AmauiStyle.AmauiStyle();
 
@@ -600,7 +553,7 @@ group('@amaui/style/amaui-style-sheet', () => {
       );
 
       return response;
-    }, { browsers });
+    });
 
     const amauiStyle = new AmauiStyle.AmauiStyle();
 
@@ -679,7 +632,7 @@ group('@amaui/style/amaui-style-sheet', () => {
       const amauiStyleSheet = new AmauiStyle.AmauiStyleSheet(a, 'static', 'regular', false, 'upper', undefined, amauiStyleSheetManager, amauiStyle, {}, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
       return [AmauiUtils.equalDeep(amauiStyleSheet.values, amauiStyleSheet.response), amauiStyleSheet.values];
-    }, { browsers });
+    });
 
     const a: TValue = {
       a: {
@@ -789,7 +742,7 @@ group('@amaui/style/amaui-style-sheet', () => {
         const amauiStyleSheet = new AmauiStyle.AmauiStyleSheet(a, 'static', 'regular', false, 'upper', undefined, amauiStyleSheetManager, amauiStyle, {}, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
         return [AmauiUtils.equalDeep(amauiStyleSheet.values, amauiStyleSheet.response), amauiStyleSheet.response];
-      }, { browsers });
+      });
 
       const a: TValue = {
         a: {
@@ -897,7 +850,7 @@ group('@amaui/style/amaui-style-sheet', () => {
         const amauiStyleSheet = new AmauiStyle.AmauiStyleSheet(a, 'static', 'regular', false, 'upper', undefined, amauiStyleSheetManager, amauiStyle, {}, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
         return [AmauiUtils.equalDeep(amauiStyleSheet.values.css, amauiStyleSheet.css), amauiStyleSheet.css];
-      }, { browsers });
+      });
 
       const amauiStyle = new AmauiStyle.AmauiStyle();
 
@@ -986,7 +939,7 @@ group('@amaui/style/amaui-style-sheet', () => {
         const amauiStyleSheet = new AmauiStyle.AmauiStyleSheet(a, 'static', 'regular', false, 'upper', undefined, amauiStyleSheetManager, amauiStyle, {}, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
         return [AmauiUtils.equalDeep(amauiStyleSheet.values.json, amauiStyleSheet.json), amauiStyleSheet.json];
-      }, { browsers });
+      });
 
       const amauiStyle = new AmauiStyle.AmauiStyle();
 
@@ -1106,7 +1059,7 @@ group('@amaui/style/amaui-style-sheet', () => {
       );
 
       return response;
-    }, { browsers });
+    });
 
     const values = [...valueBrowsers];
 
@@ -1219,7 +1172,7 @@ group('@amaui/style/amaui-style-sheet', () => {
       );
 
       return response;
-    }, { browsers });
+    });
 
     const amauiStyle = new AmauiStyle.AmauiStyle();
 
@@ -1368,7 +1321,7 @@ group('@amaui/style/amaui-style-sheet', () => {
       );
 
       return response;
-    }, { browsers });
+    });
 
     const amauiStyle = new AmauiStyle.AmauiStyle();
 
@@ -1518,7 +1471,7 @@ group('@amaui/style/amaui-style-sheet', () => {
       );
 
       return response;
-    }, { browsers });
+    });
 
     const values = [...valueBrowsers];
 

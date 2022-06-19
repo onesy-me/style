@@ -1,4 +1,4 @@
-import { merge, getID, is, hash, Try, castParam } from '@amaui/utils';
+import { merge, getID, is, hash, Try, castParam, getEnvironment } from '@amaui/utils';
 import AmauiSubscription from '@amaui/subscription';
 
 import AmauiStyle from './amaui-style';
@@ -6,7 +6,7 @@ import AmauiStyleSheet from './amaui-style-sheet';
 import AmauiStyleRuleProperty from './amaui-style-rule-property';
 import classNamesMethod from './classNames';
 import { IOptionsRule, IValuesVariant, TMode, TRef, TStatus, TValueVariant } from './interfaces';
-import { cammelCaseToKebabCase, getRefs, isAmauiSubscription, methods, valueResolve } from './utils';
+import { cammelCaseToKebabCase, getRefs, isAmauiSubscription, valueResolve } from './utils';
 
 export type TVariant = 'property' | 'at-rule';
 
@@ -32,14 +32,16 @@ const optionsDefault: IOptions = {
   rtl: true
 };
 
-export const counter = {
+const env = getEnvironment();
+
+env.amaui_counter = {
   className: 0,
   keyframesName: 0,
 };
 
-const makeRuleClassNameDefault = (value: string = 'a') => `${value}-${counter.className++}`;
+const makeRuleClassNameDefault = (value: string = 'a') => `${value}-${env.amaui_counter.className++}`;
 
-const makeRuleKeyframesNameDefault = (value: string = 'a') => `${value}-${counter.keyframesName++}`;
+const makeRuleKeyframesNameDefault = (value: string = 'a') => `${value}-${env.amaui_counter.keyframesName++}`;
 
 class AmauiStyleRule {
   public options: IOptions;
@@ -387,7 +389,7 @@ class AmauiStyleRule {
         else if (this.amauiStyleSheet.mode === 'atomic' && parent.isVariable) {
           AmauiStyleRule.make(
             { [property]: item },
-            methods.makeName.next().value,
+            env.amaui_methods.makeName.next().value,
             'atomic',
             'property',
             this.pure,

@@ -1,7 +1,7 @@
 /* tslint:disable: no-shadowed-variable */
 import { assert } from '@amaui/test';
 
-import { startBrowsers, IBrowsers, evaluate, closeBrowsers } from '../utils/js/test/utils';
+import { evaluate } from '../utils/js/test/utils';
 
 import * as AmauiStyle from '../src';
 
@@ -199,11 +199,6 @@ const unitsDefault = {
 };
 
 group('@amaui/style/unit', () => {
-  let browsers: IBrowsers;
-
-  pre(async () => browsers = await startBrowsers());
-
-  post(async () => await closeBrowsers(browsers));
 
   group('amauiStyle', () => {
 
@@ -214,7 +209,7 @@ group('@amaui/style/unit', () => {
         amauiStyle.plugins.add = window.AmauiStyle.unit;
 
         return amauiStyle.subscriptions.rule.unit.length === 1;
-      }, { browsers });
+      });
 
       const amauiStyle = new AmauiStyle.AmauiStyle();
 
@@ -238,7 +233,7 @@ group('@amaui/style/unit', () => {
           (amauiStyle.plugins.remove = window.AmauiStyle.unit) &&
           amauiStyle.subscriptions.rule.unit.length === 0
         );
-      }, { browsers });
+      });
 
       const amauiStyle = new AmauiStyle.AmauiStyle();
 
@@ -264,7 +259,7 @@ group('@amaui/style/unit', () => {
       to('response', async () => {
         const valueBrowsers = await evaluate((window: any) => {
           return window.AmauiStyle.unit(undefined).methods.method({ property: 'width', value: 140 });
-        }, { browsers });
+        });
 
         const valueNode = AmauiStyle.unit(undefined).methods.method({ property: 'width', value: 140 });
 
@@ -479,7 +474,7 @@ group('@amaui/style/unit', () => {
           };
 
           return Object.keys(unitsDefault).map(item => method({ property: item, value: 140 }).value.unit === unitsDefault[item]);
-        }, { browsers });
+        });
 
         const method = AmauiStyle.unit(undefined).methods.method;
 
@@ -507,7 +502,7 @@ group('@amaui/style/unit', () => {
         return [
           method({ property: 'width', value: 141 }).value.value
         ];
-      }, { browsers });
+      });
 
       const method = AmauiStyle.unit(undefined, {
         units: {

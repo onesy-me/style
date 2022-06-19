@@ -2,7 +2,6 @@ import AmauiCache from '@amaui/cache';
 import { is, merge } from '@amaui/utils';
 
 import AmauiStyle from './amaui-style';
-import AmauiStyleRule from './amaui-style-rule';
 import AmauiStyleRuleProperty from './amaui-style-rule-property';
 import { IRuleItem } from './amaui-style-sheet';
 
@@ -26,7 +25,7 @@ function sort(amauiStyle: AmauiStyle, options_: IOptions = {}) {
 
   const method = (values: Array<IRuleItem>): ISort => {
     // Check in cache if class name already exists with these values
-    const valueCached = AmauiCache.get(values, options, amauiStyle?.id);
+    const valueCached = AmauiCache.get((is('array', values) && values.map((item: any) => item.id)) || (values as any)?.id, options, amauiStyle?.id);
 
     if (valueCached) return valueCached;
 
@@ -38,6 +37,7 @@ function sort(amauiStyle: AmauiStyle, options_: IOptions = {}) {
 
     if (is('array', values)) {
       const priority = options.priority;
+
       // Sort by grouping all rules
       values.sort((a, b) => {
         if (a.value instanceof AmauiStyleRuleProperty && !(b.value instanceof AmauiStyleRuleProperty)) return -1;
@@ -67,7 +67,7 @@ function sort(amauiStyle: AmauiStyle, options_: IOptions = {}) {
     }
 
     // Add value to AmauiCache for this property and value_
-    AmauiCache.add(value, values, options, amauiStyle?.id);
+    AmauiCache.add(value, (is('array', values) && values.map((item: any) => item.id)) || (values as any)?.id, options, amauiStyle?.id);
 
     return value;
   };

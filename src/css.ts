@@ -2,7 +2,7 @@ import path from 'path';
 import fg from 'fast-glob';
 import fs from 'fs-extra';
 
-import { hash, is, merge, stringify, to, Try, unique } from '@amaui/utils';
+import { getEnvironment, hash, is, merge, stringify, to, Try, unique } from '@amaui/utils';
 import AmauiNode from '@amaui/node';
 
 import AmauiStyle from './amaui-style';
@@ -10,11 +10,12 @@ import AmauiTheme from './amaui-theme';
 import AmauiStyleSheetManager from './amaui-style-sheet-manager';
 import { TValue, TValueMethod, IMethodResponse, TPriority, ICSSOptions } from './interfaces';
 import { resetDefault, normalize } from './reset';
-import { makeName, methods } from './utils';
 
 interface IResponse {
   make: () => Promise<void>;
 }
+
+const env = getEnvironment();
 
 const optionsDefault: ICSSOptions = {
   mode: 'regular',
@@ -158,7 +159,7 @@ function css(
       if (paths.folders.css?.length) {
         const folders = paths.folders.css;
 
-        const name = `${options.css?.file?.name || methods.makeName.next().value}${options.css?.file?.hash ? `.${fileHash}` : ''}.css`;
+        const name = `${options.css?.file?.name || env.amaui_methods.makeName.next().value}${options.css?.file?.hash ? `.${fileHash}` : ''}.css`;
 
         // Clear folder if clear
         const make = async (path_: string, index: number) => {

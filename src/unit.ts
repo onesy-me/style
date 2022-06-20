@@ -215,9 +215,9 @@ export const unitsDefault = {
 };
 
 function unit(amauiStyle: AmauiStyle, options_: IOptions = {}) {
-  const options: IOptions = { ...options_, ...optionsDefault };
+  const options = { ...optionsDefault, ...options_ };
 
-  const units: TOptionsUnits = { ...(options.units || {}), ...unitsDefault };
+  const units: TOptionsUnits = { ...unitsDefault, ...(options.units || {}) };
 
   const method = (value_: { property: string; value: number; }): IUnit => {
     // Normalize property

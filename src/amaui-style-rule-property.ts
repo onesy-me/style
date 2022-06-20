@@ -11,12 +11,12 @@ interface IOptions { }
 
 class AmauiStyleRuleProperty {
   public level: number;
+  public level_actual: number;
   public id: string;
   public values = {
     property: '',
     value: '',
     css: '',
-    json: {},
   };
 
   public constructor(
@@ -34,35 +34,24 @@ class AmauiStyleRuleProperty {
     this.init();
   }
 
-  private get parent(): AmauiStyleRule {
+  public get parent(): AmauiStyleRule {
     return this.parents[this.parents.length - 1] as AmauiStyleRule;
   }
 
   public get response(): IValuesVariant {
-    return { css: this.values.css, json: this.values.json };
+    return { css: this.values.css };
   }
 
   public get css(): string {
     return this.response.css;
   }
 
-  public get json(): Record<string, any> {
-    return this.response.json;
-  }
-
   private updateValues() {
     // Response
     this.values.css = `${this.values.property}: ${this.values.value};`;
 
-    this.values.json = { [this.values.property]: this.values.value };
-
     // For undefined animation name value
     if (this.values.css.indexOf('undefined') > -1) this.values.css = '';
-
-    Object.keys(this.values.json).forEach(item => {
-      if (is('string', this.values.json[item]) && this.values.json[item].indexOf('undefined') > -1) delete this.values.json[item];
-    });
-
   }
 
   private init(value?: any) {
@@ -169,6 +158,8 @@ class AmauiStyleRuleProperty {
       const exists = this.owner.rules.find(rule => rule.value.id === this.id);
 
       if (!exists) this.owner.rules.push({ property: this.property, value: this });
+
+      this.level_actual = this.owner.level_actual + 1;
     }
 
     // Update values
@@ -204,11 +195,8 @@ class AmauiStyleRuleProperty {
       if (this.owner.rule.style[this.values.property] !== this.values.value) {
         Try(() => this.owner.rule.style[this.values.property] = this.values.value);
 
-        // Update the values css string value and json value
-        // css
+        // Update the values css string value
         this.values.css = `${this.values.property}: ${this.values.value};`;
-        // json
-        this.values.json = stringify({ [this.values.property]: this.values.value });
       }
     }
   }
@@ -224,6 +212,9 @@ class AmauiStyleRuleProperty {
       const refValues = refs.map(item => this.amauiStyleSheet.amauiStyleSheetManager.names.keyframes[item]).filter(Boolean);
 
       refs.forEach((ref, i) => ((this as AmauiStyleRuleProperty)).values.value = (((this as AmauiStyleRuleProperty)).values.value as string).replace(`$${ref}`, refValues[i]));
+
+      // Update values
+      this.updateValues();
     }
   }
 

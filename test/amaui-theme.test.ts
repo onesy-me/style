@@ -294,7 +294,6 @@ group('@amaui/style/amaui-theme', () => {
                 "rtl": true
               }
             },
-            "hash": "0x8ec7eb7de043184380d10e7a93b048cee68fe1f4d79016fd985543a8ac34cc82",
             "direction": "rtl",
             "preference": {
               "background": {
@@ -1034,7 +1033,6 @@ group('@amaui/style/amaui-theme', () => {
                 "rtl": true
               }
             },
-            "hash": "0x8ec7eb7de043184380d10e7a93b048cee68fe1f4d79016fd985543a8ac34cc82",
             "direction": "rtl",
             "preference": {
               "background": {
@@ -1774,7 +1772,6 @@ group('@amaui/style/amaui-theme', () => {
                 "rtl": true
               }
             },
-            "hash": "0xd32ae72d0d63da08d6f5e8fe5baf2e43606e6bab20c9537db1db199e257c5413",
             "direction": "rtl",
             "preference": {
               "background": {
@@ -3236,8 +3233,7 @@ group('@amaui/style/amaui-theme', () => {
               "sort": true,
               "rtl": false
             }
-          },
-          "hash": "0xb219ec2201b4d2564ee199712b5d04b1ce68f03b1cc685a908f6954663d61d20"
+          }
         }
       ]);
     });
@@ -8506,8 +8502,7 @@ group('@amaui/style/amaui-theme', () => {
               "prefix": false,
               "rtl": false
             }
-          },
-          "hash": "0x67cef080ca263baa68473f735e6e8e3cc716c1ed20ab9123dce2c45d07c67065"
+          }
         }
       ],
       [
@@ -8531,7 +8526,6 @@ group('@amaui/style/amaui-theme', () => {
               "rtl": false
             }
           },
-          "hash": "0xe357c7ffb810c43b76053916799d91c51d08d0f622231c5c193c0bd13fca7542",
           "direction": "ltr",
           "preference": {
             "background": {
@@ -9282,7 +9276,6 @@ group('@amaui/style/amaui-theme', () => {
               "rtl": false
             }
           },
-          "hash": "0xe357c7ffb810c43b76053916799d91c51d08d0f622231c5c193c0bd13fca7542",
           "direction": "ltr",
           "preference": {
             "background": {
@@ -10033,7 +10026,6 @@ group('@amaui/style/amaui-theme', () => {
               "rtl": false
             }
           },
-          "hash": "0x61bd72da5fdb0573b9689a9c976c11d5e84b3ecb33cfa3bb47fbccfa582fb689",
           "direction": "ltr",
           "preference": {
             "background": {

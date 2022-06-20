@@ -1,3 +1,4 @@
+import { TMethod } from '@amaui/models';
 import { isEnvironment } from '@amaui/utils';
 
 import AmauiStyle from './amaui-style';
@@ -26,12 +27,13 @@ const optionsDefault: IOptions = {
 };
 
 function makeClassName(amauiStyle: AmauiStyle, options_: IOptions = {}) {
-  const options = { ...options_, ...optionsDefault };
+  const options = { ...optionsDefault, ...options_ };
 
   // If both dev and prod are false, then dev is true
   const production = options.production !== undefined ? options.production : optionsDefault.production;
 
-  const makeNameMethod = makeName();
+  const makeNameMethodClassName = makeName();
+  const makeNameMethodKeyframesName = makeName();
 
   const domUnique = (value: string) => {
     const allClassNames = [...new Set(Array.from(window.document.querySelectorAll('[class]')).flatMap(item => [...item.classList]))];
@@ -39,7 +41,7 @@ function makeClassName(amauiStyle: AmauiStyle, options_: IOptions = {}) {
     return allClassNames.indexOf(value) === -1;
   };
 
-  const method = (value_: { property: string; value: any; }): IMakeClassName => {
+  const method = (method = makeNameMethodClassName) => (value_: { property: string; value: any; }): IMakeClassName => {
     const value: IMakeClassName = {
       arguments: {
         value: value_,
@@ -51,13 +53,13 @@ function makeClassName(amauiStyle: AmauiStyle, options_: IOptions = {}) {
     // Make a class name
     // Production
     if (production) {
-      value.value = makeNameMethod.next().value;
+      value.value = method.next().value;
 
       while (true) {
         if (
           (options.dom?.unique && !domUnique(value.value))
         ) {
-          value.value = makeNameMethod.next().value;
+          value.value = method.next().value;
         }
         else break;
       }
@@ -79,15 +81,23 @@ function makeClassName(amauiStyle: AmauiStyle, options_: IOptions = {}) {
     return value;
   };
 
+  const methodClassName = method();
+
+  const methodKeyframesName = method(makeNameMethodKeyframesName);
+
   // Add methods to subscriptions
   if (amauiStyle) {
-    amauiStyle.subscriptions.className.name.subscribe(method);
+    amauiStyle.subscriptions.className.name.subscribe(methodClassName);
+
+    amauiStyle.subscriptions.keyframes.name.subscribe(methodKeyframesName);
   }
 
   const remove = () => {
     // Remove methods from subscriptions
     if (amauiStyle) {
-      amauiStyle.subscriptions.className.name.unsubscribe(method);
+      amauiStyle.subscriptions.className.name.unsubscribe(methodClassName);
+
+      amauiStyle.subscriptions.keyframes.name.unsubscribe(methodKeyframesName);
     }
   };
 

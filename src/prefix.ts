@@ -89,7 +89,7 @@ const mapAllValuePrefixes = {
 };
 
 function prefix(amauiStyle: AmauiStyle, options_: IOptions = {}) {
-  const options = { ...options_, ...optionsDefault };
+  const options = { ...optionsDefault, ...options_ };
 
   const valid = (value: any, property: any) => {
     if (isEnvironment('browser')) {

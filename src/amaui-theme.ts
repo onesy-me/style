@@ -1,4 +1,4 @@
-import { alpha, castParam, clamp, colorToRgb, copy, darken, element as elementMethod, emphasize, getContrastRatio, getLuminance, hexToRgb, hslToRgb, imageToPalette, isEnvironment, lighten, rgbToHex, rgbToHsl, rgbToRgba, Try } from '@amaui/utils';
+import { alpha, castParam, clamp, colorToRgb, copy, darken, element as elementMethod, emphasize, getContrastRatio, getLuminance, hexToRgb, hslToRgb, imageToPalette, isEnvironment, lighten, merge, rgbToHex, rgbToHsl, rgbToRgba, Try } from '@amaui/utils';
 import AmauiSubscription from '@amaui/subscription';
 
 import { IOptionsRule, TDirection } from './interfaces';
@@ -768,9 +768,9 @@ class AmauiTheme {
   public constructor(
     value: IAmauiTheme = amauiThemeValueDefault,
     public element?: Element,
-    public options: IOptions = {}
+    public options: IOptions = copy(optionsDefault),
   ) {
-    this.options = { ...this.options, ...optionsDefault };
+    this.options = merge(options, optionsDefault, { copy: true });
 
     this.init(value);
   }
@@ -807,10 +807,10 @@ class AmauiTheme {
     if (mode !== undefined) this.mode = mode;
 
     // Preference
-    if (is('object', preference)) this.preference = { ...preference, ...this.preference };
+    if (is('object', preference)) this.preference = merge(preference, this.preference);
 
     // Visual contrast
-    if (is('object', visual_contrast)) this.palette.visual_contrast = { ...visual_contrast, ...this.palette.visual_contrast };
+    if (is('object', visual_contrast)) this.palette.visual_contrast = merge(visual_contrast, this.palette.visual_contrast);
 
     this.palette.visual_contrast.default = this.palette.visual_contrast[this.preference.visual_contrast?.default || 'regular'];
 
@@ -953,10 +953,10 @@ class AmauiTheme {
     this.palette.text.disabled = this.palette.text.default.tertiary;
 
     // Shape
-    if (is('object', shape)) this.shape = { ...shape, ...this.shape };
+    if (is('object', shape)) this.shape = merge(shape, this.shape);
 
     // Breakpoints
-    if (is('object', breakpoints)) this.breakpoints = { ...breakpoints, ...this.breakpoints };
+    if (is('object', breakpoints)) this.breakpoints = merge(breakpoints, this.breakpoints);
 
     const instance = this;
 
@@ -966,8 +966,7 @@ class AmauiTheme {
 
     // Space
     if (is('object', space)) {
-      this.space = { ...space, ...this.space };
-
+      this.space = merge(space, this.space);
 
       this.space.unit = space.unit !== undefined ? space.unit : this.space.unit;
 
@@ -983,7 +982,7 @@ class AmauiTheme {
     });
 
     // Shadows
-    if (is('object', shadows)) this.shadows = { ...shadows, ...this.shadows };
+    if (is('object', shadows)) this.shadows = merge(shadows, this.shadows);
 
     Object.keys(this.palette.color).forEach(item => {
       const variant = this.palette.color[item] as TValueColorValue;
@@ -992,13 +991,13 @@ class AmauiTheme {
     });
 
     // Typography
-    if (is('object', typography)) this.typography = { ...typography, ...this.typography };
+    if (is('object', typography)) this.typography = merge(typography, this.typography);
 
     // Transitions
-    if (is('object', this.transitions)) this.transitions = { ...transitions, ...this.transitions };
+    if (is('object', this.transitions)) this.transitions = merge(transitions, this.transitions);
 
     // zIndex
-    if (is('object', z_index)) this.z_index = { ...z_index, ...this.z_index };
+    if (is('object', z_index)) this.z_index = merge(z_index, this.z_index);
   }
 
   public async image(value_: string, other: any = {}) {
@@ -1021,7 +1020,7 @@ class AmauiTheme {
         palette.color.tertiary.main = values[2];
         palette.color.quaternary.main = values[3];
 
-        const value = { ...{ palette }, ...other };
+        const value = merge({ palette }, other, { copy: true });
 
         this.init(value);
 

@@ -5,23 +5,13 @@ import AmauiStyle from './amaui-style';
 import { IAmauiStyleRuleValue } from './amaui-style-rule';
 import { IResponse } from './interfaces';
 
-export const kebabCasetoCammelCase = (value_: string) => {
-  let value: any = value_;
+export const cammelCaseToKebabCase = (value: string) => is('string', value) ? value.replace(/[A-Z]/g, v => `-${v[0]}`).toLowerCase() : value;
 
-  if (is('string', value)) {
-    value = value.split('-').filter(Boolean);
+export const kebabCasetoCammelCase = (value: string) => is('string', value) ? value.replace(/-./g, v => v[1] !== undefined ? v[1].toUpperCase() : '') : value;
 
-    value = value.map((item: string, index: number) => index === 0 ? item.toLowerCase() : capitalize(item));
+export const capitalizedCammelCase = (value: string) => capitalize(kebabCasetoCammelCase(value));
 
-    return is('string', value) ? value : value.join('');
-  }
-
-  return value;
-};
-
-export const capitalizedCammelCase = (value: string) => capitalize(cammelCaseToKebabCase(value));
-
-export const capitalize = (value: string) => value.charAt(0).toUpperCase() + value.slice(1);
+export const capitalize = (value: string) => is('string', value) ? value.charAt(0).toUpperCase() + value.slice(1) : value;
 
 export const is = (variant: string, value: any) => {
   switch (variant) {
@@ -31,11 +21,17 @@ export const is = (variant: string, value: any) => {
     case 'number':
       return typeof value === 'number' && !Number.isNaN(value);
 
-    case 'simple':
-      return typeof value !== 'object' || typeof value !== 'function';
-
     case 'array':
       return Array.isArray(value);
+
+    case 'boolean':
+      return typeof value === 'boolean';
+
+    case 'null':
+      return value === null;
+
+    case 'undefined':
+      return value === undefined;
 
     case 'object':
       const isObject = typeof value === 'object' && !!value && value.constructor === Object;
@@ -44,6 +40,15 @@ export const is = (variant: string, value: any) => {
 
     case 'function':
       return !!(value && value instanceof Function);
+
+    case 'simple':
+      return (
+        is('string', value) ||
+        is('number', value) ||
+        is('boolean', value) ||
+        is('undefined', value) ||
+        is('null', value)
+      );
 
     default:
       return;
@@ -66,7 +71,7 @@ export const getRefs = (value: string) => {
 
 export const valueResolve = (property: string, value: any, amauiStyle: AmauiStyle): IAmauiStyleRuleValue => {
   const response: IAmauiStyleRuleValue = {
-    value: [value],
+    value: [],
     options: {},
   };
 
@@ -82,7 +87,6 @@ export const valueResolve = (property: string, value: any, amauiStyle: AmauiStyl
     }
     // Array of simple
     else if (is('array', value) && value.every(item => is('simple', item))) {
-
       response.value = [value.flatMap(item => valueResolve(property, item, amauiStyle).value).join(' ')];
     }
     // Array of arrays
@@ -181,5 +185,3 @@ export const names = (value: IResponse) => {
 let i = 0;
 
 export const getID = () => `${i++}-${new Date().getTime()}`;
-
-export const cammelCaseToKebabCase = (value: string) => value.replace(/-./g, x => x[1].toUpperCase());

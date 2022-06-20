@@ -1,4 +1,4 @@
-import { copy, element, isEnvironment, Try } from '@amaui/utils';
+import { copy, element, isEnvironment, merge, Try } from '@amaui/utils';
 import { TMethod } from '@amaui/models';
 import AmauiSubscription from '@amaui/subscription';
 import AmauiMeta from '@amaui/meta';
@@ -65,7 +65,6 @@ class AmauiStyle {
   };
   public values = {
     css: '',
-    json: {},
   };
   public refs: TRefs = {};
   public sheets: Array<AmauiStyleSheet> = [];
@@ -81,7 +80,7 @@ class AmauiStyle {
     public renderer: AmauiStyleRenderer = new AmauiStyleRenderer(),
     public options: IOptions = copy(optionsDefault),
   ) {
-    this.options = { ...optionsDefault, ...this.options };
+    this.options = merge(options, optionsDefault, { copy: true });
 
     this.init();
   }
@@ -89,19 +88,11 @@ class AmauiStyle {
   public get response(): IValuesVariant {
     this.values.css = ``;
 
-    this.values.json = {};
-
     this.sheets.forEach(sheet => {
       const css = sheet.css;
-      const json = sheet.json;
 
       if (css) {
         this.values.css += `\n${css}\n`;
-
-        this.values.json = {
-          ...this.values.json,
-          ...json,
-        };
       }
     });
 
@@ -110,10 +101,6 @@ class AmauiStyle {
 
   public get css(): string {
     return this.response.css;
-  }
-
-  public get json(): Record<string, any> {
-    return this.response.json;
   }
 
   public get plugins() {

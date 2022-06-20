@@ -1,4 +1,4 @@
-import { isEnvironment } from '@amaui/utils';
+import { isEnvironment, merge } from '@amaui/utils';
 
 import AmauiStyle from './amaui-style';
 import AmauiStyleSheet from './amaui-style-sheet';
@@ -39,7 +39,6 @@ class AmauiStyleSheetManager {
   public status: TStatus = 'idle';
   public values = {
     css: '',
-    json: {},
   };
   public properties: IProperties = {
     static: [],
@@ -64,7 +63,7 @@ class AmauiStyleSheetManager {
     public amauiStyle?: AmauiStyle,
     public options: IOptions = optionsDefault
   ) {
-    this.options = { ...optionsDefault, ...this.options };
+    this.options = merge(options, optionsDefault, { copy: true });
 
     this.init();
   }
@@ -120,41 +119,25 @@ class AmauiStyleSheetManager {
     return this.response.css;
   }
 
-  public get json(): Record<string, any> {
-    return this.response.json;
-  }
-
   private updateValues() {
     // Response
     this.values.css = ``;
 
-    this.values.json = {};
-
     // Static
     this.sheets.static.forEach(sheet => {
-      const { css, json } = sheet.response;
+      const { css } = sheet.response;
 
       if (css) {
         this.values.css += `\n${css}\n`;
-
-        this.values.json = {
-          ...this.values.json,
-          ...json,
-        };
       }
     });
 
     // Dynamic
     this.sheets.dynamic.forEach(sheet => {
-      const { css, json } = sheet.response;
+      const { css } = sheet.response;
 
       if (css) {
         this.values.css += `\n${css}\n`;
-
-        this.values.json = {
-          ...this.values.json,
-          ...json,
-        };
       }
     });
   }

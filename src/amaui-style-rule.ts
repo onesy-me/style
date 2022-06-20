@@ -1,4 +1,4 @@
-import { hash, Try, castParam, getEnvironment } from '@amaui/utils';
+import { hash, Try, castParam, getEnvironment, merge } from '@amaui/utils';
 import AmauiSubscription from '@amaui/subscription';
 
 import AmauiStyle from './amaui-style';
@@ -49,6 +49,7 @@ class AmauiStyleRule {
   public rule_: CSSStyleRule;
   public status: TStatus = 'idle';
   public level: number;
+  public level_actual: number;
   public isVariable = false;
   public hash_: string;
   public static = true;
@@ -61,7 +62,6 @@ class AmauiStyleRule {
   public values = {
     value: undefined,
     css: '',
-    json: {},
   };
   public rules: TRules = [];
 
@@ -155,43 +155,37 @@ class AmauiStyleRule {
     return this.hash_;
   }
 
-  private get parent(): AmauiStyleRule | AmauiStyleSheet {
+  public get parent(): AmauiStyleRule | AmauiStyleSheet {
     return this.parents[this.parents.length - 1];
   }
 
   public get response(): IValuesVariant {
-    return { css: this.values.css, json: this.values.json };
+    return { css: this.values.css };
   }
 
   public get css(): string {
     return this.response.css;
   }
 
-  public get json(): Record<string, any> {
-    return this.response.json;
-  }
-
-  private updateValues() {
+  private updateValues(hash_ = true) {
     // Response
     const selector = this.selector || this.property;
 
     this.values.css = `${selector} {\n`;
 
-    this.values.json = { [selector]: {} };
+    let empty = true;
 
-    this.rules.forEach(rule => {
+    this.rules.forEach((rule, index) => {
       const css = rule.value.css;
-      const json = rule.value.json;
 
-      if (css) this.values.css += `${css}\n`;
+      if (css) {
+        empty = false;
 
-      this.values.json[selector] = {
-        ...json,
-        ...this.values.json[selector],
-      };
+        this.values.css += `${'  '.repeat(rule.value.level_actual)}${css}${'\n'.repeat((rule.value instanceof AmauiStyleRule && index !== this.rules.length - 1) ? 2 : 1)}`;
+      }
     });
 
-    this.values.css += '}';
+    this.values.css += `${'  '.repeat(this.level_actual)}}`;
 
     // Empty
     // Only if it's a variable,
@@ -200,19 +194,23 @@ class AmauiStyleRule {
     // so we have a rule ref for that amauiStyleRuleProperty to
     // update with a new value on update
     if (
-      this.values.css === `${selector} {\n}` &&
+      empty &&
       (!this.className || this.amauiStyleSheet.variant === 'static')
     ) this.values.css = '';
 
     // Hash
     if (
+      hash_ &&
+      !this.hash &&
       this.amauiStyleSheet.options.optimize &&
       this.static &&
       this.amauiStyleSheet.variant === 'static' &&
       this.variant === 'property' &&
       !(this.isVariable && this.amauiStyleSheet.mode === 'atomic')
-    ) this.hash_ = hash(this.json[this.selector || this.property]);
+    ) this.makeHash();
   }
+
+  private makeHash() { this.hash_ = hash(this.css); }
 
   private init(value_?: any) {
     let value = value_ !== undefined ? value_ : this.value;
@@ -220,6 +218,8 @@ class AmauiStyleRule {
     if (this.id === undefined) this.id = getID();
 
     if (this.level === undefined) this.level = this.parents.length - 1;
+
+    if (this.owner) this.level_actual = (this.owner as any).level_actual === undefined ? 0 : (this.owner as any).level_actual + 1;
 
     // Add to rules_owned to all parents
     this.parents.filter(parent => !(parent instanceof AmauiStyleSheet)).forEach(parent => (parent as AmauiStyleRule).rules_owned.push(this));
@@ -299,7 +299,7 @@ class AmauiStyleRule {
       }
 
       // Options
-      if (value['@options'] || value['@o']) this.options = { ...(value['@options'] || value['@o'] || {}), ...this.options };
+      if (value['@options'] || value['@o']) this.options = merge(value['@options'] || value['@o'] || {}, this.options);
 
       const props = Object.keys(value);
 
@@ -339,15 +339,6 @@ class AmauiStyleRule {
 
       if (!exists) this.owner.rules.push({ property: this.property, value: this });
     }
-
-    // Make selectors
-    // on init so they are
-    // available on init in node for
-    // critical css extraction
-    this.makeSelector();
-
-    // Update values
-    this.updateValues();
 
     // Status
     this.status = 'inited';
@@ -502,7 +493,7 @@ class AmauiStyleRule {
   }
 
   public add(update = true) {
-    // Make selectors
+    // Make selector
     this.makeSelector();
 
     // add for amauiStyleRule value
@@ -513,6 +504,8 @@ class AmauiStyleRule {
 
     // Add rule if sheet is active
     if (this.amauiStyleSheet.status === 'active') return this.addRuleToCss();
+
+    this.status = 'active';
   }
 
   public updateProps() {
@@ -609,65 +602,88 @@ class AmauiStyleRule {
     }
   }
 
+  public addRuleRef() {
+    if (!this.rule) {
+      const rule = ((this.owner as AmauiStyleSheet).sheet || (this.owner as AmauiStyleRule).rule) as (CSSStyleSheet | CSSMediaRule);
+
+      if (rule?.cssRules) {
+        const ref = Array.from(rule.cssRules).find((item: CSSStyleRule) => item.selectorText === this.selector) as CSSStyleRule;
+
+        if (ref !== undefined) this.rule = ref;
+
+        // Move through rules
+        this.rules_owned.filter(rule_ => rule_ instanceof AmauiStyleRule).forEach((rule_: AmauiStyleRule) => rule_.addRuleRef());
+      }
+    }
+  }
+
   public makeSelector() {
-    const parentAtRule = this.parent.variant === 'at-rule';
-    const isKeyframes = this.property.indexOf('@keyframes') === 0;
+    if (!this.selector) {
+      // Make hash first so we can use refs
+      if (!this.hash) this.makeHash();
 
-    // Variable
-    if ((this.isVariable || this.mode === 'atomic') || isKeyframes) {
-      // if it's a variable
-      this.makeRuleClassName();
+      const parentAtRule = this.parent.variant === 'at-rule';
+      const isKeyframes = this.property.indexOf('@keyframes') === 0;
 
-      // if it's a keyframes rule
-      this.makeRuleKeyframesName();
-    }
-    else {
-      // Make property the selector
-      this.selector = this.property;
+      // Variable
+      if ((this.isVariable || this.mode === 'atomic') || isKeyframes) {
+        // if it's a variable
+        this.makeRuleClassName();
 
-      // level 0 property inside an at-rule
-      if (parentAtRule && this.variant === 'property') {
-        // & ref
-        let parent = this.parent;
-
-        while (parent.variant === 'at-rule') parent = parent.parent;
-
-        this.selector = this.selector.replace(/&/g, (parent as AmauiStyleRule).selector);
-
-        // properties ie. body should remain the same targeting html element
-        // we only replace $ ref values in properties
-        // $ ref
-        const refs = getRefs(this.property as string);
-
-        refs.forEach(ref => {
-          const className = this.makeClassName(ref);
-
-          const regex = new RegExp(`\\$${ref}`, 'g');
-
-          this.selector = this.property.replace(regex, `.${className}`);
-        });
+        // if it's a keyframes rule
+        this.makeRuleKeyframesName();
       }
-      // other regular selectors
-      // and & value rules
       else {
-        // & ref
-        this.selector = this.selector.replace(/&/g, (this.parent as AmauiStyleRule).selector);
+        // Make property the selector
+        this.selector = this.property;
 
-        // $ ref
-        const refs = getRefs(this.selector as string);
+        // level 0 property inside an at-rule
+        if (parentAtRule && this.variant === 'property') {
+          // & ref
+          let parent = this.parent;
 
-        refs.forEach(ref => {
-          const className = this.makeClassName(ref);
+          while (parent.variant === 'at-rule') parent = parent.parent;
 
-          const regex = new RegExp(`\\$${ref}`, 'g');
+          this.selector = this.selector.replace(/&/g, (parent as AmauiStyleRule).selector);
 
-          this.selector = this.selector.replace(regex, `.${className}`);
-        });
+          // properties ie. body should remain the same targeting html element
+          // we only replace $ ref values in properties
+          // $ ref
+          const refs = getRefs(this.property as string);
+
+          refs.forEach(ref => {
+            const className = this.makeClassName(ref);
+
+            const regex = new RegExp(`\\$${ref}`, 'g');
+
+            this.selector = this.property.replace(regex, `.${className}`);
+          });
+        }
+        // other regular selectors
+        // and & value rules
+        else {
+          // & ref
+          this.selector = this.selector.replace(/&/g, (this.parent as AmauiStyleRule).selector);
+
+          // $ ref
+          const refs = getRefs(this.selector as string);
+
+          refs.forEach(ref => {
+            const className = this.makeClassName(ref);
+
+            const regex = new RegExp(`\\$${ref}`, 'g');
+
+            this.selector = this.selector.replace(regex, `.${className}`);
+          });
+        }
       }
-    }
 
-    // Move through the rules
-    this.rules.forEach(rule => rule.value.makeSelector());
+      // Move through the rules
+      this.rules.forEach(rule => rule.value.makeSelector());
+
+      // Update values without hash
+      this.updateValues(false);
+    }
   }
 
   private makeClassName(property: string, rule?: AmauiStyleRule) {

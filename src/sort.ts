@@ -19,7 +19,7 @@ const optionsDefault: IOptions = {
 };
 
 function sort(amauiStyle: AmauiStyle, options_: IOptions = {}) {
-  const options = { ...options_, ...optionsDefault };
+  const options = { ...optionsDefault, ...options_ };
 
   const method = (values: Array<IRuleItem>): ISort => {
     const value: ISort = {

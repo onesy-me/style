@@ -1,4 +1,4 @@
-import { copy, equalDeep, getEnvironment, isEnvironment } from '@amaui/utils';
+import { copy, equalDeep, getEnvironment, isEnvironment, merge } from '@amaui/utils';
 
 import AmauiStyle from './amaui-style';
 import AmauiStyleRule from './amaui-style-rule';
@@ -45,7 +45,6 @@ class AmauiStyleSheet {
   private props_: any = {};
   public values = {
     css: '',
-    json: {},
   };
   public rules: Array<IRuleItem> = [];
   public names = {
@@ -75,7 +74,7 @@ class AmauiStyleSheet {
     props: any = {},
     public options: IOptions = copy(optionsDefault)
   ) {
-    this.options = { ...optionsDefault, ...this.options };
+    this.options = merge(options, optionsDefault, { copy: true });
 
     this.props = props;
 
@@ -105,28 +104,15 @@ class AmauiStyleSheet {
     return this.response.css;
   }
 
-  public get json(): Record<string, any> {
-    return this.response.json;
-  }
-
   private updateValues() {
     // Response
     this.values.css = ``;
 
-    this.values.json = {};
-
     this.rules.filter(rule => !rule.value.ref).forEach(rule => {
       const css = rule.value.css;
-      const json = rule.value.json;
-      const selector = rule.value.selector || rule.value.property;
 
       if (css) {
         this.values.css += `\n${css}\n`;
-
-        this.values.json = {
-          ...json,
-          ...this.values.json[selector],
-        };
       }
     });
   }
@@ -188,6 +174,18 @@ class AmauiStyleSheet {
 
       // Sort
       this.sort;
+
+      // Make selectors
+      // on init so they are
+      // available on init in node for
+      // critical css extraction
+      this.rules.forEach(rule => {
+        // Update values
+        rule.value.updateValues(false);
+
+        // Make selectors
+        rule.value.makeSelector();
+      });
     }
 
     // Update values
@@ -202,7 +200,7 @@ class AmauiStyleSheet {
     this.status = 'inited';
   }
 
-  public addRule(value: any, property_?: string): IAddRuleResponse {
+  public addRule(value: any, property_?: string, update = true, add = true): IAddRuleResponse {
     const isDynamic = dynamic(value);
 
     if (
@@ -226,8 +224,9 @@ class AmauiStyleSheet {
       else {
         const rule = this.makeRule(property, value);
 
-        // Add to css
-        // only if rule is added to css and active
+        // Add
+        if (add) rule.add();
+
         if (rule.status === 'active') {
           const response = {
             className: rule.className,
@@ -240,7 +239,7 @@ class AmauiStyleSheet {
       }
 
       // Update values
-      this.updateValues();
+      if (update) this.updateValues();
     }
   }
 
@@ -275,9 +274,6 @@ class AmauiStyleSheet {
         // Add to the DOM
         this.amauiStyle.renderer.add(this.element, this.priority, attributes);
 
-        // Make a sheet ref
-        this.sheet = this.element.sheet;
-
         // Add
         this.rules.filter(item => !item.value.ref).forEach(item => {
           item.value.add();
@@ -287,6 +283,12 @@ class AmauiStyleSheet {
         // Only if it's not a ref rule
         // this.rules.filter(item => !item.value.ref).forEach(item => item.value.addRuleToCss());
         this.element.innerHTML = this.response.css;
+
+        // Make a sheet ref
+        this.sheet = this.element.sheet;
+
+        // Move through rules
+        this.rules.forEach(rule => rule.value.addRuleRef());
 
         // Update active status
         this.status = 'active';
@@ -304,6 +306,9 @@ class AmauiStyleSheet {
   }
   public update(value: any) {
     if (is('object', value)) {
+      // Update active status
+      if (this.status === 'remove') this.status = 'active';
+
       // Update all the items to pure
       if (this.pure) Object.keys(value).forEach(item => {
         if (is('object', value[item])) value[item]['@p'] = true;
@@ -356,7 +361,7 @@ class AmauiStyleSheet {
 
           switch (activity) {
             case 'add':
-              this.addRule(item.value, item.property);
+              this.addRule(item.value, item.property, false);
 
               break;
 

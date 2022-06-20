@@ -56,7 +56,6 @@ export type TStatus = 'idle' | 'inited' | 'active' | 'remove';
 
 export interface IValuesVariant {
   css: string;
-  json: Record<string, any>;
 }
 
 export interface IOptionsRule {

@@ -1,4 +1,4 @@
-import { Try } from '@amaui/utils';
+import { merge, Try } from '@amaui/utils';
 
 import AmauiStyle from './amaui-style';
 import AmauiStyleSheetManager from './amaui-style-sheet-manager';
@@ -16,21 +16,21 @@ export interface IOptions {
   optimize?: boolean;
 }
 
+const optionsDefault: IOptions = {
+  amaui_style: {
+    get: AmauiStyle.first.bind(AmauiStyle),
+  },
+  amaui_theme: {
+    get: AmauiTheme.first.bind(AmauiTheme),
+  },
+  optimize: true
+};
+
 function pure(
   value_: TValue,
   options_: IOptions = {}
 ): IMethodResponse {
-  const optionsDefault: IOptions = {
-    amaui_style: {
-      get: AmauiStyle.first.bind(AmauiStyle),
-    },
-    amaui_theme: {
-      get: AmauiTheme.first.bind(AmauiTheme),
-    },
-    optimize: true
-  };
-
-  const options = { ...options_, ...optionsDefault };
+  const options = merge(options_, optionsDefault, { copy: true });
 
   // Amaui style
   let amauiStyle = options.amaui_style.value || (is('function', options.amaui_style.get) && options.amaui_style.get(options.element));

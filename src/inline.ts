@@ -41,7 +41,7 @@ function inline(
   props?: any,
   options_: IOptions = {}
 ) {
-  const options = { ...options_, ...optionsDefault };
+  const options = { ...optionsDefault, ...options_ };
 
   // Amaui style
   let amauiStyle = options.amaui_style.value || (is('function', options.amaui_style.get) && options.amaui_style.get(options.element));
@@ -91,15 +91,23 @@ function inline(
     const rules = amauiStyleSheetManager.sheets.static[0].rules[0].value.rules;
 
     rules.map(rule => rule.value).forEach(rule => {
-      if (options.response === 'css') response += ` ${rule.css}`;
-      else {
-        const json = rule.json;
-
-        Object.keys(json).forEach(item => {
-          response[options.response_json_property_variant === 'cammel' ? kebabCasetoCammelCase(item) : cammelCaseToKebabCase(item)] = json[item];
-        });
-      }
+      response += ` ${rule.css}`;
     });
+
+    // Make into json
+    if (options.response === 'json') {
+      const values = (response as string).split(' ').filter(Boolean);
+
+      response = {};
+
+      values.forEach(item => {
+        const [property, value] = item.split(':').filter(Boolean);
+
+        if (property && value) {
+          response[options.response_json_property_variant === 'cammel' ? kebabCasetoCammelCase(property) : cammelCaseToKebabCase(property)] = value.replace(/;/g, '');
+        }
+      });
+    }
   }
 
   if (options.response === 'css') response = (response as string).trim();

@@ -1,4 +1,4 @@
-import { Try } from '@amaui/utils';
+import { merge, Try } from '@amaui/utils';
 
 import AmauiStyle from './amaui-style';
 import AmauiStyleSheetManager from './amaui-style-sheet-manager';
@@ -293,7 +293,7 @@ function reset(
     optimize: true
   };
 
-  const options = { ...options_, ...optionsDefault };
+  const options = merge(options_, optionsDefault, { copy: true });
 
   // Amaui style
   let amauiStyle = options.amaui_style.value || (is('function', options.amaui_style.get) && options.amaui_style.get(options.element));
@@ -309,7 +309,7 @@ function reset(
   if (!is('object', value)) value = {};
 
   // Default
-  const valueDefault = { ...resetDefault, ...normalize };
+  const valueDefault = { ...normalize, ...resetDefault };
 
   // Add reset defaults
   // user provided values override reset default values
@@ -317,7 +317,7 @@ function reset(
     ...valueDefault,
     ...value,
   };
-  else value = { ...value, ...valueDefault };
+  else value = { ...valueDefault, ...value };
 
   // Make an instance of amauiStyleSheetManager
   const amauiStyleSheetManager = new AmauiStyleSheetManager(value, 'regular', true, 'lower', amauiTheme, amauiStyle, { style: { attributes: { method: 'reset' } }, optimize: options.optimize });

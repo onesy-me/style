@@ -1,4 +1,4 @@
-import { merge, getID, is, hash, Try, castParam, getEnvironment } from '@amaui/utils';
+import { hash, Try, castParam, getEnvironment } from '@amaui/utils';
 import AmauiSubscription from '@amaui/subscription';
 
 import AmauiStyle from './amaui-style';
@@ -6,7 +6,7 @@ import AmauiStyleSheet from './amaui-style-sheet';
 import AmauiStyleRuleProperty from './amaui-style-rule-property';
 import classNamesMethod from './classNames';
 import { IOptionsRule, IValuesVariant, TMode, TRef, TStatus, TValueVariant } from './interfaces';
-import { cammelCaseToKebabCase, getRefs, isAmauiSubscription, valueResolve } from './utils';
+import { cammelCaseToKebabCase, getID, getRefs, is, isAmauiSubscription, valueResolve } from './utils';
 
 export type TVariant = 'property' | 'at-rule';
 
@@ -44,7 +44,6 @@ const makeRuleClassNameDefault = (value: string = 'a') => `${value}-${env.amaui_
 const makeRuleKeyframesNameDefault = (value: string = 'a') => `${value}-${env.amaui_counter.keyframesName++}`;
 
 class AmauiStyleRule {
-  public options: IOptions;
   public id: string;
   public value_variant: TValueVariant = 'value';
   public rule_: CSSStyleRule;
@@ -77,9 +76,9 @@ class AmauiStyleRule {
     public parents: Array<AmauiStyleSheet | AmauiStyleRule> = [],
     public amauiStyleSheet: AmauiStyleSheet,
     public amauiStyle: AmauiStyle,
-    options: IOptions = {}
+    public options: IOptions = optionsDefault
   ) {
-    this.options = merge(options, optionsDefault);
+    this.options = { ...optionsDefault, ...this.options };
 
     this.init();
   }
@@ -153,14 +152,6 @@ class AmauiStyleRule {
   }
 
   public get hash(): string {
-    if (
-      !this.hash_ &&
-      this.static &&
-      this.amauiStyleSheet.variant === 'static' &&
-      this.variant === 'property' &&
-      !(this.isVariable && this.amauiStyleSheet.mode === 'atomic')
-    ) this.hash_ = hash(this.json[this.selector || this.property]);
-
     return this.hash_;
   }
 
@@ -169,6 +160,19 @@ class AmauiStyleRule {
   }
 
   public get response(): IValuesVariant {
+    return { css: this.values.css, json: this.values.json };
+  }
+
+  public get css(): string {
+    return this.response.css;
+  }
+
+  public get json(): Record<string, any> {
+    return this.response.json;
+  }
+
+  private updateValues() {
+    // Response
     const selector = this.selector || this.property;
 
     this.values.css = `${selector} {\n`;
@@ -200,15 +204,14 @@ class AmauiStyleRule {
       (!this.className || this.amauiStyleSheet.variant === 'static')
     ) this.values.css = '';
 
-    return { css: this.values.css, json: this.values.json };
-  }
-
-  public get css(): string {
-    return this.response.css;
-  }
-
-  public get json(): Record<string, any> {
-    return this.response.json;
+    // Hash
+    if (
+      this.amauiStyleSheet.options.optimize &&
+      this.static &&
+      this.amauiStyleSheet.variant === 'static' &&
+      this.variant === 'property' &&
+      !(this.isVariable && this.amauiStyleSheet.mode === 'atomic')
+    ) this.hash_ = hash(this.json[this.selector || this.property]);
   }
 
   private init(value_?: any) {
@@ -296,7 +299,7 @@ class AmauiStyleRule {
       }
 
       // Options
-      if (value['@options'] || value['@o']) this.options = merge(value['@options'] || value['@o'] || {}, this.options);
+      if (value['@options'] || value['@o']) this.options = { ...(value['@options'] || value['@o'] || {}), ...this.options };
 
       const props = Object.keys(value);
 
@@ -328,9 +331,6 @@ class AmauiStyleRule {
 
       // Static
       this.static = !dynamic();
-
-      // Make a hash
-      this.hash;
     }
 
     // Add itself to owner rules
@@ -345,6 +345,9 @@ class AmauiStyleRule {
     // available on init in node for
     // critical css extraction
     this.makeSelector();
+
+    // Update values
+    this.updateValues();
 
     // Status
     this.status = 'inited';
@@ -498,12 +501,15 @@ class AmauiStyleRule {
     }
   }
 
-  public add() {
+  public add(update = true) {
     // Make selectors
     this.makeSelector();
 
     // add for amauiStyleRule value
-    this.rules_owned.filter(rule => rule instanceof AmauiStyleRule).forEach(rule => rule.add());
+    this.rules_owned.filter(rule => rule instanceof AmauiStyleRule).forEach(rule => (rule as AmauiStyleRule).add());
+
+    // Update values
+    if (update) this.updateValues();
 
     // Add rule if sheet is active
     if (this.amauiStyleSheet.status === 'active') return this.addRuleToCss();
@@ -513,10 +519,13 @@ class AmauiStyleRule {
     if ((['method', 'amaui_subscription'].indexOf(this.value_variant) > -1)) this.init();
 
     // Add
-    this.add();
+    this.add(false);
 
     // Update
     this.rules_owned.forEach(rule => rule.update());
+
+    // Update values
+    this.updateValues();
 
     this.amauiStyle.subscriptions.rule.update_props.emit(this);
   }
@@ -529,10 +538,13 @@ class AmauiStyleRule {
     ) this.init(value);
 
     // Add
-    this.add();
+    this.add(false);
 
     // Update
     this.rules_owned.forEach(rule => rule.update());
+
+    // Update values
+    this.updateValues();
 
     this.amauiStyle.subscriptions.rule.update.emit(this);
   }

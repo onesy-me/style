@@ -43,11 +43,10 @@
     "test": "yarn lint && yarn type && yarn build && yarn test:pre && yarn cov && yarn test:post"
   },
   "dependencies": {
-    "@amaui/cache": "^1.0.11111",
-    "@amaui/meta": "^1.0.1111",
+    "@amaui/meta": "^1.0.11111",
     "@amaui/node": "^1.0.11111",
-    "@amaui/subscription": "^1.0.1114",
-    "@amaui/utils": "^1.0.11111",
+    "@amaui/subscription": "^1.0.11114",
+    "@amaui/utils": "^1.0.11114",
     "@babel/runtime": "^7.18.3",
     "csstype": "^3.1.0",
     "fast-glob": "^3.2.11",
@@ -58,8 +57,6 @@
     "@amaui/test": "^1.0.1141",
     "@babel/cli": "^7.16.0",
     "@babel/core": "^7.16.0",
-    "@babel/plugin-proposal-class-properties": "^7.17.12",
-    "@babel/plugin-proposal-object-rest-spread": "^7.18.0",
     "@babel/plugin-transform-runtime": "^7.16.4",
     "@babel/preset-env": "^7.16.4",
     "@babel/preset-typescript": "^7.16.0",

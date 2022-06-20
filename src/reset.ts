@@ -1,9 +1,10 @@
-import { is, merge, Try } from '@amaui/utils';
+import { Try } from '@amaui/utils';
 
 import AmauiStyle from './amaui-style';
 import AmauiStyleSheetManager from './amaui-style-sheet-manager';
 import AmauiTheme from './amaui-theme';
 import { TValue, TValueMethod, IAmauiStyleSheetManagerProps, IMethodResponse, IOptionsAmauiStyle, IOptionsAmauiTheme } from './interfaces';
+import { is } from './utils';
 
 export interface IOptions {
   element?: Element;
@@ -13,6 +14,8 @@ export interface IOptions {
   amaui_theme?: IOptionsAmauiTheme;
 
   override?: boolean;
+
+  optimize?: boolean;
 }
 
 export const FONT_FAMILY = {
@@ -287,9 +290,10 @@ function reset(
     amaui_theme: {
       get: AmauiTheme.first.bind(AmauiTheme),
     },
+    optimize: true
   };
 
-  const options = merge(options_, optionsDefault, { copy: true });
+  const options = { ...options_, ...optionsDefault };
 
   // Amaui style
   let amauiStyle = options.amaui_style.value || (is('function', options.amaui_style.get) && options.amaui_style.get(options.element));
@@ -305,7 +309,7 @@ function reset(
   if (!is('object', value)) value = {};
 
   // Default
-  const valueDefault = merge(resetDefault, normalize, { copy: true });
+  const valueDefault = { ...resetDefault, ...normalize };
 
   // Add reset defaults
   // user provided values override reset default values
@@ -313,10 +317,10 @@ function reset(
     ...valueDefault,
     ...value,
   };
-  else value = merge(value, valueDefault, { copy: true });
+  else value = { ...value, ...valueDefault };
 
   // Make an instance of amauiStyleSheetManager
-  const amauiStyleSheetManager = new AmauiStyleSheetManager(value, 'regular', true, 'lower', amauiTheme, amauiStyle, { style: { attributes: { method: 'reset' } } });
+  const amauiStyleSheetManager = new AmauiStyleSheetManager(value, 'regular', true, 'lower', amauiTheme, amauiStyle, { style: { attributes: { method: 'reset' } }, optimize: options.optimize });
 
   const response: IMethodResponse = {
     ids: amauiStyleSheetManager.ids,

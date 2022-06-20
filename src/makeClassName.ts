@@ -1,5 +1,4 @@
-import { isEnvironment, merge } from '@amaui/utils';
-import AmauiCache from '@amaui/cache';
+import { isEnvironment } from '@amaui/utils';
 
 import AmauiStyle from './amaui-style';
 import { makeName } from './utils';
@@ -27,7 +26,7 @@ const optionsDefault: IOptions = {
 };
 
 function makeClassName(amauiStyle: AmauiStyle, options_: IOptions = {}) {
-  const options: IOptions = merge(options_, optionsDefault, { copy: true });
+  const options = { ...options_, ...optionsDefault };
 
   // If both dev and prod are false, then dev is true
   const production = options.production !== undefined ? options.production : optionsDefault.production;
@@ -41,18 +40,11 @@ function makeClassName(amauiStyle: AmauiStyle, options_: IOptions = {}) {
   };
 
   const method = (value_: { property: string; value: any; }): IMakeClassName => {
-    // Check in cache if class name already exists with these values
-    const valueCached = AmauiCache.get(value_, options, amauiStyle?.id);
-
-    if (valueCached) return valueCached;
-
     const value: IMakeClassName = {
       arguments: {
         value: value_,
       },
     };
-
-    const makeClassNameNames = AmauiCache.get('amaui-makeClassName-values', amauiStyle?.id) || [];
 
     let inc = 0;
 
@@ -63,7 +55,6 @@ function makeClassName(amauiStyle: AmauiStyle, options_: IOptions = {}) {
 
       while (true) {
         if (
-          makeClassNameNames.indexOf(value.value) > -1 ||
           (options.dom?.unique && !domUnique(value.value))
         ) {
           value.value = makeNameMethod.next().value;
@@ -77,7 +68,6 @@ function makeClassName(amauiStyle: AmauiStyle, options_: IOptions = {}) {
 
       while (true) {
         if (
-          makeClassNameNames.indexOf(value.value) > -1 ||
           (options.dom?.unique && !domUnique(value.value))
         ) {
           value.value = `${value_?.property}-${++inc}`;
@@ -85,15 +75,6 @@ function makeClassName(amauiStyle: AmauiStyle, options_: IOptions = {}) {
         else break;
       }
     }
-
-    // Add class name to names in AmauiCache
-    makeClassNameNames.push(value.value);
-
-    // Update makeClassNameNames
-    AmauiCache.add(makeClassNameNames, 'amaui-makeClassName-values', amauiStyle?.id);
-
-    // Add value to AmauiCache for this property and value_
-    AmauiCache.add(value, value_, options, amauiStyle?.id);
 
     return value;
   };

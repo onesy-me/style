@@ -1,18 +1,15 @@
-import { getID, is, merge, stringify, Try } from '@amaui/utils';
+import { stringify, Try } from '@amaui/utils';
 import AmauiSubscription from '@amaui/subscription';
 
 import AmauiStyle from './amaui-style';
 import AmauiStyleRule from './amaui-style-rule';
 import AmauiStyleSheet from './amaui-style-sheet';
 import { IOptionsRule, IValuesVariant, TValueVariant } from './interfaces';
-import { cammelCaseToKebabCase, getRefs, valueResolve } from './utils';
+import { cammelCaseToKebabCase, getID, getRefs, is, valueResolve } from './utils';
 
 interface IOptions { }
 
-const optionsDefault: IOptions = {};
-
 class AmauiStyleRuleProperty {
-  public options: IOptions;
   public level: number;
   public id: string;
   public values = {
@@ -32,10 +29,8 @@ class AmauiStyleRuleProperty {
     public amauiStyleRule: AmauiStyleRule,
     public amauiStyleSheet: AmauiStyleSheet,
     public amauiStyle: AmauiStyle,
-    options: IOptions = optionsDefault
+    public options: IOptions = {}
   ) {
-    this.options = merge(options, optionsDefault);
-
     this.init();
   }
 
@@ -44,6 +39,19 @@ class AmauiStyleRuleProperty {
   }
 
   public get response(): IValuesVariant {
+    return { css: this.values.css, json: this.values.json };
+  }
+
+  public get css(): string {
+    return this.response.css;
+  }
+
+  public get json(): Record<string, any> {
+    return this.response.json;
+  }
+
+  private updateValues() {
+    // Response
     this.values.css = `${this.values.property}: ${this.values.value};`;
 
     this.values.json = { [this.values.property]: this.values.value };
@@ -55,15 +63,6 @@ class AmauiStyleRuleProperty {
       if (is('string', this.values.json[item]) && this.values.json[item].indexOf('undefined') > -1) delete this.values.json[item];
     });
 
-    return { css: this.values.css, json: this.values.json };
-  }
-
-  public get css(): string {
-    return this.response.css;
-  }
-
-  public get json(): Record<string, any> {
-    return this.response.json;
   }
 
   private init(value?: any) {
@@ -172,12 +171,9 @@ class AmauiStyleRuleProperty {
       if (!exists) this.owner.rules.push({ property: this.property, value: this });
     }
 
-    // Made response
-    this.response;
+    // Update values
+    this.updateValues();
   }
-
-  // Alias for update
-  public add = this.update.bind(this);
 
   // Update only if amauiStyleSheet is variant 'dynamic'
   public update(value?: any) {
@@ -198,6 +194,9 @@ class AmauiStyleRuleProperty {
 
       this.values.value = valueResolve(this.values.property, this.values.value, this.amauiStyle).value[0] as any;
     }
+
+    // Update values
+    this.updateValues();
 
     // Only if rule reference exists
     if (this.owner.rule) {

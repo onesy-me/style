@@ -1,11 +1,11 @@
-import { copy, equalDeep, getEnvironment, getID, is, isEnvironment, merge } from '@amaui/utils';
+import { copy, equalDeep, getEnvironment, isEnvironment } from '@amaui/utils';
 
 import AmauiStyle from './amaui-style';
 import AmauiStyleRule from './amaui-style-rule';
 import AmauiStyleSheetManager from './amaui-style-sheet-manager';
 import AmauiTheme from './amaui-theme';
 import { TMode, IOptionsRule, IValuesVariant, TStatus, TPriority, IAddRuleResponse, TValueObject } from './interfaces';
-import { dynamic } from './utils';
+import { dynamic, getID, is } from './utils';
 
 type TVariant = 'all' | 'static' | 'dynamic';
 
@@ -21,6 +21,7 @@ export interface IOptionsStyle {
 export interface IOptions {
   style?: IOptionsStyle;
   rule?: IOptionsRule;
+  optimize?: boolean;
 }
 
 const env = getEnvironment();
@@ -33,11 +34,10 @@ const optionsDefault: IOptions = {
     sort: true,
     prefix: true,
     rtl: true,
-  },
+  }
 };
 
 class AmauiStyleSheet {
-  public options: IOptions;
   public id: string;
   public status: TStatus = 'idle';
   public element: HTMLStyleElement;
@@ -73,9 +73,9 @@ class AmauiStyleSheet {
     public amauiStyleSheetManager?: AmauiStyleSheetManager,
     public amauiStyle?: AmauiStyle,
     props: any = {},
-    options: IOptions = copy(optionsDefault)
+    public options: IOptions = copy(optionsDefault)
   ) {
-    this.options = merge(options, optionsDefault);
+    this.options = { ...optionsDefault, ...this.options };
 
     this.props = props;
 
@@ -98,6 +98,19 @@ class AmauiStyleSheet {
   }
 
   public get response(): IValuesVariant {
+    return this.values;
+  }
+
+  public get css(): string {
+    return this.response.css;
+  }
+
+  public get json(): Record<string, any> {
+    return this.response.json;
+  }
+
+  private updateValues() {
+    // Response
     this.values.css = ``;
 
     this.values.json = {};
@@ -116,16 +129,6 @@ class AmauiStyleSheet {
         };
       }
     });
-
-    return this.values;
-  }
-
-  public get css(): string {
-    return this.response.css;
-  }
-
-  public get json(): Record<string, any> {
-    return this.response.json;
   }
 
   private get sort() {
@@ -187,8 +190,8 @@ class AmauiStyleSheet {
       this.sort;
     }
 
-    // Make a response
-    this.response;
+    // Update values
+    this.updateValues();
 
     // Add to amauiStyle and amauiStyleSheetManager
     if (this.amauiStyleSheetManager) this.amauiStyleSheetManager.sheets[this.variant]?.push(this);
@@ -235,6 +238,9 @@ class AmauiStyleSheet {
           return response;
         }
       }
+
+      // Update values
+      this.updateValues();
     }
   }
 
@@ -272,18 +278,18 @@ class AmauiStyleSheet {
         // Make a sheet ref
         this.sheet = this.element.sheet;
 
-        // Update active status
-        this.status = 'active';
-
         // Add
         this.rules.filter(item => !item.value.ref).forEach(item => {
-          // Add
           item.value.add();
         });
 
         // Make css
         // Only if it's not a ref rule
-        this.rules.filter(item => !item.value.ref).forEach(item => item.value.addRuleToCss());
+        // this.rules.filter(item => !item.value.ref).forEach(item => item.value.addRuleToCss());
+        this.element.innerHTML = this.response.css;
+
+        // Update active status
+        this.status = 'active';
 
         this.amauiStyle.subscriptions.sheet.add.emit(this);
       }
@@ -369,6 +375,9 @@ class AmauiStyleSheet {
           }
         });
       });
+
+      // Update values
+      this.updateValues();
 
       this.amauiStyle.subscriptions.sheet.update.emit(this);
     }

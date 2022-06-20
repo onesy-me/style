@@ -1,26 +1,13 @@
-import AmauiCache from '@amaui/cache';
-import { is, merge } from '@amaui/utils';
-
 import AmauiStyle from './amaui-style';
+import { is } from './utils';
 
 export interface IRtl {
   value?: any;
   arguments?: any;
 }
 
-export interface IOptions { }
-
-const optionsDefault: IOptions = {};
-
-function rtl(amauiStyle: AmauiStyle, options_: IOptions = {}) {
-  const options: IOptions = merge(options_, optionsDefault, { copy: true });
-
+function rtl(amauiStyle: AmauiStyle) {
   const method = (value_: { value: string; property: string; }): IRtl => {
-    // Value in the AmauiCache
-    const valueCached = AmauiCache.get(value_, amauiStyle?.id);
-
-    if (valueCached) return valueCached;
-
     const value: IRtl = {
       value: {
         value: '',
@@ -42,9 +29,6 @@ function rtl(amauiStyle: AmauiStyle, options_: IOptions = {}) {
       else if (value_.property.indexOf('right') > -1) value.value.property = value_.property.replace(/right/ig, 'left');
       else value.value.property = value_.property;
     }
-
-    // Add value to AmauiCache
-    AmauiCache.add(value, value_, amauiStyle?.id);
 
     return value;
   };

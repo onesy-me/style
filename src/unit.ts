@@ -1,8 +1,7 @@
-import AmauiCache from '@amaui/cache';
-import { copy, is, merge } from '@amaui/utils';
+import { copy } from '@amaui/utils';
 
 import AmauiStyle from './amaui-style';
-import { cammelCaseToKebabCase, kebabCasetoCammelCase } from './utils';
+import { cammelCaseToKebabCase, is, kebabCasetoCammelCase } from './utils';
 
 export interface IUnit {
   value?: {
@@ -216,16 +215,11 @@ export const unitsDefault = {
 };
 
 function unit(amauiStyle: AmauiStyle, options_: IOptions = {}) {
-  const options: IOptions = merge(options_, optionsDefault, { copy: true });
+  const options: IOptions = { ...options_, ...optionsDefault };
 
-  const units: TOptionsUnits = merge(options.units, unitsDefault, { copy: true }) || {};
+  const units: TOptionsUnits = { ...(options.units || {}), ...unitsDefault };
 
   const method = (value_: { property: string; value: number; }): IUnit => {
-    // Check in cache if class name already exists with these values
-    const valueCached = AmauiCache.get(value_, options, amauiStyle?.id);
-
-    if (valueCached) return valueCached;
-
     // Normalize property
     const property = {
       cammel: cammelCaseToKebabCase(value_.property),
@@ -240,9 +234,6 @@ function unit(amauiStyle: AmauiStyle, options_: IOptions = {}) {
         value: copy(value_)
       },
     };
-
-    // Add value to AmauiCache for this property and value_
-    AmauiCache.add(value, value_, options, amauiStyle?.id);
 
     return value;
   };

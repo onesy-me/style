@@ -1,4 +1,4 @@
-import { is, cleanValue, variationWithRepetition, getEnvironment } from '@amaui/utils';
+import { variationWithRepetition, getEnvironment } from '@amaui/utils';
 import AmauiSubscription from '@amaui/subscription';
 
 import AmauiStyle from './amaui-style';
@@ -11,7 +11,7 @@ export const kebabCasetoCammelCase = (value_: string) => {
   if (is('string', value)) {
     value = value.split('-').filter(Boolean);
 
-    value = value.map((item: string, index: number) => index === 0 ? cleanValue(item, { lowercase: true }) : cleanValue(item, { capitalize: true }));
+    value = value.map((item: string, index: number) => index === 0 ? item.toLowerCase() : capitalize(item));
 
     return is('string', value) ? value : value.join('');
   }
@@ -19,9 +19,36 @@ export const kebabCasetoCammelCase = (value_: string) => {
   return value;
 };
 
-export const cammelCaseToKebabCase = (value: string) => cleanValue(value, { className: true });
+export const capitalizedCammelCase = (value: string) => capitalize(cammelCaseToKebabCase(value));
 
-export const capitalizedCammelCase = (value: string) => cleanValue(kebabCasetoCammelCase(value), { capitalize: true });
+export const capitalize = (value: string) => value.charAt(0).toUpperCase() + value.slice(1);
+
+export const is = (variant: string, value: any) => {
+  switch (variant) {
+    case 'string':
+      return typeof value === 'string';
+
+    case 'number':
+      return typeof value === 'number' && !Number.isNaN(value);
+
+    case 'simple':
+      return typeof value !== 'object' || typeof value !== 'function';
+
+    case 'array':
+      return Array.isArray(value);
+
+    case 'object':
+      const isObject = typeof value === 'object' && !!value && value.constructor === Object;
+
+      return isObject;
+
+    case 'function':
+      return !!(value && value instanceof Function);
+
+    default:
+      return;
+  }
+};
 
 export const isAmauiSubscription = value => value instanceof AmauiSubscription || is('function', value?.emit);
 
@@ -39,7 +66,7 @@ export const getRefs = (value: string) => {
 
 export const valueResolve = (property: string, value: any, amauiStyle: AmauiStyle): IAmauiStyleRuleValue => {
   const response: IAmauiStyleRuleValue = {
-    value: [],
+    value: [value],
     options: {},
   };
 
@@ -150,3 +177,9 @@ export const names = (value: IResponse) => {
 
   return value;
 };
+
+let i = 0;
+
+export const getID = () => `${i++}-${new Date().getTime()}`;
+
+export const cammelCaseToKebabCase = (value: string) => value.replace(/-./g, x => x[1].toUpperCase());

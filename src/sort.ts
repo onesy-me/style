@@ -1,9 +1,7 @@
-import AmauiCache from '@amaui/cache';
-import { is, merge } from '@amaui/utils';
-
 import AmauiStyle from './amaui-style';
 import AmauiStyleRuleProperty from './amaui-style-rule-property';
 import { IRuleItem } from './amaui-style-sheet';
+import { is } from './utils';
 
 export interface ISort {
   value?: any;
@@ -21,14 +19,9 @@ const optionsDefault: IOptions = {
 };
 
 function sort(amauiStyle: AmauiStyle, options_: IOptions = {}) {
-  const options: IOptions = merge(options_, optionsDefault, { copy: true });
+  const options = { ...options_, ...optionsDefault };
 
   const method = (values: Array<IRuleItem>): ISort => {
-    // Check in cache if class name already exists with these values
-    const valueCached = AmauiCache.get((is('array', values) && values.map((item: any) => item.id)) || (values as any)?.id, options, amauiStyle?.id);
-
-    if (valueCached) return valueCached;
-
     const value: ISort = {
       arguments: {
         values,
@@ -65,9 +58,6 @@ function sort(amauiStyle: AmauiStyle, options_: IOptions = {}) {
       // Add sorted array to value
       value.value = values;
     }
-
-    // Add value to AmauiCache for this property and value_
-    AmauiCache.add(value, (is('array', values) && values.map((item: any) => item.id)) || (values as any)?.id, options, amauiStyle?.id);
 
     return value;
   };

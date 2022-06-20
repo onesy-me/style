@@ -155,6 +155,8 @@ export interface ICSSOptions {
 
   rule?: IOptionsRule;
 
+  optimize?: boolean;
+
   log?: boolean;
 }
 

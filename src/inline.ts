@@ -1,9 +1,9 @@
-import { is, merge, Try } from '@amaui/utils';
+import { Try } from '@amaui/utils';
 import AmauiStyle from './amaui-style';
 import AmauiStyleSheetManager from './amaui-style-sheet-manager';
 import AmauiTheme from './amaui-theme';
 import { TValue, TValueMethod, IIds, IOptionsAmauiStyle, IOptionsAmauiTheme } from './interfaces';
-import { cammelCaseToKebabCase, isAmauiSubscription, kebabCasetoCammelCase } from './utils';
+import { cammelCaseToKebabCase, is, isAmauiSubscription, kebabCasetoCammelCase } from './utils';
 
 export interface IMakeStyles {
   amaui_style_sheet_manager: AmauiStyleSheetManager;
@@ -41,7 +41,7 @@ function inline(
   props?: any,
   options_: IOptions = {}
 ) {
-  const options = merge(options_, optionsDefault);
+  const options = { ...options_, ...optionsDefault };
 
   // Amaui style
   let amauiStyle = options.amaui_style.value || (is('function', options.amaui_style.get) && options.amaui_style.get(options.element));

@@ -1,10 +1,10 @@
-import { getID, is, isEnvironment, merge } from '@amaui/utils';
+import { isEnvironment } from '@amaui/utils';
 
 import AmauiStyle from './amaui-style';
 import AmauiStyleSheet from './amaui-style-sheet';
 import AmauiTheme from './amaui-theme';
 import { TMode, IOptionsRule, IValuesVariant, TStatus, IResponse, IIds, TPriority, ISheets, IAmauiStyleSheetManagerProps, TValueObject } from './interfaces';
-import { dynamic, names } from './utils';
+import { dynamic, getID, is, names } from './utils';
 
 interface IProperties {
   static: Array<{ property: string; value: any }>;
@@ -19,6 +19,7 @@ interface IOptions {
   style?: IOptionsStyle;
   rule?: IOptionsRule;
   amaui_style_cache?: boolean;
+  optimize?: boolean;
 }
 
 const optionsDefault: IOptions = {
@@ -34,7 +35,6 @@ const optionsDefault: IOptions = {
 };
 
 class AmauiStyleSheetManager {
-  public options: IOptions;
   public id: string;
   public status: TStatus = 'idle';
   public values = {
@@ -62,9 +62,9 @@ class AmauiStyleSheetManager {
     public priority: TPriority = 'upper',
     public amauiTheme?: AmauiTheme,
     public amauiStyle?: AmauiStyle,
-    options: IOptions = optionsDefault
+    public options: IOptions = optionsDefault
   ) {
-    this.options = merge(options, optionsDefault);
+    this.options = { ...optionsDefault, ...this.options };
 
     this.init();
   }
@@ -93,6 +93,9 @@ class AmauiStyleSheetManager {
       sheet.props = value.props;
     });
 
+    // Update values
+    this.updateValues();
+
     this.amauiStyle.subscriptions.sheet_manager.update_props.emit(this, value);
   }
 
@@ -110,6 +113,19 @@ class AmauiStyleSheetManager {
   }
 
   public get response(): IValuesVariant {
+    return this.values;
+  }
+
+  public get css(): string {
+    return this.response.css;
+  }
+
+  public get json(): Record<string, any> {
+    return this.response.json;
+  }
+
+  private updateValues() {
+    // Response
     this.values.css = ``;
 
     this.values.json = {};
@@ -141,16 +157,6 @@ class AmauiStyleSheetManager {
         };
       }
     });
-
-    return this.values;
-  }
-
-  public get css(): string {
-    return this.response.css;
-  }
-
-  public get json(): Record<string, any> {
-    return this.response.json;
   }
 
   private init() {
@@ -191,8 +197,8 @@ class AmauiStyleSheetManager {
     // Update names with methods
     names(this.names);
 
-    // Make a response
-    this.response;
+    // Update values
+    this.updateValues();
 
     // Add to amauiStyle
     this.amauiStyle.sheet_managers.push(this);
@@ -209,7 +215,7 @@ class AmauiStyleSheetManager {
       },
     };
 
-    response = merge(response, this.names, { copy: true });
+    response = { ...response, ...this.names };
 
     const sheets = [
       ...this.sheets.static,
@@ -246,10 +252,13 @@ class AmauiStyleSheetManager {
       sheets.push(sheet);
 
       // Add dynamic names into the response
-      response = merge(response, sheet.names, { copy: true });
+      response = { ...response, ...sheet.names };
 
       // Add id to the response
       response.ids.dynamic.push(sheet.id);
+
+      // Update values
+      this.updateValues();
     }
 
     if (isEnvironment('browser')) {
@@ -297,6 +306,9 @@ class AmauiStyleSheetManager {
 
       // Dynamic
       if (!!variants.new.dynamic.length) this.sheets.dynamic.forEach(sheet => sheet.update(this.propertiesVariant('dynamic', variants_values)));
+
+      // Update values
+      this.updateValues();
     }
 
     const response: IResponse = {
@@ -348,13 +360,13 @@ class AmauiStyleSheetManager {
       });
 
       // @pure object
-      const pure = merge(value['@pure'] || {}, value['@p'] || {});
+      const pure = { ...(value['@pure'] || {}), ...(value['@p'] || {}) };
 
       Object.keys(pure).forEach(prop => {
         const isStatic = !dynamic(pure[prop]);
 
         pureValues[isStatic ? 'static' : 'dynamic'][prop] = {
-          ...(merge(pureValues[isStatic ? 'static' : 'dynamic'][prop] || {}, pure[prop])),
+          ...{ ...(pureValues[isStatic ? 'static' : 'dynamic'][prop] || {}), ...pure[prop] },
           '@pure': true,
         };
       });

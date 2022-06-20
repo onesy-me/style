@@ -1,4 +1,4 @@
-import { copy, element, getID, hash, is, isEnvironment, merge, Try } from '@amaui/utils';
+import { copy, element, isEnvironment, Try } from '@amaui/utils';
 import { TMethod } from '@amaui/models';
 import AmauiSubscription from '@amaui/subscription';
 import AmauiMeta from '@amaui/meta';
@@ -7,6 +7,7 @@ import { IOptionsRule, IValuesVariant, TMode, TRefs } from './interfaces';
 import AmauiStyleRenderer from './amaui-style-renderer';
 import AmauiStyleSheet from './amaui-style-sheet';
 import AmauiStyleSheetManager from './amaui-style-sheet-manager';
+import { getID, is } from './utils';
 
 interface IOptions {
   rule?: IOptionsRule;
@@ -21,9 +22,7 @@ const optionsDefault: IOptions = {
 };
 
 class AmauiStyle {
-  public options: IOptions;
   public id?: string;
-  public hash?: string;
   public direction: string;
   public subscriptions = {
     className: {
@@ -80,9 +79,9 @@ class AmauiStyle {
     public element?: Element,
     public mode?: TMode,
     public renderer: AmauiStyleRenderer = new AmauiStyleRenderer(),
-    options: IOptions = copy(optionsDefault),
+    public options: IOptions = copy(optionsDefault),
   ) {
-    this.options = merge(options, optionsDefault, { copy: true });
+    this.options = { ...optionsDefault, ...this.options };
 
     this.init();
   }
@@ -181,18 +180,6 @@ class AmauiStyle {
         this.options.rule.rtl = this.direction === 'rtl';
       }
     }
-
-    const value = {
-      element: !!this.element,
-      options: this.options,
-      direction: this.direction,
-      subscriptions: this.id,
-      values: this.values,
-      sheets: this.sheets.map(sheet => sheet.id),
-      sheet_managers: this.sheet_managers.map(sheet_manager => sheet_manager.id),
-    };
-
-    this.hash = hash(value);
   }
 
   public static attributes = [

@@ -1,27 +1,13 @@
-import AmauiCache from '@amaui/cache';
-import { is, merge } from '@amaui/utils';
-
 import AmauiStyle from './amaui-style';
-import { valueResolve } from './utils';
+import { is, valueResolve } from './utils';
 
 export interface IValueObject {
   value?: any;
   arguments?: any;
 }
 
-export interface IOptions { }
-
-const optionsDefault: IOptions = {};
-
-function valueObject(amauiStyle: AmauiStyle, options_: IOptions = {}) {
-  const options: IOptions = merge(options_, optionsDefault, { copy: true });
-
+function valueObject(amauiStyle: AmauiStyle) {
   const method = (value_: { property?: string; value?: any } = {}): IValueObject => {
-    // Check in cache if class name already exists with these values
-    const valueCached = AmauiCache.get(value_, amauiStyle?.id);
-
-    if (valueCached) return valueCached;
-
     const value: IValueObject = {
       arguments: {
         value: value_,
@@ -604,9 +590,6 @@ function valueObject(amauiStyle: AmauiStyle, options_: IOptions = {}) {
           break;
       }
     }
-
-    // Add value to AmauiCache for this property and value_
-    AmauiCache.add(value, value_, amauiStyle?.id);
 
     return value;
   };

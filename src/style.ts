@@ -1,9 +1,10 @@
-import { is, merge, Try } from '@amaui/utils';
+import { Try } from '@amaui/utils';
 
 import AmauiStyle from './amaui-style';
 import AmauiStyleSheetManager from './amaui-style-sheet-manager';
 import AmauiTheme from './amaui-theme';
 import { TValue, TValueMethod, TMode, IMethodResponse, IOptionsAmauiStyle, IOptionsAmauiTheme, IAmauiStyleSheetManagerProps } from './interfaces';
+import { is } from './utils';
 
 export interface IOptions {
   element?: Element;
@@ -17,23 +18,26 @@ export interface IOptions {
   add?: boolean;
 
   return?: 'ids' | 'classNames' | 'classes' | 'keyframes';
-}
 
-const optionsDefault: IOptions = {
-  mode: 'regular',
-  amaui_style: {
-    get: AmauiStyle.first.bind(AmauiStyle),
-  },
-  amaui_theme: {
-    get: AmauiTheme.first.bind(AmauiTheme),
-  },
-};
+  optimize?: boolean;
+}
 
 function style(
   value_: TValue,
   options_: IOptions = {}
 ): IMethodResponse {
-  const options = merge(options_, optionsDefault);
+  const optionsDefault: IOptions = {
+    mode: 'regular',
+    amaui_style: {
+      get: AmauiStyle.first.bind(AmauiStyle),
+    },
+    amaui_theme: {
+      get: AmauiTheme.first.bind(AmauiTheme),
+    },
+    optimize: false
+  };
+
+  const options = { ...options_, ...optionsDefault };
 
   // Amaui style
   let amauiStyle = options.amaui_style.value || (is('function', options.amaui_style.get) && options.amaui_style.get(options.element));
@@ -47,7 +51,7 @@ function style(
   const value = is('function', value_) ? Try(() => (value_ as TValueMethod)(amauiTheme)) : value_;
 
   // Make an instance of amauiStyleSheetManager
-  const amauiStyleSheetManager = new AmauiStyleSheetManager(value, options.mode, false, 'upper', amauiTheme, amauiStyle, { style: { attributes: { method: 'style' } } });
+  const amauiStyleSheetManager = new AmauiStyleSheetManager(value, options.mode, false, 'upper', amauiTheme, amauiStyle, { style: { attributes: { method: 'style' } }, optimize: options.optimize });
 
   const response: IMethodResponse = {
     ids: amauiStyleSheetManager.ids,

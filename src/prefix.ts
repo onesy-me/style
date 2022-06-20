@@ -1,5 +1,4 @@
-import { isEnvironment, merge } from '@amaui/utils';
-import AmauiCache from '@amaui/cache';
+import { isEnvironment } from '@amaui/utils';
 
 import AmauiStyle from './amaui-style';
 import { capitalizedCammelCase } from './utils';
@@ -90,7 +89,7 @@ const mapAllValuePrefixes = {
 };
 
 function prefix(amauiStyle: AmauiStyle, options_: IOptions = {}) {
-  const options: IOptions = merge(options_, optionsDefault, { copy: true });
+  const options = { ...options_, ...optionsDefault };
 
   const valid = (value: any, property: any) => {
     if (isEnvironment('browser')) {
@@ -121,11 +120,6 @@ function prefix(amauiStyle: AmauiStyle, options_: IOptions = {}) {
   };
 
   const method = (value_: { property: string; value: string; }): IPrefix => {
-    // Value in the cache
-    const valueCached = AmauiCache.get(value_, amauiStyle?.id);
-
-    if (valueCached) return valueCached;
-
     const value: IPrefix = {
       value: [],
       arguments: {
@@ -160,9 +154,6 @@ function prefix(amauiStyle: AmauiStyle, options_: IOptions = {}) {
     items.forEach(item => {
       if (valid(item.value, item.property)) value.value.push(item);
     });
-
-    // Add value to AmauiCache
-    AmauiCache.add(value, value_, amauiStyle?.id);
 
     return value;
   };

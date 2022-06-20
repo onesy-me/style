@@ -1,4 +1,5 @@
-import { is, unique } from '@amaui/utils';
+import { unique } from '@amaui/utils';
+import { is } from './utils';
 
 export function classNames(value?: any, prefix = '', array = false): string | Array<string> {
   let classNameValues = [];

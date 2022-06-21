@@ -502,24 +502,7 @@ group('@amaui/style/amaui-style', () => {
     values.forEach(value => assert(value).eql([
       true,
       {
-        "css": "\n\n.a-0 {\nwidth: 100;\nmax-width: 100;\nbackground: #faa;\nmargin: 0 14px 4px 40px;\nmargin-left: 41;\nfloat: left;\npadding-left: 41;\npadding: 40;\nposition: sticky;\ntransition: all .4s ease;\nmask-origin: inherit;\nmask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\nmask-position: 40% 74%;\n}\n\n",
-        "json": {
-          ".a-0": {
-            "mask-position": "40% 74%",
-            "mask-image": "linear-gradient(rgba(0, 0, 0, 1.0), transparent)",
-            "mask-origin": "inherit",
-            "transition": "all .4s ease",
-            "position": "sticky",
-            "padding": 40,
-            "padding-left": 41,
-            "float": "left",
-            "margin-left": 41,
-            "margin": "0 14px 4px 40px",
-            "background": "#faa",
-            "max-width": 100,
-            "width": 100
-          }
-        }
+        "css": "\n\n.a-0 {\n  width: 100;\n  max-width: 100;\n  background: #faa;\n  margin: 0 14px 4px 40px;\n  margin-left: 41;\n  float: left;\n  padding-left: 41;\n  padding: 40;\n  position: sticky;\n  transition: all .4s ease;\n  mask-origin: inherit;\n  mask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\n  mask-position: 40% 74%;\n}\n\n"
       }
     ]));
   });
@@ -618,24 +601,7 @@ group('@amaui/style/amaui-style', () => {
       values.forEach(value => assert(value).eql([
         true,
         {
-          "css": "\n\n.a-0 {\nwidth: 100;\nmax-width: 100;\nbackground: #faa;\nmargin: 0 14px 4px 40px;\nmargin-left: 41;\nfloat: left;\npadding-left: 41;\npadding: 40;\nposition: sticky;\ntransition: all .4s ease;\nmask-origin: inherit;\nmask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\nmask-position: 40% 74%;\n}\n\n",
-          "json": {
-            ".a-0": {
-              "mask-position": "40% 74%",
-              "mask-image": "linear-gradient(rgba(0, 0, 0, 1.0), transparent)",
-              "mask-origin": "inherit",
-              "transition": "all .4s ease",
-              "position": "sticky",
-              "padding": 40,
-              "padding-left": 41,
-              "float": "left",
-              "margin-left": 41,
-              "margin": "0 14px 4px 40px",
-              "background": "#faa",
-              "max-width": 100,
-              "width": 100
-            }
-          }
+          "css": "\n\n.a-0 {\n  width: 100;\n  max-width: 100;\n  background: #faa;\n  margin: 0 14px 4px 40px;\n  margin-left: 41;\n  float: left;\n  padding-left: 41;\n  padding: 40;\n  position: sticky;\n  transition: all .4s ease;\n  mask-origin: inherit;\n  mask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\n  mask-position: 40% 74%;\n}\n\n"
         }
       ]));
     });
@@ -731,118 +697,7 @@ group('@amaui/style/amaui-style', () => {
 
       values.forEach(value => assert(value).eql([
         true,
-        "\n\n.a-0 {\nwidth: 100;\nmax-width: 100;\nbackground: #faa;\nmargin: 0 14px 4px 40px;\nmargin-left: 41;\nfloat: left;\npadding-left: 41;\npadding: 40;\nposition: sticky;\ntransition: all .4s ease;\nmask-origin: inherit;\nmask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\nmask-position: 40% 74%;\n}\n\n"
-      ]));
-    });
-
-    to('json', async () => {
-      const valueBrowsers = await evaluate((window: any) => {
-        const amauiStyle = new window.AmauiStyle.AmauiStyle();
-
-        const a = {
-          a: {
-            width: 100,
-
-            'max-width': 100,
-
-            // Simple
-            background: '#faa',
-
-            margin: '0 14px 4px 40px',
-
-            // rtl
-            marginLeft: 41,
-            float: 'left',
-
-            // sort
-            paddingLeft: 41,
-            padding: 40,
-
-            // prefixes
-            position: 'sticky',
-            transition: 'all .4s ease',
-            maskOrigin: 'inherit',
-            maskImage: 'linear-gradient(rgba(0, 0, 0, 1.0), transparent)',
-            maskPosition: '40% 74%',
-
-            // animation
-            animation: '$a .4s ease',
-          },
-
-          a7: {
-            // Function
-            background: props => props.a === 1 ? 'yellow' : 'orange',
-          },
-        };
-
-        window.AmauiStyle.style(a, { amaui_style: { value: amauiStyle } });
-
-        return [AmauiUtils.equalDeep(amauiStyle.values.json, amauiStyle.json), amauiStyle.json];
-      });
-
-      const amauiStyle = new AmauiStyle.AmauiStyle();
-
-      const a: TValue = {
-        a: {
-          width: 100,
-
-          'max-width': 100,
-
-          // Simple
-          background: '#faa',
-
-          margin: '0 14px 4px 40px',
-
-          // rtl
-          marginLeft: 41,
-          float: 'left',
-
-          // sort
-          paddingLeft: 41,
-          padding: 40,
-
-          // prefixes
-          position: 'sticky',
-          transition: 'all .4s ease',
-          maskOrigin: 'inherit',
-          maskImage: 'linear-gradient(rgba(0, 0, 0, 1.0), transparent)',
-          maskPosition: '40% 74%',
-
-          // animation
-          animation: '$a .4s ease',
-        },
-
-        a7: {
-          // Function
-          background: props => props.a === 1 ? 'yellow' : 'orange',
-        },
-      };
-
-      AmauiStyle.style(a, { amaui_style: { value: amauiStyle } });
-
-      const valueNode = [AmauiUtils.equalDeep(amauiStyle.values.json, amauiStyle.json), amauiStyle.json];
-
-      const values = [valueNode, ...valueBrowsers];
-
-      values.forEach(value => assert(value).eql([
-        true,
-        {
-          ".a-0": {
-            "mask-position": "40% 74%",
-            "mask-image": "linear-gradient(rgba(0, 0, 0, 1.0), transparent)",
-            "mask-origin": "inherit",
-            "transition": "all .4s ease",
-            "position": "sticky",
-            "padding": 40,
-            "padding-left": 41,
-            "float": "left",
-            "margin-left": 41,
-            "margin": "0 14px 4px 40px",
-            "background": "#faa",
-            "max-width": 100,
-            "width": 100
-          }
-        }
+        "\n\n.a-0 {\n  width: 100;\n  max-width: 100;\n  background: #faa;\n  margin: 0 14px 4px 40px;\n  margin-left: 41;\n  float: left;\n  padding-left: 41;\n  padding: 40;\n  position: sticky;\n  transition: all .4s ease;\n  mask-origin: inherit;\n  mask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\n  mask-position: 40% 74%;\n}\n\n"
       ]));
     });
 

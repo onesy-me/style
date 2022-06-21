@@ -97,14 +97,6 @@ class AmauiStyleSheet {
   }
 
   public get response(): IValuesVariant {
-    return this.values;
-  }
-
-  public get css(): string {
-    return this.response.css;
-  }
-
-  private updateValues() {
     // Response
     this.values.css = ``;
 
@@ -115,6 +107,12 @@ class AmauiStyleSheet {
         this.values.css += `\n${css}\n`;
       }
     });
+
+    return this.values;
+  }
+
+  public get css(): string {
+    return this.response.css;
   }
 
   private get sort() {
@@ -188,9 +186,6 @@ class AmauiStyleSheet {
       });
     }
 
-    // Update values
-    this.updateValues();
-
     // Add to amauiStyle and amauiStyleSheetManager
     if (this.amauiStyleSheetManager) this.amauiStyleSheetManager.sheets[this.variant]?.push(this);
 
@@ -200,7 +195,7 @@ class AmauiStyleSheet {
     this.status = 'inited';
   }
 
-  public addRule(value: any, property_?: string, update = true, add = true): IAddRuleResponse {
+  public addRule(value: any, property_?: string, add = true): IAddRuleResponse {
     const isDynamic = dynamic(value);
 
     if (
@@ -237,9 +232,6 @@ class AmauiStyleSheet {
           return response;
         }
       }
-
-      // Update values
-      if (update) this.updateValues();
     }
   }
 
@@ -361,7 +353,7 @@ class AmauiStyleSheet {
 
           switch (activity) {
             case 'add':
-              this.addRule(item.value, item.property, false);
+              this.addRule(item.value, item.property);
 
               break;
 
@@ -380,9 +372,6 @@ class AmauiStyleSheet {
           }
         });
       });
-
-      // Update values
-      this.updateValues();
 
       this.amauiStyle.subscriptions.sheet.update.emit(this);
     }

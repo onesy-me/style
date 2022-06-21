@@ -130,8 +130,8 @@ group('@amaui/style/makeClassName', () => {
 
         values.forEach(value => assert(value).eql([
           'width-0',
-          'width-0',
-          'width-1'
+          'width-1',
+          'width-2'
         ]));
       });
 
@@ -158,8 +158,8 @@ group('@amaui/style/makeClassName', () => {
 
         values.forEach(value => assert(value).eql([
           'aa',
-          'aa',
-          'ab'
+          'ab',
+          'ac'
         ]));
       });
 
@@ -190,9 +190,9 @@ group('@amaui/style/makeClassName', () => {
         const values = [...valueBrowsers];
 
         values.forEach(value => assert(value).eql([
-          'ac',
+          'aa',
           'width-2',
-          'ad'
+          'ac'
         ]));
       });
 

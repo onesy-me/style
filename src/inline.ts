@@ -101,10 +101,10 @@ function inline(
       response = {};
 
       values.forEach(item => {
-        const [property, value] = item.split(':').filter(Boolean);
+        const [property, value__] = item.split(':').filter(Boolean);
 
-        if (property && value) {
-          response[options.response_json_property_variant === 'cammel' ? kebabCasetoCammelCase(property) : cammelCaseToKebabCase(property)] = value.replace(/;/g, '');
+        if (property && value__) {
+          response[options.response_json_property_variant === 'cammel' ? kebabCasetoCammelCase(property) : cammelCaseToKebabCase(property)] = value__.replace(/;/g, '');
         }
       });
     }

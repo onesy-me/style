@@ -167,7 +167,7 @@ class AmauiStyleRule {
     return this.response.css;
   }
 
-  private updateValues(hash_ = true) {
+  public updateValues(hash_ = true) {
     // Response
     const selector = this.selector || this.property;
 
@@ -210,7 +210,7 @@ class AmauiStyleRule {
     ) this.makeHash();
   }
 
-  private makeHash() { this.hash_ = hash(this.css); }
+  private makeHash() { this.hash_ = hash(this.css.replace(/.+\{|\}.*$/g, '')); }
 
   private init(value_?: any) {
     let value = value_ !== undefined ? value_ : this.value;
@@ -493,6 +493,10 @@ class AmauiStyleRule {
   }
 
   public add(update = true) {
+    // Update values
+    // manually adding the rule
+    if (!this.css) this.updateValues();
+
     // Make selector
     this.makeSelector();
 

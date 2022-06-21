@@ -228,10 +228,7 @@ group('@amaui/style/amaui-style-rule-property', () => {
         {
           "property": "width",
           "value": "100px",
-          "css": "width: 100px;",
-          "json": {
-            "width": "100px"
-          }
+          "css": "width: 100px;"
         },
         {}
       ]));
@@ -458,10 +455,7 @@ group('@amaui/style/amaui-style-rule-property', () => {
         {
           "property": "width",
           "value": "100px",
-          "css": "width: 100px;",
-          "json": {
-            "width": "100px"
-          }
+          "css": "width: 100px;"
         },
         {}
       ]));
@@ -579,6 +573,9 @@ group('@amaui/style/amaui-style-rule-property', () => {
           amauiStyle
         );
 
+        // Add
+        amauiStyleRule.add();
+
         return [
           amauiStyleRule.css
         ];
@@ -637,7 +634,6 @@ group('@amaui/style/amaui-style-rule-property', () => {
         margin: '0 14px 4px 40px',
 
         // rtl
-        marginLeft: 41,
         float: 'left',
 
         // sort
@@ -647,7 +643,6 @@ group('@amaui/style/amaui-style-rule-property', () => {
         // prefixes
         position: 'sticky',
         transition: 'all .4s ease',
-        maskOrigin: 'inherit',
         maskImage: 'linear-gradient(rgba(0, 0, 0, 1.0), transparent)',
         maskPosition: '40% 74%',
 
@@ -694,6 +689,9 @@ group('@amaui/style/amaui-style-rule-property', () => {
         amauiStyle
       );
 
+      // Add
+      amauiStyleRule.add();
+
       const valueNode = [
         amauiStyleRule.css
       ];
@@ -702,18 +700,18 @@ group('@amaui/style/amaui-style-rule-property', () => {
 
       assert(values).eql([
         [
-          ".a1-1 {\nmax-width: 100px;\nbackground: #faa;\nmargin: 0 14px 4px 40px;\nfloat: right;\npadding-right: 41px;\npadding: 40px;\nposition: sticky;\ntransition: all .4s ease;\nmask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\nmask-position: 40% 74%;\nmask-origin: inherit;\nmargin-right: 41px;\n}"
+          ".a1-1 {\n  background: #faa;\n  float: right;\n  margin: 0 14px 4px 40px;\n  mask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\n  mask-position: 40% 74%;\n  max-width: 100px;\n  padding: 40px;\n  padding-right: 41px;\n  position: sticky;\n  transition: all .4s ease;\n  mask-origin: inherit;\n  margin-right: 41px;\n}"
         ],
         [
-          ".a1-1 {\nmax-width: 100px;\nbackground: #faa;\nmargin: 0 14px 4px 40px;\nfloat: right;\npadding-right: 41px;\npadding: 40px;\nposition: sticky;\ntransition: all .4s ease;\nmask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\nmask-position: 40% 74%;\nmask-origin: inherit;\nmargin-right: 41px;\n}"
+          ".a1-1 {\n  background: #faa;\n  float: right;\n  margin: 0 14px 4px 40px;\n  mask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\n  mask-position: 40% 74%;\n  max-width: 100px;\n  padding: 40px;\n  padding-right: 41px;\n  position: sticky;\n  transition: all .4s ease;\n  mask-origin: inherit;\n  margin-right: 41px;\n}"
         ],
         [
-          ".a1-1 {\nmax-width: 100px;\nbackground: #faa;\nmargin: 0 14px 4px 40px;\nfloat: right;\npadding-right: 41px;\npadding: 40px;\nposition: sticky;\ntransition: all .4s ease;\nmask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\nmask-position: 40% 74%;\nmask-origin: inherit;\nmargin-right: 41px;\n}"
+          ".a1-1 {\n  background: #faa;\n  float: right;\n  margin: 0 14px 4px 40px;\n  mask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\n  mask-position: 40% 74%;\n  max-width: 100px;\n  padding: 40px;\n  padding-right: 41px;\n  position: sticky;\n  transition: all .4s ease;\n  mask-origin: inherit;\n  margin-right: 41px;\n}"
         ]
       ]);
 
       assert(valueNode).eql([
-        ".a1-1 {\nmax-width: 100px;\nbackground: #faa;\nmargin: 0 14px 4px 40px;\nmargin-left: 41px;\nfloat: left;\npadding-left: 41px;\npadding: 40px;\nposition: sticky;\ntransition: all .4s ease;\nmask-origin: inherit;\nmask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\nmask-position: 40% 74%;\nmask-origin: inherit;\nmargin-left: 41px;\n}"
+        ".a1-1 {\n  background: #faa;\n  float: left;\n  margin: 0 14px 4px 40px;\n  mask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\n  mask-position: 40% 74%;\n  max-width: 100px;\n  padding: 40px;\n  padding-left: 41px;\n  position: sticky;\n  transition: all .4s ease;\n  mask-origin: inherit;\n  margin-left: 41px;\n}"
       ]);
     });
 
@@ -779,7 +777,7 @@ group('@amaui/style/amaui-style-rule-property', () => {
             amauiStyle
           );
 
-          return [window.AmauiUtils.equalDeep({ css: amauiStyleRuleProperty.values.css, json: amauiStyleRuleProperty.values.json }, amauiStyleRuleProperty.response), amauiStyleRuleProperty.response];
+          return [window.AmauiUtils.equalDeep({ css: amauiStyleRuleProperty.values.css }, amauiStyleRuleProperty.response), amauiStyleRuleProperty.response];
         });
 
         const a: TValue = {
@@ -840,17 +838,14 @@ group('@amaui/style/amaui-style-rule-property', () => {
           amauiStyle
         );
 
-        const valueNode = [AmauiUtils.equalDeep({ css: amauiStyleRuleProperty.values.css, json: amauiStyleRuleProperty.values.json }, amauiStyleRuleProperty.response), amauiStyleRuleProperty.response];
+        const valueNode = [AmauiUtils.equalDeep({ css: amauiStyleRuleProperty.values.css }, amauiStyleRuleProperty.response), amauiStyleRuleProperty.response];
 
         const values = [valueNode, ...valueBrowsers];
 
         values.forEach(value => assert(value).eql([
           true,
           {
-            "css": "width: 100px;",
-            "json": {
-              "width": "100px",
-            }
+            "css": "width: 100px;"
           }
         ]));
       });
@@ -986,139 +981,6 @@ group('@amaui/style/amaui-style-rule-property', () => {
         ]));
       });
 
-      to('json', async () => {
-        const valueBrowsers = await evaluate((window: any) => {
-          window.document.body.dir = 'rtl';
-
-          const amauiStyle = new window.AmauiStyle.AmauiStyle(window.document.body);
-
-          amauiStyle.plugins.add = [
-            window.AmauiStyle.unit,
-            window.AmauiStyle.sort,
-            window.AmauiStyle.prefix,
-            window.AmauiStyle.rtl,
-          ];
-
-          const a: TValue = {
-            a: {
-              'max-width': 100,
-
-              // Simple
-              background: '#faa',
-
-              margin: '0 14px 4px 40px',
-
-              // rtl
-              marginLeft: 41,
-              float: 'left',
-
-              // sort
-              paddingLeft: 41,
-              padding: 40,
-
-              // prefixes
-              position: 'sticky',
-              transition: 'all .4s ease',
-              maskOrigin: 'inherit',
-              maskImage: 'linear-gradient(rgba(0, 0, 0, 1.0), transparent)',
-              maskPosition: '40% 74%',
-
-              // animation
-              animation: '$a .4s ease',
-            },
-          };
-
-          const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(undefined, 'regular', false, 'upper', undefined, amauiStyle, { style: { attributes: { method: 'style' } } });
-
-          const amauiStyleSheet = new AmauiStyle.AmauiStyleSheet(a, 'static', 'regular', false, 'upper', undefined, amauiStyleSheetManager, amauiStyle, {}, { style: { attributes: { method: 'style' } } });
-
-          const amauiStyleRule = amauiStyleSheet.rules[0].value;
-
-          const amauiStyleRuleProperty = new window.AmauiStyle.AmauiStyleRuleProperty(
-            100,
-            'width',
-            'value',
-            false,
-            amauiStyleRule,
-            [...amauiStyleRule.parents, amauiStyleRule],
-            amauiStyleRule,
-            amauiStyleSheet,
-            amauiStyle
-          );
-
-          return [window.AmauiUtils.equalDeep(amauiStyleRuleProperty.values.json, amauiStyleRuleProperty.json), amauiStyleRuleProperty.json];
-        });
-
-        const a: TValue = {
-          a: {
-            width: 100,
-
-            'max-width': 100,
-
-            // Simple
-            background: '#faa',
-
-            margin: '0 14px 4px 40px',
-
-            // rtl
-            marginLeft: 41,
-            float: 'left',
-
-            // sort
-            paddingLeft: 41,
-            padding: 40,
-
-            // prefixes
-            position: 'sticky',
-            transition: 'all .4s ease',
-            maskOrigin: 'inherit',
-            maskImage: 'linear-gradient(rgba(0, 0, 0, 1.0), transparent)',
-            maskPosition: '40% 74%',
-
-            // animation
-            animation: '$a .4s ease',
-          },
-        };
-
-        const amauiStyle = new AmauiStyle.AmauiStyle();
-
-        amauiStyle.plugins.add = [
-          AmauiStyle.unit,
-          AmauiStyle.sort,
-          AmauiStyle.prefix,
-          AmauiStyle.rtl,
-        ];
-
-        const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(undefined, 'regular', false, 'upper', undefined, amauiStyle, { style: { attributes: { method: 'style' } } });
-
-        const amauiStyleSheet = new AmauiStyle.AmauiStyleSheet(a, 'static', 'regular', false, 'upper', undefined, amauiStyleSheetManager, amauiStyle, {}, { style: { attributes: { method: 'style' } } });
-
-        const amauiStyleRule = amauiStyleSheet.rules[0].value;
-
-        const amauiStyleRuleProperty = new AmauiStyle.AmauiStyleRuleProperty(
-          100,
-          'width',
-          'value',
-          false,
-          amauiStyleRule,
-          [...amauiStyleRule.parents, amauiStyleRule],
-          amauiStyleRule,
-          amauiStyleSheet,
-          amauiStyle
-        );
-
-        const valueNode = [AmauiUtils.equalDeep(amauiStyleRuleProperty.values.json, amauiStyleRuleProperty.json), amauiStyleRuleProperty.json];
-
-        const values = [valueNode, ...valueBrowsers];
-
-        values.forEach(value => assert(value).eql([
-          true,
-          {
-            "width": "100px",
-          }
-        ]));
-      });
-
     });
 
     to('update', async () => {
@@ -1215,21 +1077,21 @@ group('@amaui/style/amaui-style-rule-property', () => {
 
       assert(values).eql([
         [
-          "\n\n.a-0 {\nbackground: #faa;\nfloat: left;\nmargin: 0 14px 4px 40px;\nmargin-left: 41px;\nmask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\nmask-origin: inherit;\nmask-position: 40% 74%;\nmax-width: 100px;\npadding: 40px;\npadding-left: 41px;\nposition: sticky;\ntransition: all .4s ease;\nwidth: 100px;\n}\n\n\n\n.a7-1 {\nbackground: orange;\nwidth: 11px;\n}\n\n",
+          "\n\n.a-0 {\n  background: #faa;\n  float: left;\n  margin: 0 14px 4px 40px;\n  margin-left: 41px;\n  mask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\n  mask-origin: inherit;\n  mask-position: 40% 74%;\n  max-width: 100px;\n  padding: 40px;\n  padding-left: 41px;\n  position: sticky;\n  transition: all .4s ease;\n  width: 100px;\n}\n\n\n\n.a7-1 {\n  background: orange;\n  width: 11px;\n}\n\n",
           ".a-0 { background: rgb(255, 170, 170); float: left; margin: 0px 14px 4px 41px; max-width: 100px; padding: 40px 40px 40px 41px; position: sticky; transition: all 0.4s ease 0s; width: 100px; }.a7-1 { background: orange; width: 11px; }",
-          "\n\n.a-0 {\nbackground: #faa;\nfloat: left;\nmargin: 0 14px 4px 40px;\nmargin-left: 41px;\nmask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\nmask-origin: inherit;\nmask-position: 40% 74%;\nmax-width: 100px;\npadding: 40px;\npadding-left: 41px;\nposition: sticky;\ntransition: all .4s ease;\nwidth: 100px;\n}\n\n\n\n.a7-1 {\nbackground: yellow;\nwidth: 1114px;\n}\n\n",
+          "\n\n.a-0 {\n  background: #faa;\n  float: left;\n  margin: 0 14px 4px 40px;\n  margin-left: 41px;\n  mask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\n  mask-origin: inherit;\n  mask-position: 40% 74%;\n  max-width: 100px;\n  padding: 40px;\n  padding-left: 41px;\n  position: sticky;\n  transition: all .4s ease;\n  width: 100px;\n}\n\n\n\n.a7-1 {\n  background: yellow;\n  width: 11px;\n}\n\n",
           ".a-0 { background: rgb(255, 170, 170); float: left; margin: 0px 14px 4px 41px; max-width: 100px; padding: 40px 40px 40px 41px; position: sticky; transition: all 0.4s ease 0s; width: 100px; }.a7-1 { background: yellow; width: 1114px; }"
         ],
         [
-          "\n\n.a-0 {\nbackground: #faa;\nfloat: left;\nmargin: 0 14px 4px 40px;\nmargin-left: 41px;\nmask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\nmask-origin: inherit;\nmask-position: 40% 74%;\nmax-width: 100px;\npadding: 40px;\npadding-left: 41px;\nposition: sticky;\ntransition: all .4s ease;\nwidth: 100px;\n}\n\n\n\n.a7-1 {\nbackground: orange;\nwidth: 11px;\n}\n\n",
+          "\n\n.a-0 {\n  background: #faa;\n  float: left;\n  margin: 0 14px 4px 40px;\n  margin-left: 41px;\n  mask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\n  mask-origin: inherit;\n  mask-position: 40% 74%;\n  max-width: 100px;\n  padding: 40px;\n  padding-left: 41px;\n  position: sticky;\n  transition: all .4s ease;\n  width: 100px;\n}\n\n\n\n.a7-1 {\n  background: orange;\n  width: 11px;\n}\n\n",
           ".a-0 { background: rgb(255, 170, 170) none repeat scroll 0% 0%; float: left; margin: 0px 14px 4px 41px; mask-image: linear-gradient(rgb(0, 0, 0), transparent); mask-origin: inherit; mask-position: 40% 74%; max-width: 100px; padding: 40px 40px 40px 41px; position: sticky; transition: all 0.4s ease 0s; width: 100px; }.a7-1 { background: orange none repeat scroll 0% 0%; width: 11px; }",
-          "\n\n.a-0 {\nbackground: #faa;\nfloat: left;\nmargin: 0 14px 4px 40px;\nmargin-left: 41px;\nmask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\nmask-origin: inherit;\nmask-position: 40% 74%;\nmax-width: 100px;\npadding: 40px;\npadding-left: 41px;\nposition: sticky;\ntransition: all .4s ease;\nwidth: 100px;\n}\n\n\n\n.a7-1 {\nbackground: yellow;\nwidth: 1114px;\n}\n\n",
+          "\n\n.a-0 {\n  background: #faa;\n  float: left;\n  margin: 0 14px 4px 40px;\n  margin-left: 41px;\n  mask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\n  mask-origin: inherit;\n  mask-position: 40% 74%;\n  max-width: 100px;\n  padding: 40px;\n  padding-left: 41px;\n  position: sticky;\n  transition: all .4s ease;\n  width: 100px;\n}\n\n\n\n.a7-1 {\n  background: yellow;\n  width: 11px;\n}\n\n",
           ".a-0 { background: rgb(255, 170, 170) none repeat scroll 0% 0%; float: left; margin: 0px 14px 4px 41px; mask-image: linear-gradient(rgb(0, 0, 0), transparent); mask-origin: inherit; mask-position: 40% 74%; max-width: 100px; padding: 40px 40px 40px 41px; position: sticky; transition: all 0.4s ease 0s; width: 100px; }.a7-1 { background: yellow none repeat scroll 0% 0%; width: 1114px; }"
         ],
         [
-          "\n\n.a-0 {\nbackground: #faa;\nfloat: left;\nmargin: 0 14px 4px 40px;\nmargin-left: 41px;\nmask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\nmask-origin: inherit;\nmask-position: 40% 74%;\nmax-width: 100px;\npadding: 40px;\npadding-left: 41px;\nposition: sticky;\ntransition: all .4s ease;\nwidth: 100px;\n}\n\n\n\n.a7-1 {\nbackground: orange;\nwidth: 11px;\n}\n\n",
+          "\n\n.a-0 {\n  background: #faa;\n  float: left;\n  margin: 0 14px 4px 40px;\n  margin-left: 41px;\n  mask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\n  mask-origin: inherit;\n  mask-position: 40% 74%;\n  max-width: 100px;\n  padding: 40px;\n  padding-left: 41px;\n  position: sticky;\n  transition: all .4s ease;\n  width: 100px;\n}\n\n\n\n.a7-1 {\n  background: orange;\n  width: 11px;\n}\n\n",
           ".a-0 { background-color: rgb(255, 170, 170); float: left; margin: 0px 14px 4px 41px; mask-image: linear-gradient(rgb(0, 0, 0), transparent); mask-origin: inherit; -webkit-mask-position-x: 40%; -webkit-mask-position-y: 74%; max-width: 100px; padding: 40px 40px 40px 41px; position: sticky; transition: all 0.4s ease 0s; width: 100px; }.a7-1 { background-color: orange; width: 11px; }",
-          "\n\n.a-0 {\nbackground: #faa;\nfloat: left;\nmargin: 0 14px 4px 40px;\nmargin-left: 41px;\nmask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\nmask-origin: inherit;\nmask-position: 40% 74%;\nmax-width: 100px;\npadding: 40px;\npadding-left: 41px;\nposition: sticky;\ntransition: all .4s ease;\nwidth: 100px;\n}\n\n\n\n.a7-1 {\nbackground: yellow;\nwidth: 1114px;\n}\n\n",
+          "\n\n.a-0 {\n  background: #faa;\n  float: left;\n  margin: 0 14px 4px 40px;\n  margin-left: 41px;\n  mask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\n  mask-origin: inherit;\n  mask-position: 40% 74%;\n  max-width: 100px;\n  padding: 40px;\n  padding-left: 41px;\n  position: sticky;\n  transition: all .4s ease;\n  width: 100px;\n}\n\n\n\n.a7-1 {\n  background: yellow;\n  width: 11px;\n}\n\n",
           ".a-0 { background-color: rgb(255, 170, 170); float: left; margin: 0px 14px 4px 41px; mask-image: linear-gradient(rgb(0, 0, 0), transparent); mask-origin: inherit; -webkit-mask-position-x: 40%; -webkit-mask-position-y: 74%; max-width: 100px; padding: 40px 40px 40px 41px; position: sticky; transition: all 0.4s ease 0s; width: 100px; }.a7-1 { background-color: yellow; width: 1114px; }"
         ]
       ]);
@@ -1308,8 +1170,8 @@ group('@amaui/style/amaui-style-rule-property', () => {
       const valueNode = response;
 
       assert(valueNode).eql([
-        "\n\n.a-0 {\nbackground: #faa;\nfloat: left;\nmargin: 0 14px 4px 40px;\nmargin-left: 41px;\nmask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\nmask-origin: inherit;\nmask-position: 40% 74%;\nmax-width: 100px;\npadding: 40px;\npadding-left: 41px;\nposition: sticky;\ntransition: all .4s ease;\nwidth: 100px;\n}\n\n\n\n.a7-1 {\nbackground: orange;\nwidth: 11px;\n}\n\n",
-        "\n\n.a-0 {\nbackground: #faa;\nfloat: left;\nmargin: 0 14px 4px 40px;\nmargin-left: 41px;\nmask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\nmask-origin: inherit;\nmask-position: 40% 74%;\nmax-width: 100px;\npadding: 40px;\npadding-left: 41px;\nposition: sticky;\ntransition: all .4s ease;\nwidth: 100px;\n}\n\n\n\n.a7-1 {\nbackground: yellow;\nwidth: 1114px;\n}\n\n"
+        "\n\n.a-0 {\n  background: #faa;\n  float: left;\n  margin: 0 14px 4px 40px;\n  margin-left: 41px;\n  mask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\n  mask-origin: inherit;\n  mask-position: 40% 74%;\n  max-width: 100px;\n  padding: 40px;\n  padding-left: 41px;\n  position: sticky;\n  transition: all .4s ease;\n  width: 100px;\n}\n\n\n\n.a7-1 {\n  background: orange;\n  width: 11px;\n}\n\n",
+        "\n\n.a-0 {\n  background: #faa;\n  float: left;\n  margin: 0 14px 4px 40px;\n  margin-left: 41px;\n  mask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\n  mask-origin: inherit;\n  mask-position: 40% 74%;\n  max-width: 100px;\n  padding: 40px;\n  padding-left: 41px;\n  position: sticky;\n  transition: all .4s ease;\n  width: 100px;\n}\n\n\n\n.a7-1 {\n  background: yellow;\n  width: 11px;\n}\n\n"
       ]);
     });
 
@@ -1389,6 +1251,9 @@ group('@amaui/style/amaui-style-rule-property', () => {
         // Update value
         amauiStyleRuleProperty1.update(1114);
 
+        // Update rule values
+        amauiStyleRuleProperty.owner.updateValues();
+
         css = '';
 
         Array.from(window.document.styleSheets).forEach((sheet: any) => {
@@ -1402,6 +1267,9 @@ group('@amaui/style/amaui-style-rule-property', () => {
 
         // Remove value
         amauiStyleRuleProperty1.remove();
+
+        // Update rule values
+        amauiStyleRuleProperty.owner.updateValues();
 
         css = '';
 
@@ -1421,27 +1289,27 @@ group('@amaui/style/amaui-style-rule-property', () => {
 
       assert(values).eql([
         [
-          "\n\n.a-0 {\nbackground: #faa;\nfloat: left;\nmargin: 0 14px 4px 40px;\nmargin-left: 41px;\nmask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\nmask-origin: inherit;\nmask-position: 40% 74%;\nmax-width: 100px;\npadding: 40px;\npadding-left: 41px;\nposition: sticky;\ntransition: all .4s ease;\nwidth: 100px;\n}\n\n\n\n.a7-1 {\nbackground: orange;\nwidth: 11px;\n}\n\n",
+          "\n\n.a-0 {\n  background: #faa;\n  float: left;\n  margin: 0 14px 4px 40px;\n  margin-left: 41px;\n  mask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\n  mask-origin: inherit;\n  mask-position: 40% 74%;\n  max-width: 100px;\n  padding: 40px;\n  padding-left: 41px;\n  position: sticky;\n  transition: all .4s ease;\n  width: 100px;\n}\n\n\n\n.a7-1 {\n  background: orange;\n  width: 11px;\n}\n\n",
           ".a-0 { background: rgb(255, 170, 170); float: left; margin: 0px 14px 4px 41px; max-width: 100px; padding: 40px 40px 40px 41px; position: sticky; transition: all 0.4s ease 0s; width: 100px; }.a7-1 { background: orange; width: 11px; }",
-          "\n\n.a-0 {\nbackground: #faa;\nfloat: left;\nmargin: 0 14px 4px 40px;\nmargin-left: 41px;\nmask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\nmask-origin: inherit;\nmask-position: 40% 74%;\nmax-width: 100px;\npadding: 40px;\npadding-left: 41px;\nposition: sticky;\ntransition: all .4s ease;\nwidth: 100px;\n}\n\n\n\n.a7-1 {\nbackground: yellow;\nwidth: 1114px;\n}\n\n",
+          "\n\n.a-0 {\n  background: #faa;\n  float: left;\n  margin: 0 14px 4px 40px;\n  margin-left: 41px;\n  mask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\n  mask-origin: inherit;\n  mask-position: 40% 74%;\n  max-width: 100px;\n  padding: 40px;\n  padding-left: 41px;\n  position: sticky;\n  transition: all .4s ease;\n  width: 100px;\n}\n\n\n\n.a7-1 {\n  background: yellow;\n  width: 1114px;\n}\n\n",
           ".a-0 { background: rgb(255, 170, 170); float: left; margin: 0px 14px 4px 41px; max-width: 100px; padding: 40px 40px 40px 41px; position: sticky; transition: all 0.4s ease 0s; width: 100px; }.a7-1 { background: yellow; width: 1114px; }",
-          "\n\n.a-0 {\nbackground: #faa;\nfloat: left;\nmargin: 0 14px 4px 40px;\nmargin-left: 41px;\nmask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\nmask-origin: inherit;\nmask-position: 40% 74%;\nmax-width: 100px;\npadding: 40px;\npadding-left: 41px;\nposition: sticky;\ntransition: all .4s ease;\nwidth: 100px;\n}\n\n\n\n.a7-1 {\nbackground: yellow;\n}\n\n",
+          "\n\n.a-0 {\n  background: #faa;\n  float: left;\n  margin: 0 14px 4px 40px;\n  margin-left: 41px;\n  mask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\n  mask-origin: inherit;\n  mask-position: 40% 74%;\n  max-width: 100px;\n  padding: 40px;\n  padding-left: 41px;\n  position: sticky;\n  transition: all .4s ease;\n  width: 100px;\n}\n\n\n\n.a7-1 {\n  background: yellow;\n}\n\n",
           ".a-0 { background: rgb(255, 170, 170); float: left; margin: 0px 14px 4px 41px; max-width: 100px; padding: 40px 40px 40px 41px; position: sticky; transition: all 0.4s ease 0s; width: 100px; }.a7-1 { background: yellow; }"
         ],
         [
-          "\n\n.a-0 {\nbackground: #faa;\nfloat: left;\nmargin: 0 14px 4px 40px;\nmargin-left: 41px;\nmask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\nmask-origin: inherit;\nmask-position: 40% 74%;\nmax-width: 100px;\npadding: 40px;\npadding-left: 41px;\nposition: sticky;\ntransition: all .4s ease;\nwidth: 100px;\n}\n\n\n\n.a7-1 {\nbackground: orange;\nwidth: 11px;\n}\n\n",
+          "\n\n.a-0 {\n  background: #faa;\n  float: left;\n  margin: 0 14px 4px 40px;\n  margin-left: 41px;\n  mask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\n  mask-origin: inherit;\n  mask-position: 40% 74%;\n  max-width: 100px;\n  padding: 40px;\n  padding-left: 41px;\n  position: sticky;\n  transition: all .4s ease;\n  width: 100px;\n}\n\n\n\n.a7-1 {\n  background: orange;\n  width: 11px;\n}\n\n",
           ".a-0 { background: rgb(255, 170, 170) none repeat scroll 0% 0%; float: left; margin: 0px 14px 4px 41px; mask-image: linear-gradient(rgb(0, 0, 0), transparent); mask-origin: inherit; mask-position: 40% 74%; max-width: 100px; padding: 40px 40px 40px 41px; position: sticky; transition: all 0.4s ease 0s; width: 100px; }.a7-1 { background: orange none repeat scroll 0% 0%; width: 11px; }",
-          "\n\n.a-0 {\nbackground: #faa;\nfloat: left;\nmargin: 0 14px 4px 40px;\nmargin-left: 41px;\nmask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\nmask-origin: inherit;\nmask-position: 40% 74%;\nmax-width: 100px;\npadding: 40px;\npadding-left: 41px;\nposition: sticky;\ntransition: all .4s ease;\nwidth: 100px;\n}\n\n\n\n.a7-1 {\nbackground: yellow;\nwidth: 1114px;\n}\n\n",
+          "\n\n.a-0 {\n  background: #faa;\n  float: left;\n  margin: 0 14px 4px 40px;\n  margin-left: 41px;\n  mask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\n  mask-origin: inherit;\n  mask-position: 40% 74%;\n  max-width: 100px;\n  padding: 40px;\n  padding-left: 41px;\n  position: sticky;\n  transition: all .4s ease;\n  width: 100px;\n}\n\n\n\n.a7-1 {\n  background: yellow;\n  width: 1114px;\n}\n\n",
           ".a-0 { background: rgb(255, 170, 170) none repeat scroll 0% 0%; float: left; margin: 0px 14px 4px 41px; mask-image: linear-gradient(rgb(0, 0, 0), transparent); mask-origin: inherit; mask-position: 40% 74%; max-width: 100px; padding: 40px 40px 40px 41px; position: sticky; transition: all 0.4s ease 0s; width: 100px; }.a7-1 { background: yellow none repeat scroll 0% 0%; width: 1114px; }",
-          "\n\n.a-0 {\nbackground: #faa;\nfloat: left;\nmargin: 0 14px 4px 40px;\nmargin-left: 41px;\nmask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\nmask-origin: inherit;\nmask-position: 40% 74%;\nmax-width: 100px;\npadding: 40px;\npadding-left: 41px;\nposition: sticky;\ntransition: all .4s ease;\nwidth: 100px;\n}\n\n\n\n.a7-1 {\nbackground: yellow;\n}\n\n",
+          "\n\n.a-0 {\n  background: #faa;\n  float: left;\n  margin: 0 14px 4px 40px;\n  margin-left: 41px;\n  mask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\n  mask-origin: inherit;\n  mask-position: 40% 74%;\n  max-width: 100px;\n  padding: 40px;\n  padding-left: 41px;\n  position: sticky;\n  transition: all .4s ease;\n  width: 100px;\n}\n\n\n\n.a7-1 {\n  background: yellow;\n}\n\n",
           ".a-0 { background: rgb(255, 170, 170) none repeat scroll 0% 0%; float: left; margin: 0px 14px 4px 41px; mask-image: linear-gradient(rgb(0, 0, 0), transparent); mask-origin: inherit; mask-position: 40% 74%; max-width: 100px; padding: 40px 40px 40px 41px; position: sticky; transition: all 0.4s ease 0s; width: 100px; }.a7-1 { background: yellow none repeat scroll 0% 0%; }"
         ],
         [
-          "\n\n.a-0 {\nbackground: #faa;\nfloat: left;\nmargin: 0 14px 4px 40px;\nmargin-left: 41px;\nmask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\nmask-origin: inherit;\nmask-position: 40% 74%;\nmax-width: 100px;\npadding: 40px;\npadding-left: 41px;\nposition: sticky;\ntransition: all .4s ease;\nwidth: 100px;\n}\n\n\n\n.a7-1 {\nbackground: orange;\nwidth: 11px;\n}\n\n",
+          "\n\n.a-0 {\n  background: #faa;\n  float: left;\n  margin: 0 14px 4px 40px;\n  margin-left: 41px;\n  mask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\n  mask-origin: inherit;\n  mask-position: 40% 74%;\n  max-width: 100px;\n  padding: 40px;\n  padding-left: 41px;\n  position: sticky;\n  transition: all .4s ease;\n  width: 100px;\n}\n\n\n\n.a7-1 {\n  background: orange;\n  width: 11px;\n}\n\n",
           ".a-0 { background-color: rgb(255, 170, 170); float: left; margin: 0px 14px 4px 41px; mask-image: linear-gradient(rgb(0, 0, 0), transparent); mask-origin: inherit; -webkit-mask-position-x: 40%; -webkit-mask-position-y: 74%; max-width: 100px; padding: 40px 40px 40px 41px; position: sticky; transition: all 0.4s ease 0s; width: 100px; }.a7-1 { background-color: orange; width: 11px; }",
-          "\n\n.a-0 {\nbackground: #faa;\nfloat: left;\nmargin: 0 14px 4px 40px;\nmargin-left: 41px;\nmask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\nmask-origin: inherit;\nmask-position: 40% 74%;\nmax-width: 100px;\npadding: 40px;\npadding-left: 41px;\nposition: sticky;\ntransition: all .4s ease;\nwidth: 100px;\n}\n\n\n\n.a7-1 {\nbackground: yellow;\nwidth: 1114px;\n}\n\n",
+          "\n\n.a-0 {\n  background: #faa;\n  float: left;\n  margin: 0 14px 4px 40px;\n  margin-left: 41px;\n  mask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\n  mask-origin: inherit;\n  mask-position: 40% 74%;\n  max-width: 100px;\n  padding: 40px;\n  padding-left: 41px;\n  position: sticky;\n  transition: all .4s ease;\n  width: 100px;\n}\n\n\n\n.a7-1 {\n  background: yellow;\n  width: 1114px;\n}\n\n",
           ".a-0 { background-color: rgb(255, 170, 170); float: left; margin: 0px 14px 4px 41px; mask-image: linear-gradient(rgb(0, 0, 0), transparent); mask-origin: inherit; -webkit-mask-position-x: 40%; -webkit-mask-position-y: 74%; max-width: 100px; padding: 40px 40px 40px 41px; position: sticky; transition: all 0.4s ease 0s; width: 100px; }.a7-1 { background-color: yellow; width: 1114px; }",
-          "\n\n.a-0 {\nbackground: #faa;\nfloat: left;\nmargin: 0 14px 4px 40px;\nmargin-left: 41px;\nmask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\nmask-origin: inherit;\nmask-position: 40% 74%;\nmax-width: 100px;\npadding: 40px;\npadding-left: 41px;\nposition: sticky;\ntransition: all .4s ease;\nwidth: 100px;\n}\n\n\n\n.a7-1 {\nbackground: yellow;\n}\n\n",
+          "\n\n.a-0 {\n  background: #faa;\n  float: left;\n  margin: 0 14px 4px 40px;\n  margin-left: 41px;\n  mask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\n  mask-origin: inherit;\n  mask-position: 40% 74%;\n  max-width: 100px;\n  padding: 40px;\n  padding-left: 41px;\n  position: sticky;\n  transition: all .4s ease;\n  width: 100px;\n}\n\n\n\n.a7-1 {\n  background: yellow;\n}\n\n",
           ".a-0 { background-color: rgb(255, 170, 170); float: left; margin: 0px 14px 4px 41px; mask-image: linear-gradient(rgb(0, 0, 0), transparent); mask-origin: inherit; -webkit-mask-position-x: 40%; -webkit-mask-position-y: 74%; max-width: 100px; padding: 40px 40px 40px 41px; position: sticky; transition: all 0.4s ease 0s; width: 100px; }.a7-1 { background-color: yellow; }"
         ]
       ]);
@@ -1513,12 +1381,18 @@ group('@amaui/style/amaui-style-rule-property', () => {
       // Update value
       amauiStyleRuleProperty1.update(1114);
 
+      // Update rule values
+      amauiStyleRuleProperty.owner.updateValues();
+
       response.push(
         amauiStyleSheetManager.css
       );
 
       // Remove value
       amauiStyleRuleProperty1.remove();
+
+      // Update rule values
+      amauiStyleRuleProperty.owner.updateValues();
 
       response.push(
         amauiStyleSheetManager.css
@@ -1527,9 +1401,9 @@ group('@amaui/style/amaui-style-rule-property', () => {
       const valueNode = response;
 
       assert(valueNode).eql([
-        "\n\n.a-0 {\nbackground: #faa;\nfloat: left;\nmargin: 0 14px 4px 40px;\nmargin-left: 41px;\nmask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\nmask-origin: inherit;\nmask-position: 40% 74%;\nmax-width: 100px;\npadding: 40px;\npadding-left: 41px;\nposition: sticky;\ntransition: all .4s ease;\nwidth: 100px;\n}\n\n\n\n.a7-1 {\nbackground: orange;\nwidth: 11px;\n}\n\n",
-        "\n\n.a-0 {\nbackground: #faa;\nfloat: left;\nmargin: 0 14px 4px 40px;\nmargin-left: 41px;\nmask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\nmask-origin: inherit;\nmask-position: 40% 74%;\nmax-width: 100px;\npadding: 40px;\npadding-left: 41px;\nposition: sticky;\ntransition: all .4s ease;\nwidth: 100px;\n}\n\n\n\n.a7-1 {\nbackground: yellow;\nwidth: 1114px;\n}\n\n",
-        "\n\n.a-0 {\nbackground: #faa;\nfloat: left;\nmargin: 0 14px 4px 40px;\nmargin-left: 41px;\nmask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\nmask-origin: inherit;\nmask-position: 40% 74%;\nmax-width: 100px;\npadding: 40px;\npadding-left: 41px;\nposition: sticky;\ntransition: all .4s ease;\nwidth: 100px;\n}\n\n\n\n.a7-1 {\nbackground: yellow;\n}\n\n"
+        "\n\n.a-0 {\n  background: #faa;\n  float: left;\n  margin: 0 14px 4px 40px;\n  margin-left: 41px;\n  mask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\n  mask-origin: inherit;\n  mask-position: 40% 74%;\n  max-width: 100px;\n  padding: 40px;\n  padding-left: 41px;\n  position: sticky;\n  transition: all .4s ease;\n  width: 100px;\n}\n\n\n\n.a7-1 {\n  background: orange;\n  width: 11px;\n}\n\n",
+        "\n\n.a-0 {\n  background: #faa;\n  float: left;\n  margin: 0 14px 4px 40px;\n  margin-left: 41px;\n  mask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\n  mask-origin: inherit;\n  mask-position: 40% 74%;\n  max-width: 100px;\n  padding: 40px;\n  padding-left: 41px;\n  position: sticky;\n  transition: all .4s ease;\n  width: 100px;\n}\n\n\n\n.a7-1 {\n  background: yellow;\n  width: 1114px;\n}\n\n",
+        "\n\n.a-0 {\n  background: #faa;\n  float: left;\n  margin: 0 14px 4px 40px;\n  margin-left: 41px;\n  mask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\n  mask-origin: inherit;\n  mask-position: 40% 74%;\n  max-width: 100px;\n  padding: 40px;\n  padding-left: 41px;\n  position: sticky;\n  transition: all .4s ease;\n  width: 100px;\n}\n\n\n\n.a7-1 {\n  background: yellow;\n}\n\n"
       ]);
     });
 

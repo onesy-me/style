@@ -309,7 +309,7 @@ function reset(
   if (!is('object', value)) value = {};
 
   // Default
-  const valueDefault = { ...normalize, ...resetDefault };
+  const valueDefault = merge(resetDefault, normalize, { copy: true });
 
   // Add reset defaults
   // user provided values override reset default values
@@ -317,7 +317,7 @@ function reset(
     ...valueDefault,
     ...value,
   };
-  else value = { ...valueDefault, ...value };
+  else value = merge(value, valueDefault, { copy: true });
 
   // Make an instance of amauiStyleSheetManager
   const amauiStyleSheetManager = new AmauiStyleSheetManager(value, 'regular', true, 'lower', amauiTheme, amauiStyle, { style: { attributes: { method: 'reset' } }, optimize: options.optimize });

@@ -168,7 +168,7 @@ group('@amaui/style/css', () => {
 
     assert(files.css).eq(files.css1);
 
-    assert(files.css1).eq(`.a-0{background:#faa;float:left;margin:0 14px 4px 40px;margin-left:41px;mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);mask-origin:inherit;mask-position:40% 74%;max-width:100px;padding:40px;padding-left:41px;position:sticky;transition:all .4s ease;width:100px}`);
+    assert(files.css1).eq(`.a-0{ background:#faa;  float:left;  margin:0 14px 4px 40px;  margin-left:41px;  mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);  mask-origin:inherit;  mask-position:40% 74%;  max-width:100px;  padding:40px;  padding-left:41px;  position:sticky;  transition:all .4s ease;  width:100px}`);
   });
 
   group('options', () => {
@@ -240,7 +240,7 @@ group('@amaui/style/css', () => {
           css: await AmauiNode.file.get(path.resolve('./test/folders/css/style.css'), false),
         };
 
-        assert(files.css).eq(`.a-0{background:#faa;float:left;margin:0 14px 4px 40px;margin-left:41px;mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);mask-origin:inherit;mask-position:40% 74%;max-width:100px;padding:40px;padding-left:41px;position:sticky;transition:all .4s ease;width:100px}`);
+        assert(files.css).eq(`.a-0{ background:#faa;  float:left;  margin:0 14px 4px 40px;  margin-left:41px;  mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);  mask-origin:inherit;  mask-position:40% 74%;  max-width:100px;  padding:40px;  padding-left:41px;  position:sticky;  transition:all .4s ease;  width:100px}`);
       });
 
       to('atomic', async () => {
@@ -308,7 +308,7 @@ group('@amaui/style/css', () => {
           css: await AmauiNode.file.get(path.resolve('./test/folders/css/style.css'), false),
         };
 
-        assert(files.css).eq(`.aa-0{width:100px}.ab-0{max-width:100px}.ac-0{background:#faa}.ad-0{margin:0 14px 4px 40px}.ae-0{margin-left:41px}.af-0{float:left}.ag-0{padding-left:41px}.ah-0{padding:40px}.ai-0{position:sticky}.aj-0{transition:all .4s ease}.ak-0{mask-origin:inherit}.al-0{mask-image:linear-gradient(rgba(0,0,0,1.0),transparent)}.am-0{mask-position:40% 74%}`);
+        assert(files.css).eq(`.aa-1{ width:100px}.ab-2{ max-width:100px}.ac-3{ background:#faa}.ad-4{ margin:0 14px 4px 40px}.ae-5{ margin-left:41px}.af-6{ float:left}.ag-7{ padding-left:41px}.ah-8{ padding:40px}.ai-9{ position:sticky}.aj-10{ transition:all .4s ease}.ak-11{ mask-origin:inherit}.al-12{ mask-image:linear-gradient(rgba(0,0,0,1.0),transparent)}.am-13{ mask-position:40% 74%}`);
       });
 
     });
@@ -377,7 +377,7 @@ group('@amaui/style/css', () => {
         css: await AmauiNode.file.get(path.resolve('./test/folders/css/style.css'), false),
       };
 
-      assert(files.css).eq(`a{background:#faa;float:left;margin:0 14px 4px 40px;margin-left:41px;mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);mask-origin:inherit;mask-position:40% 74%;max-width:100px;padding:40px;padding-left:41px;position:sticky;transition:all .4s ease;width:100px}`);
+      assert(files.css).eq(`a{ background:#faa;  float:left;  margin:0 14px 4px 40px;  margin-left:41px;  mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);  mask-origin:inherit;  mask-position:40% 74%;  max-width:100px;  padding:40px;  padding-left:41px;  position:sticky;  transition:all .4s ease;  width:100px}`);
     });
 
     to('reset', async () => {
@@ -444,7 +444,7 @@ group('@amaui/style/css', () => {
         css: await AmauiNode.file.get(path.resolve('./test/folders/css/style.css'), false),
       };
 
-      assert(files.css).eq(`a{background:#faa;background-color:transparent;cursor:pointer;float:left;margin:0 14px 4px 40px;margin-left:41px;mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);mask-origin:inherit;mask-position:40% 74%;max-width:100px;padding:40px;padding-left:41px;position:sticky;text-decoration:none;transition:all .4s ease;width:100px}*{margin:0px;padding:0px;border:0px;outline:none;font-size:100%;background:transparent;box-sizing:border-box;touch-action:manipulation}body{font-size:14px;font-family:Roboto,Helvetica,"Helvetica Neue",-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol",sans-serif;font-weight:normal;font-style:normal;position:relative;overflow-x:hidden;background-color:#fff}img,embed,object,video{max-width:100%;height:auto}form{width:100%}span{word-wrap:break-word}hr{height:1px;background:#ddd;width:100%;margin:24px 0;box-sizing:content-box;overflow:visible}pre,code,kbd,samp{font-family:Roboto Mono,monospace}:focus{outline:none}html{-webkit-text-size-adjust:100%}main{display:block}h1{font-size:2em;margin:0.67em 0}pre{font-family:monospace,monospace;font-size:1em}abbr[title]{border-bottom:none;text-decoration:underline dotted;text-decoration:underline}b,strong{font-weight:bolder}code,kbd,samp{font-family:monospace,monospace;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;position:relative;vertical-align:baseline}sub{bottom:-0.25em}sup{top:-0.5em}img{border-style:none}button,input,optgroup,select,textarea{font-family:inherit;font-size:100%;margin:0px}button,input{overflow:visible}button,select{text-transform:none}button,[type="button"],[type="reset"],[type="submit"]{-webkit-appearance:button}button::-moz-focus-inner,[type="button"]::-moz-focus-inner,[type="reset"]::-moz-focus-inner,[type="submit"]::-moz-focus-inner{border-style:none;padding:0px}button:-moz-focusring,[type="button"]:-moz-focusring,[type="reset"]:-moz-focusring,[type="submit"]:-moz-focusring{outline:1px dotted ButtonText}fieldset{padding:0.35em 0.75em 0.625em}legend{box-sizing:border-box;color:inherit;display:table;max-width:100%;padding:0px;white-space:normal}progress{vertical-align:baseline}textarea{overflow:auto}[type="checkbox"],[type="radio"]{box-sizing:border-box;padding:0px}[type="number"]::-webkit-inner-spin-button,[type="number"]::-webkit-outer-spin-button{height:auto}[type="search"]{-webkit-appearance:textfield;outline-offset:-2px}[type="search"]::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}details{display:block}summary{display:list-item}template{display:none}[hidden]{display:none}*[contenteditable]{user-select:text}code span{white-space:pre-wrap}`);
+      assert(files.css).eq(`a{ background:#faa;  background-color:transparent;  cursor:pointer;  float:left;  margin:0 14px 4px 40px;  margin-left:41px;  mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);  mask-origin:inherit;  mask-position:40% 74%;  max-width:100px;  padding:40px;  padding-left:41px;  position:sticky;  text-decoration:none;  transition:all .4s ease;  width:100px}*{ background:transparent;  border:0px;  box-sizing:border-box;  font-size:100%;  margin:0px;  outline:none;  padding:0px;  touch-action:manipulation}body{ background-color:#fff;  font-family:Roboto,Helvetica,"Helvetica Neue",-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol",sans-serif;  font-size:14px;  font-style:normal;  font-weight:normal;  overflow-x:hidden;  position:relative}img,embed,object,video{ height:auto;  max-width:100%}form{ width:100%}span{ word-wrap:break-word}hr{ background:#ddd;  box-sizing:content-box;  height:1px;  margin:24px 0;  overflow:visible;  width:100%}pre,code,kbd,samp{ font-family:Roboto Mono,monospace}:focus{ outline:none}html{ -webkit-text-size-adjust:100%}main{ display:block}h1{ font-size:2em;  margin:0.67em 0}pre{ font-family:monospace,monospace;  font-size:1em}abbr[title]{ border-bottom:none;  text-decoration:underline dotted;  text-decoration:underline}b,strong{ font-weight:bolder}code,kbd,samp{ font-family:monospace,monospace;  font-size:1em}small{ font-size:80%}sub,sup{ font-size:75%;  position:relative;  vertical-align:baseline}sub{ bottom:-0.25em}sup{ top:-0.5em}img{ border-style:none}button,input,optgroup,select,textarea{ font-family:inherit;  font-size:100%;  margin:0px}button,input{ overflow:visible}button,select{ text-transform:none}button,[type="button"],[type="reset"],[type="submit"]{ -webkit-appearance:button}button::-moz-focus-inner,[type="button"]::-moz-focus-inner,[type="reset"]::-moz-focus-inner,[type="submit"]::-moz-focus-inner{ border-style:none;  padding:0px}button:-moz-focusring,[type="button"]:-moz-focusring,[type="reset"]:-moz-focusring,[type="submit"]:-moz-focusring{ outline:1px dotted ButtonText}fieldset{ padding:0.35em 0.75em 0.625em}legend{ box-sizing:border-box;  color:inherit;  display:table;  max-width:100%;  padding:0px;  white-space:normal}progress{ vertical-align:baseline}textarea{ overflow:auto}[type="checkbox"],[type="radio"]{ box-sizing:border-box;  padding:0px}[type="number"]::-webkit-inner-spin-button,[type="number"]::-webkit-outer-spin-button{ height:auto}[type="search"]{ -webkit-appearance:textfield;  outline-offset:-2px}[type="search"]::-webkit-search-decoration{ -webkit-appearance:none}::-webkit-file-upload-button{ -webkit-appearance:button;  font:inherit}details{ display:block}summary{ display:list-item}template{ display:none}[hidden]{ display:none}*[contenteditable]{ user-select:text}code span{ white-space:pre-wrap}`);
     });
 
     group('resetProps', () => {
@@ -516,7 +516,7 @@ group('@amaui/style/css', () => {
           css: await AmauiNode.file.get(path.resolve('./test/folders/css/style.css'), false),
         };
 
-        assert(files.css).eq(`*{margin:0px;padding:0px;border:0px;outline:none;font-size:100%;background:transparent;box-sizing:border-box;touch-action:manipulation}body{font-size:14px;font-family:Roboto,Helvetica,"Helvetica Neue",-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol",sans-serif;font-weight:normal;font-style:normal;position:relative;overflow-x:hidden;background-color:#fff}img,embed,object,video{max-width:100%;height:auto}a{width:100px;max-width:100px;background:#faa;margin:0 14px 4px 40px;margin-left:41px;float:left;padding-left:41px;padding:40px;position:sticky;transition:all .4s ease;mask-origin:inherit;mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);mask-position:40% 74%}form{width:100%}span{word-wrap:break-word}hr{height:1px;background:#ddd;width:100%;margin:24px 0;box-sizing:content-box;overflow:visible}pre,code,kbd,samp{font-family:Roboto Mono,monospace}:focus{outline:none}html{-webkit-text-size-adjust:100%}main{display:block}h1{font-size:2em;margin:0.67em 0}pre{font-family:monospace,monospace;font-size:1em}abbr[title]{border-bottom:none;text-decoration:underline dotted;text-decoration:underline}b,strong{font-weight:bolder}code,kbd,samp{font-family:monospace,monospace;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;position:relative;vertical-align:baseline}sub{bottom:-0.25em}sup{top:-0.5em}img{border-style:none}button,input,optgroup,select,textarea{font-family:inherit;font-size:100%;margin:0px}button,input{overflow:visible}button,select{text-transform:none}button,[type="button"],[type="reset"],[type="submit"]{-webkit-appearance:button}button::-moz-focus-inner,[type="button"]::-moz-focus-inner,[type="reset"]::-moz-focus-inner,[type="submit"]::-moz-focus-inner{border-style:none;padding:0px}button:-moz-focusring,[type="button"]:-moz-focusring,[type="reset"]:-moz-focusring,[type="submit"]:-moz-focusring{outline:1px dotted ButtonText}fieldset{padding:0.35em 0.75em 0.625em}legend{box-sizing:border-box;color:inherit;display:table;max-width:100%;padding:0px;white-space:normal}progress{vertical-align:baseline}textarea{overflow:auto}[type="checkbox"],[type="radio"]{box-sizing:border-box;padding:0px}[type="number"]::-webkit-inner-spin-button,[type="number"]::-webkit-outer-spin-button{height:auto}[type="search"]{-webkit-appearance:textfield;outline-offset:-2px}[type="search"]::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}details{display:block}summary{display:list-item}template{display:none}[hidden]{display:none}*[contenteditable]{user-select:text}code span{white-space:pre-wrap}`);
+        assert(files.css).eq(`*{ background:transparent;  border:0px;  box-sizing:border-box;  font-size:100%;  margin:0px;  outline:none;  padding:0px;  touch-action:manipulation}body{ background-color:#fff;  font-family:Roboto,Helvetica,"Helvetica Neue",-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol",sans-serif;  font-size:14px;  font-style:normal;  font-weight:normal;  overflow-x:hidden;  position:relative}img,embed,object,video{ height:auto;  max-width:100%}a{ background:#faa;  float:left;  margin:0 14px 4px 40px;  margin-left:41px;  mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);  mask-origin:inherit;  mask-position:40% 74%;  max-width:100px;  padding:40px;  padding-left:41px;  position:sticky;  transition:all .4s ease;  width:100px}form{ width:100%}span{ word-wrap:break-word}hr{ background:#ddd;  box-sizing:content-box;  height:1px;  margin:24px 0;  overflow:visible;  width:100%}pre,code,kbd,samp{ font-family:Roboto Mono,monospace}:focus{ outline:none}html{ -webkit-text-size-adjust:100%}main{ display:block}h1{ font-size:2em;  margin:0.67em 0}pre{ font-family:monospace,monospace;  font-size:1em}abbr[title]{ border-bottom:none;  text-decoration:underline dotted;  text-decoration:underline}b,strong{ font-weight:bolder}code,kbd,samp{ font-family:monospace,monospace;  font-size:1em}small{ font-size:80%}sub,sup{ font-size:75%;  position:relative;  vertical-align:baseline}sub{ bottom:-0.25em}sup{ top:-0.5em}img{ border-style:none}button,input,optgroup,select,textarea{ font-family:inherit;  font-size:100%;  margin:0px}button,input{ overflow:visible}button,select{ text-transform:none}button,[type="button"],[type="reset"],[type="submit"]{ -webkit-appearance:button}button::-moz-focus-inner,[type="button"]::-moz-focus-inner,[type="reset"]::-moz-focus-inner,[type="submit"]::-moz-focus-inner{ border-style:none;  padding:0px}button:-moz-focusring,[type="button"]:-moz-focusring,[type="reset"]:-moz-focusring,[type="submit"]:-moz-focusring{ outline:1px dotted ButtonText}fieldset{ padding:0.35em 0.75em 0.625em}legend{ box-sizing:border-box;  color:inherit;  display:table;  max-width:100%;  padding:0px;  white-space:normal}progress{ vertical-align:baseline}textarea{ overflow:auto}[type="checkbox"],[type="radio"]{ box-sizing:border-box;  padding:0px}[type="number"]::-webkit-inner-spin-button,[type="number"]::-webkit-outer-spin-button{ height:auto}[type="search"]{ -webkit-appearance:textfield;  outline-offset:-2px}[type="search"]::-webkit-search-decoration{ -webkit-appearance:none}::-webkit-file-upload-button{ -webkit-appearance:button;  font:inherit}details{ display:block}summary{ display:list-item}template{ display:none}[hidden]{ display:none}*[contenteditable]{ user-select:text}code span{ white-space:pre-wrap}`);
       });
 
     });
@@ -589,7 +589,7 @@ group('@amaui/style/css', () => {
             css: await AmauiNode.file.get(path.resolve('./test/folders/css/a.css'), false),
           };
 
-          assert(files.css).eq(`.a-0{background:#faa;float:left;margin:0 14px 4px 40px;margin-left:41px;mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);mask-origin:inherit;mask-position:40% 74%;max-width:100px;padding:40px;padding-left:41px;position:sticky;transition:all .4s ease;width:100px}`);
+          assert(files.css).eq(`.a-0{ background:#faa;  float:left;  margin:0 14px 4px 40px;  margin-left:41px;  mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);  mask-origin:inherit;  mask-position:40% 74%;  max-width:100px;  padding:40px;  padding-left:41px;  position:sticky;  transition:all .4s ease;  width:100px}`);
         });
 
         to('hash', async () => {
@@ -653,10 +653,10 @@ group('@amaui/style/css', () => {
           await style.make();
 
           const files = {
-            css: await AmauiNode.file.get(path.resolve('./test/folders/css/style.51991f28dbee9286bc7354edf8fb9ac9235efc13fdfc140e4b0400c3eef706c9.css'), false),
+            css: await AmauiNode.file.get(path.resolve('./test/folders/css/style.a2a1e199ecef63186aabd6fef54cb34c01c9597aff210207fa79bb9f4561dc62.css'), false),
           };
 
-          assert(files.css).eq(`.a-0{background:#faa;float:left;margin:0 14px 4px 40px;margin-left:41px;mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);mask-origin:inherit;mask-position:40% 74%;max-width:100px;padding:40px;padding-left:41px;position:sticky;transition:all .4s ease;width:100px}`);
+          assert(files.css).eq(`.a-0{ background:#faa;  float:left;  margin:0 14px 4px 40px;  margin-left:41px;  mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);  mask-origin:inherit;  mask-position:40% 74%;  max-width:100px;  padding:40px;  padding-left:41px;  position:sticky;  transition:all .4s ease;  width:100px}`);
         });
 
       });
@@ -728,7 +728,7 @@ group('@amaui/style/css', () => {
 
         assert(files.css).eq(files.css1);
 
-        assert(files.css1).eq(`.a-0{background:#faa;float:left;margin:0 14px 4px 40px;margin-left:41px;mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);mask-origin:inherit;mask-position:40% 74%;max-width:100px;padding:40px;padding-left:41px;position:sticky;transition:all .4s ease;width:100px}`);
+        assert(files.css1).eq(`.a-0{ background:#faa;  float:left;  margin:0 14px 4px 40px;  margin-left:41px;  mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);  mask-origin:inherit;  mask-position:40% 74%;  max-width:100px;  padding:40px;  padding-left:41px;  position:sticky;  transition:all .4s ease;  width:100px}`);
       });
 
       group('clear', () => {
@@ -805,7 +805,7 @@ group('@amaui/style/css', () => {
             css: await AmauiNode.file.get(path.resolve('./test/folders/css/style.css'), false),
           };
 
-          assert(files.css).eq(`.a-0{background:#faa;float:left;margin:0 14px 4px 40px;margin-left:41px;mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);mask-origin:inherit;mask-position:40% 74%;max-width:100px;padding:40px;padding-left:41px;position:sticky;transition:all .4s ease;width:100px}`);
+          assert(files.css).eq(`.a-0{ background:#faa;  float:left;  margin:0 14px 4px 40px;  margin-left:41px;  mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);  mask-origin:inherit;  mask-position:40% 74%;  max-width:100px;  padding:40px;  padding-left:41px;  position:sticky;  transition:all .4s ease;  width:100px}`);
 
           const allFiles = {
             css: (await fs.readdir(path.resolve('./test/folders/css'))),
@@ -883,7 +883,7 @@ group('@amaui/style/css', () => {
             css: await AmauiNode.file.get(path.resolve('./test/folders/css/style.css'), false),
           };
 
-          assert(files.css).eq(`.a-0{background:#faa;float:left;margin:0 14px 4px 40px;margin-left:41px;mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);mask-origin:inherit;mask-position:40% 74%;max-width:100px;padding:40px;padding-left:41px;position:sticky;transition:all .4s ease;width:100px}`);
+          assert(files.css).eq(`.a-0{ background:#faa;  float:left;  margin:0 14px 4px 40px;  margin-left:41px;  mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);  mask-origin:inherit;  mask-position:40% 74%;  max-width:100px;  padding:40px;  padding-left:41px;  position:sticky;  transition:all .4s ease;  width:100px}`);
 
           const allFiles = (await fs.readdir(path.resolve('./test/folders/css')));
 
@@ -959,7 +959,7 @@ group('@amaui/style/css', () => {
             css: await AmauiNode.file.get(path.resolve('./test/folders/css/style.css'), false),
           };
 
-          assert(files.css).eq(`.a-0{background:#faa;float:left;margin:0 14px 4px 40px;margin-left:41px;mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);mask-origin:inherit;mask-position:40% 74%;max-width:100px;padding:40px;padding-left:41px;position:sticky;transition:all .4s ease;width:100px}`);
+          assert(files.css).eq(`.a-0{ background:#faa;  float:left;  margin:0 14px 4px 40px;  margin-left:41px;  mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);  mask-origin:inherit;  mask-position:40% 74%;  max-width:100px;  padding:40px;  padding-left:41px;  position:sticky;  transition:all .4s ease;  width:100px}`);
         });
 
         to('false', async () => {
@@ -1030,19 +1030,19 @@ group('@amaui/style/css', () => {
           assert(files.css).eq(`
 
 .a-0 {
-background: #faa;
-float: left;
-margin: 0 14px 4px 40px;
-margin-left: 41px;
-mask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);
-mask-origin: inherit;
-mask-position: 40% 74%;
-max-width: 100px;
-padding: 40px;
-padding-left: 41px;
-position: sticky;
-transition: all .4s ease;
-width: 100px;
+  background: #faa;
+  float: left;
+  margin: 0 14px 4px 40px;
+  margin-left: 41px;
+  mask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);
+  mask-origin: inherit;
+  mask-position: 40% 74%;
+  max-width: 100px;
+  padding: 40px;
+  padding-left: 41px;
+  position: sticky;
+  transition: all .4s ease;
+  width: 100px;
 }
 
 `);
@@ -1120,12 +1120,12 @@ width: 100px;
         await style.make();
 
         const files = {
-          css: await AmauiNode.file.get(path.resolve('./test/folders/css/style.51991f28dbee9286bc7354edf8fb9ac9235efc13fdfc140e4b0400c3eef706c9.css'), false),
+          css: await AmauiNode.file.get(path.resolve('./test/folders/css/style.a2a1e199ecef63186aabd6fef54cb34c01c9597aff210207fa79bb9f4561dc62.css'), false),
           index: await AmauiNode.file.get(path.resolve('./test/folders/html/index.html'), false),
           about: await AmauiNode.file.get(path.resolve('./test/folders/html/about.html'), false),
         };
 
-        assert(files.css).eq(`.a-0{background:#faa;float:left;margin:0 14px 4px 40px;margin-left:41px;mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);mask-origin:inherit;mask-position:40% 74%;max-width:100px;padding:40px;padding-left:41px;position:sticky;transition:all .4s ease;width:100px}`);
+        assert(files.css).eq(`.a-0{ background:#faa;  float:left;  margin:0 14px 4px 40px;  margin-left:41px;  mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);  mask-origin:inherit;  mask-position:40% 74%;  max-width:100px;  padding:40px;  padding-left:41px;  position:sticky;  transition:all .4s ease;  width:100px}`);
 
         assert(files.index).eq(`<!DOCTYPE html>
 <html lang="en">
@@ -1134,7 +1134,7 @@ width: 100px;
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel='stylesheet' href='../css/style.51991f28dbee9286bc7354edf8fb9ac9235efc13fdfc140e4b0400c3eef706c9.css' data-amaui='true' />
+    <link rel='stylesheet' href='../css/style.a2a1e199ecef63186aabd6fef54cb34c01c9597aff210207fa79bb9f4561dc62.css' data-amaui='true' />
   </head>
 
   <body>
@@ -1150,7 +1150,7 @@ width: 100px;
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel='stylesheet' href='../css/style.51991f28dbee9286bc7354edf8fb9ac9235efc13fdfc140e4b0400c3eef706c9.css' data-amaui='true' />
+    <link rel='stylesheet' href='../css/style.a2a1e199ecef63186aabd6fef54cb34c01c9597aff210207fa79bb9f4561dc62.css' data-amaui='true' />
   </head>
 
   <body>
@@ -1233,12 +1233,12 @@ width: 100px;
         await style.make();
 
         const files = {
-          css: await AmauiNode.file.get(path.resolve('./test/folders/css/style.51991f28dbee9286bc7354edf8fb9ac9235efc13fdfc140e4b0400c3eef706c9.css'), false),
+          css: await AmauiNode.file.get(path.resolve('./test/folders/css/style.a2a1e199ecef63186aabd6fef54cb34c01c9597aff210207fa79bb9f4561dc62.css'), false),
           ad: await AmauiNode.file.get(path.resolve('./test/folders/html/ad.html'), false),
           ad1: await AmauiNode.file.get(path.resolve('./test/folders/html/ad1.html'), false),
         };
 
-        assert(files.css).eq(`.a-0{background:#faa;float:left;margin:0 14px 4px 40px;margin-left:41px;mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);mask-origin:inherit;mask-position:40% 74%;max-width:100px;padding:40px;padding-left:41px;position:sticky;transition:all .4s ease;width:100px}`);
+        assert(files.css).eq(`.a-0{ background:#faa;  float:left;  margin:0 14px 4px 40px;  margin-left:41px;  mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);  mask-origin:inherit;  mask-position:40% 74%;  max-width:100px;  padding:40px;  padding-left:41px;  position:sticky;  transition:all .4s ease;  width:100px}`);
 
         assert(files.ad).eq(`<!DOCTYPE html>
 <html lang="en">
@@ -1249,7 +1249,7 @@ width: 100px;
     <title>Document</title>
 
     <!-- a insert here -->
-    <link rel='stylesheet' href='../css/style.51991f28dbee9286bc7354edf8fb9ac9235efc13fdfc140e4b0400c3eef706c9.css' data-amaui='true' />
+    <link rel='stylesheet' href='../css/style.a2a1e199ecef63186aabd6fef54cb34c01c9597aff210207fa79bb9f4561dc62.css' data-amaui='true' />
   </head>
 
   <body>
@@ -1267,7 +1267,7 @@ width: 100px;
     <title>Document</title>
 
     <!-- a1 insert here -->
-    <link rel='stylesheet' href='../css/style.51991f28dbee9286bc7354edf8fb9ac9235efc13fdfc140e4b0400c3eef706c9.css' data-amaui='true' />
+    <link rel='stylesheet' href='../css/style.a2a1e199ecef63186aabd6fef54cb34c01c9597aff210207fa79bb9f4561dc62.css' data-amaui='true' />
   </head>
 
   <body>
@@ -1344,11 +1344,11 @@ width: 100px;
           await style.make();
 
           const files = {
-            css: await AmauiNode.file.get(path.resolve('./test/folders/css/style.51991f28dbee9286bc7354edf8fb9ac9235efc13fdfc140e4b0400c3eef706c9.css'), false),
+            css: await AmauiNode.file.get(path.resolve('./test/folders/css/style.a2a1e199ecef63186aabd6fef54cb34c01c9597aff210207fa79bb9f4561dc62.css'), false),
             about: await AmauiNode.file.get(path.resolve('./test/folders/html/about.html'), false),
           };
 
-          assert(files.css).eq(`.a-0{background:#faa;float:left;margin:0 14px 4px 40px;margin-left:41px;mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);mask-origin:inherit;mask-position:40% 74%;max-width:100px;padding:40px;padding-left:41px;position:sticky;transition:all .4s ease;width:100px}`);
+          assert(files.css).eq(`.a-0{ background:#faa;  float:left;  margin:0 14px 4px 40px;  margin-left:41px;  mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);  mask-origin:inherit;  mask-position:40% 74%;  max-width:100px;  padding:40px;  padding-left:41px;  position:sticky;  transition:all .4s ease;  width:100px}`);
 
           assert(files.about).eq(`<!DOCTYPE html>
 <html lang="en">
@@ -1357,7 +1357,7 @@ width: 100px;
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel='stylesheet' href='../css/style.51991f28dbee9286bc7354edf8fb9ac9235efc13fdfc140e4b0400c3eef706c9.css' data-amaui='true' />
+    <link rel='stylesheet' href='../css/style.a2a1e199ecef63186aabd6fef54cb34c01c9597aff210207fa79bb9f4561dc62.css' data-amaui='true' />
   </head>
 
   <body>
@@ -1432,11 +1432,11 @@ width: 100px;
           await style.make();
 
           const files = {
-            css: await AmauiNode.file.get(path.resolve('./test/folders/css/style.51991f28dbee9286bc7354edf8fb9ac9235efc13fdfc140e4b0400c3eef706c9.css'), false),
+            css: await AmauiNode.file.get(path.resolve('./test/folders/css/style.a2a1e199ecef63186aabd6fef54cb34c01c9597aff210207fa79bb9f4561dc62.css'), false),
             about: await AmauiNode.file.get(path.resolve('./test/folders/html/about.html'), false),
           };
 
-          assert(files.css).eq(`.a-0{background:#faa;float:left;margin:0 14px 4px 40px;margin-left:41px;mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);mask-origin:inherit;mask-position:40% 74%;max-width:100px;padding:40px;padding-left:41px;position:sticky;transition:all .4s ease;width:100px}`);
+          assert(files.css).eq(`.a-0{ background:#faa;  float:left;  margin:0 14px 4px 40px;  margin-left:41px;  mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);  mask-origin:inherit;  mask-position:40% 74%;  max-width:100px;  padding:40px;  padding-left:41px;  position:sticky;  transition:all .4s ease;  width:100px}`);
 
           assert(files.about).eq(`<!DOCTYPE html>
 <html lang="en">
@@ -1523,11 +1523,11 @@ width: 100px;
         await style.make();
 
         const files = {
-          css: await AmauiNode.file.get(path.resolve('./test/folders/css/style.51991f28dbee9286bc7354edf8fb9ac9235efc13fdfc140e4b0400c3eef706c9.css'), false),
+          css: await AmauiNode.file.get(path.resolve('./test/folders/css/style.a2a1e199ecef63186aabd6fef54cb34c01c9597aff210207fa79bb9f4561dc62.css'), false),
           about: await AmauiNode.file.get(path.resolve('./test/folders/html/about.html'), false),
         };
 
-        assert(files.css).eq(`.a-0{background:#faa;float:left;margin:0 14px 4px 40px;margin-left:41px;mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);mask-origin:inherit;mask-position:40% 74%;max-width:100px;padding:40px;padding-left:41px;position:sticky;transition:all .4s ease;width:100px}`);
+        assert(files.css).eq(`.a-0{ background:#faa;  float:left;  margin:0 14px 4px 40px;  margin-left:41px;  mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);  mask-origin:inherit;  mask-position:40% 74%;  max-width:100px;  padding:40px;  padding-left:41px;  position:sticky;  transition:all .4s ease;  width:100px}`);
 
         assert((files.about as string).replace(/ /g, '')).eq(`<!DOCTYPE html>
 <html lang="en">
@@ -1536,11 +1536,11 @@ width: 100px;
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel='stylesheet' href='../css/style.51991f28dbee9286bc7354edf8fb9ac9235efc13fdfc140e4b0400c3eef706c9.css' data-amaui='true' />
+    <link rel='stylesheet' href='../css/style.a2a1e199ecef63186aabd6fef54cb34c01c9597aff210207fa79bb9f4561dc62.css' data-amaui='true' />
     <script>
       if (!window.amauiStyleNames) window.amauiStyleNames = {};
 
-      window.amauiStyleNames['51991f28dbee9286bc7354edf8fb9ac9235efc13fdfc140e4b0400c3eef706c9'] = {
+      window.amauiStyleNames['a2a1e199ecef63186aabd6fef54cb34c01c9597aff210207fa79bb9f4561dc62'] = {
       "classNames": {
             "a": "a-0"
       },
@@ -1632,7 +1632,7 @@ width: 100px;
           css: await AmauiNode.file.get(path.resolve('./test/folders/css/style.css'), false),
         };
 
-        assert(files.css).eq(`.a-0{background:#faa;float:left;margin:0 14px 4px 40px;margin-left:41px;mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);mask-origin:inherit;mask-position:40% 74%;max-width:100px;padding:40px;padding-left:41px;position:sticky;transition:all .4s ease;width:100px}`);
+        assert(files.css).eq(`.a-0{ background:#faa;  float:left;  margin:0 14px 4px 40px;  margin-left:41px;  mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);  mask-origin:inherit;  mask-position:40% 74%;  max-width:100px;  padding:40px;  padding-left:41px;  position:sticky;  transition:all .4s ease;  width:100px}`);
       });
 
       to('false', async () => {
@@ -1704,7 +1704,7 @@ width: 100px;
           css: await AmauiNode.file.get(path.resolve('./test/folders/css/style.css'), false),
         };
 
-        assert(files.css).eq(`.a-0{background:#faa;float:left;margin:0 14px 4px 40px;margin-left:41px;mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);mask-origin:inherit;mask-position:40% 74%;max-width:100px;padding:40px;padding-left:41px;position:sticky;transition:all .4s ease;width:100px}`);
+        assert(files.css).eq(`.a-0{ background:#faa;  float:left;  margin:0 14px 4px 40px;  margin-left:41px;  mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);  mask-origin:inherit;  mask-position:40% 74%;  max-width:100px;  padding:40px;  padding-left:41px;  position:sticky;  transition:all .4s ease;  width:100px}`);
       });
 
     });

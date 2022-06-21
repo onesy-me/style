@@ -100,26 +100,7 @@ group('@amaui/style/amaui-style-sheet-manager', () => {
         !amauiStyleSheetManager.pure,
         amauiStyleSheetManager.sheets.static.length === 1,
         amauiStyleSheetManager.sheets.dynamic.length === 0,
-        window.AmauiUtils.equalDeep(amauiStyleSheetManager.values, {
-          "css": "\n\n.a-0 {\nwidth: 100;\nmax-width: 100;\nbackground: #faa;\nmargin: 0 14px 4px 40px;\nmargin-left: 41;\nfloat: left;\npadding-left: 41;\npadding: 40;\nposition: sticky;\ntransition: all .4s ease;\nmask-origin: inherit;\nmask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\nmask-position: 40% 74%;\n}\n\n",
-          "json": {
-            ".a-0": {
-              "mask-position": "40% 74%",
-              "mask-image": "linear-gradient(rgba(0, 0, 0, 1.0), transparent)",
-              "mask-origin": "inherit",
-              "transition": "all .4s ease",
-              "position": "sticky",
-              "padding": 40,
-              "padding-left": 41,
-              "float": "left",
-              "margin-left": 41,
-              "margin": "0 14px 4px 40px",
-              "background": "#faa",
-              "max-width": 100,
-              "width": 100
-            }
-          }
-        })
+        window.AmauiUtils.equalDeep(amauiStyleSheetManager.values, { "css": amauiStyleSheetManager.css })
       ];
     });
 
@@ -212,26 +193,7 @@ group('@amaui/style/amaui-style-sheet-manager', () => {
       !amauiStyleSheetManager.pure,
       amauiStyleSheetManager.sheets.static.length === 1,
       amauiStyleSheetManager.sheets.dynamic.length === 0,
-      AmauiUtils.equalDeep(amauiStyleSheetManager.values, {
-        "css": "\n\n.a-0 {\nwidth: 100;\nmax-width: 100;\nbackground: #faa;\nmargin: 0 14px 4px 40px;\nmargin-left: 41;\nfloat: left;\npadding-left: 41;\npadding: 40;\nposition: sticky;\ntransition: all .4s ease;\nmask-origin: inherit;\nmask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\nmask-position: 40% 74%;\n}\n\n",
-        "json": {
-          ".a-0": {
-            "mask-position": "40% 74%",
-            "mask-image": "linear-gradient(rgba(0, 0, 0, 1.0), transparent)",
-            "mask-origin": "inherit",
-            "transition": "all .4s ease",
-            "position": "sticky",
-            "padding": 40,
-            "padding-left": 41,
-            "float": "left",
-            "margin-left": 41,
-            "margin": "0 14px 4px 40px",
-            "background": "#faa",
-            "max-width": 100,
-            "width": 100
-          }
-        }
-      })
+      AmauiUtils.equalDeep(amauiStyleSheetManager.values, { "css": amauiStyleSheetManager.css })
     ];
 
     const values = [valueNode, ...valueBrowsers];
@@ -349,8 +311,8 @@ group('@amaui/style/amaui-style-sheet-manager', () => {
       const values = [valueNode, ...valueBrowsers];
 
       values.forEach(value => assert(value).eql([
-        '\n.a-0 {\nwidth: 100;\nmax-width: 100;\nbackground: #faa;\nmargin: 0 14px 4px 40px;\nmargin-left: 41;\nfloat: left;\npadding-left: 41;\npadding: 40;\nposition: sticky;\ntransition: all .4s ease;\nmask-origin: inherit;\nmask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\nmask-position: 40% 74%;\n}\n',
-        '\n.a7-1 {\ncolor: yellow;\nbackground: orange;\n}\n'
+        '\n.a-0 {\n  width: 100;\n  max-width: 100;\n  background: #faa;\n  margin: 0 14px 4px 40px;\n  margin-left: 41;\n  float: left;\n  padding-left: 41;\n  padding: 40;\n  position: sticky;\n  transition: all .4s ease;\n  mask-origin: inherit;\n  mask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\n  mask-position: 40% 74%;\n}\n',
+        '\n.a7-1 {\n  color: yellow;\n  background: orange;\n}\n'
       ]));
     });
 
@@ -462,8 +424,8 @@ group('@amaui/style/amaui-style-sheet-manager', () => {
       const values = [valueNode, ...valueBrowsers];
 
       values.forEach(value => assert(value).eql([
-        '\n.aa-0 {\nwidth: 100;\n}\n\n.ab-1 {\nmax-width: 100;\n}\n\n.ac-2 {\nbackground: #faa;\n}\n\n.ad-3 {\nmargin: 0 14px 4px 40px;\n}\n\n.ae-4 {\nmargin-left: 41;\n}\n\n.af-5 {\nfloat: left;\n}\n\n.ag-6 {\npadding-left: 41;\n}\n\n.ah-7 {\npadding: 40;\n}\n\n.ai-8 {\nposition: sticky;\n}\n\n.aj-9 {\ntransition: all .4s ease;\n}\n\n.ak-10 {\nmask-origin: inherit;\n}\n\n.al-11 {\nmask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\n}\n\n.am-12 {\nmask-position: 40% 74%;\n}\n',
-        '\n.a7-17 {\n}\n\n.ao-15 {\ncolor: yellow;\n}\n\n.ap-16 {\nbackground: orange;\n}\n'
+        '\n.aa-1 {\n  width: 100;\n}\n\n.ab-2 {\n  max-width: 100;\n}\n\n.ac-3 {\n  background: #faa;\n}\n\n.ad-4 {\n  margin: 0 14px 4px 40px;\n}\n\n.ae-5 {\n  margin-left: 41;\n}\n\n.af-6 {\n  float: left;\n}\n\n.ag-7 {\n  padding-left: 41;\n}\n\n.ah-8 {\n  padding: 40;\n}\n\n.ai-9 {\n  position: sticky;\n}\n\n.aj-10 {\n  transition: all .4s ease;\n}\n\n.ak-11 {\n  mask-origin: inherit;\n}\n\n.al-12 {\n  mask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\n}\n\n.am-13 {\n  mask-position: 40% 74%;\n}\n',
+        '\n.a7-15 {\n}\n\n.ao-16 {\n  color: yellow;\n}\n\n.ap-17 {\n  background: orange;\n}\n'
       ]));
     });
 
@@ -934,24 +896,7 @@ group('@amaui/style/amaui-style-sheet-manager', () => {
     values.forEach(value => assert(value).eql([
       true,
       {
-        "css": "\n\n.a-0 {\nwidth: 100;\nmax-width: 100;\nbackground: #faa;\nmargin: 0 14px 4px 40px;\nmargin-left: 41;\nfloat: left;\npadding-left: 41;\npadding: 40;\nposition: sticky;\ntransition: all .4s ease;\nmask-origin: inherit;\nmask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\nmask-position: 40% 74%;\n}\n\n",
-        "json": {
-          ".a-0": {
-            "mask-position": "40% 74%",
-            "mask-image": "linear-gradient(rgba(0, 0, 0, 1.0), transparent)",
-            "mask-origin": "inherit",
-            "transition": "all .4s ease",
-            "position": "sticky",
-            "padding": 40,
-            "padding-left": 41,
-            "float": "left",
-            "margin-left": 41,
-            "margin": "0 14px 4px 40px",
-            "background": "#faa",
-            "max-width": 100,
-            "width": 100
-          }
-        }
+        "css": "\n\n.a-0 {\n  width: 100;\n  max-width: 100;\n  background: #faa;\n  margin: 0 14px 4px 40px;\n  margin-left: 41;\n  float: left;\n  padding-left: 41;\n  padding: 40;\n  position: sticky;\n  transition: all .4s ease;\n  mask-origin: inherit;\n  mask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\n  mask-position: 40% 74%;\n}\n\n"
       }
     ]));
   });
@@ -1050,24 +995,7 @@ group('@amaui/style/amaui-style-sheet-manager', () => {
       values.forEach(value => assert(value).eql([
         true,
         {
-          "css": "\n\n.a-0 {\nwidth: 100;\nmax-width: 100;\nbackground: #faa;\nmargin: 0 14px 4px 40px;\nmargin-left: 41;\nfloat: left;\npadding-left: 41;\npadding: 40;\nposition: sticky;\ntransition: all .4s ease;\nmask-origin: inherit;\nmask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\nmask-position: 40% 74%;\n}\n\n",
-          "json": {
-            ".a-0": {
-              "mask-position": "40% 74%",
-              "mask-image": "linear-gradient(rgba(0, 0, 0, 1.0), transparent)",
-              "mask-origin": "inherit",
-              "transition": "all .4s ease",
-              "position": "sticky",
-              "padding": 40,
-              "padding-left": 41,
-              "float": "left",
-              "margin-left": 41,
-              "margin": "0 14px 4px 40px",
-              "background": "#faa",
-              "max-width": 100,
-              "width": 100
-            }
-          }
+          "css": "\n\n.a-0 {\n  width: 100;\n  max-width: 100;\n  background: #faa;\n  margin: 0 14px 4px 40px;\n  margin-left: 41;\n  float: left;\n  padding-left: 41;\n  padding: 40;\n  position: sticky;\n  transition: all .4s ease;\n  mask-origin: inherit;\n  mask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\n  mask-position: 40% 74%;\n}\n\n"
         }
       ]));
     });
@@ -1114,7 +1042,7 @@ group('@amaui/style/amaui-style-sheet-manager', () => {
 
         const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(a, 'regular', false, 'upper', undefined, amauiStyle, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
-        return [AmauiUtils.equalDeep(amauiStyleSheetManager.values.css, amauiStyleSheetManager.css), amauiStyleSheetManager.css];
+        return [AmauiUtils.equalDeep(amauiStyleSheetManager.css, amauiStyleSheetManager.values.css), amauiStyleSheetManager.css];
       });
 
       const amauiStyle = new AmauiStyle.AmauiStyle();
@@ -1157,124 +1085,13 @@ group('@amaui/style/amaui-style-sheet-manager', () => {
 
       const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(a, 'regular', false, 'upper', undefined, amauiStyle, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
-      const valueNode = [AmauiUtils.equalDeep(amauiStyleSheetManager.values.css, amauiStyleSheetManager.css), amauiStyleSheetManager.css];
+      const valueNode = [AmauiUtils.equalDeep(amauiStyleSheetManager.css, amauiStyleSheetManager.values.css), amauiStyleSheetManager.css];
 
       const values = [valueNode, ...valueBrowsers];
 
       values.forEach(value => assert(value).eql([
         true,
-        "\n\n.a-0 {\nwidth: 100;\nmax-width: 100;\nbackground: #faa;\nmargin: 0 14px 4px 40px;\nmargin-left: 41;\nfloat: left;\npadding-left: 41;\npadding: 40;\nposition: sticky;\ntransition: all .4s ease;\nmask-origin: inherit;\nmask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\nmask-position: 40% 74%;\n}\n\n"
-      ]));
-    });
-
-    to('json', async () => {
-      const valueBrowsers = await evaluate((window: any) => {
-        const amauiStyle = new window.AmauiStyle.AmauiStyle();
-
-        const a: TValue = {
-          a: {
-            width: 100,
-
-            'max-width': 100,
-
-            // Simple
-            background: '#faa',
-
-            margin: '0 14px 4px 40px',
-
-            // rtl
-            marginLeft: 41,
-            float: 'left',
-
-            // sort
-            paddingLeft: 41,
-            padding: 40,
-
-            // prefixes
-            position: 'sticky',
-            transition: 'all .4s ease',
-            maskOrigin: 'inherit',
-            maskImage: 'linear-gradient(rgba(0, 0, 0, 1.0), transparent)',
-            maskPosition: '40% 74%',
-
-            // animation
-            animation: '$a .4s ease',
-          },
-
-          a7: {
-            // Function
-            background: props => props.a === 1 ? 'yellow' : 'orange',
-          },
-        };
-
-        const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(a, 'regular', false, 'upper', undefined, amauiStyle, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
-
-        return [AmauiUtils.equalDeep(amauiStyleSheetManager.values.json, amauiStyleSheetManager.json), amauiStyleSheetManager.json];
-      });
-
-      const amauiStyle = new AmauiStyle.AmauiStyle();
-
-      const a: TValue = {
-        a: {
-          width: 100,
-
-          'max-width': 100,
-
-          // Simple
-          background: '#faa',
-
-          margin: '0 14px 4px 40px',
-
-          // rtl
-          marginLeft: 41,
-          float: 'left',
-
-          // sort
-          paddingLeft: 41,
-          padding: 40,
-
-          // prefixes
-          position: 'sticky',
-          transition: 'all .4s ease',
-          maskOrigin: 'inherit',
-          maskImage: 'linear-gradient(rgba(0, 0, 0, 1.0), transparent)',
-          maskPosition: '40% 74%',
-
-          // animation
-          animation: '$a .4s ease',
-        },
-
-        a7: {
-          // Function
-          background: props => props.a === 1 ? 'yellow' : 'orange',
-        },
-      };
-
-      const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(a, 'regular', false, 'upper', undefined, amauiStyle, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
-
-      const valueNode = [AmauiUtils.equalDeep(amauiStyleSheetManager.values.json, amauiStyleSheetManager.json), amauiStyleSheetManager.json];
-
-      const values = [valueNode, ...valueBrowsers];
-
-      values.forEach(value => assert(value).eql([
-        true,
-        {
-          ".a-0": {
-            "mask-position": "40% 74%",
-            "mask-image": "linear-gradient(rgba(0, 0, 0, 1.0), transparent)",
-            "mask-origin": "inherit",
-            "transition": "all .4s ease",
-            "position": "sticky",
-            "padding": 40,
-            "padding-left": 41,
-            "float": "left",
-            "margin-left": 41,
-            "margin": "0 14px 4px 40px",
-            "background": "#faa",
-            "max-width": 100,
-            "width": 100
-          }
-        }
+        "\n\n.a-0 {\n  width: 100;\n  max-width: 100;\n  background: #faa;\n  margin: 0 14px 4px 40px;\n  margin-left: 41;\n  float: left;\n  padding-left: 41;\n  padding: 40;\n  position: sticky;\n  transition: all .4s ease;\n  mask-origin: inherit;\n  mask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\n  mask-position: 40% 74%;\n}\n\n"
       ]));
     });
 
@@ -1606,10 +1423,10 @@ group('@amaui/style/amaui-style-sheet-manager', () => {
 
     values.forEach(value => assert(value).eql([
       true,
-      "\n.a-0 {\nwidth: 100;\nmax-width: 100;\nbackground: #faa;\nmargin: 0 14px 4px 40px;\nmargin-left: 41;\nfloat: left;\npadding-left: 41;\npadding: 40;\nposition: sticky;\ntransition: all .4s ease;\nmask-origin: inherit;\nmask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\nmask-position: 40% 74%;\n}\n\n.a1-1 {\nwidth: 1114px;\n}\n",
-      "\n.a2-2 {\nwidth: 1114px;\n}\n\n.a7-3 {\ncolor: orange;\nwidth: 114px;\nbackground: orange;\n}\n",
-      "\n.a-0 {\ncolor: yellow;\nwidth: 114px;\n}\n\n.a3-4 {\ncolor: yellow;\nwidth: 114px;\n}\n",
-      "\n.a7-3 {\ncolor: yellow;\nbackground: orange;\nmax-width: 114px;\n}\n\n.a4-5 {\ncolor: beige;\nwidth: 1114px;\n}\n",
+      "\n.a-0 {\n  width: 100;\n  max-width: 100;\n  background: #faa;\n  margin: 0 14px 4px 40px;\n  margin-left: 41;\n  float: left;\n  padding-left: 41;\n  padding: 40;\n  position: sticky;\n  transition: all .4s ease;\n  mask-origin: inherit;\n  mask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\n  mask-position: 40% 74%;\n}\n\n.a1-1 {\n  width: 1114px;\n}\n",
+      "\n.a2-2 {\n  width: 1114px;\n}\n\n.a7-3 {\n  color: orange;\n  width: 114px;\n  background: orange;\n}\n",
+      "\n.a-0 {\n  color: yellow;\n  width: 114px;\n}\n\n.a3-4 {\n  color: yellow;\n  width: 114px;\n}\n",
+      "\n.a7-3 {\n  color: yellow;\n  background: orange;\n  max-width: 114px;\n}\n\n.a4-5 {\n  color: beige;\n  width: 1114px;\n}\n",
       {
         "classNames": {
           "a": "a-0",

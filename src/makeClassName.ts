@@ -41,44 +41,46 @@ function makeClassName(amauiStyle: AmauiStyle, options_: IOptions = {}) {
     return allClassNames.indexOf(value) === -1;
   };
 
-  const method = (method = makeNameMethodClassName) => (value_: { property: string; value: any; }): IMakeClassName => {
-    const value: IMakeClassName = {
-      arguments: {
-        value: value_,
-      },
-    };
-
+  const method = (method_ = makeNameMethodClassName) => {
     let inc = 0;
 
-    // Make a class name
-    // Production
-    if (production) {
-      value.value = method.next().value;
+    return (value_: { property: string; value: any; }): IMakeClassName => {
+      const value: IMakeClassName = {
+        arguments: {
+          value: value_,
+        },
+      };
 
-      while (true) {
-        if (
-          (options.dom?.unique && !domUnique(value.value))
-        ) {
-          value.value = method.next().value;
+      // Make a class name
+      // Production
+      if (production) {
+        value.value = method_.next().value;
+
+        while (true) {
+          if (
+            (options.dom?.unique && !domUnique(value.value))
+          ) {
+            value.value = method_.next().value;
+          }
+          else break;
         }
-        else break;
       }
-    }
-    // Development
-    else {
-      value.value = `${value_.property}-${inc}`;
+      // Development
+      else {
+        value.value = `${value_.property}-${inc++}`;
 
-      while (true) {
-        if (
-          (options.dom?.unique && !domUnique(value.value))
-        ) {
-          value.value = `${value_?.property}-${++inc}`;
+        while (true) {
+          if (
+            (options.dom?.unique && !domUnique(value.value))
+          ) {
+            value.value = `${value_?.property}-${++inc}`;
+          }
+          else break;
         }
-        else break;
       }
-    }
 
-    return value;
+      return value;
+    };
   };
 
   const methodClassName = method();
@@ -103,7 +105,7 @@ function makeClassName(amauiStyle: AmauiStyle, options_: IOptions = {}) {
 
   const response = {
     methods: {
-      method,
+      method: methodClassName,
     },
     remove,
   };

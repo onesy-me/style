@@ -15,8 +15,6 @@ interface IResponse {
   make: () => Promise<void>;
 }
 
-const env = getEnvironment();
-
 const optionsDefault: ICSSOptions = {
   mode: 'regular',
   amaui_style: {
@@ -43,9 +41,10 @@ const optionsDefault: ICSSOptions = {
     prefix: false,
     sort: true,
   },
-  optimize: true,
   log: true,
 };
+
+const env = getEnvironment();
 
 const getValuePaths = async (value: any, options: any = { onlyDirectories: true }) => {
   const wd = process.cwd();
@@ -93,7 +92,7 @@ function css(
     method = 'reset';
 
     // Default
-    const valueDefault = { ...resetDefault, ...normalize };
+    const valueDefault = merge(resetDefault, normalize);
 
     // Add reset defaults
     // user provided values override reset default values
@@ -101,7 +100,7 @@ function css(
       ...valueDefault,
       ...value_,
     };
-    else value_ = { ...value_, valueDefault };
+    else value_ = merge(value_, valueDefault);
   }
 
   // reset or pure update priority
@@ -110,7 +109,7 @@ function css(
   if (options.reset || options.pure) priority = 'lower';
 
   // Make an instance of amauiStyleSheetManager
-  const amauiStyleSheetManager = new AmauiStyleSheetManager(value_, options.mode, options.reset || options.pure, priority, amauiTheme, amauiStyle, { rule: options.rule, style: { attributes: { method } }, optimize: options.optimize });
+  const amauiStyleSheetManager = new AmauiStyleSheetManager(value_, options.mode, options.reset || options.pure, priority, amauiTheme, amauiStyle, { rule: options.rule, style: { attributes: { method } } });
 
   const responseManager: IMethodResponse = {
     ids: amauiStyleSheetManager.ids,

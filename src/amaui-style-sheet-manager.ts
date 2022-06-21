@@ -92,9 +92,6 @@ class AmauiStyleSheetManager {
       sheet.props = value.props;
     });
 
-    // Update values
-    this.updateValues();
-
     this.amauiStyle.subscriptions.sheet_manager.update_props.emit(this, value);
   }
 
@@ -112,14 +109,6 @@ class AmauiStyleSheetManager {
   }
 
   public get response(): IValuesVariant {
-    return this.values;
-  }
-
-  public get css(): string {
-    return this.response.css;
-  }
-
-  private updateValues() {
     // Response
     this.values.css = ``;
 
@@ -140,6 +129,12 @@ class AmauiStyleSheetManager {
         this.values.css += `\n${css}\n`;
       }
     });
+
+    return this.values;
+  }
+
+  public get css(): string {
+    return this.response.css;
   }
 
   private init() {
@@ -180,9 +175,6 @@ class AmauiStyleSheetManager {
     // Update names with methods
     names(this.names);
 
-    // Update values
-    this.updateValues();
-
     // Add to amauiStyle
     this.amauiStyle.sheet_managers.push(this);
 
@@ -198,7 +190,7 @@ class AmauiStyleSheetManager {
       },
     };
 
-    response = { ...response, ...this.names };
+    response = merge(response, this.names, { copy: true });
 
     const sheets = [
       ...this.sheets.static,
@@ -235,13 +227,10 @@ class AmauiStyleSheetManager {
       sheets.push(sheet);
 
       // Add dynamic names into the response
-      response = { ...response, ...sheet.names };
+      response = merge(response, sheet.names, { copy: true });
 
       // Add id to the response
       response.ids.dynamic.push(sheet.id);
-
-      // Update values
-      this.updateValues();
     }
 
     if (isEnvironment('browser')) {
@@ -289,9 +278,6 @@ class AmauiStyleSheetManager {
 
       // Dynamic
       if (!!variants.new.dynamic.length) this.sheets.dynamic.forEach(sheet => sheet.update(this.propertiesVariant('dynamic', variants_values)));
-
-      // Update values
-      this.updateValues();
     }
 
     const response: IResponse = {
@@ -343,13 +329,13 @@ class AmauiStyleSheetManager {
       });
 
       // @pure object
-      const pure = { ...(value['@pure'] || {}), ...(value['@p'] || {}) };
+      const pure = merge(value['@pure'] || {}, value['@p'] || {});
 
       Object.keys(pure).forEach(prop => {
         const isStatic = !dynamic(pure[prop]);
 
         pureValues[isStatic ? 'static' : 'dynamic'][prop] = {
-          ...{ ...(pureValues[isStatic ? 'static' : 'dynamic'][prop] || {}), ...pure[prop] },
+          ...(merge(pureValues[isStatic ? 'static' : 'dynamic'][prop] || {}, pure[prop])),
           '@pure': true,
         };
       });

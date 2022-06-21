@@ -57,7 +57,7 @@ function inline(
   // Go through all properties
   // make an AmauiStyleRuleProperty for each prop
   // and then make css string from each one
-  let response = options.response === 'css' ? '' : {};
+  let response: any = '';
 
   if (is('object', value)) {
     const properties = Object.keys(value);
@@ -96,15 +96,18 @@ function inline(
 
     // Make into json
     if (options.response === 'json') {
-      const values = (response as string).split(' ').filter(Boolean);
+      const values = (response as string).split(';').filter(Boolean);
 
       response = {};
 
       values.forEach(item => {
-        const [property, value__] = item.split(':').filter(Boolean);
+        let [property, value__] = item.split(':').filter(Boolean);
+
+        property = property?.trim();
+        value__ = value__?.trim();
 
         if (property && value__) {
-          response[options.response_json_property_variant === 'cammel' ? kebabCasetoCammelCase(property) : cammelCaseToKebabCase(property)] = value__.replace(/;/g, '');
+          response[options.response_json_property_variant === 'cammel' ? kebabCasetoCammelCase(property) : cammelCaseToKebabCase(property)] = value__;
         }
       });
     }

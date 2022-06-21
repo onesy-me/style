@@ -201,6 +201,210 @@ group('@amaui/style/amaui-style-sheet-manager', () => {
     values.forEach(value => assert(value).eql(new Array(22).fill(true)));
   });
 
+  group('amaui_style_cache', () => {
+
+    to('true', async () => {
+      const valueBrowsers = await evaluate((window: any) => {
+        const amauiStyle = new window.AmauiStyle.AmauiStyle();
+
+        const a = {
+          a: {
+            width: 100,
+
+            'max-width': 100,
+
+            // Simple
+            background: '#faa',
+
+            margin: '0 14px 4px 40px',
+
+            // rtl
+            marginLeft: 41,
+            float: 'left',
+
+            // sort
+            paddingLeft: 41,
+            padding: 40,
+
+            // prefixes
+            position: 'sticky',
+            transition: 'all .4s ease',
+            maskOrigin: 'inherit',
+            maskImage: 'linear-gradient(rgba(0, 0, 0, 1.0), transparent)',
+            maskPosition: '40% 74%',
+
+            // animation
+            animation: '$a .4s ease',
+          },
+
+          a7: {
+            color: 'yellow',
+
+            // Function
+            background: props => props.a === 1 ? 'yellow' : 'orange',
+          },
+        };
+
+        const amauiStyleSheetManager = new window.AmauiStyle.AmauiStyleSheetManager(a, 'regular', false, 'upper', undefined, amauiStyle, { style: { attributes: { method: 'style' } }, rule: { prefix: false }, amaui_style_cache: true });
+
+        amauiStyleSheetManager.add();
+
+        return amauiStyle.css;
+      });
+
+      const amauiStyle = new AmauiStyle.AmauiStyle();
+
+      const a: TValue = {
+        a: {
+          width: 100,
+
+          'max-width': 100,
+
+          // Simple
+          background: '#faa',
+
+          margin: '0 14px 4px 40px',
+
+          // rtl
+          marginLeft: 41,
+          float: 'left',
+
+          // sort
+          paddingLeft: 41,
+          padding: 40,
+
+          // prefixes
+          position: 'sticky',
+          transition: 'all .4s ease',
+          maskOrigin: 'inherit',
+          maskImage: 'linear-gradient(rgba(0, 0, 0, 1.0), transparent)',
+          maskPosition: '40% 74%',
+
+          // animation
+          animation: '$a .4s ease',
+        },
+
+        a7: {
+          color: 'yellow',
+
+          // Function
+          background: props => props.a === 1 ? 'yellow' : 'orange',
+        },
+      };
+
+      const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(a, 'regular', false, 'upper', undefined, amauiStyle, { style: { attributes: { method: 'style' } }, rule: { prefix: false }, amaui_style_cache: true });
+
+      amauiStyleSheetManager.add();
+
+      const valueNode = amauiStyle.css;
+
+      const values = [valueNode, ...valueBrowsers];
+
+      values.forEach(value => assert(value).eq('\n\n.a-0 {\n  width: 100;\n  max-width: 100;\n  background: #faa;\n  margin: 0 14px 4px 40px;\n  margin-left: 41;\n  float: left;\n  padding-left: 41;\n  padding: 40;\n  position: sticky;\n  transition: all .4s ease;\n  mask-origin: inherit;\n  mask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\n  mask-position: 40% 74%;\n}\n\n\n\n.a7-1 {\n  color: yellow;\n  background: orange;\n}\n\n'));
+    });
+
+    to('false', async () => {
+      const valueBrowsers = await evaluate((window: any) => {
+        const amauiStyle = new window.AmauiStyle.AmauiStyle();
+
+        const a = {
+          a: {
+            width: 100,
+
+            'max-width': 100,
+
+            // Simple
+            background: '#faa',
+
+            margin: '0 14px 4px 40px',
+
+            // rtl
+            marginLeft: 41,
+            float: 'left',
+
+            // sort
+            paddingLeft: 41,
+            padding: 40,
+
+            // prefixes
+            position: 'sticky',
+            transition: 'all .4s ease',
+            maskOrigin: 'inherit',
+            maskImage: 'linear-gradient(rgba(0, 0, 0, 1.0), transparent)',
+            maskPosition: '40% 74%',
+
+            // animation
+            animation: '$a .4s ease',
+          },
+
+          a7: {
+            color: 'yellow',
+
+            // Function
+            background: props => props.a === 1 ? 'yellow' : 'orange',
+          },
+        };
+
+        const amauiStyleSheetManager = new window.AmauiStyle.AmauiStyleSheetManager(a, 'regular', false, 'upper', undefined, amauiStyle, { style: { attributes: { method: 'style' } }, rule: { prefix: false }, amaui_style_cache: false });
+
+        amauiStyleSheetManager.add();
+
+        return amauiStyle.css;
+      });
+
+      const amauiStyle = new AmauiStyle.AmauiStyle();
+
+      const a: TValue = {
+        a: {
+          width: 100,
+
+          'max-width': 100,
+
+          // Simple
+          background: '#faa',
+
+          margin: '0 14px 4px 40px',
+
+          // rtl
+          marginLeft: 41,
+          float: 'left',
+
+          // sort
+          paddingLeft: 41,
+          padding: 40,
+
+          // prefixes
+          position: 'sticky',
+          transition: 'all .4s ease',
+          maskOrigin: 'inherit',
+          maskImage: 'linear-gradient(rgba(0, 0, 0, 1.0), transparent)',
+          maskPosition: '40% 74%',
+
+          // animation
+          animation: '$a .4s ease',
+        },
+
+        a7: {
+          color: 'yellow',
+
+          // Function
+          background: props => props.a === 1 ? 'yellow' : 'orange',
+        },
+      };
+
+      const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(a, 'regular', false, 'upper', undefined, amauiStyle, { style: { attributes: { method: 'style' } }, rule: { prefix: false }, amaui_style_cache: false });
+
+      amauiStyleSheetManager.add();
+
+      const valueNode = amauiStyle.css;
+
+      const values = [valueNode, ...valueBrowsers];
+
+      values.forEach(value => assert(value).eq(''));
+    });
+
+  });
+
   group('mode', () => {
 
     to('regular', async () => {

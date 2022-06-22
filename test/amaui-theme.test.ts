@@ -7709,7 +7709,8 @@ group('@amaui/style/amaui-theme', () => {
               main: '#f4f4da'
             }
           }
-        }
+        },
+        a: 114
       });
 
       delete amauiTheme.id;
@@ -7739,7 +7740,8 @@ group('@amaui/style/amaui-theme', () => {
             main: '#f4f4da'
           }
         }
-      }
+      },
+      a: 114
     });
 
     delete amauiTheme.id;
@@ -7765,10 +7767,18 @@ group('@amaui/style/amaui-theme', () => {
                   "main": "#f4f4da"
                 }
               }
-            }
+            },
+            "a": 114
           }
         ],
         {
+          "options": {
+            "rule": {
+              "sort": true,
+              "prefix": false,
+              "rtl": false
+            }
+          },
           "direction": "ltr",
           "preference": {
             "background": {
@@ -8496,13 +8506,7 @@ group('@amaui/style/amaui-theme', () => {
             "main": 1000,
             "text": 0
           },
-          "options": {
-            "rule": {
-              "sort": true,
-              "prefix": false,
-              "rtl": false
-            }
-          }
+          "a": 114
         }
       ],
       [
@@ -8515,17 +8519,11 @@ group('@amaui/style/amaui-theme', () => {
                   "main": "#f4f4da"
                 }
               }
-            }
+            },
+            "a": 114
           }
         ],
         {
-          "options": {
-            "rule": {
-              "sort": true,
-              "prefix": false,
-              "rtl": false
-            }
-          },
           "direction": "ltr",
           "preference": {
             "background": {
@@ -9252,7 +9250,15 @@ group('@amaui/style/amaui-theme', () => {
             "app_bar": 1100,
             "main": 1000,
             "text": 0
-          }
+          },
+          "options": {
+            "rule": {
+              "sort": true,
+              "prefix": false,
+              "rtl": false
+            }
+          },
+          "a": 114
         }
       ],
       [
@@ -9265,17 +9271,11 @@ group('@amaui/style/amaui-theme', () => {
                   "main": "#f4f4da"
                 }
               }
-            }
+            },
+            "a": 114
           }
         ],
         {
-          "options": {
-            "rule": {
-              "sort": true,
-              "prefix": false,
-              "rtl": false
-            }
-          },
           "direction": "ltr",
           "preference": {
             "background": {
@@ -10002,7 +10002,15 @@ group('@amaui/style/amaui-theme', () => {
             "app_bar": 1100,
             "main": 1000,
             "text": 0
-          }
+          },
+          "options": {
+            "rule": {
+              "sort": true,
+              "prefix": false,
+              "rtl": false
+            }
+          },
+          "a": 114
         }
       ],
       [
@@ -10015,17 +10023,11 @@ group('@amaui/style/amaui-theme', () => {
                   "main": "#f4f4da"
                 }
               }
-            }
+            },
+            "a": 114
           }
         ],
         {
-          "options": {
-            "rule": {
-              "sort": true,
-              "prefix": false,
-              "rtl": false
-            }
-          },
           "direction": "ltr",
           "preference": {
             "background": {
@@ -10752,7 +10754,15 @@ group('@amaui/style/amaui-theme', () => {
             "app_bar": 1100,
             "main": 1000,
             "text": 0
-          }
+          },
+          "options": {
+            "rule": {
+              "sort": true,
+              "prefix": false,
+              "rtl": false
+            }
+          },
+          "a": 114
         }
       ]
     ]);

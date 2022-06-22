@@ -317,6 +317,8 @@ export interface IAmauiTheme {
   transitions?: ITransitions;
 
   z_index?: IzIndex;
+
+  [p: string]: any;
 }
 
 const amauiThemeValueDefault: IAmauiTheme = {
@@ -776,7 +778,7 @@ class AmauiTheme {
   }
 
   public init(value_: IAmauiTheme | AmauiTheme = this) {
-    const { mode, preference, palette = {}, shape = {}, breakpoints = {}, space = {}, shadows = {}, typography = {}, transitions, z_index = {} } = value_ || {};
+    const { mode, preference, palette = {}, shape = {}, breakpoints = {}, space = {}, shadows = {}, typography = {}, transitions, z_index = {}, ...other } = value_ || {};
 
     const { light, color = {}, background = {}, text = {}, visual_contrast = {}, accessibility } = palette || {};
 
@@ -998,6 +1000,9 @@ class AmauiTheme {
 
     // zIndex
     if (is('object', z_index)) this.z_index = merge(z_index, this.z_index);
+
+    // Other
+    Object.keys(other).forEach(prop => this[prop] = other[prop]);
   }
 
   public async image(value_: string, other: any = {}) {

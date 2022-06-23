@@ -581,7 +581,9 @@ class AmauiStyleRule {
   }
 
   private addRuleToCss() {
-    if (!this.rule) {
+    // if !rule ref &
+    // if not a ref rule
+    if (!this.rule && !this.ref) {
       const css = this.css;
 
       if (css) {

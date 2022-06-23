@@ -92,9 +92,11 @@ class AmauiStyle {
       const css = sheet.css;
 
       if (css) {
-        this.values.css += `\n${css}\n`;
+        this.values.css += css;
       }
     });
+
+    if (this.values.css) this.values.css = `\n${this.values.css}\n`;
 
     return this.values;
   }

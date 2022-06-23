@@ -778,7 +778,7 @@ class AmauiTheme {
   }
 
   public init(value_: IAmauiTheme | AmauiTheme = this) {
-    const { mode, preference, palette = {}, shape = {}, breakpoints = {}, space = {}, shadows = {}, typography = {}, transitions, z_index = {}, ...other } = value_ || {};
+    const { mode, preference, palette = {}, shape = {}, breakpoints = {}, space = {}, shadows = {}, typography = {}, transitions, z_index = {}, id, subscriptions, methods, element, options, direction, ...other } = copy(value_ || {});
 
     const { light, color = {}, background = {}, text = {}, visual_contrast = {}, accessibility } = palette || {};
 

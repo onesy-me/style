@@ -300,7 +300,7 @@ group('@amaui/style/amaui-style-sheet-manager', () => {
 
       const values = [valueNode, ...valueBrowsers];
 
-      values.forEach(value => assert(value).eq('\n\n.a-0 {\n  width: 100;\n  max-width: 100;\n  background: #faa;\n  margin: 0 14px 4px 40px;\n  margin-left: 41;\n  float: left;\n  padding-left: 41;\n  padding: 40;\n  position: sticky;\n  transition: all .4s ease;\n  mask-origin: inherit;\n  mask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\n  mask-position: 40% 74%;\n}\n\n\n\n.a7-1 {\n  color: yellow;\n  background: orange;\n}\n\n'));
+      values.forEach(value => assert(value).eq('\n\n.a-0 {\n  width: 100;\n  max-width: 100;\n  background: #faa;\n  margin: 0 14px 4px 40px;\n  margin-left: 41;\n  float: left;\n  padding-left: 41;\n  padding: 40;\n  position: sticky;\n  transition: all .4s ease;\n  mask-origin: inherit;\n  mask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent);\n  mask-position: 40% 74%;\n}\n\n.a7-1 {\n  color: yellow;\n  background: orange;\n}\n\n'));
     });
 
     to('false', async () => {

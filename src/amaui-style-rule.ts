@@ -199,18 +199,19 @@ class AmauiStyleRule {
     ) this.values.css = '';
 
     // Hash
+    if (hash_) this.makeHash();
+  }
+
+  private makeHash() {
     if (
-      hash_ &&
       !this.hash &&
-      this.amauiStyleSheet.options.optimize &&
+      this.amauiStyleSheet.amauiStyle.options.optimize &&
       this.static &&
       this.amauiStyleSheet.variant === 'static' &&
       this.variant === 'property' &&
       !(this.isVariable && this.amauiStyleSheet.mode === 'atomic')
-    ) this.makeHash();
+    ) this.hash_ = hash(this.css.replace(/.+\{|\}.*$/g, ''));
   }
-
-  private makeHash() { this.hash_ = hash(this.css.replace(/.+\{|\}.*$/g, '')); }
 
   private init(value_?: any) {
     let value = value_ !== undefined ? value_ : this.value;

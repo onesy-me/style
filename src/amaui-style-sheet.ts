@@ -21,7 +21,6 @@ export interface IOptionsStyle {
 export interface IOptions {
   style?: IOptionsStyle;
   rule?: IOptionsRule;
-  optimize?: boolean;
 }
 
 const env = getEnvironment();

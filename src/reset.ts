@@ -14,8 +14,6 @@ export interface IOptions {
   amaui_theme?: IOptionsAmauiTheme;
 
   override?: boolean;
-
-  optimize?: boolean;
 }
 
 export const FONT_FAMILY = {
@@ -289,8 +287,7 @@ function reset(
     },
     amaui_theme: {
       get: AmauiTheme.first.bind(AmauiTheme),
-    },
-    optimize: true
+    }
   };
 
   const options = merge(options_, optionsDefault, { copy: true });
@@ -320,7 +317,7 @@ function reset(
   else value = merge(value, valueDefault, { copy: true });
 
   // Make an instance of amauiStyleSheetManager
-  const amauiStyleSheetManager = new AmauiStyleSheetManager(value, 'regular', true, 'lower', amauiTheme, amauiStyle, { style: { attributes: { method: 'reset' } }, optimize: options.optimize });
+  const amauiStyleSheetManager = new AmauiStyleSheetManager(value, 'regular', true, 'lower', amauiTheme, amauiStyle, { style: { attributes: { method: 'reset' } } });
 
   const response: IMethodResponse = {
     ids: amauiStyleSheetManager.ids,

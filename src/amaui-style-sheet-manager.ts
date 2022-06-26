@@ -19,7 +19,6 @@ interface IOptions {
   style?: IOptionsStyle;
   rule?: IOptionsRule;
   amaui_style_cache?: boolean;
-  optimize?: boolean;
 }
 
 const optionsDefault: IOptions = {

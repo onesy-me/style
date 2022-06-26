@@ -11,6 +11,8 @@ import { getID, is } from './utils';
 
 interface IOptions {
   rule?: IOptionsRule;
+
+  optimize?: boolean;
 }
 
 const optionsDefault: IOptions = {
@@ -19,6 +21,8 @@ const optionsDefault: IOptions = {
     prefix: false,
     rtl: false,
   },
+
+  optimize: true
 };
 
 class AmauiStyle {

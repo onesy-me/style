@@ -165,7 +165,8 @@ group('@amaui/style/amaui-style', () => {
           sort: true,
           prefix: false,
           rtl: true
-        }
+        },
+        optimize: true
       },
       true
     ]));
@@ -188,7 +189,8 @@ group('@amaui/style/amaui-style', () => {
           sort: true,
           prefix: false,
           rtl: false
-        }
+        },
+        optimize: true
       },
       true
     ]);

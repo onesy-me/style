@@ -18,8 +18,6 @@ export interface IOptions {
   add?: boolean;
 
   return?: 'ids' | 'classNames' | 'classes' | 'keyframes';
-
-  optimize?: boolean;
 }
 
 const optionsDefault: IOptions = {
@@ -29,8 +27,7 @@ const optionsDefault: IOptions = {
   },
   amaui_theme: {
     get: AmauiTheme.first.bind(AmauiTheme),
-  },
-  optimize: true
+  }
 };
 
 function style(
@@ -51,7 +48,7 @@ function style(
   const value = is('function', value_) ? Try(() => (value_ as TValueMethod)(amauiTheme)) : value_;
 
   // Make an instance of amauiStyleSheetManager
-  const amauiStyleSheetManager = new AmauiStyleSheetManager(value, options.mode, false, 'upper', amauiTheme, amauiStyle, { style: { attributes: { method: 'style' } }, optimize: options.optimize });
+  const amauiStyleSheetManager = new AmauiStyleSheetManager(value, options.mode, false, 'upper', amauiTheme, amauiStyle, { style: { attributes: { method: 'style' } } });
 
   const response: IMethodResponse = {
     ids: amauiStyleSheetManager.ids,

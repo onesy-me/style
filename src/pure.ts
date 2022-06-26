@@ -12,8 +12,6 @@ export interface IOptions {
   amaui_style?: IOptionsAmauiStyle;
 
   amaui_theme?: IOptionsAmauiTheme;
-
-  optimize?: boolean;
 }
 
 const optionsDefault: IOptions = {
@@ -22,8 +20,7 @@ const optionsDefault: IOptions = {
   },
   amaui_theme: {
     get: AmauiTheme.first.bind(AmauiTheme),
-  },
-  optimize: true
+  }
 };
 
 function pure(
@@ -44,7 +41,7 @@ function pure(
   const value = is('function', value_) ? Try(() => (value_ as TValueMethod)(amauiTheme)) : value_;
 
   // Make an instance of amauiStyleSheetManager
-  const amauiStyleSheetManager = new AmauiStyleSheetManager(value, 'regular', true, 'lower', amauiTheme, amauiStyle, { style: { attributes: { method: 'pure' } }, optimize: options.optimize });
+  const amauiStyleSheetManager = new AmauiStyleSheetManager(value, 'regular', true, 'lower', amauiTheme, amauiStyle, { style: { attributes: { method: 'pure' } } });
 
   const response: IMethodResponse = {
     ids: amauiStyleSheetManager.ids,

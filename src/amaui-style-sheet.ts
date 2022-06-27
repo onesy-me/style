@@ -89,7 +89,7 @@ class AmauiStyleSheet {
 
     if (!equalDeep(props, this.props)) update = true;
 
-    this.props_ = props;
+    this.props_ = copy(props);
 
     // Update if new props are set
     if (update) this.updateProps();

@@ -215,27 +215,35 @@ export interface IShadows {
   opacities?: Array<number>;
 }
 
+export type TTransitionsTimingFunctionProperties = 'standard' | 'emphasized' | 'decelerated' | 'accelerated';
+
+export interface ITransitionsTimingFunction {
+  standard?: string;
+  emphasized?: string;
+  decelerated?: string;
+  accelerated?: string;
+
+  [p: string]: string;
+}
+
+export type TTransitionsDurationProperties = 'smallest' | 'smaller' | 'small' | 'regular' | 'enter' | 'leave' | 'complex';
+
+export interface ITransitionsDuration {
+  smallest?: number;
+  smaller?: number;
+  small?: number;
+  regular?: number;
+  enter?: number;
+  leave?: number;
+  complex?: number;
+
+  [p: string]: number;
+}
+
 export interface ITransitions {
-  timing_function?: {
-    standard?: string;
-    emphasized?: string;
-    decelerated?: string;
-    accelerated?: string;
+  timing_function?: ITransitionsTimingFunction;
 
-    [p: string]: string;
-  };
-
-  duration?: {
-    smallest?: number;
-    smaller?: number;
-    small?: number;
-    regular?: number;
-    enter?: number;
-    leave?: number;
-    complex?: number;
-
-    [p: string]: number;
-  };
+  duration?: ITransitionsDuration;
 }
 
 export interface IzIndex {
@@ -752,11 +760,11 @@ class AmauiTheme {
     },
 
     transitions: {
-      make: (properties: string | Array<string>, options: { duration?: string | number; timing_function?: string; delay?: number; }) => {
+      make: (properties: string | Array<string>, options: { duration?: TTransitionsDurationProperties | number; timing_function?: TTransitionsTimingFunctionProperties; delay?: number; }) => {
         const props: any = is('array', properties) ? properties : [properties];
 
-        const duration = this.transitions.duration[options?.duration] || this.transitions.duration.regular;
-        const timing_function = this.transitions.timing_function[options?.timing_function] || this.transitions.timing_function.standard;
+        const duration = this.transitions.duration[options?.duration] || (is('number', options?.duration) && options?.duration) || this.transitions.duration.regular;
+        const timing_function = this.transitions.timing_function[options?.timing_function] || (is('string', options?.timing_function) && options?.timing_function) || this.transitions.timing_function.standard;
         const delay = options?.delay !== undefined ? options.delay : 0;
 
         return props.map(prop => `${prop} ${duration}ms ${timing_function} ${delay}ms`).join(', ');

@@ -1,6 +1,6 @@
 {
   "name": "@amaui/style",
-  "version": "1.0.11451",
+  "version": "1.0.11457",
   "description": "CSS in JS styling solution",
   "repository": "https://github.com/amaui-org/amaui-style.git",
   "author": "Lazar <lazareric.com@gmail.com>",
@@ -43,10 +43,10 @@
     "test": "yarn lint && yarn type && yarn build && yarn test:pre && yarn cov && yarn test:post"
   },
   "dependencies": {
-    "@amaui/meta": "^1.0.11111",
-    "@amaui/node": "^1.0.11111",
-    "@amaui/subscription": "^1.0.11114",
-    "@amaui/utils": "^1.0.11114",
+    "@amaui/meta": "^1.0.11114",
+    "@amaui/node": "^1.0.11114",
+    "@amaui/subscription": "^1.0.11117",
+    "@amaui/utils": "^1.0.11117",
     "@babel/runtime": "^7.18.3",
     "csstype": "^3.1.0",
     "fast-glob": "^3.2.11",

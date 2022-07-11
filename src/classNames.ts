@@ -1,7 +1,8 @@
 import { unique } from '@amaui/utils';
+
 import { is } from './utils';
 
-export function classNames(value?: any, prefix = '', array = false): string | Array<string> {
+export function classNames(value?: any, prefix = '', array = false): string {
   let classNameValues = [];
 
   const method = (item: any, prop?: any) => {
@@ -24,7 +25,7 @@ export function classNames(value?: any, prefix = '', array = false): string | Ar
 
   classNameValues = unique(classNameValues);
 
-  return array ? classNameValues : classNameValues.join(' ');
+  return array ? classNameValues as any : classNameValues.join(' ');
 }
 
 export default classNames;

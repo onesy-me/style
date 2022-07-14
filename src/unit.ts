@@ -226,7 +226,7 @@ function unit(amauiStyle: AmauiStyle, options_: IOptions = {}) {
       kebab: kebabCasetoCammelCase(value_.property),
     };
 
-    const method_ = item => is('function', item) ? item(value_.value) : { value: `${value_.value}${item}`, unit: item };
+    const method_ = item => is('function', item) ? item(value_.value) : { value: `${value_.value}${item || ''}`, unit: item || '' };
 
     const value: IUnit = {
       value: method_(units[property.cammel]) || method_(units[property.kebab]) || '',

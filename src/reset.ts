@@ -1,4 +1,5 @@
-import { merge, Try } from '@amaui/utils';
+import merge from '@amaui/utils/merge';
+import Try from '@amaui/utils/Try';
 
 import AmauiStyle from './amaui-style';
 import AmauiStyleSheetManager from './amaui-style-sheet-manager';

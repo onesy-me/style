@@ -1,4 +1,8 @@
-import { copy, element, isEnvironment, merge, Try } from '@amaui/utils';
+import copy from '@amaui/utils/copy';
+import element from '@amaui/utils/element';
+import isEnvironment from '@amaui/utils/isEnvironment';
+import merge from '@amaui/utils/merge';
+import Try from '@amaui/utils/Try';
 import { TMethod } from '@amaui/models';
 import AmauiSubscription from '@amaui/subscription';
 import AmauiMeta from '@amaui/meta';

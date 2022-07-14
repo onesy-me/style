@@ -1,5 +1,6 @@
-import AmauiSubscription from '@amaui/subscription';
 import type * as CSS from 'csstype';
+
+import AmauiSubscription from '@amaui/subscription';
 
 import AmauiStyle from './amaui-style';
 import AmauiStyleRule from './amaui-style-rule';

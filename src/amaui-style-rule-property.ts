@@ -1,4 +1,4 @@
-import { stringify, Try } from '@amaui/utils';
+import Try from '@amaui/utils/Try';
 import AmauiSubscription from '@amaui/subscription';
 
 import AmauiStyle from './amaui-style';

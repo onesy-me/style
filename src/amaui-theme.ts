@@ -1,4 +1,23 @@
-import { alpha, castParam, clamp, colorToRgb, copy, darken, element as elementMethod, emphasize, getContrastRatio, getLuminance, hexToRgb, hslToRgb, imageToPalette, isEnvironment, lighten, merge, rgbToHex, rgbToHsl, rgbToRgba, Try } from '@amaui/utils';
+import alpha from '@amaui/utils/alpha';
+import castParam from '@amaui/utils/castParam';
+import clamp from '@amaui/utils/clamp';
+import colorToRgb from '@amaui/utils/colorToRgb';
+import copy from '@amaui/utils/copy';
+import darken from '@amaui/utils/darken';
+import elementMethod from '@amaui/utils/element';
+import emphasize from '@amaui/utils/emphasize';
+import getContrastRatio from '@amaui/utils/getContrastRatio';
+import getLuminance from '@amaui/utils/getLuminance';
+import hexToRgb from '@amaui/utils/hexToRgb';
+import hslToRgb from '@amaui/utils/hslToRgb';
+import imageToPalette from '@amaui/utils/imageToPalette';
+import lighten from '@amaui/utils/lighten';
+import isEnvironment from '@amaui/utils/isEnvironment';
+import rgbToHex from '@amaui/utils/rgbToHex';
+import rgbToHsl from '@amaui/utils/rgbToHsl';
+import rgbToRgba from '@amaui/utils/rgbToRgba';
+import Try from '@amaui/utils/Try';
+import merge from '@amaui/utils/merge';
 import AmauiSubscription from '@amaui/subscription';
 
 import { IOptionsRule, TDirection } from './interfaces';
@@ -146,15 +165,29 @@ export interface IPalette {
   background?: IPaletteBackground;
 }
 
-export interface IShape {
-  radius?: {
+export type TRadiusKey = 'xxs' | 'xs' | 'sm' | 'rg' | 'md' | 'lg' | 'xl' | 'xxl';
+
+export interface IRadius {
+  values?: {
+    xxs?: number;
     xs?: number;
     sm?: number;
+    ld?: number;
     md?: number;
     lg?: number;
+    xl?: number;
+    xxl?: number;
 
-    [p: string]: number;
+    round?: string;
+
+    [p: string]: string | number;
   };
+  keys?: string[];
+  unit?: number;
+}
+
+export interface IShape {
+  radius?: IRadius;
 }
 
 export type TBreakpoint = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
@@ -173,15 +206,20 @@ export interface IBreakpoints {
   unit?: string;
 }
 
+export type TSpaceKey = 'xxs' | 'xs' | 'sm' | 'rg' | 'md' | 'lg' | 'xl' | 'xxl' | 'round';
+
 export interface ISpace {
   values?: {
+    xxs?: number;
     xs?: number;
     sm?: number;
+    ld?: number;
     md?: number;
     lg?: number;
     xl?: number;
+    xxl?: number;
 
-    [p: string]: number;
+    [p: string]: string | number;
   };
   keys?: string[];
   unit?: number;
@@ -226,13 +264,13 @@ export interface ITransitionsTimingFunction {
   [p: string]: string;
 }
 
-export type TTransitionsDurationProperties = 'smallest' | 'smaller' | 'small' | 'regular' | 'enter' | 'leave' | 'complex';
+export type TTransitionsDurationProperties = 'xxs' | 'xs' | 'sm' | 'rg' | 'enter' | 'leave' | 'complex';
 
 export interface ITransitionsDuration {
-  smallest?: number;
-  smaller?: number;
-  small?: number;
-  regular?: number;
+  xxs?: number;
+  xs?: number;
+  sm?: number;
+  rg?: number;
   enter?: number;
   leave?: number;
   complex?: number;
@@ -462,12 +500,18 @@ const amauiThemeValueDefault: IAmauiTheme = {
 
   shape: {
     radius: {
-      xs: 4,
-      sm: 8,
-      md: 12,
-      lg: 16,
-      xl: 28,
-    },
+      values: {
+        xxs: 0.25,
+        xs: 0.5,
+        sm: 1,
+        rg: 2,
+        md: 3,
+        lg: 4,
+        xl: 5,
+        xxl: 7,
+      },
+      unit: 8
+    }
   },
 
   breakpoints: {
@@ -483,11 +527,14 @@ const amauiThemeValueDefault: IAmauiTheme = {
 
   space: {
     values: {
-      xs: 4,
-      sm: 8,
-      md: 16,
-      lg: 32,
-      xl: 64,
+      xxs: 0.25,
+      xs: 0.5,
+      sm: 1,
+      rg: 2,
+      md: 3,
+      lg: 4,
+      xl: 5,
+      xxl: 7,
     },
     unit: 8,
   },
@@ -628,10 +675,10 @@ const amauiThemeValueDefault: IAmauiTheme = {
       accelerated: 'cubic-bezier(.4, 0, 1, 1)',
     },
     duration: {
-      smallest: 100,
-      smaller: 200,
-      small: 250,
-      regular: 300,
+      xxs: 100,
+      xs: 200,
+      sm: 250,
+      rg: 300,
       enter: 250,
       leave: 200,
       complex: 500,
@@ -739,7 +786,11 @@ class AmauiTheme {
     },
 
     space: {
-      value: (value: number) => this.space.unit * value,
+      value: (value: TSpaceKey | number) => {
+        if (value === 'round') return this.space.values[value];
+
+        return this.space.unit * ((this.space.values[value] !== undefined ? this.space.values[value] : value as number) as number);
+      },
     },
 
     breakpoints: {
@@ -965,6 +1016,15 @@ class AmauiTheme {
     // Shape
     if (is('object', shape)) this.shape = merge(shape, this.shape);
 
+    // Radius
+    if (is('object', shape.radius)) {
+      this.shape.radius.unit = shape.radius.unit !== undefined ? shape.radius.unit : this.shape.radius.unit;
+    }
+
+    if (!this.shape.radius.keys) Object.defineProperty(this.shape.radius, 'keys', {
+      get() { return Object.keys(instance.shape.radius.values); }
+    });
+
     // Breakpoints
     if (is('object', breakpoints)) this.breakpoints = merge(breakpoints, this.breakpoints);
 
@@ -979,12 +1039,6 @@ class AmauiTheme {
       this.space = merge(space, this.space);
 
       this.space.unit = space.unit !== undefined ? space.unit : this.space.unit;
-
-      this.space.values.xs = Math.round(this.space.unit / 2);
-      this.space.values.sm = Math.round(this.space.unit);
-      this.space.values.md = Math.round(this.space.unit * 2);
-      this.space.values.lg = Math.round(this.space.unit * 4);
-      this.space.values.xl = Math.round(this.space.unit * 8);
     }
 
     if (!this.space.keys) Object.defineProperty(this.space, 'keys', {

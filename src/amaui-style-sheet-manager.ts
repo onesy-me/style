@@ -1,4 +1,5 @@
-import { isEnvironment, merge } from '@amaui/utils';
+import isEnvironment from '@amaui/utils/isEnvironment';
+import merge from '@amaui/utils/merge';
 
 import AmauiStyle from './amaui-style';
 import AmauiStyleSheet from './amaui-style-sheet';
@@ -194,6 +195,35 @@ class AmauiStyleSheetManager {
     const sheets = [
       ...this.sheets.static,
     ];
+
+    // If no static sheet
+    // Usecase React.StrictMode purposefull add / remove / add of elements
+    // while preserving their state meaning it will add, remove the static sheet
+    // yet reuse the AmauiStyleSheetManager instance
+    if (!this.sheets.static.length) {
+      if (!!this.properties.static.length) {
+        const sheet = new AmauiStyleSheet(
+          this.propertiesVariant(),
+          'static',
+          this.mode,
+          this.pure,
+          this.priority,
+          this.amauiTheme,
+          this,
+          this.amauiStyle,
+          {},
+          this.options
+        );
+
+        sheets.push(sheet);
+
+        // Add dynamic names into the response
+        response = merge(response, sheet.names, { copy: true });
+
+        // Add id to the response
+        response.ids.static.push(sheet.id);
+      }
+    }
 
     // Reviving the static status removed
     if (!!this.sheets.static.length) this.sheets.static.filter(sheet => sheet.status === 'remove').forEach(sheet => sheet.update(this.propertiesVariant()));

@@ -4,7 +4,12 @@ import yargs from 'yargs';
 import url from 'url';
 import fg from 'fast-glob';
 
-import { is, getEnvironment, isEnvironment, merge, parse, Try } from '@amaui/utils';
+import is from '@amaui/utils/is';
+import isEnvironment from '@amaui/utils/isEnvironment';
+import getEnvironment from '@amaui/utils/getEnvironment';
+import Try from '@amaui/utils/Try';
+import parse from '@amaui/utils/parse';
+import merge from '@amaui/utils/merge';
 import { TMethod } from '@amaui/models';
 
 import css from './css';

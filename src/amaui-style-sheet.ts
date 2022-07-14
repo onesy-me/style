@@ -1,4 +1,8 @@
-import { copy, equalDeep, getEnvironment, isEnvironment, merge } from '@amaui/utils';
+import copy from '@amaui/utils/copy';
+import equalDeep from '@amaui/utils/equalDeep';
+import getEnvironment from '@amaui/utils/getEnvironment';
+import isEnvironment from '@amaui/utils/isEnvironment';
+import merge from '@amaui/utils/merge';
 
 import AmauiStyle from './amaui-style';
 import AmauiStyleRule from './amaui-style-rule';

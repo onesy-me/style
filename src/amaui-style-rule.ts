@@ -1,4 +1,8 @@
-import { hash, Try, castParam, getEnvironment, merge } from '@amaui/utils';
+import hash from '@amaui/utils/hash';
+import Try from '@amaui/utils/Try';
+import castParam from '@amaui/utils/castParam';
+import getEnvironment from '@amaui/utils/getEnvironment';
+import merge from '@amaui/utils/merge';
 import AmauiSubscription from '@amaui/subscription';
 
 import AmauiStyle from './amaui-style';

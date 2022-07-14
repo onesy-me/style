@@ -1,4 +1,4 @@
-import { isEnvironment } from '@amaui/utils';
+import isEnvironment from '@amaui/utils/isEnvironment';
 
 import AmauiStyle from './amaui-style';
 import { capitalizedCammelCase } from './utils';

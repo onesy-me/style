@@ -2,7 +2,14 @@ import path from 'path';
 import fg from 'fast-glob';
 import fs from 'fs-extra';
 
-import { getEnvironment, hash, is, merge, stringify, to, Try, unique } from '@amaui/utils';
+import is from '@amaui/utils/is';
+import getEnvironment from '@amaui/utils/getEnvironment';
+import hash from '@amaui/utils/hash';
+import merge from '@amaui/utils/merge';
+import stringify from '@amaui/utils/stringify';
+import to from '@amaui/utils/to';
+import Try from '@amaui/utils/Try';
+import unique from '@amaui/utils/unique';
 import AmauiNode from '@amaui/node';
 
 import AmauiStyle from './amaui-style';

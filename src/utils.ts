@@ -1,4 +1,5 @@
-import { variationWithRepetition, getEnvironment } from '@amaui/utils';
+import variationWithRepetition from '@amaui/utils/variationWithRepetition';
+import getEnvironment from '@amaui/utils/getEnvironment';
 import AmauiSubscription from '@amaui/subscription';
 
 import AmauiStyle from './amaui-style';

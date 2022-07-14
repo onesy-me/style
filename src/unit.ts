@@ -1,4 +1,4 @@
-import { copy } from '@amaui/utils';
+import copy from '@amaui/utils/copy';
 
 import AmauiStyle from './amaui-style';
 import { cammelCaseToKebabCase, is, kebabCasetoCammelCase } from './utils';

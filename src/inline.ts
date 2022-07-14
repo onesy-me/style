@@ -1,4 +1,5 @@
-import { Try } from '@amaui/utils';
+import Try from '@amaui/utils/Try';
+
 import AmauiStyle from './amaui-style';
 import AmauiStyleSheetManager from './amaui-style-sheet-manager';
 import AmauiTheme from './amaui-theme';

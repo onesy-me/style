@@ -1,5 +1,4 @@
-import { TMethod } from '@amaui/models';
-import { isEnvironment } from '@amaui/utils';
+import isEnvironment from '@amaui/utils/isEnvironment';
 
 import AmauiStyle from './amaui-style';
 import { makeName } from './utils';

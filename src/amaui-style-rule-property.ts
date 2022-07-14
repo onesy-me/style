@@ -1,4 +1,4 @@
-import Try from '@amaui/utils/Try';
+import Try from '@amaui/utils/try';
 import AmauiSubscription from '@amaui/subscription';
 
 import AmauiStyle from './amaui-style';

@@ -1,5 +1,5 @@
 import hash from '@amaui/utils/hash';
-import Try from '@amaui/utils/Try';
+import Try from '@amaui/utils/try';
 import castParam from '@amaui/utils/castParam';
 import getEnvironment from '@amaui/utils/getEnvironment';
 import merge from '@amaui/utils/merge';

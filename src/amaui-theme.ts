@@ -16,7 +16,7 @@ import isEnvironment from '@amaui/utils/isEnvironment';
 import rgbToHex from '@amaui/utils/rgbToHex';
 import rgbToHsl from '@amaui/utils/rgbToHsl';
 import rgbToRgba from '@amaui/utils/rgbToRgba';
-import Try from '@amaui/utils/Try';
+import Try from '@amaui/utils/try';
 import merge from '@amaui/utils/merge';
 import AmauiSubscription from '@amaui/subscription';
 

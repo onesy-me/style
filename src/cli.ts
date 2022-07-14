@@ -7,7 +7,7 @@ import fg from 'fast-glob';
 import is from '@amaui/utils/is';
 import isEnvironment from '@amaui/utils/isEnvironment';
 import getEnvironment from '@amaui/utils/getEnvironment';
-import Try from '@amaui/utils/Try';
+import Try from '@amaui/utils/try';
 import parse from '@amaui/utils/parse';
 import merge from '@amaui/utils/merge';
 import { TMethod } from '@amaui/models';

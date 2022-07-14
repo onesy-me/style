@@ -574,8 +574,8 @@ group('@amaui/style/utils', () => {
     });
 
     const values_ = [
-      AmauiStyle.names({ classNames: { a: 'a-0', a1: 'a1-1' } }).className,
-      AmauiStyle.names({ classes: { a: 'a-0 a14-4', a1: 'a1-1' } }).class,
+      AmauiStyle.names({ classNames: { a: 'a-0', a1: 'a1-1' } } as any).className,
+      AmauiStyle.names({ classes: { a: 'a-0 a14-4', a1: 'a1-1' } } as any).class,
     ];
 
     const valueNode = values_;

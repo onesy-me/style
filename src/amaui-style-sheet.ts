@@ -1,5 +1,4 @@
 import copy from '@amaui/utils/copy';
-import equalDeep from '@amaui/utils/equalDeep';
 import getEnvironment from '@amaui/utils/getEnvironment';
 import isEnvironment from '@amaui/utils/isEnvironment';
 import merge from '@amaui/utils/merge';
@@ -89,14 +88,10 @@ class AmauiStyleSheet {
   }
 
   public set props(props: any) {
-    let update = false;
-
-    if (!equalDeep(props, this.props)) update = true;
-
     this.props_ = copy(props);
 
     // Update if new props are set
-    if (update) this.updateProps();
+    this.updateProps();
   }
 
   public get response(): IValuesVariant {

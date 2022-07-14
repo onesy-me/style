@@ -52,7 +52,7 @@ class AmauiStyleSheetManager {
     classNames: {},
     classes: {},
     keyframes: {},
-  };
+  } as any;
 
   public constructor(
     public value?: TValueObject,
@@ -188,7 +188,7 @@ class AmauiStyleSheetManager {
         static: this.ids.static,
         dynamic: [],
       },
-    };
+    } as any;
 
     response = merge(response, this.names, { copy: true });
 

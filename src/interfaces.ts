@@ -72,13 +72,13 @@ export interface IAddRuleResponse {
 }
 
 export interface IResponse {
-  ids?: IIds;
-  classNames?: Record<string, string>;
-  classes?: Record<string, string>;
-  keyframes?: Record<string, string>;
-  className?: string;
-  class?: string;
-  styles?: (...args: string[]) => string;
+  ids: IIds;
+  classNames: Record<string, string>;
+  classes: Record<string, string>;
+  keyframes: Record<string, string>;
+  className: string;
+  class: string;
+  styles: (...args: string[]) => string;
 }
 
 export type TPriority = 'lower' | 'upper';

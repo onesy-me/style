@@ -320,12 +320,12 @@ class AmauiStyleSheet {
 
       // Props
       Object.keys(value).filter(item => ['@pure', '@p'].indexOf(item) === -1).forEach(item => {
-        items.new.push({ property: item, value: value[item], parent: item });
+        items.new.push({ property: item, value: value[item], parents: item });
       });
 
       // Pure
       Object.keys(pure).forEach(item => {
-        items.new.push({ property: item, value: pure[item], parent: item });
+        items.new.push({ property: item, value: pure[item], parents: item });
       });
 
       // Extract any & ref rules from new and add 'em to new
@@ -346,7 +346,7 @@ class AmauiStyleSheet {
       const parents = item => {
         const parents = item.value.parents.filter(item => !(item instanceof AmauiStyleSheet));
 
-        return parents.map(item => item.property).join(' ');
+        return parents.map(item => item.property).join(' ') || item.value.property;
       };
 
       // To update, add
@@ -360,7 +360,7 @@ class AmauiStyleSheet {
         // Add or update
         if (!previouses.length) properties.add.push(itemNew);
         else if (previouses.some(item => (
-          (item.value.parents[1]?.property || item.value.property) === itemNew.parent &&
+          parents(item) === itemNew.parents &&
           hash(item.value.values.value) !== hash(itemNew.value)
         ))) properties.update.push(itemNew);
       });

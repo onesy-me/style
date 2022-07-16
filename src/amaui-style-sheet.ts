@@ -331,11 +331,11 @@ class AmauiStyleSheet {
       // Extract any & ref rules from new and add 'em to new
       const add = [];
 
-      const refValues = (item, parent) => {
+      const refValues = (item, parents) => {
         if (is('object', item)) Object.keys(item).forEach(key => {
-          if (key.includes('&')) add.push({ property: key, value: item[key], parent });
+          if (key.includes('&')) add.push({ property: key, value: item[key], parents });
 
-          refValues(item[key], parent);
+          refValues(item[key], parents + ' ' + key);
         });
       }
 
@@ -343,9 +343,19 @@ class AmauiStyleSheet {
 
       items.new.push(...add);
 
+      const parents = item => {
+        const parents = item.value.parents.filter(item => !(item instanceof AmauiStyleSheet));
+
+        return parents.map(item => item.property).join(' ');
+      };
+
       // To update, add
       items.new.forEach(itemNew => {
-        const previouses = items.previous.filter(itemPrevious => itemPrevious.value.pure === !!(itemNew.value['@pure'] || itemNew.value['@p']) && itemPrevious.property === itemNew.property);
+        const previouses = items.previous.filter(itemPrevious => (
+          (itemPrevious.value.pure === !!(itemNew.value['@pure']) || itemNew.value['@p'])) &&
+          itemPrevious.property === itemNew.property &&
+          parents(itemPrevious) === itemNew.parents
+        );
 
         // Add or update
         if (!previouses.length) properties.add.push(itemNew);
@@ -357,7 +367,11 @@ class AmauiStyleSheet {
 
       // To remove
       items.previous.forEach(itemPrevious => {
-        const newItem = items.new.find(itemNew => itemPrevious.value.pure === !!(itemNew.value['@pure'] || itemNew.value['@p']) && itemPrevious.property === itemNew.property);
+        const newItem = items.new.find(itemNew => (
+          (itemPrevious.value.pure === !!(itemNew.value['@pure'] || itemNew.value['@p'])) &&
+          itemPrevious.property === itemNew.property &&
+          parents(itemPrevious) === itemNew.parents
+        ));
 
         // Remove
         if (!newItem) properties.remove.push(itemPrevious);
@@ -367,7 +381,11 @@ class AmauiStyleSheet {
       Object.keys(properties).forEach(activity => {
         // Activity items
         properties[activity].forEach(item => {
-          const rule = this.rules.find(rule_ => rule_.value.pure === !!(item.value['@pure'] || item.value['@p']) && rule_.value.property === item.property);
+          const rule = this.rules.find(rule_ => (
+            (rule_.value.pure === !!(item.value['@pure'] || item.value['@p'])) &&
+            (rule_.value.property === item.property) &&
+            item.parents === parents(rule_)
+          ));
 
           switch (activity) {
             case 'add':

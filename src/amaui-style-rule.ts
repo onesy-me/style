@@ -106,10 +106,7 @@ class AmauiStyleRule {
       this.className_ = value;
 
       // Update classNames
-      if (
-        this.classNames.indexOf(this.className) === -1 &&
-        this.classNames.indexOf(`.${this.className}`) === -1
-      ) this.classNames = `${this.className} ${this.classNames}`.trim();
+      if (!this.classNames.match(new RegExp(`^(\.)?${this.className} | (\.)?${this.className} | (\.)?${this.className}$`, 'g'))) this.classNames = `${this.className} ${this.classNames}`.trim();
 
       this.amauiStyleSheet.names.classNames[this.property] = this.className;
 
@@ -300,7 +297,7 @@ class AmauiStyleRule {
       if (value['@classNames'] || value['@cs']) {
         const classNames = classNamesMethod(value['@classNames'] || value['@cs']) as string;
 
-        if (this.classNames.indexOf(classNames) === -1) this.classNames = `${this.classNames || ''} ${classNames}`.trim();
+        if (!this.classNames.match(new RegExp(`^${classNames} | ${classNames} | ${classNames}$`, 'g'))) this.classNames = `${this.classNames || ''} ${classNames}`.trim();
       }
 
       // Options

@@ -1,6 +1,7 @@
 import copy from '@amaui/utils/copy';
-import getEnvironment from '@amaui/utils/getEnvironment';
+import hash from '@amaui/utils/hash';
 import isEnvironment from '@amaui/utils/isEnvironment';
+import getEnvironment from '@amaui/utils/getEnvironment';
 import merge from '@amaui/utils/merge';
 
 import AmauiStyle from './amaui-style';
@@ -319,20 +320,39 @@ class AmauiStyleSheet {
 
       // Props
       Object.keys(value).filter(item => ['@pure', '@p'].indexOf(item) === -1).forEach(item => {
-        items.new.push({ property: item, value: value[item] });
+        items.new.push({ property: item, value: value[item], parent: item });
       });
 
       // Pure
       Object.keys(pure).forEach(item => {
-        items.new.push({ property: item, value: pure[item] });
+        items.new.push({ property: item, value: pure[item], parent: item });
       });
+
+      // Extract any & ref rules from new and add 'em to new
+      const add = [];
+
+      const refValues = (item, parent) => {
+        if (is('object', item)) Object.keys(item).forEach(key => {
+          if (key.includes('&')) add.push({ property: key, value: item[key], parent });
+
+          refValues(item[key], parent);
+        });
+      }
+
+      items.new.forEach(item => refValues(item.value, item.property));
+
+      items.new.push(...add);
 
       // To update, add
       items.new.forEach(itemNew => {
-        const previous = items.previous.find(itemPrevious => itemPrevious.value.pure === !!(itemNew.value['@pure'] || itemNew.value['@p']) && itemPrevious.property === itemNew.property);
+        const previouses = items.previous.filter(itemPrevious => itemPrevious.value.pure === !!(itemNew.value['@pure'] || itemNew.value['@p']) && itemPrevious.property === itemNew.property);
 
         // Add or update
-        properties[previous ? 'update' : 'add'].push(itemNew);
+        if (!previouses.length) properties.add.push(itemNew);
+        else if (previouses.some(item => (
+          (item.value.parents[1]?.property || item.value.property) === itemNew.parent &&
+          hash(item.value.values.value) !== hash(itemNew.value)
+        ))) properties.update.push(itemNew);
       });
 
       // To remove

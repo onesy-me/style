@@ -564,105 +564,105 @@ const amauiThemeValueDefault: IAmauiTheme = {
         fontFamily: FONT_FAMILY.primary,
         fontWeight: 400,
         lineHeight: 64 / 57,
-        letterSpacing: '0em'
+        letterSpacing: '0px'
       },
       d2: {
         fontSize: `${pxToRem(45, 16)}rem`,
         fontFamily: FONT_FAMILY.primary,
         fontWeight: 400,
         lineHeight: 52 / 45,
-        letterSpacing: '0em'
+        letterSpacing: '0px'
       },
       d3: {
         fontSize: `${pxToRem(35, 16)}rem`,
         fontFamily: FONT_FAMILY.primary,
         fontWeight: 400,
         lineHeight: 44 / 35,
-        letterSpacing: '0em'
+        letterSpacing: '0px'
       },
       h1: {
         fontSize: `${pxToRem(32, 16)}rem`,
         fontFamily: FONT_FAMILY.primary,
         fontWeight: 400,
         lineHeight: 40 / 32,
-        letterSpacing: '0em'
+        letterSpacing: '0px'
       },
       h2: {
         fontSize: `${pxToRem(27, 16)}rem`,
         fontFamily: FONT_FAMILY.primary,
         fontWeight: 400,
         lineHeight: 35 / 27,
-        letterSpacing: '0em'
+        letterSpacing: '0px'
       },
       h3: {
         fontSize: `${pxToRem(24, 16)}rem`,
         fontFamily: FONT_FAMILY.primary,
         fontWeight: 400,
         lineHeight: 32 / 24,
-        letterSpacing: '0em'
+        letterSpacing: '0px'
       },
       t1: {
         fontSize: `${pxToRem(21, 16)}rem`,
         fontFamily: FONT_FAMILY.primary,
         fontWeight: 400,
         lineHeight: 64 / 21,
-        letterSpacing: '0em'
+        letterSpacing: '0px'
       },
       t2: {
         fontSize: `${pxToRem(16, 16)}rem`,
         fontFamily: FONT_FAMILY.primary,
         fontWeight: 500,
         lineHeight: 24 / 16,
-        letterSpacing: '.15em',
+        letterSpacing: '.15px'
       },
       t3: {
         fontSize: `${pxToRem(14, 16)}rem`,
         fontFamily: FONT_FAMILY.primary,
         fontWeight: 500,
         lineHeight: 20 / 14,
-        letterSpacing: '.1em',
+        letterSpacing: '.1px'
       },
       l1: {
         fontSize: `${pxToRem(14, 16)}rem`,
         fontFamily: FONT_FAMILY.secondary,
         fontWeight: 500,
         lineHeight: 20 / 14,
-        letterSpacing: '.1em',
+        letterSpacing: '.1px'
       },
       l2: {
         fontSize: `${pxToRem(12, 16)}rem`,
         fontFamily: FONT_FAMILY.secondary,
         fontWeight: 500,
         lineHeight: 15 / 12,
-        letterSpacing: '.5em',
+        letterSpacing: '.5px'
       },
       l3: {
         fontSize: `${pxToRem(11, 16)}rem`,
         fontFamily: FONT_FAMILY.secondary,
         fontWeight: 500,
         lineHeight: 5 / 11,
-        letterSpacing: '.5em',
+        letterSpacing: '.5px'
       },
       b1: {
         fontSize: `${pxToRem(16, 16)}rem`,
         fontFamily: FONT_FAMILY.secondary,
         fontWeight: 400,
         lineHeight: 24 / 16,
-        letterSpacing: '.5em',
+        letterSpacing: '.5px'
       },
       b2: {
         fontSize: `${pxToRem(14, 16)}rem`,
         fontFamily: FONT_FAMILY.secondary,
         fontWeight: 400,
         lineHeight: 20 / 14,
-        letterSpacing: '.25em',
+        letterSpacing: '.25px'
       },
       b3: {
         fontSize: `${pxToRem(11, 16)}rem`,
         fontFamily: FONT_FAMILY.secondary,
         fontWeight: 400,
         lineHeight: 15 / 11,
-        letterSpacing: '.4em',
+        letterSpacing: '.4px'
       }
     }
   },
@@ -740,7 +740,7 @@ class AmauiTheme {
           if (color) return this.palette.light === light ? color[tone] : color[Math.abs(100 - tone)];
         },
 
-        text: (background: string) => {
+        text: (background: string, max = false, prefer?: 'light' | 'dark') => {
           const preferenceText = this.preference.text.default || 'neutral';
 
           const luminances = {
@@ -748,7 +748,7 @@ class AmauiTheme {
             text: getLuminance(this.palette.text.default.primary)
           };
 
-          const valueLighten = luminances.text >= luminances.background;
+          let valueLighten = luminances.text >= luminances.background;
 
           let tone = preferenceText === 'neutral' ? this.palette.light ? 0 : 100 : 50;
 
@@ -756,15 +756,25 @@ class AmauiTheme {
 
           let color: any = this.palette.text.default.primary;
 
-          while (contrastRatio < this.palette.visual_contrast.default.contrast_threshold && !(tone <= 0 || tone >= 100)) {
-            // Update tone
-            valueLighten ? tone += 10 : tone -= 10;
+          if (prefer === 'light' && !valueLighten) valueLighten = getContrastRatio(background, '#fff') >= 1.74;
+          else if (prefer === 'dark' && valueLighten) valueLighten = getContrastRatio(background, '#000') >= 1.74;
 
-            tone = clamp(tone, 0, 100);
+          if (max) {
+            tone = valueLighten ? 100 : 0;
 
             color = colorToRgb(this.palette.color[preferenceText][tone], this.palette.visual_contrast.default.opacity.primary);
+          }
+          else {
+            while (contrastRatio < this.palette.visual_contrast.default.contrast_threshold) {
+              // Update tone
+              valueLighten ? tone += 10 : tone -= 10;
 
-            contrastRatio = getContrastRatio(background, color);
+              tone = clamp(tone, 0, 100);
+
+              color = colorToRgb(this.palette.color[preferenceText][tone], this.palette.visual_contrast.default.opacity.primary);
+
+              contrastRatio = getContrastRatio(background, color);
+            }
           }
 
           return color;
@@ -1058,7 +1068,7 @@ class AmauiTheme {
     if (is('object', typography)) this.typography = merge(typography, this.typography);
 
     // Transitions
-    if (is('object', this.transitions)) this.transitions = merge(transitions, this.transitions);
+    if (is('object', transitions)) this.transitions = merge(transitions, this.transitions);
 
     // zIndex
     if (is('object', z_index)) this.z_index = merge(z_index, this.z_index);

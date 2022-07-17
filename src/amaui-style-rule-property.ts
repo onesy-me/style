@@ -171,6 +171,10 @@ class AmauiStyleRuleProperty {
     // Init with value
     if (value !== undefined) this.init(value);
 
+    // Make selector
+    // ie. for animation, and animation-name
+    this.makeSelector();
+
     // Update the rule
     // method or AmauiSubscription
     if (

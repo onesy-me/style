@@ -206,7 +206,7 @@ export interface IBreakpoints {
   unit?: string;
 }
 
-export type TSpaceKey = 'xxs' | 'xs' | 'sm' | 'rg' | 'md' | 'lg' | 'xl' | 'xxl' | 'round';
+export type TSpaceKey = 'xxs' | 'xs' | 'sm' | 'rg' | 'md' | 'lg' | 'xl' | 'xxl' | 'xxxl' | 'round';
 
 export interface ISpace {
   values?: {
@@ -218,6 +218,7 @@ export interface ISpace {
     lg?: number;
     xl?: number;
     xxl?: number;
+    xxxl?: number;
 
     [p: string]: string | number;
   };
@@ -534,7 +535,8 @@ const amauiThemeValueDefault: IAmauiTheme = {
       md: 3,
       lg: 4,
       xl: 5,
-      xxl: 7,
+      xxl: 6,
+      xxxl: 7,
     },
     unit: 8,
   },
@@ -623,25 +625,25 @@ const amauiThemeValueDefault: IAmauiTheme = {
         letterSpacing: '.1px'
       },
       l1: {
-        fontSize: `${pxToRem(14, 16)}rem`,
+        fontSize: `${pxToRem(16, 16)}rem`,
         fontFamily: FONT_FAMILY.secondary,
         fontWeight: 500,
         lineHeight: 20 / 14,
-        letterSpacing: '.1px'
+        letterSpacing: '.5px'
       },
       l2: {
-        fontSize: `${pxToRem(12, 16)}rem`,
+        fontSize: `${pxToRem(14, 16)}rem`,
         fontFamily: FONT_FAMILY.secondary,
         fontWeight: 500,
         lineHeight: 15 / 12,
-        letterSpacing: '.5px'
+        letterSpacing: '.25px'
       },
       l3: {
         fontSize: `${pxToRem(11, 16)}rem`,
         fontFamily: FONT_FAMILY.secondary,
         fontWeight: 500,
         lineHeight: 5 / 11,
-        letterSpacing: '.5px'
+        letterSpacing: '.4px'
       },
       b1: {
         fontSize: `${pxToRem(16, 16)}rem`,
@@ -800,10 +802,13 @@ class AmauiTheme {
     shadow: (value: string = this.palette.color.primary.main, opacities: Array<number> = this.shadows.opacities) => AmauiTheme.make.shadow(value, opacities),
 
     space: {
-      value: (value: TSpaceKey | number) => {
-        if (value === 'round') return this.space.values[value];
+      value: (value: TSpaceKey | number, unit?: string) => {
+        let value_: any;
 
-        return this.space.unit * ((this.space.values[value] !== undefined ? this.space.values[value] : value as number) as number);
+        if (value === 'round') value_ = this.space.values[value];
+        else value_ = this.space.unit * ((this.space.values[value] !== undefined ? this.space.values[value] : value as number) as number);
+
+        return unit ? value_ + unit : value_;
       },
     },
 

@@ -193,10 +193,26 @@ class AmauiStyleRuleProperty {
     if (this.owner.rule) {
       // Only update if value is diff from previous update
       if (this.owner.rule.style[this.values.property] !== this.values.value) {
-        Try(() => this.owner.rule.style[this.values.property] = this.values.value);
+        const rule: any = ((this.owner.owner as AmauiStyleRule).rule || (this.owner.owner as AmauiStyleSheet).sheet);
 
-        // Update the values css string value
-        this.values.css = `${this.values.property}: ${this.values.value};`;
+        // For some reason important will not update the style property
+        // updating it through rule.style[property]
+        // only way is to fully remove the CSSStyleRule
+        // and insert a new one with new value
+        if (this.values.value.includes('!important')) {
+          let index = Array.from(rule?.cssRules || []).findIndex(item => item === this.owner.rule);
+
+          if (index > -1) {
+            Try(() => rule.deleteRule(index));
+
+            index = Try(() => rule.insertRule(this.owner.values.css));
+
+            if (index > -1) this.owner.rule = rule.cssRules[index];
+          }
+        }
+        else Try(() => this.owner.rule.style[this.values.property] = this.values.value); // Update the values css string value
+
+        this.values.css = "".concat(this.values.property, ": ").concat(this.values.value, ";");
       }
     }
   }

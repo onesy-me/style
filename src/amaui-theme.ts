@@ -795,6 +795,10 @@ class AmauiTheme {
       }
     },
 
+    color: (value: string) => AmauiTheme.make.color(value),
+
+    shadow: (value: string = this.palette.color.primary.main, opacities: Array<number> = this.shadows.opacities) => AmauiTheme.make.shadow(value, opacities),
+
     space: {
       value: (value: TSpaceKey | number) => {
         if (value === 'round') return this.space.values[value];
@@ -821,10 +825,13 @@ class AmauiTheme {
     },
 
     transitions: {
-      make: (properties: string | Array<string>, options: { duration?: TTransitionsDurationProperties | number; timing_function?: TTransitionsTimingFunctionProperties; delay?: number; }) => {
+      make: (
+        properties: string | Array<string>,
+        options: { duration?: TTransitionsDurationProperties | number; timing_function?: TTransitionsTimingFunctionProperties; delay?: number; } = { duration: 'rg', timing_function: 'standard' }
+      ) => {
         const props: any = is('array', properties) ? properties : [properties];
 
-        const duration = this.transitions.duration[options?.duration] || (is('number', options?.duration) && options?.duration) || this.transitions.duration.regular;
+        const duration = this.transitions.duration[options?.duration] || (is('number', options?.duration) && options?.duration) || this.transitions.duration.rg;
         const timing_function = this.transitions.timing_function[options?.timing_function] || (is('string', options?.timing_function) && options?.timing_function) || this.transitions.timing_function.standard;
         const delay = options?.delay !== undefined ? options.delay : 0;
 

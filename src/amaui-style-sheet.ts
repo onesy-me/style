@@ -25,6 +25,7 @@ export interface IOptionsStyle {
 export interface IOptions {
   style?: IOptionsStyle;
   rule?: IOptionsRule;
+  name?: string;
 }
 
 const env = getEnvironment();
@@ -257,6 +258,7 @@ class AmauiStyleSheet {
             mode: this.mode,
             pure: this.pure,
             variant: this.variant,
+            name: this.options.name
           },
         };
 

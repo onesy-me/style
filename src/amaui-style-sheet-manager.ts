@@ -20,6 +20,7 @@ interface IOptions {
   style?: IOptionsStyle;
   rule?: IOptionsRule;
   amaui_style_cache?: boolean;
+  name?: string;
 }
 
 const optionsDefault: IOptions = {
@@ -142,6 +143,8 @@ class AmauiStyleSheetManager {
 
     // Inherits first from amauiStyle
     this.mode = this.amauiStyle.mode || this.mode;
+
+    this.options.name = this.options.name || this.options.style?.attributes?.method || this.mode;
 
     // if value is an object
     if (is('object', this.value)) {

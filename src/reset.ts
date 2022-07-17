@@ -10,6 +10,8 @@ import { is } from './utils';
 export interface IOptions {
   element?: Element;
 
+  name?: string;
+
   amaui_style?: IOptionsAmauiStyle;
 
   amaui_theme?: IOptionsAmauiTheme;
@@ -318,7 +320,7 @@ function reset(
   else value = merge(value, valueDefault, { copy: true });
 
   // Make an instance of amauiStyleSheetManager
-  const amauiStyleSheetManager = new AmauiStyleSheetManager(value, 'regular', true, 'lower', amauiTheme, amauiStyle, { style: { attributes: { method: 'reset' } } });
+  const amauiStyleSheetManager = new AmauiStyleSheetManager(value, 'regular', true, 'lower', amauiTheme, amauiStyle, { name: options.name, style: { attributes: { method: 'reset' } } });
 
   const response: IMethodResponse = {
     ids: amauiStyleSheetManager.ids,

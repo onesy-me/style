@@ -209,6 +209,10 @@ class AmauiStyleRuleProperty {
           if (index > -1) {
             Try(() => rule.deleteRule(index));
 
+            // Update owner values so it includes
+            // new update for this property value
+            this.owner.updateValues();
+
             index = Try(() => rule.insertRule(this.owner.values.css));
 
             if (index > -1) this.owner.rule = rule.cssRules[index];

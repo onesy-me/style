@@ -54,6 +54,7 @@ class AmauiStyleSheetManager {
     classes: {},
     keyframes: {},
   } as any;
+  public users = 0;
 
   public constructor(
     public value?: TValueObject,
@@ -273,6 +274,9 @@ class AmauiStyleSheetManager {
     // Update object names value
     names(response);
 
+    // Update users value
+    this.users++;
+
     this.amauiStyle.subscriptions.sheet_manager.add.emit(this);
 
     return response;
@@ -331,19 +335,22 @@ class AmauiStyleSheetManager {
       sheet.remove();
     });
 
-    // And if !sheets.dynamic.length remove all static sheets as well
-    if (!this.sheets.dynamic.length) {
+    // Update users value
+    this.users--;
+
+    // If no more users
+    if (!this.users) {
       this.sheets.static.forEach(sheet => {
         // Remove
         sheet.remove();
       });
+
+      // If no more !sheets.static.length and !sheets.dynamic.length
+      // update status to idle else update status to remove
+      this.status = (!this.sheets.static.length && !this.sheets.dynamic.length) ? 'idle' : 'remove';
+
+      this.amauiStyle.subscriptions.sheet_manager.remove.emit(ids, this);
     }
-
-    // If no more !sheets.static.length and !sheets.dynamic.length
-    // update status to idle else update status to remove
-    this.status = (!this.sheets.static.length && !this.sheets.dynamic.length) ? 'idle' : 'remove';
-
-    this.amauiStyle.subscriptions.sheet_manager.remove.emit(ids, this);
   }
 
   private variants(value: any) {

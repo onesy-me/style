@@ -750,7 +750,7 @@ class AmauiTheme {
             text: getLuminance(this.palette.text.default.primary)
           };
 
-          let valueLighten = luminances.text >= luminances.background;
+          let valueLighten = false;
 
           let tone = preferenceText === 'neutral' ? this.palette.light ? 0 : 100 : 50;
 
@@ -767,6 +767,8 @@ class AmauiTheme {
             color = colorToRgb(this.palette.color[preferenceText][tone], this.palette.visual_contrast.default.opacity.primary);
           }
           else {
+            valueLighten = luminances.text >= luminances.background;
+
             while (contrastRatio < this.palette.visual_contrast.default.contrast_threshold) {
               // Update tone
               valueLighten ? tone += 10 : tone -= 10;

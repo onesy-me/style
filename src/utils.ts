@@ -62,7 +62,7 @@ export const getRefs = (value: string) => {
   const items = [];
 
   if (is('string', value)) {
-    const regex = /\$[a-zA-Z]+/g;
+    const regex = /\$[a-zA-Z1-9]+/g;
 
     items.push(...(value.match(regex) || []).map(item => item.replace('$', '')));
   }

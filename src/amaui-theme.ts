@@ -672,7 +672,7 @@ const amauiThemeValueDefault: IAmauiTheme = {
   transitions: {
     timing_function: {
       standard: 'cubic-bezier(.4, 0, .2, 1)',
-      emphasized: 'cubic-bezier(.4, 0, .6, 1) ',
+      emphasized: 'cubic-bezier(.4, 0, .6, 1)',
       decelerated: 'cubic-bezier(0, 0, .2, 1)',
       accelerated: 'cubic-bezier(.4, 0, 1, 1)',
     },
@@ -736,7 +736,7 @@ class AmauiTheme {
       },
 
       color: {
-        value: (variant: TPaletteVariant, tone: TTone, light: boolean = true, palette?: IPaletteColor) => {
+        value: (variant: TPaletteVariant, tone: TTone, light: boolean = true, palette?: IColor) => {
           const color = palette || this.palette.color[variant];
 
           if (color) return this.palette.light === light ? color[tone] : color[Math.abs(100 - tone)];

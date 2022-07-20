@@ -814,6 +814,16 @@ class AmauiTheme {
       },
     },
 
+    shape: {
+      radius: {
+        value: (value: TRadiusKey | number, unit?: string) => {
+          const value_ = this.shape.radius.unit * ((this.shape.radius.values[value] !== undefined ? this.shape.radius.values[value] : value as number) as number);
+
+          return unit ? value_ + unit : value_;
+        },
+      },
+    },
+
     breakpoints: {
       up: (value: number, media = 'only screen') => `@media ${media} and (min-width: ${value}${this.breakpoints.unit})`,
       down: (value: number, media = 'only screen') => `@media ${media} and (max-width: ${value}${this.breakpoints.unit})`,

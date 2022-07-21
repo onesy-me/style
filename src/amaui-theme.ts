@@ -607,7 +607,7 @@ const amauiThemeValueDefault: IAmauiTheme = {
         fontSize: `${pxToRem(21, 16)}rem`,
         fontFamily: FONT_FAMILY.primary,
         fontWeight: 400,
-        lineHeight: 64 / 21,
+        lineHeight: 28 / 21,
         letterSpacing: '0px'
       },
       t2: {

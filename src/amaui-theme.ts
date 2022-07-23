@@ -394,14 +394,15 @@ const amauiThemeValueDefault: IAmauiTheme = {
           tertiary: .27,
           quaternary: .14,
 
+          divider: .11,
+
           active: .44,
-          disabled: .27,
-          drag: .14,
-          divider: .13,
-          press: .1,
-          focus: .07,
-          selected: .05,
-          hover: .03,
+          disabled: .34,
+          drag: .27,
+          press: .21,
+          focus: .17,
+          selected: .14,
+          hover: .07,
         },
 
         contrast_threshold: 2.4
@@ -413,14 +414,15 @@ const amauiThemeValueDefault: IAmauiTheme = {
           tertiary: .37,
           quaternary: .24,
 
+          divider: .14,
+
           active: .54,
           disabled: .37,
-          drag: .16,
-          divider: .14,
-          press: .12,
-          focus: .11,
-          selected: .07,
-          hover: .04,
+          drag: .31,
+          press: .27,
+          focus: .21,
+          selected: .17,
+          hover: .1,
         },
 
         contrast_threshold: 3
@@ -432,13 +434,14 @@ const amauiThemeValueDefault: IAmauiTheme = {
           tertiary: .57,
           quaternary: .44,
 
+          divider: .24,
+
           active: .74,
           disabled: .57,
-          drag: .27,
-          divider: .24,
-          press: .22,
-          focus: .21,
-          selected: .17,
+          drag: .37,
+          press: .31,
+          focus: .24,
+          selected: .21,
           hover: .14,
         },
 

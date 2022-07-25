@@ -819,10 +819,10 @@ class AmauiTheme {
 
     shape: {
       radius: {
-        value: (value: TRadiusKey | number, unit?: string) => {
+        value: (value: TRadiusKey | number, unit?: string, add = 0) => {
           const value_ = this.shape.radius.unit * ((this.shape.radius.values[value] !== undefined ? this.shape.radius.values[value] : value as number) as number);
 
-          return unit ? value_ + unit : value_;
+          return unit ? value_ + add + unit : value_ + add;
         },
       },
     },

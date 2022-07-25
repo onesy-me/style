@@ -807,13 +807,13 @@ class AmauiTheme {
     shadow: (value: string = this.palette.color.primary.main, opacities: Array<number> = this.shadows.opacities) => AmauiTheme.make.shadow(value, opacities),
 
     space: {
-      value: (value: TSpaceKey | number, unit?: string) => {
+      value: (value: TSpaceKey | number, unit?: string, add = 0) => {
         let value_: any;
 
         if (value === 'round') value_ = this.space.values[value];
         else value_ = this.space.unit * ((this.space.values[value] !== undefined ? this.space.values[value] : value as number) as number);
 
-        return unit ? value_ + unit : value_;
+        return unit ? value_ + add + unit : value_ + add;
       },
     },
 

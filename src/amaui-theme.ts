@@ -739,8 +739,8 @@ class AmauiTheme {
       },
 
       color: {
-        value: (variant: TPaletteVariant, tone: TTone, light: boolean = true, palette?: IColor) => {
-          const color = palette || this.palette.color[variant];
+        value: (variant: TPaletteVariant | 'default', tone: TTone, light: boolean = true, palette?: IColor) => {
+          const color = palette || (variant === 'default' ? this.palette.color.neutral : this.palette.color[variant]);
 
           if (color) return this.palette.light === light ? color[tone] : color[Math.abs(100 - tone)];
         },

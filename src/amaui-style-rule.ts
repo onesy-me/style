@@ -207,6 +207,7 @@ class AmauiStyleRule {
     if (
       !this.hash &&
       this.amauiStyleSheet.amauiStyle.options.optimize &&
+      (this.css || this.amauiStyleSheet.amauiStyle.options.optimize_empty) &&
       this.static &&
       this.amauiStyleSheet.variant === 'static' &&
       this.variant === 'property' &&

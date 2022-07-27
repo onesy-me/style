@@ -17,7 +17,6 @@ interface IOptions {
   rule?: IOptionsRule;
 
   optimize?: boolean;
-  optimize_empty?: boolean;
 }
 
 const optionsDefault: IOptions = {
@@ -27,8 +26,7 @@ const optionsDefault: IOptions = {
     rtl: false,
   },
 
-  optimize: true,
-  optimize_empty: false
+  optimize: true
 };
 
 class AmauiStyle {

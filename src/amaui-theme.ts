@@ -847,13 +847,13 @@ class AmauiTheme {
     transitions: {
       make: (
         properties: string | Array<string>,
-        options: { duration?: TTransitionsDurationProperties | number; timing_function?: TTransitionsTimingFunctionProperties; delay?: number; } = { duration: 'rg', timing_function: 'standard' }
+        options: { duration?: TTransitionsDurationProperties | number; timing_function?: TTransitionsTimingFunctionProperties; delay?: TTransitionsDurationProperties | number; } = { duration: 'rg', timing_function: 'standard' }
       ) => {
         const props: any = is('array', properties) ? properties : [properties];
 
-        const duration = this.transitions.duration[options?.duration] || (is('number', options?.duration) && options?.duration) || this.transitions.duration.rg;
+        const duration = this.transitions.duration[options?.duration] || (is('number', options?.duration) ? options?.duration : this.transitions.duration.rg);
         const timing_function = this.transitions.timing_function[options?.timing_function] || (is('string', options?.timing_function) && options?.timing_function) || this.transitions.timing_function.standard;
-        const delay = options?.delay !== undefined ? options.delay : 0;
+        const delay = this.transitions.duration[options?.delay] || (is('number', options?.delay) ? options?.delay : 0);
 
         return props.map(prop => `${prop} ${duration}ms ${timing_function} ${delay}ms`).join(', ');
       },

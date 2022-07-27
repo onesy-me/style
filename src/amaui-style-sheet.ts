@@ -181,6 +181,10 @@ class AmauiStyleSheet {
         // Update values
         rule.value.updateValues(false);
 
+        // Update owned rules css
+        // to use for allCss and hash value
+        rule.value.rules_owned.filter(rule => rule instanceof AmauiStyleRule).forEach(rule => rule.updateValues());
+
         // Make selectors
         rule.value.makeSelector();
       });

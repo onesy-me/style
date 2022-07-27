@@ -168,6 +168,16 @@ class AmauiStyleRule {
     return this.response.css;
   }
 
+  get allOwnedCss() {
+    let value = this.values.css;
+
+    this.rules_owned
+      .filter(item => item instanceof AmauiStyleRule)
+      .forEach((item: AmauiStyleRule) => value += `\n\n${item.allOwnedCss}`);
+
+    return value;
+  }
+
   public updateValues(hash_ = true) {
     // Response
     const selector = this.selector || this.property;
@@ -207,12 +217,11 @@ class AmauiStyleRule {
     if (
       !this.hash &&
       this.amauiStyleSheet.amauiStyle.options.optimize &&
-      (this.css || this.amauiStyleSheet.amauiStyle.options.optimize_empty) &&
       this.static &&
       this.amauiStyleSheet.variant === 'static' &&
       this.variant === 'property' &&
       !(this.isVariable && this.amauiStyleSheet.mode === 'atomic')
-    ) this.hash_ = hash(this.css.replace(/.+\{|\}.*$/g, ''));
+    ) this.hash_ = hash(this.amauiStyleSheet.mode === 'atomic' ? this.css : this.allOwnedCss);
   }
 
   private init(value_?: any) {
@@ -342,6 +351,10 @@ class AmauiStyleRule {
 
       if (!exists) this.owner.rules.push({ property: this.property, value: this });
     }
+
+    // With this we have allOwnedCss
+    // available for hash value
+    this.updateValues();
 
     // Status
     this.status = 'inited';

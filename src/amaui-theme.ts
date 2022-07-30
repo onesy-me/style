@@ -20,7 +20,7 @@ import Try from '@amaui/utils/try';
 import merge from '@amaui/utils/merge';
 import AmauiSubscription from '@amaui/subscription';
 
-import { IOptionsRule, TDirection } from './interfaces';
+import { IOptionsRule, TDirection, TValue } from './interfaces';
 import colors from './colors';
 import { FONT_FAMILY } from './reset';
 import { getID, is, pxToRem } from './utils';
@@ -344,6 +344,21 @@ export interface ITypography {
 
 type TMode = 'regular' | 'read' | 'print';
 
+export interface IUi {
+  elements?: {
+    [p: string]: {
+      style?: {
+        add?: TValue;
+        override?: TValue;
+      };
+
+      props?: {
+        default?: Record<any, any>;
+      };
+    }
+  };
+}
+
 export interface IAmauiTheme {
   preference?: TPreference;
 
@@ -364,6 +379,9 @@ export interface IAmauiTheme {
   transitions?: ITransitions;
 
   z_index?: IzIndex;
+
+  // ui
+  ui?: IUi;
 
   [p: string]: any;
 }
@@ -859,6 +877,7 @@ class AmauiTheme {
       },
     }
   };
+  public ui?: IUi;
 
   // Any new property
   [p: string]: any;

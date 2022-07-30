@@ -34,7 +34,7 @@ export type TValueObjectValue = (
 
 export type TValueObject = Record<string, TValueObjectValue>;
 
-export type TValueMethod = (theme?: AmauiTheme) => TValueObject;
+export type TValueMethod = (theme: AmauiTheme) => TValueObject;
 
 export type TValue = TValueObject | TValueMethod;
 

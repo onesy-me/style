@@ -345,8 +345,16 @@ export interface ITypography {
 type TMode = 'regular' | 'read' | 'print';
 
 export interface IUi {
+  className?: {
+    static?: boolean;
+  };
+
   elements?: {
     [p: string]: {
+      className?: {
+        static?: boolean;
+      };
+
       style?: {
         add?: TValue;
         override?: TValue;
@@ -663,7 +671,7 @@ const amauiThemeValueDefault: IAmauiTheme = {
         fontSize: `${pxToRem(11, 16)}rem`,
         fontFamily: FONT_FAMILY.secondary,
         fontWeight: 500,
-        lineHeight: 5 / 11,
+        lineHeight: 15 / 11,
         letterSpacing: '.4px'
       },
       b1: {
@@ -877,7 +885,11 @@ class AmauiTheme {
       },
     }
   };
-  public ui?: IUi;
+  public ui?: IUi = {
+    className: {
+      static: true
+    }
+  };
 
   // Any new property
   [p: string]: any;

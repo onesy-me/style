@@ -896,7 +896,7 @@ class AmauiTheme {
 
   public constructor(
     value: IAmauiTheme = amauiThemeValueDefault,
-    public element?: Element,
+    public element?: HTMLElement,
     public options: IOptions = copy(optionsDefault),
   ) {
     this.options = merge(options, optionsDefault, { copy: true });
@@ -1248,29 +1248,29 @@ class AmauiTheme {
     'amaui-theme'
   ];
 
-  public static get(value: Element, index = 0): AmauiTheme {
+  public static get(value: HTMLElement, index = 0): AmauiTheme {
     const themes = this.all(value);
 
     return themes[index === -1 ? themes.length - 1 : index];
   }
 
-  public static first(value: Element): AmauiTheme {
+  public static first(value: HTMLElement): AmauiTheme {
     return this.get(value);
   }
 
-  public static last(value: Element): AmauiTheme {
+  public static last(value: HTMLElement): AmauiTheme {
     return this.get(value, -1);
   }
 
-  public static nearest(value: Element): AmauiTheme {
+  public static nearest(value: HTMLElement): AmauiTheme {
     return (elementMethod(value).nearest(this.attributes.map(item => `[${item}]`)) as any)?.amaui_theme;
   }
 
-  public static furthest(value: Element): AmauiTheme {
+  public static furthest(value: HTMLElement): AmauiTheme {
     return (elementMethod(value).furthest(this.attributes.map(item => `[${item}]`)) as any)?.amaui_theme;
   }
 
-  public static all(value: Element): Array<AmauiTheme> {
+  public static all(value: HTMLElement): Array<AmauiTheme> {
     const elements = [
       value,
       ...elementMethod(value).parents(this.attributes.map(item => `[${item}]`)),

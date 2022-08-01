@@ -56,31 +56,31 @@ export const FONT_FAMILY = {
 export const normalize = {
   html: {
     lineHeight: 1.15,
-    '-webkit-text-size-adjust': '100%',
+    '-webkit-text-size-adjust': '100%'
   },
 
   main: {
-    display: 'block',
+    display: 'block'
   },
 
   h1: {
     fontSize: '2em',
-    margin: '0.67em 0',
+    margin: '0.67em 0'
   },
 
   hr: {
     boxSizing: 'content-box',
     height: 0,
-    overflow: 'visible',
+    overflow: 'visible'
   },
 
   pre: {
     fontFamily: 'monospace, monospace',
-    fontSize: '1em',
+    fontSize: '1em'
   },
 
   a: {
-    backgroundColor: 'transparent',
+    backgroundColor: 'transparent'
   },
 
   'abbr[title]': {
@@ -94,16 +94,16 @@ export const normalize = {
   },
 
   'b, strong': {
-    fontWeight: 'bolder',
+    fontWeight: 'bolder'
   },
 
   'code, kbd, samp': {
     fontFamily: 'monospace, monospace',
-    fontSize: '1em',
+    fontSize: '1em'
   },
 
   small: {
-    fontSize: '80%',
+    fontSize: '80%'
   },
 
   'sub, sup': {
@@ -114,47 +114,47 @@ export const normalize = {
   },
 
   sub: {
-    bottom: '-0.25em',
+    bottom: '-0.25em'
   },
 
   sup: {
-    top: '-0.5em',
+    top: '-0.5em'
   },
 
   img: {
-    borderStyle: 'none',
+    borderStyle: 'none'
   },
 
   'button, input, optgroup, select, textarea': {
     fontFamily: 'inherit',
     fontSize: '100%',
     lineHeight: 1.15,
-    margin: 0,
+    margin: 0
   },
 
   'button, input': {
-    overflow: 'visible',
+    overflow: 'visible'
   },
 
   'button, select': {
-    textTransform: 'none',
+    textTransform: 'none'
   },
 
   'button, [type="button"], [type="reset"], [type="submit"]': {
-    '-webkit-appearance': 'button',
+    '-webkit-appearance': 'button'
   },
 
   'button::-moz-focus-inner, [type="button"]::-moz-focus-inner, [type="reset"]::-moz-focus-inner, [type="submit"]::-moz-focus-inner': {
     borderStyle: 'none',
-    padding: 0,
+    padding: 0
   },
 
   'button:-moz-focusring, [type="button"]:-moz-focusring, [type="reset"]:-moz-focusring, [type="submit"]:-moz-focusring': {
-    outline: '1px dotted ButtonText',
+    outline: '1px dotted ButtonText'
   },
 
   fieldset: {
-    padding: '0.35em 0.75em 0.625em',
+    padding: '0.35em 0.75em 0.625em'
   },
 
   legend: {
@@ -163,54 +163,54 @@ export const normalize = {
     display: 'table',
     maxWidth: '100%',
     padding: 0,
-    whiteSpace: 'normal',
+    whiteSpace: 'normal'
   },
 
   progress: {
-    verticalAlign: 'baseline',
+    verticalAlign: 'baseline'
   },
 
   textarea: {
-    overflow: 'auto',
+    overflow: 'auto'
   },
 
   '[type="checkbox"], [type="radio"]': {
     boxSizing: 'border-box',
-    padding: 0,
+    padding: 0
   },
 
   '[type="number"]::-webkit-inner-spin-button, [type="number"]::-webkit-outer-spin-button': {
-    height: 'auto',
+    height: 'auto'
   },
 
   '[type="search"]': {
     '-webkit-appearance': 'textfield',
-    outlineOffset: -2,
+    outlineOffset: -2
   },
 
   '[type="search"]::-webkit-search-decoration': {
-    '-webkit-appearance': 'none',
+    '-webkit-appearance': 'none'
   },
 
   '::-webkit-file-upload-button': {
     '-webkit-appearance': 'button',
-    font: 'inherit',
+    font: 'inherit'
   },
 
   details: {
-    display: 'block',
+    display: 'block'
   },
 
   summary: {
-    display: 'list-item',
+    display: 'list-item'
   },
 
   template: {
-    display: 'none',
+    display: 'none'
   },
 
   '[hidden]': {
-    display: 'none',
+    display: 'none'
   },
 };
 
@@ -226,12 +226,12 @@ export const resetDefault = {
     touchAction: 'manipulation',
 
     '&[contenteditable]': {
-      userSelect: 'text',
+      userSelect: 'text'
     },
   },
 
   body: {
-    fontSize: 14,
+    fontSize: '0.875rem',
     fontFamily: FONT_FAMILY.secondary,
     fontWeight: 'normal',
     fontStyle: 'normal',
@@ -242,41 +242,41 @@ export const resetDefault = {
 
   'img, embed, object, video': {
     maxWidth: '100%',
-    height: 'auto',
+    height: 'auto'
   },
 
   a: {
     textDecoration: 'none',
-    cursor: 'pointer',
+    cursor: 'pointer'
   },
 
   form: {
-    width: '100%',
+    width: '100%'
   },
 
   span: {
-    wordWrap: 'break-word',
+    wordWrap: 'break-word'
   },
 
   hr: {
     height: '1px',
     background: '#ddd',
     width: '100%',
-    margin: '24px 0',
+    margin: '24px 0'
   },
 
   'pre, code, kbd, samp': {
-    fontFamily: FONT_FAMILY.mono,
+    fontFamily: FONT_FAMILY.mono
   },
 
   code: {
     '& span': {
-      whiteSpace: 'pre-wrap',
+      whiteSpace: 'pre-wrap'
     },
   },
 
   ':focus': {
-    outline: 'none',
+    outline: 'none'
   },
 };
 

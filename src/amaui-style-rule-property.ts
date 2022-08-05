@@ -1,4 +1,5 @@
 import Try from '@amaui/utils/try';
+import isEnvironment from '@amaui/utils/isEnvironment';
 import AmauiSubscription from '@amaui/subscription';
 
 import AmauiStyle from './amaui-style';
@@ -193,9 +194,11 @@ class AmauiStyleRuleProperty {
     // Update values
     this.updateValues();
 
-    this.amauiStyleSheet.domElementForTesting.style[this.values.property] = this.values.value;
+    const domElement = this.amauiStyleSheet.domElementForTesting || (isEnvironment('browser') && window.document.createElement('div'));
 
-    const valueNew = this.amauiStyleSheet.domElementForTesting.style[this.values.property] || this.values.value;
+    if (domElement) domElement.style[this.values.property] = this.values.value;
+
+    const valueNew = domElement?.style[this.values.property] || this.values.value;
 
     // Only if rule reference exists
     if (this.owner.rule) {

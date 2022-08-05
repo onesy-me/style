@@ -193,10 +193,14 @@ class AmauiStyleRuleProperty {
     // Update values
     this.updateValues();
 
+    this.amauiStyleSheet.domElementForTesting.style[this.values.property] = this.values.value;
+
+    const valueNew = this.amauiStyleSheet.domElementForTesting.style[this.values.property] || this.values.value;
+
     // Only if rule reference exists
     if (this.owner.rule) {
       // Only update if value is diff from previous update
-      if (this.owner.rule.style[this.values.property] !== this.values.value) {
+      if (this.owner.rule.style[this.values.property] !== valueNew) {
         const rule: any = ((this.owner.owner as AmauiStyleRule).rule || (this.owner.owner as AmauiStyleSheet).sheet);
 
         // For some reason important will not update the style property

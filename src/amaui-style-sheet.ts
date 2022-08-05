@@ -46,6 +46,7 @@ class AmauiStyleSheet {
   public status: TStatus = 'idle';
   public element: HTMLStyleElement;
   public sheet: CSSStyleSheet;
+  public domElementForTesting: HTMLDivElement;
   private props_: any = {};
   public values = {
     css: '',
@@ -90,10 +91,12 @@ class AmauiStyleSheet {
   }
 
   public set props(props: any) {
-    this.props_ = copy(props);
+    if (this.propsAreNew(props)) {
+      this.props_ = copy(props);
 
-    // Update if new props are set
-    this.updateProps();
+      // Update if new props are set
+      this.updateProps();
+    }
   }
 
   public get response(): IValuesVariant {
@@ -299,6 +302,9 @@ class AmauiStyleSheet {
           item.value.add();
         });
       }
+
+      // Dom
+      this.domElementForTesting = window.document.createElement('div');
     }
   }
   public update(value: any) {
@@ -458,6 +464,13 @@ class AmauiStyleSheet {
     this.amauiStyle.subscriptions.sheet.update_props.emit(this);
   }
 
+  private propsAreNew(props: any) {
+    return (
+      (props && Object.keys(props).reduce((result, item) => result += item + String(props[item]), '')) ===
+      (this.props && Object.keys(this.props).reduce((result, item) => result += item + String(this.props[item]), ''))
+    );
+  }
+
   private makeRule(property: string, value: any, index: number = this.rules.length, pure = false) {
     // Pre
     this.amauiStyle.subscriptions.rule.pre.emit();
@@ -480,6 +493,7 @@ class AmauiStyleSheet {
 
     return rule;
   }
+
 
 }
 

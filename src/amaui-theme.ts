@@ -94,6 +94,9 @@ export interface IPaletteBackground {
   warning?: IColorBackground;
   error?: IColorBackground;
 
+  light?: IColorBackground;
+  dark?: IColorBackground;
+
   neutral?: IColorBackground;
 
   [p: string]: string | IColorBackground;
@@ -113,6 +116,9 @@ export interface IPaletteText {
   error?: IColorText;
 
   neutral?: IColorText;
+
+  light?: IColorText;
+  dark?: IColorText;
 
   divider?: string;
 
@@ -573,7 +579,7 @@ const amauiThemeValueDefault: IAmauiTheme = {
   shadows: {
     values: {},
 
-    opacities: [.14, .11, .17],
+    opacities: [.07, .04, .10],
   },
 
   typography: {
@@ -771,7 +777,7 @@ class AmauiTheme {
           if (color) return this.palette.light === light ? color[tone] : color[Math.abs(100 - tone)];
         },
 
-        text: (background: string, max = false, prefer?: 'light' | 'dark') => {
+        text: (background: string, max = false, prefer?: 'light' | 'dark', maxOpacity = 'primary') => {
           const preferenceText = this.preference.text.default || 'neutral';
 
           const luminances = {
@@ -793,7 +799,7 @@ class AmauiTheme {
           if (max) {
             tone = valueLighten ? 100 : 0;
 
-            color = colorToRgb(this.palette.color[preferenceText][tone], this.palette.visual_contrast.default.opacity.primary);
+            color = colorToRgb(this.palette.color[preferenceText][tone], this.palette.visual_contrast.default.opacity[maxOpacity]);
           }
           else {
             valueLighten = luminances.text >= luminances.background;
@@ -1051,6 +1057,26 @@ class AmauiTheme {
       this.palette.text[item].quaternary = text[item]?.quaternary || colorToRgb(colorValue, this.palette.visual_contrast.default?.opacity.quaternary);
     });
 
+    // light
+    const colorLight = this.palette.color.neutral[100];
+
+    this.palette.text.light = {};
+
+    this.palette.text.light.primary = colorToRgb(colorLight, this.palette.visual_contrast.default?.opacity.primary) as string;
+    this.palette.text.light.secondary = colorToRgb(colorLight, this.palette.visual_contrast.default?.opacity.secondary) as string;
+    this.palette.text.light.tertiary = colorToRgb(colorLight, this.palette.visual_contrast.default?.opacity.tertiary) as string;
+    this.palette.text.light.quaternary = colorToRgb(colorLight, this.palette.visual_contrast.default?.opacity.quaternary) as string;
+
+    // dark
+    const colorDark = this.palette.color.neutral[0];
+
+    this.palette.text.dark = {};
+
+    this.palette.text.dark.primary = colorToRgb(colorDark, this.palette.visual_contrast.default?.opacity.primary) as string;
+    this.palette.text.dark.secondary = colorToRgb(colorDark, this.palette.visual_contrast.default?.opacity.secondary) as string;
+    this.palette.text.dark.tertiary = colorToRgb(colorDark, this.palette.visual_contrast.default?.opacity.tertiary) as string;
+    this.palette.text.dark.quaternary = colorToRgb(colorDark, this.palette.visual_contrast.default?.opacity.quaternary) as string;
+
     // background
     // add to text
     Object.keys(background).forEach(prop => {
@@ -1067,6 +1093,22 @@ class AmauiTheme {
       (this.palette.background[item] as IColorBackground).tertiary = (background[item] as IColorBackground)?.tertiary || variant[!this.palette.light ? 5 : 95];
       (this.palette.background[item] as IColorBackground).quaternary = (background[item] as IColorBackground)?.quaternary || variant[!this.palette.light ? 10 : 90];
     });
+
+    // light
+    this.palette.background.light = {};
+
+    this.palette.background.light.primary = this.palette.color.neutral[100];
+    this.palette.background.light.secondary = this.palette.color.neutral[99];
+    this.palette.background.light.tertiary = this.palette.color.neutral[95];
+    this.palette.background.light.quaternary = this.palette.color.neutral[90];
+
+    // dark
+    this.palette.background.dark = {};
+
+    this.palette.background.dark.primary = this.palette.color.neutral[0];
+    this.palette.background.dark.secondary = this.palette.color.neutral[1];
+    this.palette.background.dark.tertiary = this.palette.color.neutral[5];
+    this.palette.background.dark.quaternary = this.palette.color.neutral[10];
 
     // default
     (this.palette.background.default as IColorBackground) = this.palette.background[this.preference.background.default || 'white'] as IColorBackground;

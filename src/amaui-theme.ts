@@ -208,6 +208,15 @@ export interface IBreakpoints {
 
     [p: string]: number;
   };
+  media?: {
+    xs?: string;
+    sm?: string;
+    md?: string;
+    lg?: string;
+    xl?: string;
+
+    [p: string]: string;
+  };
   keys?: string[];
   unit?: string;
 }
@@ -557,6 +566,13 @@ const amauiThemeValueDefault: IAmauiTheme = {
       md: 1240,
       lg: 1440,
       xl: 1920,
+    },
+    media: {
+      xs: '(max-width: 599px)',
+      sm: '(min-width: 600px) and (max-width: 1239px)',
+      md: '(min-width: 1240px) and (max-width: 1439px)',
+      lg: '(min-width: 1440px) and (max-width: 1919px)',
+      xl: '(min-width: 1920px)'
     },
     unit: 'px',
   },

@@ -178,7 +178,7 @@ export interface IRadius {
     xxs?: number;
     xs?: number;
     sm?: number;
-    ld?: number;
+    rg?: number;
     md?: number;
     lg?: number;
     xl?: number;
@@ -228,7 +228,7 @@ export interface ISpace {
     xxs?: number;
     xs?: number;
     sm?: number;
-    ld?: number;
+    rg?: number;
     md?: number;
     lg?: number;
     xl?: number;

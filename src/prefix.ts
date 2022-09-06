@@ -130,7 +130,7 @@ function prefix(amauiStyle: AmauiStyle, options_: IOptions = {}) {
     // if initial value property are valid return
     if (isEnvironment('browser') && valid(value_.value, value_.property)) return value;
 
-    // make mix of all prefix variants for value and property and all mixes other than the original
+    // make mix of all prefix versions for value and property and all mixes other than the original
     const propertyPrefixesKey = Object.keys(mapAllPropertyPrefixes).find(item => value_.property.indexOf(item) > -1);
     const propertyPrefixes = mapAllPropertyPrefixes[propertyPrefixesKey] || [];
     const properties = [value_.property, ...propertyPrefixes.map(prefix_ => `${prefix_}${value_.property}`)];

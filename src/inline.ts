@@ -23,7 +23,7 @@ export interface IOptions {
 
   response?: 'css' | 'json';
 
-  response_json_property_variant?: 'cammel' | 'kebab';
+  response_json_property_version?: 'cammel' | 'kebab';
 }
 
 const optionsDefault: IOptions = {
@@ -34,7 +34,7 @@ const optionsDefault: IOptions = {
     get: AmauiTheme.first.bind(AmauiTheme),
   },
   response: 'css',
-  response_json_property_variant: 'cammel'
+  response_json_property_version: 'cammel'
 };
 
 function inline(
@@ -108,7 +108,7 @@ function inline(
         value__ = value__?.trim();
 
         if (property && value__) {
-          response[options.response_json_property_variant === 'cammel' ? kebabCasetoCammelCase(property) : cammelCaseToKebabCase(property)] = value__;
+          response[options.response_json_property_version === 'cammel' ? kebabCasetoCammelCase(property) : cammelCaseToKebabCase(property)] = value__;
         }
       });
     }

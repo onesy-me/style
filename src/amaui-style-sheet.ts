@@ -8,10 +8,10 @@ import AmauiStyle from './amaui-style';
 import AmauiStyleRule from './amaui-style-rule';
 import AmauiStyleSheetManager from './amaui-style-sheet-manager';
 import AmauiTheme from './amaui-theme';
-import { TMode, IOptionsRule, IValuesVariant, TStatus, TPriority, IAddRuleResponse, TValueObject } from './interfaces';
+import { TMode, IOptionsRule, IValuesVersion, TStatus, TPriority, IAddRuleResponse, TValueObject } from './interfaces';
 import { dynamic, getID, is } from './utils';
 
-type TVariant = 'all' | 'static' | 'dynamic';
+type TVersion = 'all' | 'static' | 'dynamic';
 
 export interface IRuleItem {
   property: string;
@@ -69,7 +69,7 @@ class AmauiStyleSheet {
 
   public constructor(
     public value?: TValueObject,
-    public variant: TVariant = 'static',
+    public version: TVersion = 'static',
     public mode: TMode = 'regular',
     public pure = false,
     public priority: TPriority = 'upper',
@@ -99,7 +99,7 @@ class AmauiStyleSheet {
     }
   }
 
-  public get response(): IValuesVariant {
+  public get response(): IValuesVersion {
     // Response
     this.values.css = ``;
 
@@ -186,7 +186,7 @@ class AmauiStyleSheet {
 
         // Update owned rules css
         // to use for allCss and hash value
-        rule.value.rules_owned.filter(rule => rule instanceof AmauiStyleRule).forEach(rule => rule.updateValues());
+        rule.value.rules_owned.filter(rule_ => rule_ instanceof AmauiStyleRule).forEach(rule_ => rule_.updateValues());
 
         // Make selectors
         rule.value.makeSelector();
@@ -194,7 +194,7 @@ class AmauiStyleSheet {
     }
 
     // Add to amauiStyle and amauiStyleSheetManager
-    if (this.amauiStyleSheetManager) this.amauiStyleSheetManager.sheets[this.variant]?.push(this);
+    if (this.amauiStyleSheetManager) this.amauiStyleSheetManager.sheets[this.version]?.push(this);
 
     if (this.amauiStyleSheetManager && this.amauiStyleSheetManager.options.amaui_style_cache) this.amauiStyle.sheets.push(this);
 
@@ -208,8 +208,8 @@ class AmauiStyleSheet {
     if (
       value !== undefined &&
       (
-        (this.variant === 'static' && !isDynamic) ||
-        (this.variant === 'dynamic' && isDynamic)
+        (this.version === 'static' && !isDynamic) ||
+        (this.version === 'dynamic' && isDynamic)
       )
     ) {
       let property = property_ !== undefined ? property_ : env.amaui_methods.makeName.next().value;
@@ -264,7 +264,7 @@ class AmauiStyleSheet {
             amaui: true,
             mode: this.mode,
             pure: this.pure,
-            variant: this.variant,
+            version: this.version,
             name: this.options.name
           },
         };
@@ -307,6 +307,7 @@ class AmauiStyleSheet {
       this.domElementForTesting = window.document.createElement('div');
     }
   }
+
   public update(value: any) {
     if (is('object', value)) {
       // Update active status
@@ -343,22 +344,22 @@ class AmauiStyleSheet {
       // Extract any & ref rules from new and add 'em to new
       const add = [];
 
-      const refValues = (item, parents) => {
+      const refValues = (item, parents_) => {
         if (is('object', item)) Object.keys(item).forEach(key => {
-          if (key.includes('&')) add.push({ property: key, value: item[key], parents });
+          if (key.includes('&')) add.push({ property: key, value: item[key], parents_ });
 
-          refValues(item[key], parents + ' ' + key);
+          refValues(item[key], parents_ + ' ' + key);
         });
-      }
+      };
 
       items.new.forEach(item => refValues(item.value, item.property));
 
       items.new.push(...add);
 
       const parents = item => {
-        const parents = item.value.parents.filter(item => !(item instanceof AmauiStyleSheet));
+        const parents_ = item.value.parents.filter(item_ => !(item_ instanceof AmauiStyleSheet));
 
-        return parents.map(item => item.property).join(' ') || item.value.property;
+        return parents_.map(item_ => item_.property).join(' ') || item.value.property;
       };
 
       // To update, add
@@ -441,9 +442,9 @@ class AmauiStyleSheet {
       if (index > -1) this.amauiStyle.sheets.splice(index, 1);
 
       // Remove from amauiStyleSheetManager
-      index = this.amauiStyleSheetManager.sheets[this.variant].findIndex(sheet => sheet.id === this.id);
+      index = this.amauiStyleSheetManager.sheets[this.version].findIndex(sheet => sheet.id === this.id);
 
-      if (index > -1) this.amauiStyleSheetManager.sheets[this.variant].splice(index, 1);
+      if (index > -1) this.amauiStyleSheetManager.sheets[this.version].splice(index, 1);
 
       // Update idle status
       this.status = 'idle';
@@ -493,7 +494,6 @@ class AmauiStyleSheet {
 
     return rule;
   }
-
 
 }
 

@@ -50,7 +50,7 @@ group('@amaui/style/amaui-style-sheet', () => {
 
       return [
         typeof amauiStyleSheet.id === 'string',
-        amauiStyleSheet.variant === 'static',
+        amauiStyleSheet.version === 'static',
         amauiStyleSheet.mode === 'regular',
         amauiStyleSheet.status === 'inited',
         amauiStyleSheet.priority === 'upper',
@@ -116,7 +116,7 @@ group('@amaui/style/amaui-style-sheet', () => {
 
     const valueNode = [
       typeof amauiStyleSheet.id === 'string',
-      amauiStyleSheet.variant === 'static',
+      amauiStyleSheet.version === 'static',
       amauiStyleSheet.mode === 'regular',
       amauiStyleSheet.status === 'inited',
       amauiStyleSheet.priority === 'upper',

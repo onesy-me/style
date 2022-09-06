@@ -149,14 +149,14 @@ group('@amaui/style/inline', () => {
 
     });
 
-    group('response_json_property_variant', () => {
+    group('response_json_property_version', () => {
 
       to('cammel', async () => {
         const valueBrowsers = await evaluate((window: any) => {
-          return window.AmauiStyle.inline({ color: 'yellow', backgroundColor: 'orange' }, {}, { response: 'json', response_json_property_variant: 'cammel' });
+          return window.AmauiStyle.inline({ color: 'yellow', backgroundColor: 'orange' }, {}, { response: 'json', response_json_property_version: 'cammel' });
         });
 
-        const valueNode = AmauiStyle.inline({ color: 'yellow', backgroundColor: 'orange' }, {}, { response: 'json', response_json_property_variant: 'cammel' });
+        const valueNode = AmauiStyle.inline({ color: 'yellow', backgroundColor: 'orange' }, {}, { response: 'json', response_json_property_version: 'cammel' });
 
         const values = [valueNode, ...valueBrowsers];
 
@@ -165,10 +165,10 @@ group('@amaui/style/inline', () => {
 
       to('kebab', async () => {
         const valueBrowsers = await evaluate((window: any) => {
-          return window.AmauiStyle.inline({ color: 'yellow', backgroundColor: 'orange' }, {}, { response: 'json', response_json_property_variant: 'kebab' });
+          return window.AmauiStyle.inline({ color: 'yellow', backgroundColor: 'orange' }, {}, { response: 'json', response_json_property_version: 'kebab' });
         });
 
-        const valueNode = AmauiStyle.inline({ color: 'yellow', backgroundColor: 'orange' }, {}, { response: 'json', response_json_property_variant: 'kebab' });
+        const valueNode = AmauiStyle.inline({ color: 'yellow', backgroundColor: 'orange' }, {}, { response: 'json', response_json_property_version: 'kebab' });
 
         const values = [valueNode, ...valueBrowsers];
 

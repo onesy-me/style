@@ -982,7 +982,7 @@ group('Use cases', () => {
         a5: {
           // Object
           background: {
-            // Multi variant value
+            // Multi version value
             value: [
               ['url("a.jpg")', 'no-repeat', 'right', 'top'],
               ['url("a1.jpg")', 'no-repeat', 'right', 'top'],
@@ -1994,7 +1994,7 @@ group('Use cases', () => {
       a5: {
         // Object
         background: {
-          // Multi variant value
+          // Multi version value
           value: [
             ['url("a.jpg")', 'no-repeat', 'right', 'top'],
             ['url("a1.jpg")', 'no-repeat', 'right', 'top'],

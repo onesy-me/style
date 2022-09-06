@@ -9,10 +9,10 @@ import AmauiStyle from './amaui-style';
 import AmauiStyleSheet from './amaui-style-sheet';
 import AmauiStyleRuleProperty from './amaui-style-rule-property';
 import classNamesMethod from './classNames';
-import { IOptionsRule, IValuesVariant, TMode, TRef, TStatus, TValueVariant } from './interfaces';
+import { IOptionsRule, IValuesVersion, TMode, TRef, TStatus, TValueVersion } from './interfaces';
 import { cammelCaseToKebabCase, getID, getRefs, is, isAmauiSubscription, valueResolve } from './utils';
 
-export type TVariant = 'property' | 'at-rule';
+export type TVersion = 'property' | 'at-rule';
 
 export interface IRuleItemWithString {
   property: string;
@@ -49,7 +49,7 @@ const makeRuleKeyframesNameDefault = (value: string = 'a') => `${value}-${env.am
 
 class AmauiStyleRule {
   public id: string;
-  public value_variant: TValueVariant = 'value';
+  public value_version: TValueVersion = 'value';
   public rule_: CSSStyleRule;
   public status: TStatus = 'idle';
   public level: number;
@@ -73,7 +73,7 @@ class AmauiStyleRule {
     public value: any,
     public property: string,
     public mode: TMode = 'regular',
-    public variant: TVariant = 'property',
+    public version: TVersion = 'property',
     public pure = false,
     public index = 0,
     public owner: AmauiStyleRule | AmauiStyleSheet,
@@ -100,7 +100,7 @@ class AmauiStyleRule {
   }
 
   public set className(value: string) {
-    const parentKeyframes = this.parent.variant === 'at-rule';
+    const parentKeyframes = this.parent.version === 'at-rule';
 
     if (!parentKeyframes) {
       this.className_ = value;
@@ -111,7 +111,7 @@ class AmauiStyleRule {
       this.amauiStyleSheet.names.classNames[this.property] = this.className;
 
       // in amauiStyleSheetManager only for static sheets
-      if (this.amauiStyleSheet.variant === 'static' && this.amauiStyleSheet.amauiStyleSheetManager) {
+      if (this.amauiStyleSheet.version === 'static' && this.amauiStyleSheet.amauiStyleSheetManager) {
         this.amauiStyleSheet.amauiStyleSheetManager.names.classNames[this.property] = this.className;
       }
     }
@@ -127,7 +127,7 @@ class AmauiStyleRule {
     this.amauiStyleSheet.names.classes[this.property] = this.classNames;
 
     // in amauiStyleSheetManager only for static sheets
-    if (this.amauiStyleSheet.variant === 'static' && this.amauiStyleSheet.amauiStyleSheetManager) {
+    if (this.amauiStyleSheet.version === 'static' && this.amauiStyleSheet.amauiStyleSheetManager) {
       this.amauiStyleSheet.amauiStyleSheetManager.names.classes[this.property] = this.classNames;
     }
   }
@@ -145,7 +145,7 @@ class AmauiStyleRule {
     this.amauiStyleSheet.names.keyframes[property] = this.keyframesName;
 
     // in amauiStyleSheetManager only for static sheets
-    if (this.amauiStyleSheet.variant === 'static' && this.amauiStyleSheet.amauiStyleSheetManager) {
+    if (this.amauiStyleSheet.version === 'static' && this.amauiStyleSheet.amauiStyleSheetManager) {
       if (!this.amauiStyleSheet.amauiStyleSheetManager.names.keyframes[property]) {
         this.amauiStyleSheet.amauiStyleSheetManager.names.keyframes[property] = this.keyframesName;
       }
@@ -160,7 +160,7 @@ class AmauiStyleRule {
     return this.parents[this.parents.length - 1];
   }
 
-  public get response(): IValuesVariant {
+  public get response(): IValuesVersion {
     return { css: this.values.css };
   }
 
@@ -206,7 +206,7 @@ class AmauiStyleRule {
     // update with a new value on update
     if (
       empty &&
-      (!this.className || this.amauiStyleSheet.variant === 'static')
+      (!this.className || this.amauiStyleSheet.version === 'static')
     ) this.values.css = '';
 
     // Hash
@@ -218,8 +218,8 @@ class AmauiStyleRule {
       !this.hash &&
       this.amauiStyleSheet.amauiStyle.options.optimize &&
       this.static &&
-      this.amauiStyleSheet.variant === 'static' &&
-      this.variant === 'property' &&
+      this.amauiStyleSheet.version === 'static' &&
+      this.version === 'property' &&
       !(this.isVariable && this.amauiStyleSheet.mode === 'atomic')
     ) this.hash_ = hash(this.amauiStyleSheet.mode === 'atomic' ? this.css : this.allOwnedCss);
   }
@@ -271,9 +271,9 @@ class AmauiStyleRule {
     ) this.isVariable = true;
 
     // value method or amauiSubscription
-    if (is('function', value)) this.value_variant = 'method';
+    if (is('function', value)) this.value_version = 'method';
     else if (isAmauiSubscription(value)) {
-      this.value_variant = 'amaui_subscription';
+      this.value_version = 'amaui_subscription';
 
       if (!(value as any).subscribed) (value as any).subscribed = [];
 
@@ -289,12 +289,12 @@ class AmauiStyleRule {
 
     const atRule = this.property?.indexOf('@') === 0;
 
-    this.variant = atRule ? 'at-rule' : 'property';
+    this.version = atRule ? 'at-rule' : 'property';
 
     // method or AmauiSubscription
-    if ((['method', 'amaui_subscription'].indexOf(this.value_variant) > -1)) {
-      if (this.value_variant === 'method') this.values.value = Try(() => value(this.amauiStyleSheet.props));
-      else if (this.value_variant === 'amaui_subscription') this.values.value = this.value.value;
+    if ((['method', 'amaui_subscription'].indexOf(this.value_version) > -1)) {
+      if (this.value_version === 'method') this.values.value = Try(() => value(this.amauiStyleSheet.props));
+      else if (this.value_version === 'amaui_subscription') this.values.value = this.value.value;
 
       // Value
       this.values.value = is('function', this.values.value) ? Try(() => this.values.value(this.amauiStyleSheet.props)) : this.values.value;
@@ -363,7 +363,7 @@ class AmauiStyleRule {
   public addProperty(prop: string, value: any, index = this.rules.length, unique = true, add = true) {
     const atRule_ = prop.indexOf('@') === 0;
     const parent = this as unknown as AmauiStyleRule;
-    const parentAtRule = this.variant === 'at-rule';
+    const parentAtRule = this.version === 'at-rule';
     const parentKeyFrames = parentAtRule && parent.property?.indexOf('@keyframes') > -1;
     const selector = prop.indexOf('&') > -1 || parentAtRule || parentKeyFrames;
     const isProperty = !(atRule_ || selector);
@@ -470,7 +470,7 @@ class AmauiStyleRule {
           // only if the parent is at-rule @media or @supports, or AmauiStyleSheet
           if (
             (
-              owner.variant === 'at-rule' &&
+              owner.version === 'at-rule' &&
               atNested.some(item => owner.property.indexOf(item) === 0)
             ) ||
             owner instanceof AmauiStyleSheet
@@ -529,7 +529,7 @@ class AmauiStyleRule {
   }
 
   public updateProps() {
-    if ((['method', 'amaui_subscription'].indexOf(this.value_variant) > -1)) this.init();
+    if ((['method', 'amaui_subscription'].indexOf(this.value_version) > -1)) this.init();
 
     // Add
     this.add(false);
@@ -547,7 +547,7 @@ class AmauiStyleRule {
     // Manual update
     if (
       value !== undefined ||
-      (['method', 'amaui_subscription'].indexOf(this.value_variant) > -1)
+      (['method', 'amaui_subscription'].indexOf(this.value_version) > -1)
     ) this.init(value);
 
     // Add
@@ -644,7 +644,7 @@ class AmauiStyleRule {
       // Make hash first so we can use refs
       if (!this.hash) this.makeHash();
 
-      const parentAtRule = this.parent.variant === 'at-rule';
+      const parentAtRule = this.parent.version === 'at-rule';
       const isKeyframes = this.property.indexOf('@keyframes') === 0;
 
       // Variable
@@ -660,11 +660,11 @@ class AmauiStyleRule {
         this.selector = this.property;
 
         // level 0 property inside an at-rule
-        if (parentAtRule && this.variant === 'property') {
+        if (parentAtRule && this.version === 'property') {
           // & ref
           let parent = this.parent;
 
-          while (parent.variant === 'at-rule') parent = parent.parent;
+          while (parent.version === 'at-rule') parent = parent.parent;
 
           this.selector = this.selector.replace(/&/g, (parent as AmauiStyleRule).selector);
 
@@ -725,7 +725,7 @@ class AmauiStyleRule {
       (rule.isVariable || rule.mode === 'atomic') &&
       this.hash &&
       ref &&
-      this.amauiStyleSheet.variant === 'static'
+      this.amauiStyleSheet.version === 'static'
     ) {
       // Push amauiStyleSheet ref if it doesn't already exist in refs
       if (
@@ -754,7 +754,7 @@ class AmauiStyleRule {
       rule instanceof AmauiStyleRule &&
       (rule.isVariable || rule.mode === 'atomic') &&
       this.hash &&
-      this.amauiStyleSheet.variant === 'static'
+      this.amauiStyleSheet.version === 'static'
     ) {
       this.amauiStyle.refs[this.hash] = {
         main: {
@@ -772,7 +772,7 @@ class AmauiStyleRule {
       this.amauiStyleSheet.names.classNames[property] = className;
       this.amauiStyleSheet.names.classes[property] = className;
 
-      if (this.amauiStyleSheet.variant === 'static' && this.amauiStyleSheet.amauiStyleSheetManager) {
+      if (this.amauiStyleSheet.version === 'static' && this.amauiStyleSheet.amauiStyleSheetManager) {
         this.amauiStyleSheet.amauiStyleSheetManager.names.classNames[property] = className;
         this.amauiStyleSheet.amauiStyleSheetManager.names.classes[property] = className;
       }
@@ -896,7 +896,7 @@ class AmauiStyleRule {
       return a.value.level < b.value.level ? -1 : 1;
     });
 
-    const atRule = this.variant === 'at-rule';
+    const atRule = this.version === 'at-rule';
 
     // Sort
     const useSort = (
@@ -962,7 +962,7 @@ class AmauiStyleRule {
     value: any,
     property: string,
     mode: TMode = 'regular',
-    variant: TVariant = 'property',
+    version: TVersion = 'property',
     pure = false,
     index = 0,
     owner: AmauiStyleRule | AmauiStyleSheet,
@@ -974,7 +974,7 @@ class AmauiStyleRule {
       value,
       property,
       mode,
-      variant,
+      version,
       pure,
       index,
       owner,

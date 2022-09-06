@@ -7,7 +7,7 @@ import { TMethod } from '@amaui/models';
 import AmauiSubscription from '@amaui/subscription';
 import AmauiMeta from '@amaui/meta';
 
-import { IOptionsRule, IValuesVariant, TMode, TRefs } from './interfaces';
+import { IOptionsRule, IValuesVersion, TMode, TRefs } from './interfaces';
 import AmauiStyleRenderer from './amaui-style-renderer';
 import AmauiStyleSheet from './amaui-style-sheet';
 import AmauiStyleSheetManager from './amaui-style-sheet-manager';
@@ -93,7 +93,7 @@ class AmauiStyle {
     this.init();
   }
 
-  public get response(): IValuesVariant {
+  public get response(): IValuesVersion {
     this.values.css = ``;
 
     this.sheets.forEach(sheet => {

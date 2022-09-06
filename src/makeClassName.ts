@@ -10,7 +10,7 @@ export interface IOptionsDom {
 export interface IMakeClassName {
   value?: any;
   arguments?: any;
-  variant?: 'development' | 'production';
+  version?: 'development' | 'production';
 }
 
 export interface IOptions {

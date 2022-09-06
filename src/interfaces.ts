@@ -42,7 +42,7 @@ export type TMode = 'regular' | 'atomic';
 
 export type TDirection = 'ltr' | 'rtl';
 
-export type TValueVariant = 'value' | 'method' | 'amaui_subscription';
+export type TValueVersion = 'value' | 'method' | 'amaui_subscription';
 
 export type TRef = { main: { sheet: AmauiStyleSheet, rule: AmauiStyleRule }, className: string; refs: Array<AmauiStyleSheet> };
 
@@ -55,7 +55,7 @@ export interface IIds {
 
 export type TStatus = 'idle' | 'inited' | 'active' | 'remove';
 
-export interface IValuesVariant {
+export interface IValuesVersion {
   css: string;
 }
 

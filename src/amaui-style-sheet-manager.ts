@@ -4,7 +4,7 @@ import merge from '@amaui/utils/merge';
 import AmauiStyle from './amaui-style';
 import AmauiStyleSheet from './amaui-style-sheet';
 import AmauiTheme from './amaui-theme';
-import { TMode, IOptionsRule, IValuesVariant, TStatus, IResponse, IIds, TPriority, ISheets, IAmauiStyleSheetManagerProps, TValueObject } from './interfaces';
+import { TMode, IOptionsRule, IValuesVersion, TStatus, IResponse, IIds, TPriority, ISheets, IAmauiStyleSheetManagerProps, TValueObject } from './interfaces';
 import { dynamic, getID, is, names } from './utils';
 
 interface IProperties {
@@ -70,12 +70,12 @@ class AmauiStyleSheetManager {
     this.init();
   }
 
-  private propertiesVariant(variant = 'static', properties = this.properties): any {
+  private propertiesVersion(version = 'static', properties = this.properties): any {
     const value = {
       '@pure': {},
     };
 
-    properties[variant].forEach(item => {
+    properties[version].forEach(item => {
       if (item.value['@pure']) value['@pure'][item.property] = item.value;
       else value[item.property] = item.value;
     });
@@ -103,14 +103,14 @@ class AmauiStyleSheetManager {
       dynamic: [],
     };
 
-    Object.keys(this.sheets).forEach(variant => {
-      this.sheets[variant].forEach(sheet => ids[variant].push(sheet.id));
+    Object.keys(this.sheets).forEach(version => {
+      this.sheets[version].forEach(sheet => ids[version].push(sheet.id));
     });
 
     return ids;
   }
 
-  public get response(): IValuesVariant {
+  public get response(): IValuesVersion {
     // Response
     this.values.css = ``;
 
@@ -150,19 +150,19 @@ class AmauiStyleSheetManager {
     // if value is an object
     if (is('object', this.value)) {
       // Props put into values.static and values.dynamic
-      const variants = this.variants(this.value);
+      const versions = this.versions(this.value);
 
       // Add values to the properties
-      Object.keys(variants).forEach(variant => {
-        variants[variant].forEach(item => {
-          this.properties[variant].push(item);
+      Object.keys(versions).forEach(version => {
+        versions[version].forEach(item => {
+          this.properties[version].push(item);
         });
       });
 
       // Make a static sheet only if it doesn't already exist
       if (!!this.properties.static.length && !this.sheets.static.length) {
         new AmauiStyleSheet(
-          this.propertiesVariant(),
+          this.propertiesVersion(),
           'static',
           this.mode,
           this.pure,
@@ -207,7 +207,7 @@ class AmauiStyleSheetManager {
     if (!this.sheets.static.length) {
       if (!!this.properties.static.length) {
         const sheet = new AmauiStyleSheet(
-          this.propertiesVariant(),
+          this.propertiesVersion(),
           'static',
           this.mode,
           this.pure,
@@ -230,10 +230,10 @@ class AmauiStyleSheetManager {
     }
 
     // Reviving the static status removed
-    if (!!this.sheets.static.length) this.sheets.static.filter(sheet => sheet.status === 'remove').forEach(sheet => sheet.update(this.propertiesVariant()));
+    if (!!this.sheets.static.length) this.sheets.static.filter(sheet => sheet.status === 'remove').forEach(sheet => sheet.update(this.propertiesVersion()));
 
     // Static
-    sheets.filter(sheet => sheet.variant === 'static').forEach(sheet => {
+    sheets.filter(sheet => sheet.version === 'static').forEach(sheet => {
       // Add
       sheet.add(props);
     });
@@ -241,7 +241,7 @@ class AmauiStyleSheetManager {
     // if values.dynamic min 1 prop make a dynamic sheet
     if (!!this.properties.dynamic.length) {
       const sheet = new AmauiStyleSheet(
-        this.propertiesVariant('dynamic'),
+        this.propertiesVersion('dynamic'),
         'dynamic',
         this.mode,
         this.pure,
@@ -286,7 +286,7 @@ class AmauiStyleSheetManager {
   public update(value: any) {
     // Make all props into remove, add, update props
     if (is('object', value)) {
-      const variants = {
+      const versions = {
         previous: {
           static: this.properties.static,
           dynamic: this.properties.dynamic,
@@ -298,22 +298,22 @@ class AmauiStyleSheetManager {
       };
 
       // Props put into values.static and values.dynamic
-      const variants_values = this.variants(value);
+      const versions_values = this.versions(value);
 
-      // Add values to the variants new
-      Object.keys(variants_values).forEach(variant => {
-        variants_values[variant].forEach(item => {
-          variants.new[variant].push(item);
+      // Add values to the versions new
+      Object.keys(versions_values).forEach(version => {
+        versions_values[version].forEach(item => {
+          versions.new[version].push(item);
         });
       });
 
       // Update
 
       // Static
-      if (!!variants.new.static.length) this.sheets.static.forEach(sheet => sheet.update(this.propertiesVariant('static', variants_values)));
+      if (!!versions.new.static.length) this.sheets.static.forEach(sheet => sheet.update(this.propertiesVersion('static', versions_values)));
 
       // Dynamic
-      if (!!variants.new.dynamic.length) this.sheets.dynamic.forEach(sheet => sheet.update(this.propertiesVariant('dynamic', variants_values)));
+      if (!!versions.new.dynamic.length) this.sheets.dynamic.forEach(sheet => sheet.update(this.propertiesVersion('dynamic', versions_values)));
     }
 
     const response: IResponse = {
@@ -353,7 +353,7 @@ class AmauiStyleSheetManager {
     }
   }
 
-  private variants(value: any) {
+  private versions(value: any) {
     const response = {
       static: [],
       dynamic: [],

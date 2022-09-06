@@ -3,10 +3,10 @@ import { TPriority } from './interfaces';
 
 class AmauiStyleRenderer {
 
-  public make(attributes = { element: {}, data: {} }, variant = 'style'): Element {
+  public make(attributes = { element: {}, data: {} }, version = 'style'): Element {
     // Append to the bottom of head element
     if (isEnvironment('browser')) {
-      const element = window.document.createElement(variant);
+      const element = window.document.createElement(version);
 
       Object.keys(attributes?.element || {}).forEach(attribute => element.setAttribute(attribute, attributes.element[attribute]));
 

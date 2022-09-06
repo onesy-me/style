@@ -5,7 +5,7 @@ import AmauiSubscription from '@amaui/subscription';
 import AmauiStyle from './amaui-style';
 import AmauiStyleRule from './amaui-style-rule';
 import AmauiStyleSheet from './amaui-style-sheet';
-import { IOptionsRule, IValuesVariant, TValueVariant } from './interfaces';
+import { IOptionsRule, IValuesVersion, TValueVersion } from './interfaces';
 import { cammelCaseToKebabCase, getID, getRefs, is, valueResolve } from './utils';
 
 interface IOptions { }
@@ -23,7 +23,7 @@ class AmauiStyleRuleProperty {
   public constructor(
     public value: any,
     public property: string,
-    public value_variant: TValueVariant = 'value',
+    public value_version: TValueVersion = 'value',
     public pure = false,
     public owner: AmauiStyleRule,
     public parents: Array<AmauiStyleSheet | AmauiStyleRule> = [],
@@ -39,7 +39,7 @@ class AmauiStyleRuleProperty {
     return this.parents[this.parents.length - 1] as AmauiStyleRule;
   }
 
-  public get response(): IValuesVariant {
+  public get response(): IValuesVersion {
     return { css: this.values.css };
   }
 
@@ -70,10 +70,10 @@ class AmauiStyleRuleProperty {
     // method or AmauiSubscription
     if (
       value === undefined &&
-      ['method', 'amaui_subscription'].indexOf(this.value_variant) > -1
+      ['method', 'amaui_subscription'].indexOf(this.value_version) > -1
     ) {
-      if (this.value_variant === 'method') this.values.value = Try(() => this.value(this.amauiStyleSheet.props));
-      else if (this.value_variant === 'amaui_subscription') {
+      if (this.value_version === 'method') this.values.value = Try(() => this.value(this.amauiStyleSheet.props));
+      else if (this.value_version === 'amaui_subscription') {
         this.values.value = this.value.value;
 
         if (!(this.value as any).subscribed) (this.value as any).subscribed = [];
@@ -167,7 +167,7 @@ class AmauiStyleRuleProperty {
     this.updateValues();
   }
 
-  // Update only if amauiStyleSheet is variant 'dynamic'
+  // Update only if amauiStyleSheet is version 'dynamic'
   public update(value?: any) {
     // Init with value
     if (value !== undefined) this.init(value);
@@ -180,10 +180,10 @@ class AmauiStyleRuleProperty {
     // method or AmauiSubscription
     if (
       value === undefined &&
-      (['method', 'amaui_subscription'].indexOf(this.value_variant) > -1)
+      (['method', 'amaui_subscription'].indexOf(this.value_version) > -1)
     ) {
-      if (this.value_variant === 'method') this.values.value = Try(() => this.value(this.amauiStyleSheet.props));
-      else if (this.value_variant === 'amaui_subscription') this.values.value = this.value.value;
+      if (this.value_version === 'method') this.values.value = Try(() => this.value(this.amauiStyleSheet.props));
+      else if (this.value_version === 'amaui_subscription') this.values.value = this.value.value;
 
       // Value
       this.values.value = is('function', this.values.value) ? Try(() => (this.values as any).value(this.amauiStyleSheet.props)) : this.values.value;
@@ -271,7 +271,7 @@ class AmauiStyleRuleProperty {
   public static make(
     value: any,
     property: string,
-    variant: TValueVariant = 'value',
+    version: TValueVersion = 'value',
     pure = false,
     owner: AmauiStyleRule,
     parents: any[] = [this],
@@ -283,7 +283,7 @@ class AmauiStyleRuleProperty {
     return new AmauiStyleRuleProperty(
       value,
       property,
-      variant,
+      version,
       pure,
       owner,
       parents,

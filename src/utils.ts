@@ -14,8 +14,8 @@ export const capitalizedCammelCase = (value: string) => capitalize(kebabCasetoCa
 
 export const capitalize = (value: string) => is('string', value) ? value.charAt(0).toUpperCase() + value.slice(1) : value;
 
-export const is = (variant: string, value: any) => {
-  switch (variant) {
+export const is = (version: string, value: any) => {
+  switch (version) {
     case 'string':
       return typeof value === 'string';
 

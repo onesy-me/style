@@ -27,22 +27,22 @@ import { getID, is, pxToRem } from './utils';
 
 export type TTone = 0 | 1 | 5 | 10 | 20 | 30 | 40 | 50 | 60 | 70 | 80 | 90 | 95 | 99 | 100;
 
-export type TColorVariant = 'light' | 'main' | 'dark';
+export type TColorVersion = 'light' | 'main' | 'dark';
 
 export type TColorValues = 'light' | 'main' | 'dark' | 0 | 1 | 5 | 10 | 20 | 30 | 40 | 50 | 60 | 70 | 80 | 90 | 95 | 99 | 100;
 
-export type TColorBackgroundVariant = 'primary' | 'secondary' | 'tertiary' | 'quaternary';
+export type TColorBackgroundVersion = 'primary' | 'secondary' | 'tertiary' | 'quaternary';
 
-export type TColorTextVariant = 'primary' | 'secondary' | 'tertiary' | 'quaternary';
+export type TColorTextVersion = 'primary' | 'secondary' | 'tertiary' | 'quaternary';
 
-export type TPaletteVariant = 'primary' | 'secondary' | 'tertiary' | 'quaternary' | 'info' | 'success' | 'warning' | 'error' | 'neutral';
+export type TPaletteVersion = 'primary' | 'secondary' | 'tertiary' | 'quaternary' | 'info' | 'success' | 'warning' | 'error' | 'neutral';
 
 export type IColorBackground = {
-  [key in TColorBackgroundVariant]?: string;
+  [key in TColorBackgroundVersion]?: string;
 };
 
 export type IColorText = {
-  [key in TColorTextVariant]?: string;
+  [key in TColorTextVersion]?: string;
 };
 
 export type IColor = {
@@ -149,7 +149,7 @@ type TPreferenceItems = 'visual_contrast' | 'background' | 'text';
 
 export type TPreference = {
   [key in TPreferenceItems]?: {
-    default?: TPaletteVariant | TVisualContrastItem;
+    default?: TPaletteVersion | TVisualContrastItem;
   };
 };
 
@@ -313,7 +313,7 @@ export interface IzIndex {
   [p: string]: number;
 }
 
-export interface ITypographyVariant {
+export interface ITypographyVersion {
   fontSize?: string | number;
   fontFamily?: string;
   lineHeight?: string | number;
@@ -337,21 +337,21 @@ export interface ITypography {
   };
 
   values?: {
-    d1?: ITypographyVariant;
-    d2?: ITypographyVariant;
-    d3?: ITypographyVariant;
-    h1?: ITypographyVariant;
-    h2?: ITypographyVariant;
-    h3?: ITypographyVariant;
-    t1?: ITypographyVariant;
-    t2?: ITypographyVariant;
-    t3?: ITypographyVariant;
-    l1?: ITypographyVariant;
-    l2?: ITypographyVariant;
-    l3?: ITypographyVariant;
-    b1?: ITypographyVariant;
-    b2?: ITypographyVariant;
-    b3?: ITypographyVariant;
+    d1?: ITypographyVersion;
+    d2?: ITypographyVersion;
+    d3?: ITypographyVersion;
+    h1?: ITypographyVersion;
+    h2?: ITypographyVersion;
+    h3?: ITypographyVersion;
+    t1?: ITypographyVersion;
+    t2?: ITypographyVersion;
+    t3?: ITypographyVersion;
+    l1?: ITypographyVersion;
+    l2?: ITypographyVersion;
+    l3?: ITypographyVersion;
+    b1?: ITypographyVersion;
+    b2?: ITypographyVersion;
+    b3?: ITypographyVersion;
 
     [p: string]: any;
   };
@@ -787,8 +787,8 @@ class AmauiTheme {
       },
 
       color: {
-        value: (variant: TPaletteVariant | 'default', tone: TTone, light: boolean = true, palette?: IColor) => {
-          const color = palette || (variant === 'default' ? this.palette.color.neutral : this.palette.color[variant]);
+        value: (version: TPaletteVersion | 'default', tone: TTone, light: boolean = true, palette?: IColor) => {
+          const color = palette || (version === 'default' ? this.palette.color.neutral : this.palette.color[version]);
 
           if (color) return this.palette.light === light ? color[tone] : color[Math.abs(100 - tone)];
         },
@@ -1047,10 +1047,10 @@ class AmauiTheme {
       if (value) {
         this.palette.color[prop] = value;
 
-        const variants = ['light', 'main', 'dark'];
+        const versions = ['light', 'main', 'dark'];
 
-        // Override the main variants with user provided values
-        variants.forEach(variant => { if (is('string', item[variant]) && !!item[variant].length) this.palette.color[prop][variant] = item[variant]; });
+        // Override the main versions with user provided values
+        versions.forEach(version => { if (is('string', item[version]) && !!item[version].length) this.palette.color[prop][version] = item[version]; });
       }
     });
 
@@ -1061,11 +1061,11 @@ class AmauiTheme {
     });
 
     Object.keys(this.palette.color).forEach(item => {
-      const variant = this.palette.color[item] as TValueColorValue;
+      const version = this.palette.color[item] as TValueColorValue;
 
       if (!this.palette.text[item]) this.palette.text[item] = {};
 
-      const colorValue = this.palette.light ? variant[item === 'neutral' ? 0 : 30] : variant[item === 'neutral' ? 100 : 70];
+      const colorValue = this.palette.light ? version[item === 'neutral' ? 0 : 30] : version[item === 'neutral' ? 100 : 70];
 
       this.palette.text[item].primary = text[item]?.primary || colorToRgb(colorValue, this.palette.visual_contrast.default?.opacity.primary);
       this.palette.text[item].secondary = text[item]?.secondary || colorToRgb(colorValue, this.palette.visual_contrast.default?.opacity.secondary);
@@ -1100,14 +1100,14 @@ class AmauiTheme {
     });
 
     Object.keys(this.palette.color).forEach(item => {
-      const variant = this.palette.color[item];
+      const version = this.palette.color[item];
 
       if (!this.palette.background[item]) this.palette.background[item] = {};
 
-      (this.palette.background[item] as IColorBackground).primary = (background[item] as IColorBackground)?.primary || variant[!this.palette.light ? 0 : 100];
-      (this.palette.background[item] as IColorBackground).secondary = (background[item] as IColorBackground)?.secondary || variant[!this.palette.light ? 1 : 99];
-      (this.palette.background[item] as IColorBackground).tertiary = (background[item] as IColorBackground)?.tertiary || variant[!this.palette.light ? 5 : 95];
-      (this.palette.background[item] as IColorBackground).quaternary = (background[item] as IColorBackground)?.quaternary || variant[!this.palette.light ? 10 : 90];
+      (this.palette.background[item] as IColorBackground).primary = (background[item] as IColorBackground)?.primary || version[!this.palette.light ? 0 : 100];
+      (this.palette.background[item] as IColorBackground).secondary = (background[item] as IColorBackground)?.secondary || version[!this.palette.light ? 1 : 99];
+      (this.palette.background[item] as IColorBackground).tertiary = (background[item] as IColorBackground)?.tertiary || version[!this.palette.light ? 5 : 95];
+      (this.palette.background[item] as IColorBackground).quaternary = (background[item] as IColorBackground)?.quaternary || version[!this.palette.light ? 10 : 90];
     });
 
     // light
@@ -1175,9 +1175,9 @@ class AmauiTheme {
     if (is('object', shadows)) this.shadows = merge(shadows, this.shadows);
 
     Object.keys(this.palette.color).forEach(item => {
-      const variant = this.palette.color[item] as TValueColorValue;
+      const version = this.palette.color[item] as TValueColorValue;
 
-      this.shadows.values[item] = AmauiTheme.make.shadow(variant.main, this.shadows.opacities);
+      this.shadows.values[item] = AmauiTheme.make.shadow(version.main, this.shadows.opacities);
     });
 
     // Typography

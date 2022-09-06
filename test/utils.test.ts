@@ -297,7 +297,7 @@ group('@amaui/style/utils', () => {
           ]
         }],
         ['background', {
-          // Multi variant value
+          // Multi version value
           value: [
             ['url("a.jpg")', 'no-repeat', 'right', 'top'],
             ['url("a1.jpg")', 'no-repeat', 'right', 'top'],
@@ -374,7 +374,7 @@ group('@amaui/style/utils', () => {
         ]
       }],
       ['background', {
-        // Multi variant value
+        // Multi version value
         value: [
           ['url("a.jpg")', 'no-repeat', 'right', 'top'],
           ['url("a1.jpg")', 'no-repeat', 'right', 'top'],

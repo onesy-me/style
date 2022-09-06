@@ -10,6 +10,7 @@ import AmauiStyleSheetManager from './amaui-style-sheet-manager';
 import AmauiTheme from './amaui-theme';
 import { TMode, IOptionsRule, IValuesVersion, TStatus, TPriority, IAddRuleResponse, TValueObject } from './interfaces';
 import { dynamic, getID, is } from './utils';
+import { equalDeep } from '@amaui/utils';
 
 type TVersion = 'all' | 'static' | 'dynamic';
 
@@ -346,7 +347,7 @@ class AmauiStyleSheet {
 
       const refValues = (item, parents_) => {
         if (is('object', item)) Object.keys(item).forEach(key => {
-          if (key?.includes('&')) add.push({ property: key, value: item[key], parents_ });
+          if (key?.includes('&')) add.push({ property: key, value: item[key], parents: parents_ });
 
           refValues(item[key], parents_ + ' ' + key);
         });
@@ -395,8 +396,9 @@ class AmauiStyleSheet {
         // Activity items
         properties[activity].forEach(item => {
           const rule = this.rules.find(rule_ => (
-            item === rule_ ||
+            (rule_ === item) ||
             (
+
               (rule_.value.pure === !!(item.value['@pure'] || item.value['@p'])) &&
               (rule_.value.property === item.property) &&
               item.parents === parents(rule_)

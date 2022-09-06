@@ -44,7 +44,7 @@ group('@amaui/style/amaui-style-rule', () => {
           },
         };
 
-        const amauiStyle = new window.AmauiStyle.AmauiStyle();
+        const amauiStyle = new window.AmauiStyle.AmauiStyle(undefined, undefined, undefined, { optimize: true });
 
         const amauiStyleSheetManager = new window.AmauiStyle.AmauiStyleSheetManager(undefined, 'regular', false, 'upper', undefined, amauiStyle, {}, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
@@ -150,7 +150,7 @@ group('@amaui/style/amaui-style-rule', () => {
         },
       };
 
-      const amauiStyle = new AmauiStyle.AmauiStyle();
+      const amauiStyle = new AmauiStyle.AmauiStyle(undefined, undefined, undefined, { optimize: true });
 
       const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(undefined, 'regular', false, 'upper', undefined, amauiStyle, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
@@ -326,7 +326,7 @@ group('@amaui/style/amaui-style-rule', () => {
           },
         };
 
-        const amauiStyle = new window.AmauiStyle.AmauiStyle();
+        const amauiStyle = new window.AmauiStyle.AmauiStyle(undefined, undefined, undefined, { optimize: true });
 
         const amauiStyleSheetManager = new window.AmauiStyle.AmauiStyleSheetManager(undefined, 'regular', false, 'upper', undefined, amauiStyle, {}, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
@@ -434,7 +434,7 @@ group('@amaui/style/amaui-style-rule', () => {
         },
       };
 
-      const amauiStyle = new AmauiStyle.AmauiStyle();
+      const amauiStyle = new AmauiStyle.AmauiStyle(undefined, undefined, undefined, { optimize: true });
 
       const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(undefined, 'regular', false, 'upper', undefined, amauiStyle, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 

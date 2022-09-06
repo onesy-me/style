@@ -26,7 +26,7 @@ const optionsDefault: IOptions = {
     rtl: false,
   },
 
-  optimize: true
+  optimize: false
 };
 
 class AmauiStyle {

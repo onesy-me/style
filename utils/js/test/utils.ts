@@ -43,6 +43,7 @@ export const startBrowser = (
       let browser = chromium;
 
       if (type === 'firefox') browser = firefox;
+
       if (type === 'webkit') browser = webkit;
 
       result['browser'] = await browser.launch(options.browser);

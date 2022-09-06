@@ -304,7 +304,7 @@ class AmauiStyleSheet {
       }
 
       // Dom
-      this.domElementForTesting = window.document.createElement('div');
+      this.domElementForTesting = isEnvironment('browser') && window.document.createElement('div');
     }
   }
 
@@ -346,7 +346,7 @@ class AmauiStyleSheet {
 
       const refValues = (item, parents_) => {
         if (is('object', item)) Object.keys(item).forEach(key => {
-          if (key.includes('&')) add.push({ property: key, value: item[key], parents_ });
+          if (key?.includes('&')) add.push({ property: key, value: item[key], parents_ });
 
           refValues(item[key], parents_ + ' ' + key);
         });
@@ -395,9 +395,12 @@ class AmauiStyleSheet {
         // Activity items
         properties[activity].forEach(item => {
           const rule = this.rules.find(rule_ => (
-            (rule_.value.pure === !!(item.value['@pure'] || item.value['@p'])) &&
-            (rule_.value.property === item.property) &&
-            item.parents === parents(rule_)
+            item === rule_ ||
+            (
+              (rule_.value.pure === !!(item.value['@pure'] || item.value['@p'])) &&
+              (rule_.value.property === item.property) &&
+              item.parents === parents(rule_)
+            )
           ));
 
           switch (activity) {
@@ -467,7 +470,7 @@ class AmauiStyleSheet {
 
   private propsAreNew(props: any) {
     return (
-      (props && Object.keys(props).reduce((result, item) => result += item + String(props[item]), '')) ===
+      (props && Object.keys(props).reduce((result, item) => result += item + String(props[item]), '')) !==
       (this.props && Object.keys(this.props).reduce((result, item) => result += item + String(this.props[item]), ''))
     );
   }

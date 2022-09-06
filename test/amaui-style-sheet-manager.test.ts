@@ -61,6 +61,7 @@ group('@amaui/style/amaui-style-sheet-manager', () => {
         window.AmauiUtils.equalDeep(amauiStyleSheetManager.names.className, 'a-0'),
         window.AmauiUtils.equalDeep(amauiStyleSheetManager.names.class, 'a-0'),
         window.AmauiUtils.equalDeep(amauiStyleSheetManager.options, {
+          "name": "style",
           "style": {
             "attributes": {
               "method": "style"
@@ -154,6 +155,7 @@ group('@amaui/style/amaui-style-sheet-manager', () => {
       AmauiUtils.equalDeep(amauiStyleSheetManager.names.className, 'a-0'),
       AmauiUtils.equalDeep(amauiStyleSheetManager.names.class, 'a-0'),
       AmauiUtils.equalDeep(amauiStyleSheetManager.options, {
+        "name": "style",
         "style": {
           "attributes": {
             "method": "style"

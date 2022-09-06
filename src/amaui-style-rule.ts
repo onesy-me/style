@@ -175,6 +175,9 @@ class AmauiStyleRule {
       .filter(item => item instanceof AmauiStyleRule)
       .forEach((item: AmauiStyleRule) => value += `\n\n${item.allOwnedCss}`);
 
+    // Replace its own property selector with a constant
+    value = value.replace(`${this.selector || this.property} {`, 'AMAUI_ITEM {');
+
     return value;
   }
 
@@ -216,8 +219,8 @@ class AmauiStyleRule {
   private makeHash() {
     if (
       !this.hash &&
-      this.amauiStyleSheet.amauiStyle.options.optimize &&
       this.static &&
+      this.amauiStyleSheet.amauiStyle.options.optimize &&
       this.amauiStyleSheet.version === 'static' &&
       this.version === 'property' &&
       !(this.isVariable && this.amauiStyleSheet.mode === 'atomic')

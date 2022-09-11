@@ -145,7 +145,7 @@ export type TVisualContrast = {
   };
 };
 
-type TPreferenceItems = 'visual_contrast' | 'background' | 'text';
+type TPreferenceItems = 'visual_contrast' | 'background' | 'text' | 'shadow';
 
 export type TPreference = {
   [key in TPreferenceItems]?: {
@@ -416,6 +416,9 @@ const amauiThemeValueDefault: IAmauiTheme = {
     },
     text: {
       default: 'neutral',
+    },
+    shadow: {
+      default: 'neutral'
     },
     visual_contrast: {
       default: 'regular'
@@ -1179,6 +1182,9 @@ class AmauiTheme {
 
       this.shadows.values[item] = AmauiTheme.make.shadow(version.main, this.shadows.opacities);
     });
+
+    // Default
+    this.shadows.values.default = AmauiTheme.make.shadow((this.palette.color[this.preference.shadow.default] as any).main, this.shadows.opacities);
 
     // Typography
     if (is('object', typography)) this.typography = merge(typography, this.typography);

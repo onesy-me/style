@@ -1,11 +1,11 @@
 import merge from '@amaui/utils/merge';
 import Try from '@amaui/utils/try';
 
+import { is } from './utils';
 import AmauiStyle from './amaui-style';
 import AmauiStyleSheetManager from './amaui-style-sheet-manager';
 import AmauiTheme from './amaui-theme';
 import { TValue, TValueMethod, IAmauiStyleSheetManagerProps, IMethodResponse, IOptionsAmauiStyle, IOptionsAmauiTheme } from './interfaces';
-import { is } from './utils';
 
 export interface IOptions {
   element?: Element;
@@ -64,8 +64,7 @@ export const normalize = {
   },
 
   h1: {
-    fontSize: '2em',
-    margin: '0.67em 0'
+    fontSize: '2em'
   },
 
   hr: {

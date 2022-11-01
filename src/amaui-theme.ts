@@ -598,7 +598,7 @@ const amauiThemeValueDefault: IAmauiTheme = {
   shadows: {
     values: {},
 
-    opacities: [.07, .04, .10],
+    opacities: [.04, .01, .07]
   },
 
   typography: {
@@ -796,7 +796,7 @@ class AmauiTheme {
           if (color) return this.palette.light === light ? color[tone] : color[Math.abs(100 - tone)];
         },
 
-        text: (background: string, max = false, prefer?: 'light' | 'dark', maxOpacity = 'primary') => {
+        text: (background: string, max = false, prefer: 'light' | 'dark' = 'light', maxOpacity = 'primary') => {
           const preferenceText = this.preference.text.default || 'neutral';
 
           const luminances = {

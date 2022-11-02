@@ -21,9 +21,9 @@ import merge from '@amaui/utils/merge';
 import AmauiSubscription from '@amaui/subscription';
 
 import { IOptionsRule, TDirection, TValue } from './interfaces';
-import colors from './colors';
 import { FONT_FAMILY } from './reset';
 import { getID, is, pxToRem } from './utils';
+import colors from './colors';
 
 export type TTone = 0 | 1 | 5 | 10 | 20 | 30 | 40 | 50 | 60 | 70 | 80 | 90 | 95 | 99 | 100;
 

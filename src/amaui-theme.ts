@@ -24,6 +24,12 @@ import { IOptionsRule, TDirection, TValue } from './interfaces';
 import { getID, is, pxToRem } from './utils';
 import colors from './colors';
 
+const FONT_FAMILY = {
+  primary: ['Roboto', 'Helvetica', '"Helvetica Neue"', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Arial', '"Apple Color Emoji"', '"Segoe UI Emoji"', '"Segoe UI Symbol"', 'sans-serif'].join(', '),
+  secondary: ['Roboto', 'Helvetica', '"Helvetica Neue"', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Arial', '"Apple Color Emoji"', '"Segoe UI Emoji"', '"Segoe UI Symbol"', 'sans-serif'].join(', '),
+  mono: ['Roboto Mono', 'monospace'].join(', ')
+};
+
 export type TTone = 0 | 1 | 5 | 10 | 20 | 30 | 40 | 50 | 60 | 70 | 80 | 90 | 95 | 99 | 100;
 
 export type TColorVersion = 'light' | 'main' | 'dark';
@@ -407,12 +413,6 @@ export interface IAmauiTheme {
 
   [p: string]: any;
 }
-
-const FONT_FAMILY = {
-  primary: ['Roboto', 'Helvetica', '"Helvetica Neue"', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Arial', '"Apple Color Emoji"', '"Segoe UI Emoji"', '"Segoe UI Symbol"', 'sans-serif'].join(', '),
-  secondary: ['Roboto', 'Helvetica', '"Helvetica Neue"', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Arial', '"Apple Color Emoji"', '"Segoe UI Emoji"', '"Segoe UI Symbol"', 'sans-serif'].join(', '),
-  mono: ['Roboto Mono', 'monospace'].join(', ')
-};
 
 const amauiThemeValueDefault: IAmauiTheme = {
   preference: {

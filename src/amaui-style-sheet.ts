@@ -10,7 +10,6 @@ import AmauiStyleSheetManager from './amaui-style-sheet-manager';
 import AmauiTheme from './amaui-theme';
 import { TMode, IOptionsRule, IValuesVersion, TStatus, TPriority, IAddRuleResponse, TValueObject } from './interfaces';
 import { dynamic, getID, is } from './utils';
-import { equalDeep } from '@amaui/utils';
 
 type TVersion = 'all' | 'static' | 'dynamic';
 

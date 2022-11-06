@@ -226,7 +226,7 @@ export const resetDefault = {
 
     '&[contenteditable]': {
       userSelect: 'text'
-    },
+    }
   },
 
   body: {

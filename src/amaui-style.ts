@@ -77,6 +77,10 @@ class AmauiStyle {
   public refs: TRefs = {};
   public sheets: Array<AmauiStyleSheet> = [];
   public sheet_managers: Array<AmauiStyleSheetManager> = [];
+  public counter = {
+    className: 0,
+    keyframesName: 0,
+  };
 
   // Any new property
   [p: string]: any;
@@ -161,21 +165,21 @@ class AmauiStyle {
     if (this.id === undefined) this.id = getID();
 
     if (isEnvironment('browser')) {
-      if (this.element) {
-        // AmauiStyle in element
-        this.element.setAttribute('data-amaui-style', 'true');
+      if (!this.element) this.element = window.document.body;
 
-        (this.element as any)['amaui-style'] = true;
+      // AmauiStyle in element
+      this.element.setAttribute('data-amaui-style', 'true');
 
-        (this.element as any).amaui_style = this;
+      (this.element as any)['amaui-style'] = true;
 
-        // Ltr
-        const style = Try(() => window.getComputedStyle(this.element));
+      (this.element as any).amaui_style = this;
 
-        this.direction = style?.direction || Try(() => window.getComputedStyle(document.documentElement).direction) || 'ltr';
+      // Ltr
+      const style = Try(() => window.getComputedStyle(this.element));
 
-        this.options.rule.rtl = this.direction === 'rtl';
-      }
+      this.direction = style?.direction || Try(() => window.getComputedStyle(document.documentElement).direction) || 'ltr';
+
+      this.options.rule.rtl = this.direction === 'rtl';
     }
   }
 

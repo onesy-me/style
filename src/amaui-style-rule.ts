@@ -38,15 +38,6 @@ const optionsDefault: IOptions = {
 
 const env = getEnvironment();
 
-env.amaui_counter = {
-  className: 0,
-  keyframesName: 0,
-};
-
-const makeRuleClassNameDefault = (value: string = 'a') => `${value}-${env.amaui_counter.className++}`;
-
-const makeRuleKeyframesNameDefault = (value: string = 'a') => `${value}-${env.amaui_counter.keyframesName++}`;
-
 class AmauiStyleRule {
   public id: string;
   public value_version: TValueVersion = 'value';
@@ -180,6 +171,14 @@ class AmauiStyleRule {
 
     return value;
   }
+
+  public get counter() {
+    return this.amauiStyle.counter;
+  }
+
+  private makeRuleClassNameDefault = (value: string = 'a') => `${value}-${this.counter.className++}`;
+
+  private makeRuleKeyframesNameDefault = (value: string = 'a') => `${value}-${this.counter.keyframesName++}`;
 
   public updateValues(hash_ = true) {
     // Response
@@ -748,7 +747,7 @@ class AmauiStyleRule {
       this.amauiStyle.subscriptions.className.name.map({ property, value: rule?.value })?.value ||
 
       // Make with a default method
-      makeRuleClassNameDefault(property)
+      this.makeRuleClassNameDefault(property)
     );
 
     // Add to amauiStyle ref,
@@ -839,7 +838,7 @@ class AmauiStyleRule {
         this.amauiStyle.subscriptions.keyframes.name.map({ property, value: rule.value })?.value ||
 
         // Make with a default method
-        makeRuleKeyframesNameDefault(property)
+        this.makeRuleKeyframesNameDefault(property)
       );
 
       // Post

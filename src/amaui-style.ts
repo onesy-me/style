@@ -140,7 +140,7 @@ class AmauiStyle {
                 is('function', item.method) &&
                 !AmauiMeta.get(item.method, amauiStyle, 'plugin')
               )
-            ) &&
+            ) ||
             (
               is('function', item) &&
               !AmauiMeta.get(item, amauiStyle, 'plugin')
@@ -173,7 +173,7 @@ class AmauiStyle {
                 is('function', (item as any).method) &&
                 !AmauiMeta.get((item as any).method, amauiStyle, 'plugin')
               )
-            ) &&
+            ) ||
             (
               is('function', item) &&
               !AmauiMeta.get(item, amauiStyle, 'plugin')

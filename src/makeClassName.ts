@@ -22,7 +22,7 @@ const optionsDefault: IOptions = {
   production: (
     isEnvironment('browser') ||
     (isEnvironment('nodejs') && ['prod', 'production'].indexOf(process.env.NODE_ENV) > -1)
-  ),
+  )
 };
 
 function makeClassName(amauiStyle: AmauiStyle, options_: IOptions = {}) {

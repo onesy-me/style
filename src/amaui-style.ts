@@ -13,6 +13,13 @@ import AmauiStyleSheet from './amaui-style-sheet';
 import AmauiStyleSheetManager from './amaui-style-sheet-manager';
 import { getID, is } from './utils';
 
+export type AmauiPlugin = TMethod | {
+  method: TMethod;
+  arguments: any[];
+};
+
+export type AmauiPlugins = AmauiPlugin | AmauiPlugin[];
+
 interface IOptions {
   rule?: IOptionsRule;
 
@@ -122,17 +129,29 @@ class AmauiStyle {
 
     return {
       // Add plugins
-      set add(value_: TMethod | TMethod[]) {
-        const value = (is('array', value_) ? value_ : [value_]) as TMethod[];
+      set add(value_: AmauiPlugins) {
+        const value = (is('array', value_) ? value_ : [value_]);
 
-        value
-          .filter(method => (
-            is('function', method) &&
-            !AmauiMeta.get(method, amauiStyle, 'plugin')
+        (value as any[])
+          .filter(item => (
+            (
+              is('object', item) &&
+              (
+                is('function', item.method) &&
+                !AmauiMeta.get(item.method, amauiStyle, 'plugin')
+              )
+            ) &&
+            (
+              is('function', item) &&
+              !AmauiMeta.get(item, amauiStyle, 'plugin')
+            )
           ))
-          .forEach(method => {
+          .forEach(item => {
             try {
-              const response = method(amauiStyle);
+              const method = is('function', item) ? item : (item as any).method;
+              const args = is('object', item) ? item.arguments : [];
+
+              const response = method(amauiStyle, ...args);
 
               AmauiMeta.add(method, response, amauiStyle, 'plugin');
             }
@@ -141,14 +160,29 @@ class AmauiStyle {
             }
           });
       },
-      // Remove plugins
-      set remove(value_: TMethod | TMethod[]) {
-        const value = (is('array', value_) ? value_ : [value_]) as TMethod[];
 
-        value
-          .filter(method => is('function', method))
-          .forEach(method => {
+      // Remove plugins
+      set remove(value_: AmauiPlugins) {
+        const value = (is('array', value_) ? value_ : [value_]);
+
+        (value as AmauiPlugin[])
+          .filter(item => (
+            (
+              is('object', item) &&
+              (
+                is('function', (item as any).method) &&
+                !AmauiMeta.get((item as any).method, amauiStyle, 'plugin')
+              )
+            ) &&
+            (
+              is('function', item) &&
+              !AmauiMeta.get(item, amauiStyle, 'plugin')
+            )
+          ))
+          .forEach(item => {
             try {
+              const method = is('function', item) ? item : (item as any).method;
+
               const response = AmauiMeta.get(method, amauiStyle, 'plugin');
 
               if (is('function', response?.remove)) response.remove();

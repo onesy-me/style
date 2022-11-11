@@ -25,9 +25,9 @@ import { getID, is, pxToRem } from './utils';
 import colors from './colors';
 
 const FONT_FAMILY = {
-  primary: ['Roboto', 'Helvetica', '"Helvetica Neue"', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Arial', '"Apple Color Emoji"', '"Segoe UI Emoji"', '"Segoe UI Symbol"', 'sans-serif'].join(', '),
-  secondary: ['Roboto', 'Helvetica', '"Helvetica Neue"', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Arial', '"Apple Color Emoji"', '"Segoe UI Emoji"', '"Segoe UI Symbol"', 'sans-serif'].join(', '),
-  mono: ['Roboto Mono', 'monospace'].join(', ')
+  primary: ['Roboto', 'Helvetica', 'Helvetica Neue', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Arial', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'sans-serif'].join(', '),
+  secondary: ['Roboto', 'Helvetica', 'Helvetica Neue', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Arial', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'sans-serif'].join(', '),
+  tertiary: ['Roboto Mono', 'monospace'].join(', ')
 };
 
 export type TTone = 0 | 1 | 5 | 10 | 20 | 30 | 40 | 50 | 60 | 70 | 80 | 90 | 95 | 99 | 100;
@@ -326,7 +326,7 @@ export interface ITypographyVersion {
   fontWeight?: string | number;
 }
 
-export type TTypographyItem = 'd1' | 'd2' | 'd3' | 'h1' | 'h2' | 'h3' | 't1' | 't2' | 't3' | 'l1' | 'l2' | 'l3' | 'b1' | 'b2' | 'b3';
+export type TTypographyItem = 'd1' | 'd2' | 'd3' | 'h1' | 'h2' | 'h3' | 't1' | 't2' | 't3' | 'l1' | 'l2' | 'l3' | 'b1' | 'b2' | 'b3' | 'm1' | 'm2' | 'm3';
 
 export interface ITypography {
   unit?: string;
@@ -338,7 +338,7 @@ export interface ITypography {
   font_family?: {
     primary?: string;
     secondary?: string;
-    mono?: string;
+    tertiary?: string;
   };
 
   values?: {
@@ -357,6 +357,9 @@ export interface ITypography {
     b1?: ITypographyVersion;
     b2?: ITypographyVersion;
     b3?: ITypographyVersion;
+    m1?: ITypographyVersion;
+    m2?: ITypographyVersion;
+    m3?: ITypographyVersion;
 
     [p: string]: any;
   };
@@ -616,7 +619,7 @@ const amauiThemeValueDefault: IAmauiTheme = {
     font_family: {
       primary: FONT_FAMILY.primary,
       secondary: FONT_FAMILY.secondary,
-      mono: FONT_FAMILY.mono,
+      tertiary: FONT_FAMILY.tertiary,
     },
 
     values: {
@@ -721,6 +724,27 @@ const amauiThemeValueDefault: IAmauiTheme = {
       b3: {
         fontSize: `${pxToRem(11, 16)}rem`,
         fontFamily: FONT_FAMILY.secondary,
+        fontWeight: 400,
+        lineHeight: 15 / 11,
+        letterSpacing: '.4px'
+      },
+      m1: {
+        fontSize: `${pxToRem(16, 16)}rem`,
+        fontFamily: FONT_FAMILY.tertiary,
+        fontWeight: 400,
+        lineHeight: 24 / 16,
+        letterSpacing: '.5px'
+      },
+      m2: {
+        fontSize: `${pxToRem(14, 16)}rem`,
+        fontFamily: FONT_FAMILY.tertiary,
+        fontWeight: 400,
+        lineHeight: 20 / 14,
+        letterSpacing: '.25px'
+      },
+      m3: {
+        fontSize: `${pxToRem(11, 16)}rem`,
+        fontFamily: FONT_FAMILY.tertiary,
         fontWeight: 400,
         lineHeight: 15 / 11,
         letterSpacing: '.4px'

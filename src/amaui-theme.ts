@@ -499,60 +499,60 @@ const amauiThemeValueDefault: IAmauiTheme = {
 
         contrast_threshold: 4
       },
-    } as any,
+    },
 
     color: {
       primary: {
         light: colors.yellow[300],
         main: colors.yellow[500],
         dark: colors.yellow[700],
-      } as any,
+      },
       secondary: {
         light: colors.lightgreen[300],
         main: colors.lightgreen[500],
         dark: colors.lightgreen[700],
-      } as any,
+      },
       tertiary: {
         light: colors.amber[300],
         main: colors.amber[500],
         dark: colors.amber[700],
-      } as any,
+      },
       quaternary: {
         light: colors.cyan[300],
         main: colors.cyan[500],
         dark: colors.cyan[700],
-      } as any,
+      },
 
       info: {
         light: colors.lightblue[300],
         main: colors.lightblue[500],
         dark: colors.lightblue[700],
-      } as any,
+      },
       success: {
         light: colors.green[300],
         main: colors.green[500],
         dark: colors.green[700],
-      } as any,
+      },
       warning: {
         light: colors.orange[300],
         main: colors.orange[500],
         dark: colors.orange[700],
-      } as any,
+      },
       error: {
         light: colors.deeporange[300],
         main: colors.deeporange[500],
         dark: colors.deeporange[700],
-      } as any,
+      },
 
       neutral: {
         main: colors.black,
-      } as any,
+      }
     },
 
-    text: {} as any,
+    text: {},
 
-    background: {} as any,
-  } as any,
+    background: {},
+  },
 
   shape: {
     radius: {
@@ -565,9 +565,9 @@ const amauiThemeValueDefault: IAmauiTheme = {
         lg: 4,
         xl: 5,
         xxl: 7,
-      } as any,
+      },
       unit: 8
-    } as any
+    }
   },
 
   breakpoints: {
@@ -578,6 +578,7 @@ const amauiThemeValueDefault: IAmauiTheme = {
       lg: 1440,
       xl: 1920,
     },
+
     media: {
       xs: '(max-width: 599px)',
       sm: '(min-width: 600px) and (max-width: 1239px)',
@@ -585,8 +586,9 @@ const amauiThemeValueDefault: IAmauiTheme = {
       lg: '(min-width: 1440px) and (max-width: 1919px)',
       xl: '(min-width: 1920px)'
     },
-    unit: 'px',
-  } as any,
+
+    unit: 'px'
+  },
 
   space: {
     values: {
@@ -601,10 +603,10 @@ const amauiThemeValueDefault: IAmauiTheme = {
       xxxl: 7,
     },
     unit: 8,
-  } as any,
+  },
 
   shadows: {
-    values: {} as any,
+    values: {},
 
     opacities: [.04, .01, .07]
   },
@@ -613,13 +615,13 @@ const amauiThemeValueDefault: IAmauiTheme = {
     unit: 'px',
 
     font_size: {
-      html: 16,
+      html: 16
     },
 
     font_family: {
       primary: FONT_FAMILY.primary,
       secondary: FONT_FAMILY.secondary,
-      tertiary: FONT_FAMILY.tertiary,
+      tertiary: FONT_FAMILY.tertiary
     },
 
     values: {
@@ -759,6 +761,7 @@ const amauiThemeValueDefault: IAmauiTheme = {
       decelerated: 'cubic-bezier(0, 0, .2, 1)',
       accelerated: 'cubic-bezier(.4, 0, 1, 1)',
     },
+
     duration: {
       xxs: 100,
       xs: 200,
@@ -767,7 +770,7 @@ const amauiThemeValueDefault: IAmauiTheme = {
       enter: 250,
       leave: 200,
       complex: 500,
-    },
+    }
   },
 
   z_index: {
@@ -780,7 +783,7 @@ const amauiThemeValueDefault: IAmauiTheme = {
     main: 1000,
     text: 0,
   },
-} as any;
+};
 
 class AmauiTheme {
   public id?: string;
@@ -943,7 +946,7 @@ class AmauiTheme {
     className: {
       static: true
     }
-  } as any;
+  };
 
   // Any new property
   [p: string]: any;
@@ -959,7 +962,7 @@ class AmauiTheme {
   }
 
   public init(value_: IAmauiTheme | AmauiTheme = this) {
-    const { mode, preference, palette = {}, shape = {}, breakpoints = {}, space = {}, shadows = {}, typography = {}, transitions, z_index = {}, id, subscriptions, methods, element, options, direction, ...other } = copy(value_ || {}) as any;
+    const { mode, preference, palette = {}, shape = {}, breakpoints = {}, space = {}, shadows = {}, typography = {}, transitions, z_index = {}, id, subscriptions, methods, element, options, direction, ...other } = copy(value_ || {});
 
     const { light, color = {}, background = {}, text = {}, visual_contrast = {}, accessibility } = palette || {};
 
@@ -972,7 +975,7 @@ class AmauiTheme {
       // AmauiStyle in element
       this.element.setAttribute('data-amaui-theme', 'true');
 
-      (this.element as any)['amaui-theme'] = true;
+      (this.element)['amaui-theme'] = true;
 
       (this.element as any).amaui_theme = this;
 
@@ -1108,7 +1111,7 @@ class AmauiTheme {
     // light
     const colorLight = this.palette.color.neutral[100];
 
-    this.palette.text.light = {} as any;
+    this.palette.text.light = {};
 
     this.palette.text.light.primary = colorToRgb(colorLight, this.palette.visual_contrast.default?.opacity.primary) as string;
     this.palette.text.light.secondary = colorToRgb(colorLight, this.palette.visual_contrast.default?.opacity.secondary) as string;
@@ -1118,7 +1121,7 @@ class AmauiTheme {
     // dark
     const colorDark = this.palette.color.neutral[0];
 
-    this.palette.text.dark = {} as any;
+    this.palette.text.dark = {};
 
     this.palette.text.dark.primary = colorToRgb(colorDark, this.palette.visual_contrast.default?.opacity.primary) as string;
     this.palette.text.dark.secondary = colorToRgb(colorDark, this.palette.visual_contrast.default?.opacity.secondary) as string;
@@ -1134,7 +1137,7 @@ class AmauiTheme {
     Object.keys(this.palette.color).forEach(item => {
       const version = this.palette.color[item];
 
-      if (!this.palette.background[item]) this.palette.background[item] = {} as any;
+      if (!this.palette.background[item]) this.palette.background[item] = {};
 
       (this.palette.background[item] as IColorBackground).primary = (background[item] as IColorBackground)?.primary || version[!this.palette.light ? 0 : 100];
       (this.palette.background[item] as IColorBackground).secondary = (background[item] as IColorBackground)?.secondary || version[!this.palette.light ? 1 : 99];
@@ -1143,7 +1146,7 @@ class AmauiTheme {
     });
 
     // light
-    this.palette.background.light = {} as any;
+    this.palette.background.light = {};
 
     this.palette.background.light.primary = this.palette.color.neutral[100];
     this.palette.background.light.secondary = this.palette.color.neutral[99];
@@ -1151,7 +1154,7 @@ class AmauiTheme {
     this.palette.background.light.quaternary = this.palette.color.neutral[90];
 
     // dark
-    this.palette.background.dark = {} as any;
+    this.palette.background.dark = {};
 
     this.palette.background.dark.primary = this.palette.color.neutral[0];
     this.palette.background.dark.secondary = this.palette.color.neutral[1];
@@ -1241,7 +1244,7 @@ class AmauiTheme {
             tertiary: {},
             quaternary: {}
           },
-        } as any;
+        };
 
         palette.color.primary.main = values[0];
         palette.color.secondary.main = values[1];
@@ -1250,7 +1253,7 @@ class AmauiTheme {
 
         const value = merge({ palette }, other, { copy: true });
 
-        this.init(value as any);
+        this.init(value);
 
         // Add image to the palette
         this.palette.image = value_;
@@ -1274,7 +1277,7 @@ class AmauiTheme {
         const rgb = colorToRgb(value) as string;
 
         if (rgb) {
-          const values: IColor = {} as any;
+          const values: IColor = {};
 
           const [hue, saturation, light] = rgbToHsl(rgb, 1, true);
 
@@ -1310,7 +1313,7 @@ class AmauiTheme {
       shadow: (value: string, opacities: Array<number> = []): IShadow => {
         const shadow: IShadow = {
           '0': 'none',
-        } as any;
+        };
 
         const values = [
           ['1', [0, 1, 1, 0, 0, 2, 1, -1, 0, 1, 3, 0]],

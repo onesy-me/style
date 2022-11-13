@@ -166,12 +166,18 @@ class AmauiStyleSheet {
       const ignore = ['@pure', '@p'];
 
       // Make an AmauiStyleRule for all lvl 0 props
-      props.filter(prop => ignore.indexOf(prop) === -1).forEach((prop, index) => this.makeRule(prop, this.value[prop], index));
+      const propsAll = props
+        .filter(prop => ignore.indexOf(prop) === -1)
+        .flatMap(prop => is('array', this.value[prop]) ? (this.value[prop] as any[]).map((item: any) => ({ property: prop, value: item })) : { property: prop, value: this.value[prop] });
+
+      propsAll.forEach((item, index) => this.makeRule(item.property, item.value, index));
 
       // Pure
       const pure = { ...((this.value['@p'] || {}) as object), ...((this.value['@pure'] || {}) as object) };
 
-      Object.keys(pure).forEach((prop, index) => this.makeRule(prop, pure[prop], props.length + index, true));
+      const pureAll = Object.keys(pure).flatMap(prop => ({ property: prop, value: pure[prop] }));
+
+      pureAll.forEach((item, index) => this.makeRule(item.property, item.value, props.length + index, true));
 
       // Sort
       this.sort;
@@ -332,13 +338,16 @@ class AmauiStyleSheet {
       const pure = { ...(value['@pure'] || {}), ...(value['@p'] || {}) };
 
       // Props
-      Object.keys(value).filter(item => ['@pure', '@p'].indexOf(item) === -1).forEach(item => {
-        items.new.push({ property: item, value: value[item], parents: item });
-      });
+      Object.keys(value)
+        .filter(item => ['@pure', '@p'].indexOf(item) === -1)
+        .forEach(prop => {
+          if (is('array', value[prop])) value[prop].forEach(item => items.new.push({ property: prop, value: item, parents: prop }));
+          else items.new.push({ property: prop, value: value[prop], parents: prop });
+        });
 
       // Pure
-      Object.keys(pure).forEach(item => {
-        items.new.push({ property: item, value: pure[item], parents: item });
+      Object.keys(pure).forEach(prop => {
+        items.new.push({ property: prop, value: pure[prop], parents: prop });
       });
 
       // Extract any & ref rules from new and add 'em to new

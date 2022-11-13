@@ -368,7 +368,7 @@ class AmauiStyleRule {
     const parentAtRule = this.version === 'at-rule';
     const parentKeyFrames = parentAtRule && parent.property?.indexOf('@keyframes') > -1;
     const selector = prop.indexOf('&') > -1 || parentAtRule || parentKeyFrames;
-    const isProperty = !(atRule_ || selector);
+    const isProperty = !(atRule_ || selector) || ['@font-face'].includes(parent.property);
 
     const toSkip = ['@classNames', '@cs', '@options', '@o', '@pure', '@p'].indexOf(prop) > -1;
 

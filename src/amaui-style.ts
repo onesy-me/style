@@ -11,7 +11,7 @@ import { IOptionsRule, IValuesVersion, TMode, TRefs } from './interfaces';
 import AmauiStyleRenderer from './amaui-style-renderer';
 import AmauiStyleSheet from './amaui-style-sheet';
 import AmauiStyleSheetManager from './amaui-style-sheet-manager';
-import { getID, is } from './utils';
+import { getID, is, minify } from './utils';
 
 export type AmauiPlugin = TMethod | {
   method: TMethod;
@@ -22,7 +22,7 @@ export type AmauiPlugins = AmauiPlugin | AmauiPlugin[];
 
 interface IOptions {
   rule?: IOptionsRule;
-
+  minify?: boolean;
   optimize?: boolean;
 }
 
@@ -32,7 +32,7 @@ const optionsDefault: IOptions = {
     prefix: false,
     rtl: false,
   },
-
+  minify: true,
   optimize: false
 };
 
@@ -116,6 +116,8 @@ class AmauiStyle {
     });
 
     if (this.values.css) this.values.css = `\n${this.values.css}\n`;
+
+    if (this.options.minify) this.values.css = minify(this.values.css);
 
     return this.values;
   }

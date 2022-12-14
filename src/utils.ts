@@ -186,3 +186,5 @@ export const names = (value: IResponse) => {
 let i = 0;
 
 export const getID = () => `${i++}-${new Date().getTime()}`;
+
+export const minify = (value: string) => value.replace(/\n/g, '').replace(/ ?(\{|:|,|>|~) ?/g, '$1').replace(/;(\})/g, '$1');

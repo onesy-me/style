@@ -5,12 +5,14 @@ import { is } from './utils';
 import AmauiStyle from './amaui-style';
 import AmauiStyleSheetManager from './amaui-style-sheet-manager';
 import AmauiTheme from './amaui-theme';
-import { TValue, TValueMethod, IAmauiStyleSheetManagerProps, IMethodResponse, IOptionsAmauiStyle, IOptionsAmauiTheme } from './interfaces';
+import { TValue, TValueMethod, IAmauiStyleSheetManagerProps, IMethodResponse, IOptionsAmauiStyle, IOptionsAmauiTheme, TMode } from './interfaces';
 
 export interface IOptions {
   element?: Element;
 
   name?: string;
+
+  mode?: TMode;
 
   amaui_style?: IOptionsAmauiStyle;
 
@@ -279,19 +281,20 @@ export const resetDefault = {
   },
 };
 
+const optionsDefault: IOptions = {
+  mode: 'regular',
+  amaui_style: {
+    get: AmauiStyle.first.bind(AmauiStyle),
+  },
+  amaui_theme: {
+    get: AmauiTheme.first.bind(AmauiTheme),
+  }
+};
+
 function reset(
   value_: TValue,
   options_: IOptions = {}
 ): IMethodResponse {
-  const optionsDefault: IOptions = {
-    amaui_style: {
-      get: AmauiStyle.first.bind(AmauiStyle),
-    },
-    amaui_theme: {
-      get: AmauiTheme.first.bind(AmauiTheme),
-    }
-  };
-
   const options = merge(options_, optionsDefault, { copy: true });
 
   // Amaui style

@@ -10,11 +10,11 @@ import { is } from './utils';
 export interface IOptions {
   element?: Element;
 
-  amaui_style?: IOptionsAmauiStyle;
-
   name?: string;
 
   mode?: TMode;
+
+  amaui_style?: IOptionsAmauiStyle;
 
   amaui_theme?: IOptionsAmauiTheme;
 

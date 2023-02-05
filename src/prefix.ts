@@ -25,7 +25,7 @@ const optionsDefault: IOptions = {
 // As of April, 01, 2022 all prefixed required for some of the browser versions
 const mapAllPropertyPrefixes = {
   'appearance': ['-webkit-', '-moz-'],
-  'backdrop-filter': ['-webkit'],
+  'backdrop-filter': ['-webkit-'],
   'box-decoration-break': ['-webkit-'],
   'clip-path': ['-webkit-'],
   'color-adjust': ['-webkit-'],

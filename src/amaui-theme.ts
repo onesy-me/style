@@ -962,11 +962,14 @@ class AmauiTheme {
   }
 
   public init(value_: IAmauiTheme | AmauiTheme = this) {
-    const { mode, preference, palette = {}, shape = {}, breakpoints = {}, space = {}, shadows = {}, typography = {}, transitions, z_index = {}, id, subscriptions, methods, element, options, direction, ...other } = copy(value_ || {});
+    const { mode, preference, palette = {}, shape = {}, breakpoints = {}, space = {}, shadows = {}, typography = {}, transitions, z_index = {}, id, subscriptions, methods, element, options = {}, direction, ...other } = copy(value_ || {});
 
     const { light, color = {}, background = {}, text = {}, visual_contrast = {}, accessibility } = palette || {};
 
     if (this.id === undefined) this.id = getID();
+
+    // Options
+    this.options = merge(options, this.options, { copy: true });
 
     // Direction
     if (isEnvironment('browser')) {

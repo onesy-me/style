@@ -828,7 +828,7 @@ class AmauiTheme {
           if (color) return this.palette.light === light ? color[tone] : color[Math.abs(100 - tone)];
         },
 
-        text: (background: string, max = false, prefer: 'light' | 'dark' = 'light', maxOpacity = 'primary') => {
+        text: (background: string, max = true, prefer: 'light' | 'dark' = 'light', maxOpacity = 'primary') => {
           const preferenceText = this.preference.text.default || 'neutral';
 
           const luminances = {

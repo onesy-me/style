@@ -44,7 +44,22 @@ function pure(
   const value = is('function', value_) ? Try(() => (value_ as TValueMethod)(amauiTheme)) : value_;
 
   // Make an instance of amauiStyleSheetManager
-  const amauiStyleSheetManager = new AmauiStyleSheetManager(value, 'regular', true, 'lower', amauiTheme, amauiStyle, { name: options.name, style: { attributes: { method: 'pure' } } });
+  const amauiStyleSheetManager = new AmauiStyleSheetManager(
+    value,
+    {
+      mode: 'regular',
+      pure: true,
+      priority: 'lower',
+      amauiTheme,
+      amauiStyle,
+      name: options.name,
+      style: {
+        attributes: {
+          method: 'pure'
+        }
+      }
+    }
+  );
 
   const response: IMethodResponse = {
     ids: amauiStyleSheetManager.ids,

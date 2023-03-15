@@ -8,9 +8,33 @@ import AmauiStyleSheet from './amaui-style-sheet';
 import { IOptionsRule, IValuesVersion, TValueVersion } from './interfaces';
 import { cammelCaseToKebabCase, getID, getRefs, is, valueResolve } from './utils';
 
-interface IOptions { }
+interface IOptions extends IOptionsRule {
+  value_version?: TValueVersion;
+  pure?: boolean;
+  owner?: AmauiStyleRule;
+  parents?: Array<AmauiStyleSheet | AmauiStyleRule>;
+  amauiStyle?: AmauiStyle;
+  amauiStyleSheet?: AmauiStyleSheet;
+  amauiStyleRule?: AmauiStyleRule;
+}
+
+const optionsDefault: IOptions = {
+  value_version: 'value',
+  pure: false,
+  parents: [],
+  sort: true,
+  prefix: true,
+  rtl: true
+};
 
 class AmauiStyleRuleProperty {
+  public value_version: TValueVersion = 'value';
+  public pure: boolean = false;
+  public owner: AmauiStyleRule;
+  public parents: Array<AmauiStyleSheet | AmauiStyleRule> = [];
+  public amauiStyleRule: AmauiStyleRule;
+  public amauiStyleSheet: AmauiStyleSheet;
+  public amauiStyle: AmauiStyle;
   public level: number;
   public level_actual: number;
   public id: string;
@@ -23,14 +47,7 @@ class AmauiStyleRuleProperty {
   public constructor(
     public value: any,
     public property: string,
-    public value_version: TValueVersion = 'value',
-    public pure = false,
-    public owner: AmauiStyleRule,
-    public parents: Array<AmauiStyleSheet | AmauiStyleRule> = [],
-    public amauiStyleRule: AmauiStyleRule,
-    public amauiStyleSheet: AmauiStyleSheet,
-    public amauiStyle: AmauiStyle,
-    public options: IOptions = {}
+    public options: IOptions = optionsDefault
   ) {
     this.init();
   }
@@ -59,6 +76,15 @@ class AmauiStyleRuleProperty {
     // Update values
     this.values.property = cammelCaseToKebabCase(this.property);
     this.values.value = value !== undefined ? value : this.value;
+
+    // Options
+    this.value_version = this.options.value_version || 'value';
+    this.pure = this.options.pure !== undefined ? this.options.pure : false;
+    this.owner = this.options.owner;
+    this.parents = this.options.parents || [];
+    this.amauiStyle = this.options.amauiStyle;
+    this.amauiStyleSheet = this.options.amauiStyleSheet;
+    this.amauiStyleRule = this.options.amauiStyleRule;
 
     if (this.id === undefined) this.id = getID();
 
@@ -141,13 +167,15 @@ class AmauiStyleRuleProperty {
             AmauiStyleRuleProperty.make(
               item.value,
               item.property,
-              'value',
-              this.pure,
-              this.parent,
-              this.parents,
-              this.amauiStyleRule,
-              this.parent.amauiStyleSheet,
-              this.parent.amauiStyle
+              {
+                value_version: 'value',
+                pure: this.pure,
+                owner: this.parent,
+                parents: this.parents,
+                amauiStyleRule: this.amauiStyleRule,
+                amauiStyleSheet: this.parent.amauiStyleSheet,
+                amauiStyle: this.parent.amauiStyle
+              }
             );
           }
         });
@@ -271,26 +299,16 @@ class AmauiStyleRuleProperty {
   public static make(
     value: any,
     property: string,
-    version: TValueVersion = 'value',
-    pure = false,
-    owner: AmauiStyleRule,
-    parents: any[] = [this],
-    amauiStyleRule: AmauiStyleRule,
-    amauiStyleSheet: AmauiStyleSheet,
-    amauiStyle: AmauiStyle,
-    ruleOptions?: IOptionsRule
+    options: IOptions = {
+      value_version: 'value',
+      pure: false,
+      parents: [this] as any[],
+    }
   ): AmauiStyleRuleProperty {
     return new AmauiStyleRuleProperty(
       value,
       property,
-      version,
-      pure,
-      owner,
-      parents,
-      amauiStyleRule,
-      amauiStyleSheet,
-      amauiStyle,
-      ruleOptions
+      options
     );
   }
 

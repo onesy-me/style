@@ -322,7 +322,22 @@ function reset(
   else value = merge(value, valueDefault, { copy: true });
 
   // Make an instance of amauiStyleSheetManager
-  const amauiStyleSheetManager = new AmauiStyleSheetManager(value, 'regular', true, 'lower', amauiTheme, amauiStyle, { name: options.name, style: { attributes: { method: 'reset' } } });
+  const amauiStyleSheetManager = new AmauiStyleSheetManager(
+    value,
+    {
+      mode: 'regular',
+      pure: true,
+      priority: 'lower',
+      amauiTheme,
+      amauiStyle,
+      name: options.name,
+      style: {
+        attributes: {
+          method: 'reset'
+        }
+      }
+    }
+  );
 
   const response: IMethodResponse = {
     ids: amauiStyleSheetManager.ids,

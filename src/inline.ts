@@ -87,13 +87,26 @@ function inline(
     });
 
     // Make an instance of amauiStyleSheetManager
-    const amauiStyleSheetManager = new AmauiStyleSheetManager({ a: valueNew }, 'regular', false, 'upper', amauiTheme, amauiStyle, { style: { attributes: { method: 'inline' } }, amaui_style_cache: false });
+    const amauiStyleSheetManager = new AmauiStyleSheetManager(
+      { a: valueNew },
+      {
+        mode: 'regular',
+        pure: false,
+        priority: 'upper',
+        amauiTheme,
+        amauiStyle,
+        amaui_style_cache: false,
+        style: {
+          attributes: {
+            method: 'inline'
+          }
+        }
+      }
+    );
 
     const rules = amauiStyleSheetManager.sheets.static[0].rules[0].value.rules;
 
-    rules.map(rule => rule.value).forEach(rule => {
-      response += ` ${rule.css}`;
-    });
+    rules.map((rule: any) => rule.value).forEach((rule: any) => response += ` ${rule.css}`);
 
     // Make into json
     if (options.response === 'json') {

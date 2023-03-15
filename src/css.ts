@@ -45,7 +45,7 @@ const optionsDefault: ICSSOptions = {
   },
   rule: {
     rtl: false,
-    prefix: false,
+    prefix: true,
     sort: true,
   },
   log: true,
@@ -116,7 +116,22 @@ function css(
   if (options.reset || options.pure) priority = 'lower';
 
   // Make an instance of amauiStyleSheetManager
-  const amauiStyleSheetManager = new AmauiStyleSheetManager(value_, options.mode, options.reset || options.pure, priority, amauiTheme, amauiStyle, { rule: options.rule, style: { attributes: { method } } });
+  const amauiStyleSheetManager = new AmauiStyleSheetManager(
+    value_,
+    {
+      mode: options.mode,
+      pure: options.reset || options.pure,
+      priority,
+      amauiTheme,
+      amauiStyle,
+      rule: options.rule,
+      style: {
+        attributes: {
+          method
+        }
+      }
+    }
+  );
 
   const responseManager: IMethodResponse = {
     ids: amauiStyleSheetManager.ids,

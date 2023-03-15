@@ -21,15 +21,19 @@ export type AmauiPlugin = TMethod | {
 export type AmauiPlugins = AmauiPlugin | AmauiPlugin[];
 
 interface IOptions {
+  element?: Element;
+  mode?: TMode;
+  renderer?: AmauiStyleRenderer;
   rule?: IOptionsRule;
   minify?: boolean;
   optimize?: boolean;
 }
 
 const optionsDefault: IOptions = {
+  mode: 'regular',
   rule: {
     sort: true,
-    prefix: false,
+    prefix: true,
     rtl: false,
   },
   minify: true,
@@ -38,6 +42,9 @@ const optionsDefault: IOptions = {
 
 class AmauiStyle {
   public id?: string;
+  public element?: Element;
+  public mode?: TMode = 'regular';
+  public renderer: AmauiStyleRenderer;
   public direction: string;
   public subscriptions = {
     className: {
@@ -93,10 +100,6 @@ class AmauiStyle {
   [p: string]: any;
 
   public constructor(
-    /* tslint:disable-next-line */
-    public element?: Element,
-    public mode?: TMode,
-    public renderer: AmauiStyleRenderer = new AmauiStyleRenderer(),
     public options: IOptions = copy(optionsDefault),
   ) {
     this.options = merge(options, optionsDefault, { copy: true });
@@ -198,6 +201,11 @@ class AmauiStyle {
   }
 
   public init() {
+    // Options
+    this.element = this.options.element;
+    this.mode = this.options.mode || 'regular';
+    this.renderer = this.options.renderer || new AmauiStyleRenderer();
+
     if (this.id === undefined) this.id = getID();
 
     if (isEnvironment('browser')) {

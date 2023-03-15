@@ -51,7 +51,22 @@ function style(
   const value = is('function', value_) ? Try(() => (value_ as TValueMethod)(amauiTheme)) : value_;
 
   // Make an instance of amauiStyleSheetManager
-  const amauiStyleSheetManager = new AmauiStyleSheetManager(value, options.mode, false, 'upper', amauiTheme, amauiStyle, { name: options.name, style: { attributes: { method: 'style' } } });
+  const amauiStyleSheetManager = new AmauiStyleSheetManager(
+    value,
+    {
+      mode: options.mode,
+      pure: false,
+      priority: 'upper',
+      amauiTheme,
+      amauiStyle,
+      name: options.name,
+      style: {
+        attributes: {
+          method: 'style'
+        }
+      }
+    }
+  );
 
   const response: IMethodResponse = {
     ids: amauiStyleSheetManager.ids,

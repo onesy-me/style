@@ -23,6 +23,14 @@ export interface IOptionsStyle {
 }
 
 export interface IOptions {
+  version?: TVersion;
+  mode?: TMode;
+  pure?: boolean;
+  priority?: TPriority;
+  amauiTheme?: AmauiTheme;
+  amauiStyleSheetManager?: AmauiStyleSheetManager;
+  amauiStyle?: AmauiStyle;
+  props?: any;
   style?: IOptionsStyle;
   rule?: IOptionsRule;
   name?: string;
@@ -43,6 +51,13 @@ const optionsDefault: IOptions = {
 
 class AmauiStyleSheet {
   public id: string;
+  public version: TVersion = 'static';
+  public mode: TMode = 'regular';
+  public pure: boolean = false;
+  public priority: TPriority = 'upper';
+  public amauiTheme: AmauiTheme;
+  public amauiStyleSheetManager: AmauiStyleSheetManager;
+  public amauiStyle: AmauiStyle;
   public status: TStatus = 'idle';
   public element: HTMLStyleElement;
   public sheet: CSSStyleSheet;
@@ -69,19 +84,9 @@ class AmauiStyleSheet {
 
   public constructor(
     public value?: TValueObject,
-    public version: TVersion = 'static',
-    public mode: TMode = 'regular',
-    public pure = false,
-    public priority: TPriority = 'upper',
-    public amauiTheme?: AmauiTheme,
-    public amauiStyleSheetManager?: AmauiStyleSheetManager,
-    public amauiStyle?: AmauiStyle,
-    props: any = {},
     public options: IOptions = copy(optionsDefault)
   ) {
     this.options = merge(options, optionsDefault, { copy: true });
-
-    this.props = props;
 
     this.init();
   }
@@ -143,6 +148,16 @@ class AmauiStyleSheet {
   }
 
   private init() {
+    // Options
+    this.version = this.options.version || this.version;
+    this.mode = this.options.mode || this.mode;
+    this.pure = this.options.pure || this.pure;
+    this.priority = this.options.priority || this.priority;
+    this.amauiTheme = this.options.amauiTheme;
+    this.amauiStyleSheetManager = this.options.amauiStyleSheetManager;
+    this.amauiStyle = this.options.amauiStyle;
+    this.props = this.options.props;
+
     this.id = getID();
 
     // Inherits first from amauiStyle
@@ -170,14 +185,14 @@ class AmauiStyleSheet {
         .filter(prop => ignore.indexOf(prop) === -1)
         .flatMap(prop => is('array', this.value[prop]) ? (this.value[prop] as any[]).map((item: any) => ({ property: prop, value: item })) : { property: prop, value: this.value[prop] });
 
-      propsAll.forEach((item, index) => this.makeRule(item.property, item.value, index));
+      propsAll.forEach((item, index) => this.makeRule(item.property, item.value, { index }));
 
       // Pure
       const pure = { ...((this.value['@p'] || {}) as object), ...((this.value['@pure'] || {}) as object) };
 
       const pureAll = Object.keys(pure).flatMap(prop => ({ property: prop, value: pure[prop] }));
 
-      pureAll.forEach((item, index) => this.makeRule(item.property, item.value, props.length + index, true));
+      pureAll.forEach((item, index) => this.makeRule(item.property, item.value, { index: props.length + index, pure: true }));
 
       // Sort
       this.sort;
@@ -485,21 +500,33 @@ class AmauiStyleSheet {
     );
   }
 
-  private makeRule(property: string, value: any, index: number = this.rules.length, pure = false) {
+  private makeRule(
+    property: string,
+    value: any,
+    options: {
+      index?: number,
+      pure?: boolean
+    } = {
+        index: this.rules.length,
+        pure: false
+      }
+  ) {
     // Pre
     this.amauiStyle.subscriptions.rule.pre.emit();
 
     const rule = AmauiStyleRule.make(
       value,
       property,
-      'regular',
-      'property',
-      this.pure || pure,
-      index,
-      this,
-      [this],
-      this,
-      this.amauiStyle
+      {
+        mode: 'regular',
+        version: 'property',
+        pure: options.pure !== undefined ? options.pure : this.pure,
+        index: options.index,
+        owner: this,
+        parents: [this],
+        amauiStyleSheet: this,
+        amauiStyle: this.amauiStyle
+      }
     );
 
     // Post

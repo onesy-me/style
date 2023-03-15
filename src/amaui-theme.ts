@@ -55,13 +55,14 @@ export type IColor = {
 };
 
 interface IOptions {
+  element?: HTMLElement;
   rule: IOptionsRule;
 }
 
 const optionsDefault: IOptions = {
   rule: {
     sort: true,
-    prefix: false,
+    prefix: true,
     rtl: false,
   },
 };
@@ -790,6 +791,7 @@ class AmauiTheme {
   public subscriptions = {
     update: new AmauiSubscription(),
   };
+  public element?: HTMLElement;
   public direction: TDirection = 'ltr';
 
   // Preference
@@ -953,7 +955,6 @@ class AmauiTheme {
 
   public constructor(
     value: IAmauiTheme = amauiThemeValueDefault,
-    public element?: HTMLElement,
     public options: IOptions = copy(optionsDefault),
   ) {
     this.options = merge(options, optionsDefault, { copy: true });
@@ -970,6 +971,8 @@ class AmauiTheme {
 
     // Options
     this.options = merge(options, this.options, { copy: true });
+
+    this.element = element;
 
     // Direction
     if (isEnvironment('browser')) {
@@ -1085,10 +1088,8 @@ class AmauiTheme {
       if (value) {
         this.palette.color[prop] = value;
 
-        const versions = ['light', 'main', 'dark'];
-
-        // Override the main versions with user provided values
-        versions.forEach(version => { if (is('string', item[version]) && !!item[version].length) this.palette.color[prop][version] = item[version]; });
+        // User overrides, add instead of the premade value
+        if (is('object', item)) Object.keys(item).forEach(version => this.palette.color[prop][version] = item[version]);
       }
     });
 

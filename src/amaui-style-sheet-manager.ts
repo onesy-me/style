@@ -17,6 +17,11 @@ interface IOptionsStyle {
 }
 
 interface IOptions {
+  mode?: TMode;
+  pure?: boolean;
+  priority?: TPriority;
+  amauiTheme?: AmauiTheme;
+  amauiStyle?: AmauiStyle;
   style?: IOptionsStyle;
   rule?: IOptionsRule;
   amaui_style_cache?: boolean;
@@ -24,6 +29,9 @@ interface IOptions {
 }
 
 const optionsDefault: IOptions = {
+  mode: 'regular',
+  pure: false,
+  priority: 'upper',
   style: {
     attributes: {},
   },
@@ -38,6 +46,11 @@ const optionsDefault: IOptions = {
 class AmauiStyleSheetManager {
   public id: string;
   public status: TStatus = 'idle';
+  public mode: TMode = 'regular';
+  public pure: boolean = false;
+  public priority: TPriority = 'upper';
+  public amauiTheme: AmauiTheme;
+  public amauiStyle: AmauiStyle;
   public values = {
     css: '',
   };
@@ -58,11 +71,6 @@ class AmauiStyleSheetManager {
 
   public constructor(
     public value?: TValueObject,
-    public mode: TMode = 'regular',
-    public pure = false,
-    public priority: TPriority = 'upper',
-    public amauiTheme?: AmauiTheme,
-    public amauiStyle?: AmauiStyle,
     public options: IOptions = optionsDefault
   ) {
     this.options = merge(options, optionsDefault, { copy: true });
@@ -142,6 +150,13 @@ class AmauiStyleSheetManager {
   private init() {
     this.id = getID();
 
+    // Options
+    this.mode = this.options.mode || this.mode;
+    this.pure = this.options.pure !== undefined ? this.options.pure : this.pure;
+    this.priority = this.options.priority || this.priority;
+    this.amauiTheme = this.options.amauiTheme;
+    this.amauiStyle = this.options.amauiStyle;
+
     // Inherits first from amauiStyle
     this.mode = this.amauiStyle.mode || this.mode;
 
@@ -163,15 +178,17 @@ class AmauiStyleSheetManager {
       if (!!this.properties.static.length && !this.sheets.static.length) {
         new AmauiStyleSheet(
           this.propertiesVersion(),
-          'static',
-          this.mode,
-          this.pure,
-          this.priority,
-          this.amauiTheme,
-          this,
-          this.amauiStyle,
-          {},
-          this.options
+          {
+            version: 'static',
+            mode: this.mode,
+            pure: this.pure,
+            priority: this.priority,
+            amauiStyleSheetManager: this,
+            amauiTheme: this.amauiTheme,
+            amauiStyle: this.amauiStyle,
+            props: {},
+            ...this.options
+          }
         );
       }
     }
@@ -208,15 +225,17 @@ class AmauiStyleSheetManager {
       if (!!this.properties.static.length) {
         const sheet = new AmauiStyleSheet(
           this.propertiesVersion(),
-          'static',
-          this.mode,
-          this.pure,
-          this.priority,
-          this.amauiTheme,
-          this,
-          this.amauiStyle,
-          {},
-          this.options
+          {
+            version: 'static',
+            mode: this.mode,
+            pure: this.pure,
+            priority: this.priority,
+            amauiStyleSheetManager: this,
+            amauiTheme: this.amauiTheme,
+            amauiStyle: this.amauiStyle,
+            props: {},
+            ...this.options
+          }
         );
 
         sheets.push(sheet);
@@ -242,15 +261,17 @@ class AmauiStyleSheetManager {
     if (!!this.properties.dynamic.length) {
       const sheet = new AmauiStyleSheet(
         this.propertiesVersion('dynamic'),
-        'dynamic',
-        this.mode,
-        this.pure,
-        this.priority,
-        this.amauiTheme,
-        this,
-        this.amauiStyle,
-        {},
-        this.options
+        {
+          version: 'dynamic',
+          mode: this.mode,
+          pure: this.pure,
+          priority: this.priority,
+          amauiStyleSheetManager: this,
+          amauiTheme: this.amauiTheme,
+          amauiStyle: this.amauiStyle,
+          props: {},
+          ...this.options
+        }
       );
 
       // Add

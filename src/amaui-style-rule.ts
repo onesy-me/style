@@ -28,9 +28,24 @@ export interface IAmauiStyleRuleValue {
 
 export type TRules = Array<{ property: string; value: AmauiStyleRule | AmauiStyleRuleProperty }>;
 
-interface IOptions extends IOptionsRule { }
+interface IOptions extends IOptionsRule {
+  mode?: TMode;
+  value_version?: TValueVersion;
+  version?: TVersion;
+  pure?: boolean;
+  index?: number;
+  owner?: AmauiStyleRule | AmauiStyleSheet;
+  parents?: Array<AmauiStyleSheet | AmauiStyleRule>;
+  amauiStyle?: AmauiStyle;
+  amauiStyleSheet?: AmauiStyleSheet;
+}
 
 const optionsDefault: IOptions = {
+  mode: 'regular',
+  value_version: 'value',
+  version: 'property',
+  pure: false,
+  index: 0,
   sort: true,
   prefix: true,
   rtl: true
@@ -41,6 +56,14 @@ const env = getEnvironment();
 class AmauiStyleRule {
   public id: string;
   public value_version: TValueVersion = 'value';
+  public mode: TMode = 'regular';
+  public version: TVersion = 'property';
+  public pure = false;
+  public index = 0;
+  public owner: AmauiStyleRule | AmauiStyleSheet;
+  public parents: Array<AmauiStyleSheet | AmauiStyleRule> = [];
+  public amauiStyleSheet: AmauiStyleSheet;
+  public amauiStyle: AmauiStyle;
   public rule_: CSSStyleRule;
   public status: TStatus = 'idle';
   public level: number;
@@ -63,14 +86,6 @@ class AmauiStyleRule {
   public constructor(
     public value: any,
     public property: string,
-    public mode: TMode = 'regular',
-    public version: TVersion = 'property',
-    public pure = false,
-    public index = 0,
-    public owner: AmauiStyleRule | AmauiStyleSheet,
-    public parents: Array<AmauiStyleSheet | AmauiStyleRule> = [],
-    public amauiStyleSheet: AmauiStyleSheet,
-    public amauiStyle: AmauiStyle,
     public options: IOptions = optionsDefault
   ) {
     this.options = { ...optionsDefault, ...this.options };
@@ -228,6 +243,16 @@ class AmauiStyleRule {
 
   private init(value_?: any) {
     let value = value_ !== undefined ? value_ : this.value;
+
+    // Options
+    this.mode = this.options.mode || 'regular';
+    this.version = this.options.version || 'property';
+    this.pure = this.options.pure !== undefined ? this.options.pure : this.pure;
+    this.index = this.options.index !== undefined ? this.options.index : this.index;
+    this.owner = this.options.owner;
+    this.parents = this.options.parents || [];
+    this.amauiStyleSheet = this.options.amauiStyleSheet;
+    this.amauiStyle = this.options.amauiStyle;
 
     if (this.id === undefined) this.id = getID();
 
@@ -387,14 +412,16 @@ class AmauiStyleRule {
             AmauiStyleRuleProperty.make(
               item,
               property,
-              (is('function', item) || isAmauiSubscription(item)) ? is('function', item) ? 'method' : 'amaui_subscription' : 'value',
-              this.pure,
-              parent,
-              [...parent.parents, parent],
-              parent,
-              parent.amauiStyleSheet,
-              parent.amauiStyle,
-              options.rule
+              {
+                value_version: (is('function', item) || isAmauiSubscription(item)) ? is('function', item) ? 'method' : 'amaui_subscription' : 'value',
+                pure: this.pure,
+                owner: parent,
+                parents: [...parent.parents, parent],
+                amauiStyleRule: parent,
+                amauiStyleSheet: parent.amauiStyleSheet,
+                amauiStyle: parent.amauiStyle,
+                ...options.rule
+              }
             );
           }
         }
@@ -402,14 +429,16 @@ class AmauiStyleRule {
           AmauiStyleRule.make(
             { [property]: item },
             env.amaui_methods.makeName.next().value,
-            'atomic',
-            'property',
-            this.pure,
-            (this.index + 1) + index,
-            parent.parent,
-            [...parent.parents, parent],
-            parent.amauiStyleSheet,
-            parent.amauiStyle
+            {
+              mode: 'atomic',
+              version: 'property',
+              pure: this.pure,
+              index: (this.index + 1) + index,
+              owner: parent.parent,
+              parents: [...parent.parents, parent],
+              amauiStyleSheet: parent.amauiStyleSheet,
+              amauiStyle: parent.amauiStyle
+            }
           );
         }
       });
@@ -432,14 +461,16 @@ class AmauiStyleRule {
         rule = AmauiStyleRule.make(
           value,
           prop,
-          'regular',
-          atRule_ ? 'at-rule' : 'property',
-          false,
-          index,
-          parent,
-          parents,
-          parent.amauiStyleSheet,
-          parent.amauiStyle
+          {
+            mode: 'regular',
+            version: atRule_ ? 'at-rule' : 'property',
+            pure: false,
+            index,
+            owner: parent,
+            parents,
+            amauiStyleSheet: parent.amauiStyleSheet,
+            amauiStyle: parent.amauiStyle
+          }
         );
       }
       // if it's a top level at-rule
@@ -447,14 +478,16 @@ class AmauiStyleRule {
         rule = AmauiStyleRule.make(
           value,
           prop,
-          'regular',
-          atRule_ ? 'at-rule' : 'property',
-          false,
-          index,
-          this.amauiStyleSheet,
-          parents,
-          parent.amauiStyleSheet,
-          parent.amauiStyle
+          {
+            mode: 'regular',
+            version: atRule_ ? 'at-rule' : 'property',
+            pure: false,
+            index,
+            owner: this.amauiStyleSheet,
+            parents,
+            amauiStyleSheet: parent.amauiStyleSheet,
+            amauiStyle: parent.amauiStyle
+          }
         );
       }
       // if it's @media or @supports or
@@ -482,14 +515,16 @@ class AmauiStyleRule {
         rule = AmauiStyleRule.make(
           value,
           prop,
-          'regular',
-          atRule_ ? 'at-rule' : 'property',
-          false,
-          index,
-          owner,
-          parents,
-          parent.amauiStyleSheet,
-          parent.amauiStyle
+          {
+            mode: 'regular',
+            version: atRule_ ? 'at-rule' : 'property',
+            pure: false,
+            index,
+            owner,
+            parents,
+            amauiStyleSheet: parent.amauiStyleSheet,
+            amauiStyle: parent.amauiStyle
+          }
         );
       }
 
@@ -963,26 +998,18 @@ class AmauiStyleRule {
   public static make(
     value: any,
     property: string,
-    mode: TMode = 'regular',
-    version: TVersion = 'property',
-    pure = false,
-    index = 0,
-    owner: AmauiStyleRule | AmauiStyleSheet,
-    parents: any[] = [this],
-    amauiStyleSheet: AmauiStyleSheet,
-    amauiStyle: AmauiStyle
+    options: IOptions = {
+      mode: 'regular',
+      version: 'property',
+      pure: false,
+      index: 0,
+      parents: [this] as any[],
+    }
   ): AmauiStyleRule {
     return new AmauiStyleRule(
       value,
       property,
-      mode,
-      version,
-      pure,
-      index,
-      owner,
-      parents,
-      amauiStyleSheet,
-      amauiStyle
+      options
     );
   }
 }

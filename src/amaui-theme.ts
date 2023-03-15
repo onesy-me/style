@@ -1094,7 +1094,6 @@ class AmauiTheme {
     });
 
     // text
-    // add to text
     Object.keys(text).forEach(prop => {
       this.palette.text[prop] = text[prop];
     });
@@ -1133,7 +1132,6 @@ class AmauiTheme {
     this.palette.text.dark.quaternary = colorToRgb(colorDark, this.palette.visual_contrast.default?.opacity.quaternary) as string;
 
     // background
-    // add to text
     Object.keys(background).forEach(prop => {
       this.palette.background[prop] = background[prop];
     });

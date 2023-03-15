@@ -56,7 +56,7 @@ export type IColor = {
 
 interface IOptions {
   element?: HTMLElement;
-  rule: IOptionsRule;
+  rule?: IOptionsRule;
 }
 
 const optionsDefault: IOptions = {

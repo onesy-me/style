@@ -225,6 +225,8 @@ export const resetDefault = {
     background: 'transparent',
     boxSizing: 'border-box',
     touchAction: 'manipulation',
+    '-webkit-tap-highlight-color': 'transparent',
+    '-webkit-focus-ring-color': 'transparent',
 
     '&[contenteditable]': {
       userSelect: 'text'

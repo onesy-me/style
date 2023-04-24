@@ -1,6 +1,6 @@
 {
   "name": "@amaui/style",
-  "version": "1.1.1",
+  "version": "1.1.11",
   "description": "CSS in JS styling solution",
   "repository": "https://github.com/amaui-org/amaui-style.git",
   "author": "Lazar <lazareric.com@gmail.com>",

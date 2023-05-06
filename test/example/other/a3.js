@@ -33,7 +33,7 @@ const subs = {
 };
 
 // All the methods used
-// Add unit, value-object, rtl , sort
+// Add unit, valueObject, rtl , sort
 const amauiStyle = new AmauiStyle.AmauiStyle(document.body);
 
 amauiStyle.plugins.add = [AmauiStyle.unit, AmauiStyle.prefix, AmauiStyle.valueObject, AmauiStyle.rtl, AmauiStyle.sort];

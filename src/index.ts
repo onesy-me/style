@@ -21,7 +21,7 @@ export { default as prefix } from './prefix';
 export { default as rtl } from './rtl';
 export { default as sort } from './sort';
 export { default as unit } from './unit';
-export { default as valueObject } from './value-object';
+export { default as valueObject } from './valueObject';
 export { default as colors } from './colors';
 
 declare global {

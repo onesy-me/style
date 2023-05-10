@@ -7,7 +7,7 @@ import { evaluate } from '../utils/js/test/utils';
 import * as AmauiStyle from '../src';
 import { TValue } from '../src';
 
-group('@amaui/style/amaui-style-sheet-manager', () => {
+group('AmauiStyleSheetManager', () => {
 
   to('amauiStyleSheetManager', async () => {
     const valueBrowsers = await evaluate((window: any) => {
@@ -49,7 +49,7 @@ group('@amaui/style/amaui-style-sheet-manager', () => {
         },
       };
 
-      const amauiStyleSheetManager = new window.AmauiStyle.AmauiStyleSheetManager(a, 'regular', false, 'upper', undefined, amauiStyle, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+      const amauiStyleSheetManager = new window.AmauiStyle.AmauiStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
       return [
         typeof amauiStyleSheetManager.id === 'string',
@@ -143,7 +143,7 @@ group('@amaui/style/amaui-style-sheet-manager', () => {
       },
     };
 
-    const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(a, 'regular', false, 'upper', undefined, amauiStyle, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+    const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
     const valueNode = [
       typeof amauiStyleSheetManager.id === 'string',
@@ -247,7 +247,7 @@ group('@amaui/style/amaui-style-sheet-manager', () => {
           },
         };
 
-        const amauiStyleSheetManager = new window.AmauiStyle.AmauiStyleSheetManager(a, 'regular', false, 'upper', undefined, amauiStyle, { style: { attributes: { method: 'style' } }, rule: { prefix: false }, amaui_style_cache: true });
+        const amauiStyleSheetManager = new window.AmauiStyle.AmauiStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false }, amaui_style_cache: true });
 
         amauiStyleSheetManager.add();
 
@@ -294,7 +294,7 @@ group('@amaui/style/amaui-style-sheet-manager', () => {
         },
       };
 
-      const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(a, 'regular', false, 'upper', undefined, amauiStyle, { style: { attributes: { method: 'style' } }, rule: { prefix: false }, amaui_style_cache: true });
+      const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false }, amaui_style_cache: true });
 
       amauiStyleSheetManager.add();
 
@@ -347,7 +347,7 @@ group('@amaui/style/amaui-style-sheet-manager', () => {
           },
         };
 
-        const amauiStyleSheetManager = new window.AmauiStyle.AmauiStyleSheetManager(a, 'regular', false, 'upper', undefined, amauiStyle, { style: { attributes: { method: 'style' } }, rule: { prefix: false }, amaui_style_cache: false });
+        const amauiStyleSheetManager = new window.AmauiStyle.AmauiStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false }, amaui_style_cache: false });
 
         amauiStyleSheetManager.add();
 
@@ -394,7 +394,7 @@ group('@amaui/style/amaui-style-sheet-manager', () => {
         },
       };
 
-      const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(a, 'regular', false, 'upper', undefined, amauiStyle, { style: { attributes: { method: 'style' } }, rule: { prefix: false }, amaui_style_cache: false });
+      const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false }, amaui_style_cache: false });
 
       amauiStyleSheetManager.add();
 
@@ -451,7 +451,7 @@ group('@amaui/style/amaui-style-sheet-manager', () => {
           },
         };
 
-        const amauiStyleSheetManager = new window.AmauiStyle.AmauiStyleSheetManager(a, 'regular', false, 'upper', undefined, amauiStyle, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+        const amauiStyleSheetManager = new window.AmauiStyle.AmauiStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
         const response = [];
 
@@ -505,7 +505,7 @@ group('@amaui/style/amaui-style-sheet-manager', () => {
         },
       };
 
-      const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(a, 'regular', false, 'upper', undefined, amauiStyle, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+      const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
       amauiStyleSheetManager.add();
 
@@ -618,7 +618,7 @@ group('@amaui/style/amaui-style-sheet-manager', () => {
         },
       };
 
-      const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(a, 'atomic', false, 'upper', undefined, amauiStyle, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+      const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(a, { mode: 'atomic', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
       amauiStyleSheetManager.add();
 
@@ -690,7 +690,7 @@ group('@amaui/style/amaui-style-sheet-manager', () => {
         },
       };
 
-      const amauiStyleSheetManager = new window.AmauiStyle.AmauiStyleSheetManager(a, 'regular', false, 'upper', undefined, amauiStyle, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+      const amauiStyleSheetManager = new window.AmauiStyle.AmauiStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
       return [
         amauiStyleSheetManager.names.classNames,
@@ -751,7 +751,7 @@ group('@amaui/style/amaui-style-sheet-manager', () => {
       },
     };
 
-    const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(a, 'regular', false, 'upper', undefined, amauiStyle, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+    const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
     const valueNode = [
       amauiStyleSheetManager.names.classNames,
@@ -818,7 +818,7 @@ group('@amaui/style/amaui-style-sheet-manager', () => {
         },
       };
 
-      const amauiStyleSheetManager = new window.AmauiStyle.AmauiStyleSheetManager(a, 'regular', false, 'upper', undefined, amauiStyle, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+      const amauiStyleSheetManager = new window.AmauiStyle.AmauiStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
       amauiStyleSheetManager.add();
 
@@ -868,7 +868,7 @@ group('@amaui/style/amaui-style-sheet-manager', () => {
       },
     };
 
-    const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(a, 'regular', false, 'upper', undefined, amauiStyle, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+    const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
     amauiStyleSheetManager.add();
 
@@ -924,7 +924,7 @@ group('@amaui/style/amaui-style-sheet-manager', () => {
         },
       };
 
-      const amauiStyleSheetManager = new window.AmauiStyle.AmauiStyleSheetManager(a, 'regular', false, 'upper', undefined, amauiStyle, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+      const amauiStyleSheetManager = new window.AmauiStyle.AmauiStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
       amauiStyleSheetManager.add();
 
@@ -982,7 +982,7 @@ group('@amaui/style/amaui-style-sheet-manager', () => {
       },
     };
 
-    const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(a, 'regular', false, 'upper', undefined, amauiStyle, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+    const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
     amauiStyleSheetManager.add();
 
@@ -1050,7 +1050,7 @@ group('@amaui/style/amaui-style-sheet-manager', () => {
         },
       };
 
-      const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(a, 'regular', false, 'upper', undefined, amauiStyle, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+      const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
       return [AmauiUtils.equalDeep(amauiStyleSheetManager.values, amauiStyleSheetManager.response), amauiStyleSheetManager.values];
     });
@@ -1093,7 +1093,7 @@ group('@amaui/style/amaui-style-sheet-manager', () => {
 
     const amauiStyle = new AmauiStyle.AmauiStyle();
 
-    const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(a, 'regular', false, 'upper', undefined, amauiStyle, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+    const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
     const valueNode = [AmauiUtils.equalDeep(amauiStyleSheetManager.values, amauiStyleSheetManager.response), amauiStyleSheetManager.values];
 
@@ -1149,7 +1149,7 @@ group('@amaui/style/amaui-style-sheet-manager', () => {
           },
         };
 
-        const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(a, 'regular', false, 'upper', undefined, amauiStyle, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+        const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
         return [AmauiUtils.equalDeep(amauiStyleSheetManager.values, amauiStyleSheetManager.response), amauiStyleSheetManager.response];
       });
@@ -1192,7 +1192,7 @@ group('@amaui/style/amaui-style-sheet-manager', () => {
 
       const amauiStyle = new AmauiStyle.AmauiStyle();
 
-      const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(a, 'regular', false, 'upper', undefined, amauiStyle, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+      const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
       const valueNode = [AmauiUtils.equalDeep(amauiStyleSheetManager.values, amauiStyleSheetManager.response), amauiStyleSheetManager.response];
 
@@ -1246,7 +1246,7 @@ group('@amaui/style/amaui-style-sheet-manager', () => {
           },
         };
 
-        const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(a, 'regular', false, 'upper', undefined, amauiStyle, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+        const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
         return [AmauiUtils.equalDeep(amauiStyleSheetManager.css, amauiStyleSheetManager.values.css), amauiStyleSheetManager.css];
       });
@@ -1289,7 +1289,7 @@ group('@amaui/style/amaui-style-sheet-manager', () => {
         },
       };
 
-      const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(a, 'regular', false, 'upper', undefined, amauiStyle, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+      const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
       const valueNode = [AmauiUtils.equalDeep(amauiStyleSheetManager.css, amauiStyleSheetManager.values.css), amauiStyleSheetManager.css];
 
@@ -1343,7 +1343,7 @@ group('@amaui/style/amaui-style-sheet-manager', () => {
         },
       };
 
-      const amauiStyleSheetManager = new window.AmauiStyle.AmauiStyleSheetManager(a, 'regular', false, 'upper', undefined, amauiStyle, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+      const amauiStyleSheetManager = new window.AmauiStyle.AmauiStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
       const response = [];
 
@@ -1405,7 +1405,7 @@ group('@amaui/style/amaui-style-sheet-manager', () => {
       },
     };
 
-    const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(a, 'regular', false, 'upper', undefined, amauiStyle, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+    const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
     amauiStyleSheetManager.add();
 
@@ -1470,7 +1470,7 @@ group('@amaui/style/amaui-style-sheet-manager', () => {
         },
       };
 
-      const amauiStyleSheetManager = new window.AmauiStyle.AmauiStyleSheetManager(a, 'regular', false, 'upper', undefined, amauiStyle, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+      const amauiStyleSheetManager = new window.AmauiStyle.AmauiStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
       const response = [];
 
@@ -1572,7 +1572,7 @@ group('@amaui/style/amaui-style-sheet-manager', () => {
       },
     };
 
-    const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(a, 'regular', false, 'upper', undefined, amauiStyle, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+    const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
     const response = [];
 
@@ -1687,7 +1687,7 @@ group('@amaui/style/amaui-style-sheet-manager', () => {
         },
       };
 
-      const amauiStyleSheetManager = new window.AmauiStyle.AmauiStyleSheetManager(a, 'regular', false, 'upper', undefined, amauiStyle, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+      const amauiStyleSheetManager = new window.AmauiStyle.AmauiStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
       const response = [];
 
@@ -1758,7 +1758,7 @@ group('@amaui/style/amaui-style-sheet-manager', () => {
       },
     };
 
-    const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(a, 'regular', false, 'upper', undefined, amauiStyle, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+    const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
     amauiStyleSheetManager.add();
 

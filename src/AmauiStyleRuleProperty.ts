@@ -2,9 +2,9 @@ import Try from '@amaui/utils/try';
 import isEnvironment from '@amaui/utils/isEnvironment';
 import AmauiSubscription from '@amaui/subscription';
 
-import AmauiStyle from './amaui-style';
-import AmauiStyleRule from './amaui-style-rule';
-import AmauiStyleSheet from './amaui-style-sheet';
+import AmauiStyle from './AmauiStyle';
+import AmauiStyleRule from './AmauiStyleRule';
+import AmauiStyleSheet from './AmauiStyleSheet';
 import { IOptionsRule, IValuesVersion, TValueVersion } from './interfaces';
 import { cammelCaseToKebabCase, getID, getRefs, is, valueResolve } from './utils';
 

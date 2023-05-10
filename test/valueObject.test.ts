@@ -5,7 +5,7 @@ import { evaluate } from '../utils/js/test/utils';
 
 import * as AmauiStyle from '../src';
 
-group('@amaui/style/valueObject', () => {
+group('valueObject', () => {
 
   group('amauiStyle', () => {
 

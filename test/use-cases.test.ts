@@ -140,7 +140,7 @@ group('Use cases', () => {
       ];
     });
 
-    const amauiStyle = new AmauiStyle.AmauiStyle(undefined, undefined, undefined, { optimize: true });
+    const amauiStyle = new AmauiStyle.AmauiStyle({ optimize: true });
 
     // Plugins
     amauiStyle.plugins.add = [
@@ -386,7 +386,7 @@ group('Use cases', () => {
       return response;
     });
 
-    const amauiStyle = new AmauiStyle.AmauiStyle(undefined, undefined, undefined, { optimize: true });
+    const amauiStyle = new AmauiStyle.AmauiStyle({ optimize: true });
 
     // Plugins
     amauiStyle.plugins.add = [
@@ -676,7 +676,7 @@ group('Use cases', () => {
       return response;
     });
 
-    const amauiStyle = new AmauiStyle.AmauiStyle(undefined, undefined, undefined, { optimize: true });
+    const amauiStyle = new AmauiStyle.AmauiStyle({ optimize: true });
 
     // Plugins
     amauiStyle.plugins.add = [
@@ -1781,7 +1781,7 @@ group('Use cases', () => {
       return response;
     });
 
-    const amauiStyle = new AmauiStyle.AmauiStyle(undefined, undefined, undefined, { optimize: true });
+    const amauiStyle = new AmauiStyle.AmauiStyle({ optimize: true });
 
     // Plugins
     amauiStyle.plugins.add = [

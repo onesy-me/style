@@ -1,4 +1,4 @@
-import AmauiStyle from './amaui-style';
+import AmauiStyle from './AmauiStyle';
 import { is, valueResolve } from './utils';
 
 export interface IValueObject {

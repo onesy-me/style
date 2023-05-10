@@ -7,7 +7,7 @@ import { evaluate } from '../utils/js/test/utils';
 import * as AmauiStyle from '../src';
 import { TValue, TValueObject } from '../src';
 
-group('@amaui/style/amaui-style-sheet', () => {
+group('AmauiStyleSheet', () => {
 
   to('amauiStyleSheet', async () => {
     const valueBrowsers = await evaluate((window: any) => {
@@ -44,9 +44,9 @@ group('@amaui/style/amaui-style-sheet', () => {
         },
       };
 
-      const amauiStyleSheetManager = new window.AmauiStyle.AmauiStyleSheetManager(undefined, 'regular', false, 'upper', undefined, amauiStyle, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+      const amauiStyleSheetManager = new window.AmauiStyle.AmauiStyleSheetManager(undefined, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
-      const amauiStyleSheet = new window.AmauiStyle.AmauiStyleSheet(a, 'static', 'regular', false, 'upper', undefined, amauiStyleSheetManager, amauiStyle, {}, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+      const amauiStyleSheet = new window.AmauiStyle.AmauiStyleSheet(a, { version: 'static', mode: 'regular', pure: false, priority: 'upper', amauiStyle, amauiStyleSheetManager, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
       return [
         typeof amauiStyleSheet.id === 'string',
@@ -110,9 +110,9 @@ group('@amaui/style/amaui-style-sheet', () => {
       },
     };
 
-    const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(undefined, 'regular', false, 'upper', undefined, amauiStyle, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+    const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(undefined, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
-    const amauiStyleSheet = new AmauiStyle.AmauiStyleSheet(a, 'static', 'regular', false, 'upper', undefined, amauiStyleSheetManager, amauiStyle, {}, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+    const amauiStyleSheet = new AmauiStyle.AmauiStyleSheet(a, { version: 'static', mode: 'regular', pure: false, priority: 'upper', amauiStyle, amauiStyleSheetManager, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
     const valueNode = [
       typeof amauiStyleSheet.id === 'string',
@@ -184,9 +184,9 @@ group('@amaui/style/amaui-style-sheet', () => {
           },
         };
 
-        const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(undefined, 'regular', false, 'upper', undefined, amauiStyle, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+        const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(undefined, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
-        const amauiStyleSheet = new AmauiStyle.AmauiStyleSheet(a, 'static', 'regular', false, 'upper', undefined, amauiStyleSheetManager, amauiStyle, {}, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+        const amauiStyleSheet = new AmauiStyle.AmauiStyleSheet(a, { version: 'static', mode: 'regular', pure: false, priority: 'upper', amauiStyle, amauiStyleSheetManager, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
         const response = [];
 
@@ -232,9 +232,9 @@ group('@amaui/style/amaui-style-sheet', () => {
         },
       };
 
-      const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(undefined, 'regular', false, 'upper', undefined, amauiStyle, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+      const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(undefined, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
-      const amauiStyleSheet = new AmauiStyle.AmauiStyleSheet(a, 'static', 'regular', false, 'upper', undefined, amauiStyleSheetManager, amauiStyle, {}, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+      const amauiStyleSheet = new AmauiStyle.AmauiStyleSheet(a, { version: 'static', mode: 'regular', pure: false, priority: 'upper', amauiStyle, amauiStyleSheetManager, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
       amauiStyleSheet.add();
 
@@ -284,9 +284,9 @@ group('@amaui/style/amaui-style-sheet', () => {
           },
         };
 
-        const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(undefined, 'atomic', false, 'upper', undefined, amauiStyle, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+        const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(undefined, { mode: 'atomic', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
-        const amauiStyleSheet = new AmauiStyle.AmauiStyleSheet(a, 'static', 'atomic', false, 'upper', undefined, amauiStyleSheetManager, amauiStyle, {}, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+        const amauiStyleSheet = new AmauiStyle.AmauiStyleSheet(a, { version: 'static', mode: 'atomic', pure: false, priority: 'upper', amauiStyle, amauiStyleSheetManager, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
         const response = [];
 
@@ -332,9 +332,9 @@ group('@amaui/style/amaui-style-sheet', () => {
         },
       };
 
-      const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(undefined, 'atomic', false, 'upper', undefined, amauiStyle, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+      const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(undefined, { mode: 'atomic', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
-      const amauiStyleSheet = new AmauiStyle.AmauiStyleSheet(a, 'static', 'atomic', false, 'upper', undefined, amauiStyleSheetManager, amauiStyle, {}, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+      const amauiStyleSheet = new AmauiStyle.AmauiStyleSheet(a, { version: 'static', mode: 'atomic', pure: false, priority: 'upper', amauiStyle, amauiStyleSheetManager, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
       amauiStyleSheet.add();
 
@@ -399,9 +399,9 @@ group('@amaui/style/amaui-style-sheet', () => {
         },
       };
 
-      const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(undefined, 'regular', false, 'upper', undefined, amauiStyle, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+      const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(undefined, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
-      const amauiStyleSheet = new AmauiStyle.AmauiStyleSheet(a, 'static', 'regular', false, 'upper', undefined, amauiStyleSheetManager, amauiStyle, {}, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+      const amauiStyleSheet = new AmauiStyle.AmauiStyleSheet(a, { version: 'static', mode: 'regular', pure: false, priority: 'upper', amauiStyle, amauiStyleSheetManager, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
       return [
         amauiStyleSheet.names.classNames,
@@ -457,9 +457,9 @@ group('@amaui/style/amaui-style-sheet', () => {
       },
     };
 
-    const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(undefined, 'regular', false, 'upper', undefined, amauiStyle, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+    const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(undefined, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
-    const amauiStyleSheet = new AmauiStyle.AmauiStyleSheet(a, 'static', 'regular', false, 'upper', undefined, amauiStyleSheetManager, amauiStyle, {}, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+    const amauiStyleSheet = new AmauiStyle.AmauiStyleSheet(a, { version: 'static', mode: 'regular', pure: false, priority: 'upper', amauiStyle, amauiStyleSheetManager, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
     const valueNode = [
       amauiStyleSheet.names.classNames,
@@ -497,9 +497,9 @@ group('@amaui/style/amaui-style-sheet', () => {
         },
       };
 
-      const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(undefined, 'regular', false, 'upper', undefined, amauiStyle, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+      const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(undefined, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
-      const amauiStyleSheet = new AmauiStyle.AmauiStyleSheet(a, 'dynamic', 'regular', false, 'upper', undefined, amauiStyleSheetManager, amauiStyle, {}, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+      const amauiStyleSheet = new AmauiStyle.AmauiStyleSheet(a, { version: 'dynamic', pure: false, priority: 'upper', amauiStyle, amauiStyleSheetManager, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
       amauiStyleSheet.add();
 
@@ -526,9 +526,9 @@ group('@amaui/style/amaui-style-sheet', () => {
       },
     };
 
-    const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(undefined, 'regular', false, 'upper', undefined, amauiStyle, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+    const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(undefined, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
-    const amauiStyleSheet = new AmauiStyle.AmauiStyleSheet(a, 'dynamic', 'regular', false, 'upper', undefined, amauiStyleSheetManager, amauiStyle, {}, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+    const amauiStyleSheet = new AmauiStyle.AmauiStyleSheet(a, { version: 'dynamic', pure: false, priority: 'upper', amauiStyle, amauiStyleSheetManager, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
     amauiStyleSheet.add();
 
@@ -589,9 +589,9 @@ group('@amaui/style/amaui-style-sheet', () => {
         },
       };
 
-      const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(undefined, 'regular', false, 'upper', undefined, amauiStyle, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+      const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(undefined, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
-      const amauiStyleSheet = new AmauiStyle.AmauiStyleSheet(a, 'static', 'regular', false, 'upper', undefined, amauiStyleSheetManager, amauiStyle, {}, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+      const amauiStyleSheet = new AmauiStyle.AmauiStyleSheet(a, { version: 'static', mode: 'regular', pure: false, priority: 'upper', amauiStyle, amauiStyleSheetManager, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
       return [AmauiUtils.equalDeep(amauiStyleSheet.values, amauiStyleSheet.response), amauiStyleSheet.values];
     });
@@ -629,9 +629,9 @@ group('@amaui/style/amaui-style-sheet', () => {
 
     const amauiStyle = new AmauiStyle.AmauiStyle();
 
-    const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(undefined, 'regular', false, 'upper', undefined, amauiStyle, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+    const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(undefined, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
-    const amauiStyleSheet = new AmauiStyle.AmauiStyleSheet(a, 'static', 'regular', false, 'upper', undefined, amauiStyleSheetManager, amauiStyle, {}, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+    const amauiStyleSheet = new AmauiStyle.AmauiStyleSheet(a, { version: 'static', mode: 'regular', pure: false, priority: 'upper', amauiStyle, amauiStyleSheetManager, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
     const valueNode = [AmauiUtils.equalDeep(amauiStyleSheet.values, amauiStyleSheet.response), amauiStyleSheet.values];
 
@@ -682,9 +682,9 @@ group('@amaui/style/amaui-style-sheet', () => {
           },
         };
 
-        const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(undefined, 'regular', false, 'upper', undefined, amauiStyle, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+        const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(undefined, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
-        const amauiStyleSheet = new AmauiStyle.AmauiStyleSheet(a, 'static', 'regular', false, 'upper', undefined, amauiStyleSheetManager, amauiStyle, {}, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+        const amauiStyleSheet = new AmauiStyle.AmauiStyleSheet(a, { version: 'static', mode: 'regular', pure: false, priority: 'upper', amauiStyle, amauiStyleSheetManager, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
         return [AmauiUtils.equalDeep(amauiStyleSheet.values, amauiStyleSheet.response), amauiStyleSheet.response];
       });
@@ -722,9 +722,9 @@ group('@amaui/style/amaui-style-sheet', () => {
 
       const amauiStyle = new AmauiStyle.AmauiStyle();
 
-      const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(undefined, 'regular', false, 'upper', undefined, amauiStyle, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+      const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(undefined, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
-      const amauiStyleSheet = new AmauiStyle.AmauiStyleSheet(a, 'static', 'regular', false, 'upper', undefined, amauiStyleSheetManager, amauiStyle, {}, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+      const amauiStyleSheet = new AmauiStyle.AmauiStyleSheet(a, { version: 'static', mode: 'regular', pure: false, priority: 'upper', amauiStyle, amauiStyleSheetManager, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
       const valueNode = [AmauiUtils.equalDeep(amauiStyleSheet.values, amauiStyleSheet.response), amauiStyleSheet.response];
 
@@ -773,9 +773,9 @@ group('@amaui/style/amaui-style-sheet', () => {
           },
         };
 
-        const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(undefined, 'regular', false, 'upper', undefined, amauiStyle, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+        const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(undefined, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
-        const amauiStyleSheet = new AmauiStyle.AmauiStyleSheet(a, 'static', 'regular', false, 'upper', undefined, amauiStyleSheetManager, amauiStyle, {}, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+        const amauiStyleSheet = new AmauiStyle.AmauiStyleSheet(a, { version: 'static', mode: 'regular', pure: false, priority: 'upper', amauiStyle, amauiStyleSheetManager, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
         return [AmauiUtils.equalDeep(amauiStyleSheet.css, amauiStyleSheet.values.css), amauiStyleSheet.css];
       });
@@ -813,9 +813,9 @@ group('@amaui/style/amaui-style-sheet', () => {
         },
       };
 
-      const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(undefined, 'regular', false, 'upper', undefined, amauiStyle, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+      const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(undefined, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
-      const amauiStyleSheet = new AmauiStyle.AmauiStyleSheet(a, 'static', 'regular', false, 'upper', undefined, amauiStyleSheetManager, amauiStyle, {}, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+      const amauiStyleSheet = new AmauiStyle.AmauiStyleSheet(a, { version: 'static', mode: 'regular', pure: false, priority: 'upper', amauiStyle, amauiStyleSheetManager, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
       const valueNode = [AmauiUtils.equalDeep(amauiStyleSheet.css, amauiStyleSheet.values.css), amauiStyleSheet.css];
 
@@ -866,7 +866,7 @@ group('@amaui/style/amaui-style-sheet', () => {
 
       const amauiStyleSheetManager = new window.AmauiStyle.AmauiStyleSheetManager(undefined, 'regular', false, 'upper', undefined, amauiStyle, {}, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
-      const amauiStyleSheet = new window.AmauiStyle.AmauiStyleSheet(a, 'static', 'regular', false, 'upper', undefined, amauiStyleSheetManager, amauiStyle, {}, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+      const amauiStyleSheet = new window.AmauiStyle.AmauiStyleSheet(a, { version: 'static', mode: 'regular', pure: false, priority: 'upper', amauiStyle, amauiStyleSheetManager, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
       const response = [];
 
@@ -921,9 +921,9 @@ group('@amaui/style/amaui-style-sheet', () => {
       },
     };
 
-    const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(undefined, 'regular', false, 'upper', undefined, amauiStyle, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+    const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(undefined, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
-    const amauiStyleSheet = new AmauiStyle.AmauiStyleSheet(a, 'static', 'regular', false, 'upper', undefined, amauiStyleSheetManager, amauiStyle, {}, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+    const amauiStyleSheet = new AmauiStyle.AmauiStyleSheet(a, { version: 'static', mode: 'regular', pure: false, priority: 'upper', amauiStyle, amauiStyleSheetManager, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
     amauiStyleSheet.add();
 
@@ -971,7 +971,7 @@ group('@amaui/style/amaui-style-sheet', () => {
 
       const amauiStyleSheetManager = new window.AmauiStyle.AmauiStyleSheetManager(undefined, 'regular', false, 'upper', undefined, amauiStyle, {}, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
-      const amauiStyleSheet = new window.AmauiStyle.AmauiStyleSheet(a, 'static', 'regular', false, 'upper', undefined, amauiStyleSheetManager, amauiStyle, {}, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+      const amauiStyleSheet = new window.AmauiStyle.AmauiStyleSheet(a, { version: 'static', mode: 'regular', pure: false, priority: 'upper', amauiStyle, amauiStyleSheetManager, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
       const response = [];
 
@@ -1030,9 +1030,9 @@ group('@amaui/style/amaui-style-sheet', () => {
       },
     };
 
-    const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(undefined, 'regular', false, 'upper', undefined, amauiStyle, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+    const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(undefined, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
-    const amauiStyleSheet = new AmauiStyle.AmauiStyleSheet(a, 'static', 'regular', false, 'upper', undefined, amauiStyleSheetManager, amauiStyle, {}, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+    const amauiStyleSheet = new AmauiStyle.AmauiStyleSheet(a, { version: 'static', mode: 'regular', pure: false, priority: 'upper', amauiStyle, amauiStyleSheetManager, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
     const response = [];
 
@@ -1103,7 +1103,7 @@ group('@amaui/style/amaui-style-sheet', () => {
 
       const amauiStyleSheetManager = new window.AmauiStyle.AmauiStyleSheetManager(undefined, 'regular', false, 'upper', undefined, amauiStyle, {}, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
-      const amauiStyleSheet = new window.AmauiStyle.AmauiStyleSheet(a, 'static', 'regular', false, 'upper', undefined, amauiStyleSheetManager, amauiStyle, {}, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+      const amauiStyleSheet = new window.AmauiStyle.AmauiStyleSheet(a, { version: 'static', mode: 'regular', pure: false, priority: 'upper', amauiStyle, amauiStyleSheetManager, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
       const response = [];
 
@@ -1179,9 +1179,9 @@ group('@amaui/style/amaui-style-sheet', () => {
       },
     };
 
-    const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(undefined, 'regular', false, 'upper', undefined, amauiStyle, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+    const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(undefined, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
-    const amauiStyleSheet = new AmauiStyle.AmauiStyleSheet(a, 'static', 'regular', false, 'upper', undefined, amauiStyleSheetManager, amauiStyle, {}, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+    const amauiStyleSheet = new AmauiStyle.AmauiStyleSheet(a, { version: 'static', mode: 'regular', pure: false, priority: 'upper', amauiStyle, amauiStyleSheetManager, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
     const response = [];
 
@@ -1271,7 +1271,7 @@ group('@amaui/style/amaui-style-sheet', () => {
 
       const amauiStyleSheetManager = new window.AmauiStyle.AmauiStyleSheetManager(undefined, 'regular', false, 'upper', undefined, amauiStyle, {}, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
-      const amauiStyleSheet = new window.AmauiStyle.AmauiStyleSheet(a, 'static', 'regular', false, 'upper', undefined, amauiStyleSheetManager, amauiStyle, {}, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+      const amauiStyleSheet = new window.AmauiStyle.AmauiStyleSheet(a, { version: 'static', mode: 'regular', pure: false, priority: 'upper', amauiStyle, amauiStyleSheetManager, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
       const response = [];
 
@@ -1333,9 +1333,9 @@ group('@amaui/style/amaui-style-sheet', () => {
       },
     };
 
-    const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(undefined, 'regular', false, 'upper', undefined, amauiStyle, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+    const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(undefined, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
-    const amauiStyleSheet = new AmauiStyle.AmauiStyleSheet(a, 'static', 'regular', false, 'upper', undefined, amauiStyleSheetManager, amauiStyle, {}, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+    const amauiStyleSheet = new AmauiStyle.AmauiStyleSheet(a, { version: 'static', mode: 'regular', pure: false, priority: 'upper', amauiStyle, amauiStyleSheetManager, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
     amauiStyleSheet.add();
 

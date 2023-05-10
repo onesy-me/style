@@ -12,9 +12,9 @@ import Try from '@amaui/utils/try';
 import unique from '@amaui/utils/unique';
 import AmauiNode from '@amaui/node';
 
-import AmauiStyle from './amaui-style';
-import AmauiTheme from './amaui-theme';
-import AmauiStyleSheetManager from './amaui-style-sheet-manager';
+import AmauiStyle from './AmauiStyle';
+import AmauiTheme from './AmauiTheme';
+import AmauiStyleSheetManager from './AmauiStyleSheetManager';
 import { TValue, TValueMethod, IMethodResponse, TPriority, ICSSOptions } from './interfaces';
 import { resetDefault, normalize } from './reset';
 

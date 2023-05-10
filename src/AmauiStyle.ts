@@ -8,17 +8,19 @@ import AmauiSubscription from '@amaui/subscription';
 import AmauiMeta from '@amaui/meta';
 
 import { IOptionsRule, IValuesVersion, TMode, TRefs } from './interfaces';
-import AmauiStyleRenderer from './amaui-style-renderer';
-import AmauiStyleSheet from './amaui-style-sheet';
-import AmauiStyleSheetManager from './amaui-style-sheet-manager';
+import AmauiStyleRenderer from './AmauiStyleRenderer';
+import AmauiStyleSheet from './AmauiStyleSheet';
+import AmauiStyleSheetManager from './AmauiStyleSheetManager';
 import { getID, is, minify } from './utils';
 
-export type AmauiPlugin = TMethod | {
+export interface IAmauiPluginItem {
   method: TMethod;
   arguments: any[];
-};
+}
 
-export type AmauiPlugins = AmauiPlugin | AmauiPlugin[];
+export type TAmauiPlugin = TMethod | IAmauiPluginItem;
+
+export type AmauiPlugins = TAmauiPlugin | TAmauiPlugin[];
 
 interface IOptions {
   element?: Element;
@@ -170,7 +172,7 @@ class AmauiStyle {
       set remove(value_: AmauiPlugins) {
         const value = (is('array', value_) ? value_ : [value_]);
 
-        (value as AmauiPlugin[])
+        (value as TAmauiPlugin[])
           .filter(item => (
             (
               is('object', item) &&

@@ -2,8 +2,8 @@ import variationWithRepetition from '@amaui/utils/variationWithRepetition';
 import getEnvironment from '@amaui/utils/getEnvironment';
 import AmauiSubscription from '@amaui/subscription';
 
-import AmauiStyle from './amaui-style';
-import { IAmauiStyleRuleValue } from './amaui-style-rule';
+import AmauiStyle from './AmauiStyle';
+import { IAmauiStyleRuleValue } from './AmauiStyleRule';
 import { IResponse } from './interfaces';
 
 export const cammelCaseToKebabCase = (value: string) => is('string', value) ? value.replace(/[A-Z]/g, v => `-${v[0]}`).toLowerCase() : value;

@@ -5,9 +5,9 @@ import getEnvironment from '@amaui/utils/getEnvironment';
 import merge from '@amaui/utils/merge';
 import AmauiSubscription from '@amaui/subscription';
 
-import AmauiStyle from './amaui-style';
-import AmauiStyleSheet from './amaui-style-sheet';
-import AmauiStyleRuleProperty from './amaui-style-rule-property';
+import AmauiStyle from './AmauiStyle';
+import AmauiStyleSheet from './AmauiStyleSheet';
+import AmauiStyleRuleProperty from './AmauiStyleRuleProperty';
 import classNamesMethod from './classNames';
 import { IOptionsRule, IValuesVersion, TMode, TRef, TStatus, TValueVersion } from './interfaces';
 import { cammelCaseToKebabCase, getID, getRefs, is, isAmauiSubscription, valueResolve } from './utils';

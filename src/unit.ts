@@ -1,6 +1,6 @@
 import copy from '@amaui/utils/copy';
 
-import AmauiStyle from './amaui-style';
+import AmauiStyle from './AmauiStyle';
 import { cammelCaseToKebabCase, is, kebabCasetoCammelCase } from './utils';
 
 export interface IUnit {

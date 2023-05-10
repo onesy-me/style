@@ -2,9 +2,9 @@ import merge from '@amaui/utils/merge';
 import Try from '@amaui/utils/try';
 
 import { is } from './utils';
-import AmauiStyle from './amaui-style';
-import AmauiStyleSheetManager from './amaui-style-sheet-manager';
-import AmauiTheme from './amaui-theme';
+import AmauiStyle from './AmauiStyle';
+import AmauiStyleSheetManager from './AmauiStyleSheetManager';
+import AmauiTheme from './AmauiTheme';
 import { TValue, TValueMethod, IAmauiStyleSheetManagerProps, IMethodResponse, IOptionsAmauiStyle, IOptionsAmauiTheme, TMode } from './interfaces';
 
 export interface IOptions {

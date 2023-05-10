@@ -1,6 +1,6 @@
-import AmauiStyle from './amaui-style';
-import AmauiStyleRuleProperty from './amaui-style-rule-property';
-import { IRuleItem } from './amaui-style-sheet';
+import AmauiStyle from './AmauiStyle';
+import AmauiStyleRuleProperty from './AmauiStyleRuleProperty';
+import { IRuleItem } from './AmauiStyleSheet';
 import { is } from './utils';
 
 export interface ISort {

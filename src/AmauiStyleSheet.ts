@@ -4,10 +4,10 @@ import isEnvironment from '@amaui/utils/isEnvironment';
 import getEnvironment from '@amaui/utils/getEnvironment';
 import merge from '@amaui/utils/merge';
 
-import AmauiStyle from './amaui-style';
-import AmauiStyleRule from './amaui-style-rule';
-import AmauiStyleSheetManager from './amaui-style-sheet-manager';
-import AmauiTheme from './amaui-theme';
+import AmauiStyle from './AmauiStyle';
+import AmauiStyleRule from './AmauiStyleRule';
+import AmauiStyleSheetManager from './AmauiStyleSheetManager';
+import AmauiTheme from './AmauiTheme';
 import { TMode, IOptionsRule, IValuesVersion, TStatus, TPriority, IAddRuleResponse, TValueObject } from './interfaces';
 import { dynamic, getID, is } from './utils';
 

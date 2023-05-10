@@ -1,9 +1,9 @@
 import isEnvironment from '@amaui/utils/isEnvironment';
 import merge from '@amaui/utils/merge';
 
-import AmauiStyle from './amaui-style';
-import AmauiStyleSheet from './amaui-style-sheet';
-import AmauiTheme from './amaui-theme';
+import AmauiStyle from './AmauiStyle';
+import AmauiStyleSheet from './AmauiStyleSheet';
+import AmauiTheme from './AmauiTheme';
 import { TMode, IOptionsRule, IValuesVersion, TStatus, IResponse, IIds, TPriority, ISheets, IAmauiStyleSheetManagerProps, TValueObject } from './interfaces';
 import { dynamic, getID, is, names } from './utils';
 

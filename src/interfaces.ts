@@ -2,11 +2,11 @@ import type * as CSS from 'csstype';
 
 import AmauiSubscription from '@amaui/subscription';
 
-import AmauiStyle from './amaui-style';
-import AmauiStyleRule from './amaui-style-rule';
-import AmauiStyleSheet from './amaui-style-sheet';
-import AmauiStyleSheetManager from './amaui-style-sheet-manager';
-import AmauiTheme from './amaui-theme';
+import AmauiStyle from './AmauiStyle';
+import AmauiStyleRule from './AmauiStyleRule';
+import AmauiStyleSheet from './AmauiStyleSheet';
+import AmauiStyleSheetManager from './AmauiStyleSheetManager';
+import AmauiTheme from './AmauiTheme';
 
 declare module 'csstype' {
   interface Properties {

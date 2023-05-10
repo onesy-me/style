@@ -3,7 +3,7 @@ import { assert } from '@amaui/test';
 
 import { evaluate } from '../utils/js/test/utils';
 
-group('@amaui/style/amaui-style-renderer', () => {
+group('AmauiStyleRenderer', () => {
 
   to('make', async () => {
     const valueBrowsers = await evaluate((window: any) => {

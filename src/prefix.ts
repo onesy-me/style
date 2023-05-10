@@ -1,6 +1,6 @@
 import isEnvironment from '@amaui/utils/isEnvironment';
 
-import AmauiStyle from './amaui-style';
+import AmauiStyle from './AmauiStyle';
 import { capitalizedCammelCase } from './utils';
 
 export interface IPrefix {

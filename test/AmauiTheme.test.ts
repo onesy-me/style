@@ -6,7 +6,7 @@ import { evaluate } from '../utils/js/test/utils';
 
 import * as AmauiStyle from '../src';
 
-group('@amaui/style/amaui-theme', () => {
+group('AmauiTheme', () => {
 
   preEveryGroupTo(async () => {
     await evaluate((window: any) => {
@@ -254,7 +254,7 @@ group('@amaui/style/amaui-theme', () => {
       });
 
       // Node
-      const amauiTheme = new AmauiStyle.AmauiTheme(undefined, undefined, { rule: { prefix: false } });
+      const amauiTheme = new AmauiStyle.AmauiTheme(undefined, { rule: { prefix: false } });
 
       const response = [
         typeof amauiTheme.id === 'string',

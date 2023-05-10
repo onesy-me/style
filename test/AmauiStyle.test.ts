@@ -7,7 +7,7 @@ import { evaluate } from '../utils/js/test/utils';
 import * as AmauiStyle from '../src';
 import { TValue } from '../src';
 
-group('@amaui/style/amaui-style', () => {
+group('AmauiStyle', () => {
 
   preEveryGroupTo(async () => {
     await evaluate((window: any) => {
@@ -172,7 +172,7 @@ group('@amaui/style/amaui-style', () => {
     ]));
 
     // Node
-    const amauiStyle = new AmauiStyle.AmauiStyle(undefined, 'regular', undefined, { rule: { prefix: false } });
+    const amauiStyle = new AmauiStyle.AmauiStyle({ rule: { prefix: false }, mode: 'regular' });
 
     const valueNode = [
       typeof amauiStyle.id === 'string',

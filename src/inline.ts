@@ -1,8 +1,8 @@
 import Try from '@amaui/utils/try';
 
-import AmauiStyle from './amaui-style';
-import AmauiStyleSheetManager from './amaui-style-sheet-manager';
-import AmauiTheme from './amaui-theme';
+import AmauiStyle from './AmauiStyle';
+import AmauiStyleSheetManager from './AmauiStyleSheetManager';
+import AmauiTheme from './AmauiTheme';
 import { TValue, TValueMethod, IIds, IOptionsAmauiStyle, IOptionsAmauiTheme } from './interfaces';
 import { cammelCaseToKebabCase, is, isAmauiSubscription, kebabCasetoCammelCase } from './utils';
 

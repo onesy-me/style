@@ -26,6 +26,7 @@ const optionsDefault: IOptions = {
 const mapAllPropertyPrefixes = {
   'appearance': ['-webkit-', '-moz-'],
   'backdrop-filter': ['-webkit-'],
+  'background-clip': ['-webkit-'],
   'box-decoration-break': ['-webkit-'],
   'clip-path': ['-webkit-'],
   'color-adjust': ['-webkit-'],

@@ -30,6 +30,12 @@ const FONT_FAMILY = {
   tertiary: ['Roboto Mono', 'monospace'].join(', ')
 };
 
+export interface IMethodsPaletteImageOptions {
+  amount?: number;
+  size?: number;
+  allowCrossOrigin?: boolean;
+}
+
 export type TTone = 0 | 1 | 5 | 10 | 20 | 30 | 40 | 50 | 60 | 70 | 80 | 90 | 95 | 99 | 100;
 
 export type TColorVersion = 'light' | 'main' | 'dark';
@@ -817,7 +823,7 @@ class AmauiTheme {
   // Methods
   public methods = {
     palette: {
-      image: async (image: string, options: { amount?: number; size?: number; allowCrossOrigin?: boolean; } = {}) => {
+      image: async (image: string, options: IMethodsPaletteImageOptions = {}) => {
         const values = await imageToPalette(image, { amount: 4, size: 140, allowCrossOrigin: false, ...options });
 
         return (values || []);
@@ -1233,10 +1239,10 @@ class AmauiTheme {
     Object.keys(other).forEach(prop => this[prop] = other[prop]);
   }
 
-  public async image(value_: string, other: any = {}) {
+  public async image(value_: string, other: any = {}, options: IMethodsPaletteImageOptions = {}) {
     // Image
     if (value_) {
-      const values = await this.methods.palette.image(value_);
+      const values = await this.methods.palette.image(value_, options);
 
       if (!!values.length) {
         const palette: IPalette = {

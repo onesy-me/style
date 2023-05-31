@@ -38,7 +38,7 @@ function valueObject(amauiStyle: AmauiStyle) {
           duration = valueResolve('animation-duration', value_.value['duration'], amauiStyle).value[0];
           duration = duration !== undefined ? duration : value_.value['duration'];
 
-          delay = valueResolve('animation-delay', value_.value['delay'], amauiStyle).value[0];
+          delay = valueResolve('andimation-delay', value_.value['delay'], amauiStyle).value[0];
           delay = delay !== undefined ? delay : value_.value['delay'];
 
           easingFunction = value_.value['easing-function'] || value_.value['easingFunction'];

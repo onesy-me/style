@@ -18,8 +18,8 @@ export interface IOptions {
 
 const optionsDefault: IOptions = {
   ssr: {
-    all: true,
-  },
+    all: true
+  }
 };
 
 // As of April, 01, 2022 all prefixed required for some of the browser versions

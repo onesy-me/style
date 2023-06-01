@@ -470,7 +470,7 @@ group('@amaui/style/unit', () => {
             'width': 'px',
             'word-spacing': 'px',
 
-            'zoom': '%',
+            'zoom': '%'
           };
 
           return Object.keys(unitsDefault).map(item => method({ property: item, value: 140 }).value.unit === unitsDefault[item]);

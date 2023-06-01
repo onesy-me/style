@@ -46,7 +46,7 @@ group('AmauiStyleSheetManager', () => {
         a7: {
           // Function
           background: props => props.a === 1 ? 'yellow' : 'orange',
-        },
+        }
       };
 
       const amauiStyleSheetManager = new window.AmauiStyle.AmauiStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });

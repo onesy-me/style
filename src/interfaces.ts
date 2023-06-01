@@ -121,6 +121,7 @@ export interface ICSSOptions {
   mode?: TMode;
 
   pure?: boolean;
+
   reset?: boolean;
 
   resetProps?: {
@@ -154,8 +155,6 @@ export interface ICSSOptions {
   };
 
   rule?: IOptionsRule;
-
-  optimize?: boolean;
 
   log?: boolean;
 }

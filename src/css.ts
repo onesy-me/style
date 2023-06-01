@@ -32,23 +32,23 @@ const optionsDefault: ICSSOptions = {
   },
   css: {
     file: {
-      hash: true,
+      hash: true
     },
-    minify: true,
+    minify: true
   },
   html: {
     insert: {
       comment: '<!-- amaui style insert -->'
     },
 
-    add: true,
+    add: true
   },
   rule: {
     rtl: false,
     prefix: true,
-    sort: true,
+    sort: true
   },
-  log: true,
+  log: true
 };
 
 const env = getEnvironment();

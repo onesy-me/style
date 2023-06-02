@@ -208,7 +208,7 @@ class AmauiStyleSheetManager {
       ids: {
         static: this.ids.static,
         dynamic: [],
-      },
+      }
     } as any;
 
     response = merge(response, this.names, { copy: true });

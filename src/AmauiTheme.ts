@@ -710,10 +710,10 @@ const amauiThemeValueDefault: IAmauiTheme = {
         letterSpacing: '.25px'
       },
       l3: {
-        fontSize: `${pxToRem(11, 16)}rem`,
+        fontSize: `${pxToRem(12, 16)}rem`,
         fontFamily: FONT_FAMILY.secondary,
         fontWeight: 500,
-        lineHeight: 15 / 11,
+        lineHeight: 15 / 12,
         letterSpacing: '.4px'
       },
       b1: {
@@ -731,10 +731,10 @@ const amauiThemeValueDefault: IAmauiTheme = {
         letterSpacing: '.25px'
       },
       b3: {
-        fontSize: `${pxToRem(11, 16)}rem`,
+        fontSize: `${pxToRem(12, 16)}rem`,
         fontFamily: FONT_FAMILY.secondary,
         fontWeight: 400,
-        lineHeight: 15 / 11,
+        lineHeight: 15 / 12,
         letterSpacing: '.4px'
       },
       m1: {
@@ -752,10 +752,10 @@ const amauiThemeValueDefault: IAmauiTheme = {
         letterSpacing: '.25px'
       },
       m3: {
-        fontSize: `${pxToRem(11, 16)}rem`,
+        fontSize: `${pxToRem(12, 16)}rem`,
         fontFamily: FONT_FAMILY.tertiary,
         fontWeight: 400,
-        lineHeight: 15 / 11,
+        lineHeight: 15 / 12,
         letterSpacing: '.4px'
       }
     }

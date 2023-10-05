@@ -208,24 +208,28 @@ export interface IShape {
   radius?: IRadius;
 }
 
-export type TBreakpoint = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+export type TBreakpoint = 'xxs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
 
 export interface IBreakpoints {
   values?: {
+    xxs?: number;
     xs?: number;
     sm?: number;
     md?: number;
     lg?: number;
     xl?: number;
+    xxl?: number;
 
     [p: string]: number;
   };
   media?: {
+    xxs?: string;
     xs?: string;
     sm?: string;
     md?: string;
     lg?: string;
     xl?: string;
+    xxl?: string;
 
     [p: string]: string;
   };
@@ -579,19 +583,23 @@ const amauiThemeValueDefault: IAmauiTheme = {
 
   breakpoints: {
     values: {
-      xs: 0,
-      sm: 600,
-      md: 1240,
+      xxs: 0,
+      xs: 480,
+      sm: 640,
+      md: 1024,
       lg: 1440,
       xl: 1920,
+      xxl: 2560
     },
 
     media: {
-      xs: '(max-width: 599px)',
-      sm: '(min-width: 600px) and (max-width: 1239px)',
-      md: '(min-width: 1240px) and (max-width: 1439px)',
+      xxs: '(max-width: 479px)',
+      xs: '(min-width: 480px) and (max-width: 639px)',
+      sm: '(min-width: 640px) and (max-width: 1023px)',
+      md: '(min-width: 1024px) and (max-width: 1439px)',
       lg: '(min-width: 1440px) and (max-width: 1919px)',
-      xl: '(min-width: 1920px)'
+      xl: '(min-width: 1920px) and (max-width: 2559px)',
+      xxl: '(min-width: 2560px)'
     },
 
     unit: 'px'

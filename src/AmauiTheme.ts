@@ -25,8 +25,8 @@ import { getID, is, pxToRem } from './utils';
 import colors from './colors';
 
 const FONT_FAMILY = {
-  primary: ['Roboto', 'Helvetica', 'Helvetica Neue', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Arial', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'sans-serif'].join(', '),
-  secondary: ['Roboto', 'Helvetica', 'Helvetica Neue', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Arial', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'sans-serif'].join(', '),
+  primary: ['DM Sans', 'Helvetica', 'Helvetica Neue', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Arial', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'sans-serif'].join(', '),
+  secondary: ['DM Sans', 'Helvetica', 'Helvetica Neue', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Arial', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'sans-serif'].join(', '),
   tertiary: ['Roboto Mono', 'monospace'].join(', ')
 };
 
@@ -643,84 +643,84 @@ const amauiThemeValueDefault: IAmauiTheme = {
       d1: {
         fontSize: `${pxToRem(57, 16)}rem`,
         fontFamily: FONT_FAMILY.primary,
-        fontWeight: 400,
+        fontWeight: 700,
         lineHeight: 64 / 57,
         letterSpacing: '0px'
       },
       d2: {
         fontSize: `${pxToRem(45, 16)}rem`,
         fontFamily: FONT_FAMILY.primary,
-        fontWeight: 400,
+        fontWeight: 700,
         lineHeight: 52 / 45,
         letterSpacing: '0px'
       },
       d3: {
         fontSize: `${pxToRem(35, 16)}rem`,
         fontFamily: FONT_FAMILY.primary,
-        fontWeight: 400,
+        fontWeight: 700,
         lineHeight: 44 / 35,
         letterSpacing: '0px'
       },
       h1: {
         fontSize: `${pxToRem(32, 16)}rem`,
         fontFamily: FONT_FAMILY.primary,
-        fontWeight: 400,
+        fontWeight: 700,
         lineHeight: 40 / 32,
         letterSpacing: '0px'
       },
       h2: {
         fontSize: `${pxToRem(27, 16)}rem`,
         fontFamily: FONT_FAMILY.primary,
-        fontWeight: 400,
+        fontWeight: 700,
         lineHeight: 35 / 27,
         letterSpacing: '0px'
       },
       h3: {
         fontSize: `${pxToRem(24, 16)}rem`,
         fontFamily: FONT_FAMILY.primary,
-        fontWeight: 400,
+        fontWeight: 700,
         lineHeight: 32 / 24,
         letterSpacing: '0px'
       },
       t1: {
         fontSize: `${pxToRem(21, 16)}rem`,
         fontFamily: FONT_FAMILY.primary,
-        fontWeight: 400,
+        fontWeight: 700,
         lineHeight: 28 / 21,
         letterSpacing: '0px'
       },
       t2: {
         fontSize: `${pxToRem(16, 16)}rem`,
         fontFamily: FONT_FAMILY.primary,
-        fontWeight: 500,
+        fontWeight: 600,
         lineHeight: 24 / 16,
         letterSpacing: '.15px'
       },
       t3: {
         fontSize: `${pxToRem(14, 16)}rem`,
         fontFamily: FONT_FAMILY.primary,
-        fontWeight: 500,
+        fontWeight: 600,
         lineHeight: 20 / 14,
         letterSpacing: '.1px'
       },
       l1: {
         fontSize: `${pxToRem(16, 16)}rem`,
         fontFamily: FONT_FAMILY.secondary,
-        fontWeight: 500,
+        fontWeight: 600,
         lineHeight: 20 / 14,
         letterSpacing: '.5px'
       },
       l2: {
         fontSize: `${pxToRem(14, 16)}rem`,
         fontFamily: FONT_FAMILY.secondary,
-        fontWeight: 500,
+        fontWeight: 600,
         lineHeight: 15 / 12,
         letterSpacing: '.25px'
       },
       l3: {
         fontSize: `${pxToRem(12, 16)}rem`,
         fontFamily: FONT_FAMILY.secondary,
-        fontWeight: 500,
+        fontWeight: 600,
         lineHeight: 15 / 12,
         letterSpacing: '.4px'
       },

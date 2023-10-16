@@ -23,7 +23,7 @@ export interface IOptions {
 
 export const FONT_FAMILY = {
   primary: [
-    'Roboto',
+    'DM Sans',
     'Helvetica',
     '"Helvetica Neue"',
     '-apple-system',
@@ -36,7 +36,7 @@ export const FONT_FAMILY = {
     'sans-serif',
   ].join(', '),
   secondary: [
-    'Roboto',
+    'DM Sans',
     'Helvetica',
     '"Helvetica Neue"',
     '-apple-system',

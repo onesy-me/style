@@ -42,6 +42,7 @@ function makeClassName(amauiStyle: AmauiStyle, options_: IOptions = {}) {
 
   const method = (method_ = makeNameMethodClassName) => {
     let inc = 0;
+    const made = [];
 
     return (value_: { property: string; value: any; }): IMakeClassName => {
       const value: IMakeClassName = {
@@ -57,6 +58,7 @@ function makeClassName(amauiStyle: AmauiStyle, options_: IOptions = {}) {
 
         while (true) {
           if (
+            made.includes(value.value) ||
             (options.dom?.unique && !domUnique(value.value))
           ) {
             value.value = method_.next().value;
@@ -77,6 +79,8 @@ function makeClassName(amauiStyle: AmauiStyle, options_: IOptions = {}) {
           else break;
         }
       }
+
+      made.push(value);
 
       return value;
     };

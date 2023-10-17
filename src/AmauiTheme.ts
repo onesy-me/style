@@ -208,10 +208,11 @@ export interface IShape {
   radius?: IRadius;
 }
 
-export type TBreakpoint = 'xxs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
+export type TBreakpoint = 'min' | 'xxs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl' | 'max';
 
 export interface IBreakpoints {
   values?: {
+    min?: number;
     xxs?: number;
     xs?: number;
     sm?: number;
@@ -219,10 +220,12 @@ export interface IBreakpoints {
     lg?: number;
     xl?: number;
     xxl?: number;
+    max?: number;
 
     [p: string]: number;
   };
   media?: {
+    min?: string;
     xxs?: string;
     xs?: string;
     sm?: string;
@@ -230,10 +233,11 @@ export interface IBreakpoints {
     lg?: string;
     xl?: string;
     xxl?: string;
+    max?: string;
 
     [p: string]: string;
   };
-  keys?: string[];
+  keys?: TBreakpoint[];
   unit?: string;
 }
 
@@ -583,23 +587,27 @@ const amauiThemeValueDefault: IAmauiTheme = {
 
   breakpoints: {
     values: {
-      xxs: 0,
+      min: 170,
+      xxs: 320,
       xs: 480,
       sm: 640,
       md: 1024,
       lg: 1440,
       xl: 1920,
-      xxl: 2560
+      xxl: 2560,
+      max: Number.MAX_SAFE_INTEGER
     },
 
     media: {
-      xxs: '(max-width: 479px)',
-      xs: '(min-width: 480px) and (max-width: 639px)',
-      sm: '(min-width: 640px) and (max-width: 1023px)',
-      md: '(min-width: 1024px) and (max-width: 1439px)',
-      lg: '(min-width: 1440px) and (max-width: 1919px)',
-      xl: '(min-width: 1920px) and (max-width: 2559px)',
-      xxl: '(min-width: 2560px)'
+      min: '(max-width: 169px)',
+      xxs: '(min-width: 170px) and (max-width: 319px)',
+      xs: '(min-width: 320px) and (max-width: 479px)',
+      sm: '(min-width: 480px) and (max-width: 639px)',
+      md: '(min-width: 640px) and (max-width: 1023px)',
+      lg: '(min-width: 1024px) and (max-width: 1439px)',
+      xl: '(min-width: 1440px) and (max-width: 1919px)',
+      xxl: '(min-width: 1920px) and (max-width: 2559px)',
+      max: '(min-width: 2560px)'
     },
 
     unit: 'px'
@@ -1208,7 +1216,7 @@ class AmauiTheme {
     const instance = this;
 
     if (!this.breakpoints.keys) Object.defineProperty(this.breakpoints, 'keys', {
-      get() { return Object.keys(instance.breakpoints.values); }
+      get() { return Object.keys(instance.breakpoints.values).sort((a, b) => instance.breakpoints.values[a] - instance.breakpoints.values[b]); }
     });
 
     // Space

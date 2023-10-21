@@ -994,7 +994,7 @@ class AmauiTheme {
     // Options
     this.options = merge(options, this.options, { copy: true });
 
-    this.element = element;
+    this.element = element || this.options.element || this.element;
 
     // Direction
     if (isEnvironment('browser')) {

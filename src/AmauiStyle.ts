@@ -204,7 +204,7 @@ class AmauiStyle {
 
   public init() {
     // Options
-    this.element = this.options.element;
+    this.element = this.options.element || this.element;
     this.mode = this.options.mode || 'regular';
     this.renderer = this.options.renderer || new AmauiStyleRenderer();
 

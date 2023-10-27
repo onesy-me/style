@@ -60,9 +60,12 @@ export type IColor = {
   [key in TColorValues]?: string;
 };
 
-interface IOptions {
+export interface IOptions {
   element?: HTMLElement;
   rule?: IOptionsRule;
+
+  updateFontSize?: boolean;
+  motion?: boolean;
 }
 
 const optionsDefault: IOptions = {
@@ -71,6 +74,9 @@ const optionsDefault: IOptions = {
     prefix: true,
     rtl: false,
   },
+
+  updateFontSize: true,
+  motion: true
 };
 
 export type TValueColorValue = {
@@ -962,7 +968,9 @@ class AmauiTheme {
         const timing_function = this.transitions.timing_function[options?.timing_function] || (is('string', options?.timing_function) && options?.timing_function) || this.transitions.timing_function.standard;
         const delay = this.transitions.duration[options?.delay] || (is('number', options?.delay) ? options?.delay : 0);
 
-        return props.map(prop => `${prop} ${duration}ms ${timing_function} ${delay}ms`).join(', ');
+        const motion = [true, undefined].includes(this.options.motion);
+
+        return props.map(prop => `${prop} ${motion ? duration : 0}ms ${timing_function} ${delay}ms`).join(', ');
       },
     }
   };
@@ -1253,6 +1261,15 @@ class AmauiTheme {
 
     // Other
     Object.keys(other).forEach(prop => this[prop] = other[prop]);
+
+    // updates
+    if (isEnvironment('browser')) {
+      if (this.options.updateFontSize) {
+        const fontSizeHTML = is('number', this.typography.font_size.html) ? `${this.typography.font_size.html}px` : this.typography.font_size.html;
+
+        window.document.documentElement.style.fontSize = fontSizeHTML as string;
+      }
+    }
   }
 
   public async image(value_: string, other: any = {}, options: IMethodsPaletteImageOptions = {}) {

@@ -1062,21 +1062,29 @@ class AmauiTheme {
       switch (this.palette.accessibility) {
         case 'colorblind':
           // Primary
+          color.primary = this.methods.color(colors.blue[500]);
+
           color.primary.light = colors.blue[300];
           color.primary.main = colors.blue[500];
           color.primary.dark = colors.blue[700];
 
           // Secondary
+          color.secondary = this.methods.color(colors.orange[500]);
+
           color.secondary.light = colors.orange[300];
           color.secondary.main = colors.orange[500];
           color.secondary.dark = colors.orange[700];
 
           // Tertiary
+          color.tertiary = this.methods.color(colors.yellow[500]);
+
           color.tertiary.light = colors.yellow[300];
           color.tertiary.main = colors.yellow[500];
           color.tertiary.dark = colors.yellow[700];
 
           // Quaternary
+          color.quaternary = this.methods.color(colors.gray[500]);
+
           color.quaternary.light = colors.gray[300];
           color.quaternary.main = colors.gray[500];
           color.quaternary.dark = colors.gray[700];
@@ -1085,21 +1093,29 @@ class AmauiTheme {
 
         case 'tritanopia':
           // Primary
+          color.primary = this.methods.color(colors.blue[500]);
+
           color.primary.light = colors.blue[300];
           color.primary.main = colors.blue[500];
           color.primary.dark = colors.blue[700];
 
           // Secondary
+          color.secondary = this.methods.color(colors.red[500]);
+
           color.secondary.light = colors.red[300];
           color.secondary.main = colors.red[500];
           color.secondary.dark = colors.red[700];
 
           // Tertiary
+          color.tertiary = this.methods.color(colors.cyan[500]);
+
           color.tertiary.light = colors.cyan[300];
           color.tertiary.main = colors.cyan[500];
           color.tertiary.dark = colors.cyan[700];
 
           // Quaternary
+          color.quaternary = this.methods.color(colors.gray[500]);
+
           color.quaternary.light = colors.gray[300];
           color.quaternary.main = colors.gray[500];
           color.quaternary.dark = colors.gray[700];

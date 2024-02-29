@@ -188,12 +188,12 @@ class AmauiStyleRule {
   }
 
   public get counter() {
-    return this.amauiStyle.counter;
+    return AmauiStyle.counter;
   }
 
-  private makeRuleClassNameDefault = (value: string = 'a') => `${value}-${this.counter.className++}`;
+  private makeRuleClassNameDefault = (value: string = 'a') => `${value}-${++this.counter.className}`;
 
-  private makeRuleKeyframesNameDefault = (value: string = 'a') => `${value}-${this.counter.keyframesName++}`;
+  private makeRuleKeyframesNameDefault = (value: string = 'a') => `${value}-${++this.counter.keyframesName}`;
 
   public updateValues(hash_ = true) {
     // Response

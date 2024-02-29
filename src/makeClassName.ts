@@ -25,6 +25,8 @@ const optionsDefault: IOptions = {
   )
 };
 
+let amauiMakeClassNameInc = 0;
+
 function makeClassName(amauiStyle: AmauiStyle, options_: IOptions = {}) {
   const options = { ...optionsDefault, ...options_ };
 
@@ -41,7 +43,6 @@ function makeClassName(amauiStyle: AmauiStyle, options_: IOptions = {}) {
   };
 
   const method = (method_ = makeNameMethodClassName) => {
-    let inc = 0;
     const made = [];
 
     return (value_: { property: string; value: any; }): IMakeClassName => {
@@ -68,13 +69,13 @@ function makeClassName(amauiStyle: AmauiStyle, options_: IOptions = {}) {
       }
       // Development
       else {
-        value.value = `${value_.property}-${inc++}`;
+        value.value = `${value_.property}-${++amauiMakeClassNameInc}`;
 
         while (true) {
           if (
             (options.dom?.unique && !domUnique(value.value))
           ) {
-            value.value = `${value_?.property}-${++inc}`;
+            value.value = `${value_?.property}-${++amauiMakeClassNameInc}`;
           }
           else break;
         }

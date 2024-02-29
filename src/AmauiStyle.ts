@@ -93,9 +93,10 @@ class AmauiStyle {
   public refs: TRefs = {};
   public sheets: Array<AmauiStyleSheet> = [];
   public sheet_managers: Array<AmauiStyleSheetManager> = [];
-  public counter = {
+
+  public static counter = {
     className: 0,
-    keyframesName: 0,
+    keyframesName: 0
   };
 
   // Any new property

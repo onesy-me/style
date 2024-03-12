@@ -230,6 +230,17 @@ export const resetDefault = {
 
     '&[contenteditable]': {
       userSelect: 'text'
+    },
+
+    '&[contenteditable]:empty:before': {
+      display: 'block',
+      content: `attr(data-placeholder)`,
+      color: 'inherit',
+      fontStyle: 'inherit',
+      fontFamily: 'inherit',
+      fontSize: 'inherit',
+      fontWeight: 'inherit',
+      opacity: '0.24'
     }
   },
 
@@ -241,6 +252,18 @@ export const resetDefault = {
     position: 'relative',
     overflowX: 'hidden',
     backgroundColor: '#fff',
+    wordBreak: 'break-word',
+
+    // visibility hidden ui elements
+    '& .amaui-hidden': {
+      width: 0,
+      height: 0,
+      opacity: 0,
+      overflow: 'hidden',
+      visibility: 'hidden',
+      userSelect: 'none',
+      pointerEvents: 'none'
+    }
   },
 
   'img, embed, object, video': {
@@ -281,6 +304,26 @@ export const resetDefault = {
   ':focus': {
     outline: 'none'
   },
+
+  '::-webkit-scrollbar': {
+    width: 16,
+    height: 16
+  },
+
+  '::-webkit-scrollbar-track, ::-webkit-scrollbar-corner': {
+    background: 'transparent'
+  },
+
+  '::-webkit-scrollbar-thumb': {
+    borderRadius: 8,
+    border: '4px solid transparent',
+    backgroundClip: 'content-box',
+    backgroundColor: 'rgba(221, 221, 221, 0.4)',
+
+    '&:hover': {
+      backgroundColor: 'rgba(221, 221, 221, 0.7)'
+    }
+  }
 };
 
 const optionsDefault: IOptions = {

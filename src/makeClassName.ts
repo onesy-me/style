@@ -30,6 +30,8 @@ let amauiMakeClassNameInc = 0;
 function makeClassName(amauiStyle: AmauiStyle, options_: IOptions = {}) {
   const options = { ...optionsDefault, ...options_ };
 
+  const prefix = amauiStyle?.options?.classNamePrefix || '';
+
   // If both dev and prod are false, then dev is true
   const production = options.production !== undefined ? options.production : optionsDefault.production;
 
@@ -48,34 +50,34 @@ function makeClassName(amauiStyle: AmauiStyle, options_: IOptions = {}) {
     return (value_: { property: string; value: any; }): IMakeClassName => {
       const value: IMakeClassName = {
         arguments: {
-          value: value_,
-        },
+          value: value_
+        }
       };
 
       // Make a class name
       // Production
       if (production) {
-        value.value = method_.next().value;
+        value.value = `${prefix}${method_.next().value}`;
 
         while (true) {
           if (
             made.includes(value.value) ||
             (options.dom?.unique && !domUnique(value.value))
           ) {
-            value.value = method_.next().value;
+            value.value = `${prefix}${method_.next().value}`;
           }
           else break;
         }
       }
       // Development
       else {
-        value.value = `${value_.property}-${++amauiMakeClassNameInc}`;
+        value.value = `${prefix}${value_.property}-${++amauiMakeClassNameInc}`;
 
         while (true) {
           if (
             (options.dom?.unique && !domUnique(value.value))
           ) {
-            value.value = `${value_?.property}-${++amauiMakeClassNameInc}`;
+            value.value = `${prefix}${value_?.property}-${++amauiMakeClassNameInc}`;
           }
           else break;
         }

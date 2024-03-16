@@ -29,6 +29,7 @@ interface IOptions {
   rule?: IOptionsRule;
   minify?: boolean;
   optimize?: boolean;
+  classNamePrefix?: string;
 }
 
 const optionsDefault: IOptions = {
@@ -39,7 +40,8 @@ const optionsDefault: IOptions = {
     rtl: false,
   },
   minify: true,
-  optimize: false
+  optimize: false,
+  classNamePrefix: ''
 };
 
 class AmauiStyle {

@@ -191,9 +191,9 @@ class AmauiStyleRule {
     return AmauiStyle.counter;
   }
 
-  private makeRuleClassNameDefault = (value: string = 'a') => `${value}-${++this.counter.className}`;
+  private makeRuleClassNameDefault = (value: string = 'a') => `${this.amauiStyle.options?.classNamePrefix || ''}${value}-${++this.counter.className}`;
 
-  private makeRuleKeyframesNameDefault = (value: string = 'a') => `${value}-${++this.counter.keyframesName}`;
+  private makeRuleKeyframesNameDefault = (value: string = 'a') => `${this.amauiStyle.options?.classNamePrefix || ''}${value}-${++this.counter.keyframesName}`;
 
   public updateValues(hash_ = true) {
     // Response
@@ -699,7 +699,7 @@ class AmauiStyleRule {
         // level 0 property inside an at-rule
         if (parentAtRule && this.version === 'property') {
           // & ref
-          let parent = this.parent;
+          let parent: any = this.parent;
 
           while (parent.version === 'at-rule') parent = parent.parent;
 

@@ -699,7 +699,7 @@ const amauiThemeValueDefault: IAmauiTheme = {
       t1: {
         fontSize: `${pxToRem(21, 16)}rem`,
         fontFamily: FONT_FAMILY.primary,
-        fontWeight: 700,
+        fontWeight: 600,
         lineHeight: 28 / 21,
         letterSpacing: '0px'
       },
@@ -721,21 +721,21 @@ const amauiThemeValueDefault: IAmauiTheme = {
         fontSize: `${pxToRem(16, 16)}rem`,
         fontFamily: FONT_FAMILY.secondary,
         fontWeight: 600,
-        lineHeight: 20 / 14,
+        lineHeight: 24 / 16,
         letterSpacing: '.5px'
       },
       l2: {
         fontSize: `${pxToRem(14, 16)}rem`,
         fontFamily: FONT_FAMILY.secondary,
         fontWeight: 600,
-        lineHeight: 15 / 12,
+        lineHeight: 20 / 14,
         letterSpacing: '.25px'
       },
       l3: {
         fontSize: `${pxToRem(12, 16)}rem`,
         fontFamily: FONT_FAMILY.secondary,
         fontWeight: 600,
-        lineHeight: 15 / 12,
+        lineHeight: 16 / 12,
         letterSpacing: '.4px'
       },
       b1: {
@@ -756,7 +756,7 @@ const amauiThemeValueDefault: IAmauiTheme = {
         fontSize: `${pxToRem(12, 16)}rem`,
         fontFamily: FONT_FAMILY.secondary,
         fontWeight: 400,
-        lineHeight: 15 / 12,
+        lineHeight: 16 / 12,
         letterSpacing: '.4px'
       },
       m1: {
@@ -777,7 +777,7 @@ const amauiThemeValueDefault: IAmauiTheme = {
         fontSize: `${pxToRem(12, 16)}rem`,
         fontFamily: FONT_FAMILY.tertiary,
         fontWeight: 400,
-        lineHeight: 15 / 12,
+        lineHeight: 16 / 12,
         letterSpacing: '.4px'
       }
     }

@@ -411,6 +411,8 @@ export interface IUi {
   };
 }
 
+export type IElements = Record<string, any>;
+
 export interface IAmauiTheme {
   preference?: TPreference;
 
@@ -434,6 +436,10 @@ export interface IAmauiTheme {
 
   // ui
   ui?: IUi;
+
+  // elements
+  // override elements
+  elements?: IElements;
 
   [p: string]: any;
 }
@@ -974,11 +980,12 @@ class AmauiTheme {
       },
     }
   };
-  public ui?: IUi = {
+  public ui: IUi = {
     className: {
       static: true
     }
   };
+  public elements: IElements = {};
 
   // Any new property
   [p: string]: any;

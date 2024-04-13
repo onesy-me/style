@@ -393,6 +393,8 @@ export interface IUi {
     static?: boolean;
   };
 
+  features?: 'simple' | 'regular' | 'complex';
+
   elements?: {
     [p: string]: {
       className?: {
@@ -983,7 +985,9 @@ class AmauiTheme {
   public ui: IUi = {
     className: {
       static: true
-    }
+    },
+
+    features: 'regular'
   };
   public elements: IElements = {};
 

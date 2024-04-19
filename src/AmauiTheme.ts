@@ -645,7 +645,7 @@ const amauiThemeValueDefault: IAmauiTheme = {
   shadows: {
     values: {},
 
-    opacities: [.04, .01, .07]
+    opacities: [.05, .02, .08]
   },
 
   typography: {

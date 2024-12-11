@@ -270,7 +270,6 @@ group('OnesyTheme', () => {
       delete onesyTheme.methods;
       delete onesyTheme.subscriptions;
 
-      onesyTheme.breakpoints = { values: onesyTheme.breakpoints.values, unit: onesyTheme.breakpoints.unit };
       onesyTheme.space = { values: onesyTheme.space.values, unit: onesyTheme.space.unit };
 
       response.push({ ...(onesyTheme as any) });
@@ -5962,56 +5961,6 @@ group('OnesyTheme', () => {
       }));
     });
 
-    to('breakpoints', async () => {
-      // Browser
-      const valueBrowsers = await evaluate((window: any) => {
-        const onesyTheme = new window.OnesyStyle.OnesyTheme({
-          breakpoints: {
-            values: {
-              a: 1114,
-            },
-            unit: 'em'
-          }
-        });
-
-        return ({ values: onesyTheme.breakpoints.values, unit: onesyTheme.breakpoints.unit, keys: onesyTheme.breakpoints.keys });
-      });
-
-      // Node
-      const onesyTheme = new OnesyStyle.OnesyTheme({
-        breakpoints: {
-          values: {
-            a: 1114,
-          },
-          unit: 'em'
-        }
-      });
-
-      const valueNode = ({ values: onesyTheme.breakpoints.values, unit: onesyTheme.breakpoints.unit, keys: onesyTheme.breakpoints.keys });
-
-      const values = [valueNode, ...valueBrowsers];
-
-      values.forEach(value => assert(value).eql({
-        "values": {
-          "a": 1114,
-          "xs": 0,
-          "sm": 600,
-          "md": 1240,
-          "lg": 1440,
-          "xl": 1920
-        },
-        "unit": "em",
-        "keys": [
-          "a",
-          "xs",
-          "sm",
-          "md",
-          "lg",
-          "xl"
-        ]
-      }));
-    });
-
     to('space', async () => {
       // Browser
       const valueBrowsers = await evaluate((window: any) => {
@@ -6652,125 +6601,6 @@ group('OnesyTheme', () => {
           values.forEach(value => assert(value).eql([
             40,
             140
-          ]));
-        });
-
-      });
-
-      group('breakpoints', () => {
-
-        to('up', async () => {
-          // Browser
-          const valueBrowsers = await evaluate(async (window: any) => {
-            const onesyTheme = new window.OnesyStyle.OnesyTheme();
-
-            return [
-              onesyTheme.methods.breakpoints.up(onesyTheme.breakpoints.values.md)
-            ];
-          });
-
-          const onesyTheme = new OnesyStyle.OnesyTheme();
-
-          const valueNode = [
-            onesyTheme.methods.breakpoints.up(onesyTheme.breakpoints.values.md)
-          ];
-
-          const values = [valueNode, ...valueBrowsers];
-
-          values.forEach(value => assert(value).eql([
-            '@media only screen and (min-width: 1240px)'
-          ]));
-        });
-
-        to('down', async () => {
-          // Browser
-          const valueBrowsers = await evaluate(async (window: any) => {
-            const onesyTheme = new window.OnesyStyle.OnesyTheme();
-
-            return [
-              onesyTheme.methods.breakpoints.down(onesyTheme.breakpoints.values.md)
-            ];
-          });
-
-          const onesyTheme = new OnesyStyle.OnesyTheme();
-
-          const valueNode = [
-            onesyTheme.methods.breakpoints.down(onesyTheme.breakpoints.values.md)
-          ];
-
-          const values = [valueNode, ...valueBrowsers];
-
-          values.forEach(value => assert(value).eql([
-            '@media only screen and (max-width: 1240px)'
-          ]));
-        });
-
-        to('between', async () => {
-          // Browser
-          const valueBrowsers = await evaluate(async (window: any) => {
-            const onesyTheme = new window.OnesyStyle.OnesyTheme();
-
-            return [
-              onesyTheme.methods.breakpoints.between(onesyTheme.breakpoints.values.sm, onesyTheme.breakpoints.values.md)
-            ];
-          });
-
-          const onesyTheme = new OnesyStyle.OnesyTheme();
-
-          const valueNode = [
-            onesyTheme.methods.breakpoints.between(onesyTheme.breakpoints.values.sm, onesyTheme.breakpoints.values.md)
-          ];
-
-          const values = [valueNode, ...valueBrowsers];
-
-          values.forEach(value => assert(value).eql([
-            '@media only screen and (min-width: 600px) and (max-width: 1240px)'
-          ]));
-        });
-
-        to('only', async () => {
-          // Browser
-          const valueBrowsers = await evaluate(async (window: any) => {
-            const onesyTheme = new window.OnesyStyle.OnesyTheme();
-
-            return [
-              onesyTheme.methods.breakpoints.only(onesyTheme.breakpoints.values.md)
-            ];
-          });
-
-          const onesyTheme = new OnesyStyle.OnesyTheme();
-
-          const valueNode = [
-            onesyTheme.methods.breakpoints.only(onesyTheme.breakpoints.values.md)
-          ];
-
-          const values = [valueNode, ...valueBrowsers];
-
-          values.forEach(value => assert(value).eql([
-            '@media only screen and (min-width: 1240px) and (max-width: 1240px)'
-          ]));
-        });
-
-        to('not', async () => {
-          // Browser
-          const valueBrowsers = await evaluate(async (window: any) => {
-            const onesyTheme = new window.OnesyStyle.OnesyTheme();
-
-            return [
-              onesyTheme.methods.breakpoints.not('md')
-            ];
-          });
-
-          const onesyTheme = new OnesyStyle.OnesyTheme();
-
-          const valueNode = [
-            onesyTheme.methods.breakpoints.not('md')
-          ];
-
-          const values = [valueNode, ...valueBrowsers];
-
-          values.forEach(value => assert(value).eql([
-            '@media only screen and (max-width: 1240px) and (min-width: 1440px)'
           ]));
         });
 
@@ -8114,7 +7944,6 @@ group('OnesyTheme', () => {
     delete onesyTheme.methods;
     delete onesyTheme.subscriptions;
 
-    onesyTheme.breakpoints = { values: onesyTheme.breakpoints.values, unit: onesyTheme.breakpoints.unit };
     onesyTheme.space = { values: onesyTheme.space.values, unit: onesyTheme.space.unit };
 
     const valueNode = [update, { ...onesyTheme }];

@@ -445,7 +445,7 @@ class OnesyStyleRule {
     }
     else {
       // Pre
-      this.onesyStyle.subscriptions.rule.pre.emit();
+      this.onesyStyle.subscriptions.rule.pre.emit(null);
 
       let rule: OnesyStyleRule;
 
@@ -832,7 +832,7 @@ class OnesyStyleRule {
 
       // Make a className
       // Pre
-      this.onesyStyle.subscriptions.className.pre.emit();
+      this.onesyStyle.subscriptions.className.pre.emit(null);
 
       // Name
       const className = this.makeClassName(property, rule);
@@ -865,7 +865,7 @@ class OnesyStyleRule {
 
       // Make a keyframes name value
       // Pre
-      this.onesyStyle.subscriptions.keyframes.pre.emit();
+      this.onesyStyle.subscriptions.keyframes.pre.emit(null);
 
       // Name
       const keyframesName = (

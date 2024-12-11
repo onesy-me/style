@@ -512,7 +512,7 @@ class OnesyStyleSheet {
       }
   ) {
     // Pre
-    this.onesyStyle.subscriptions.rule.pre.emit();
+    this.onesyStyle.subscriptions.rule.pre.emit(null);
 
     const rule = OnesyStyleRule.make(
       value,

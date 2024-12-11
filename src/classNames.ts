@@ -1,4 +1,4 @@
-import unique from '@amaui/utils/unique';
+import unique from '@onesy/utils/unique';
 
 import { is } from './utils';
 

@@ -1,9 +1,9 @@
-import variationWithRepetition from '@amaui/utils/variationWithRepetition';
-import getEnvironment from '@amaui/utils/getEnvironment';
-import AmauiSubscription from '@amaui/subscription';
+import variationWithRepetition from '@onesy/utils/variationWithRepetition';
+import getEnvironment from '@onesy/utils/getEnvironment';
+import OnesySubscription from '@onesy/subscription';
 
-import AmauiStyle from './AmauiStyle';
-import { IAmauiStyleRuleValue } from './AmauiStyleRule';
+import OnesyStyle from './OnesyStyle';
+import { IOnesyStyleRuleValue } from './OnesyStyleRule';
 import { IResponse } from './interfaces';
 
 export const cammelCaseToKebabCase = (value: string) => is('string', value) ? value.replace(/[A-Z]/g, v => `-${v[0]}`).toLowerCase() : value;
@@ -56,7 +56,7 @@ export const is = (version: string, value: any) => {
   }
 };
 
-export const isAmauiSubscription = value => value instanceof AmauiSubscription || is('function', value?.emit);
+export const isOnesySubscription = value => value instanceof OnesySubscription || is('function', value?.emit);
 
 export const getRefs = (value: string) => {
   const items = [];
@@ -70,51 +70,51 @@ export const getRefs = (value: string) => {
   return items;
 };
 
-export const valueResolve = (property: string, value: any, amauiStyle: AmauiStyle): IAmauiStyleRuleValue => {
-  const response: IAmauiStyleRuleValue = {
+export const valueResolve = (property: string, value: any, onesyStyle: OnesyStyle): IOnesyStyleRuleValue => {
+  const response: IOnesyStyleRuleValue = {
     value: [],
     options: {},
   };
 
   // Mange all the values
-  if (is('string', property) && !!property.length && value !== undefined && amauiStyle) {
+  if (is('string', property) && !!property.length && value !== undefined && onesyStyle) {
     // String
     if (is('string', value)) response.value = [value];
     // Number
     else if (is('number', value)) {
-      const unit = amauiStyle.subscriptions.rule.unit.map({ property, value })?.value;
+      const unit = onesyStyle.subscriptions.rule.unit.map({ property, value })?.value;
 
       response.value = [unit?.value || value];
     }
     // Array of simple
     else if (is('array', value) && value.every(item => is('simple', item))) {
-      response.value = [value.flatMap(item => valueResolve(property, item, amauiStyle).value).join(' ')];
+      response.value = [value.flatMap(item => valueResolve(property, item, onesyStyle).value).join(' ')];
     }
     // Array of arrays
     // Array of objects
     else if (is('array', value) && value.every(item => is('array', item) || is('object', item))) {
-      response.value = [value.flatMap(item => valueResolve(property, item, amauiStyle).value).join(', ')];
+      response.value = [value.flatMap(item => valueResolve(property, item, onesyStyle).value).join(', ')];
     }
     // Object
     else if (is('object', value)) {
       // Object value
       if (value.value) {
-        const fallbacks = (value.fallbacks || []).flatMap(item => valueResolve(property, item, amauiStyle).value);
+        const fallbacks = (value.fallbacks || []).flatMap(item => valueResolve(property, item, onesyStyle).value);
 
-        response.value = [fallbacks, valueResolve(property, value.value, amauiStyle).value].flat().filter(Boolean);
+        response.value = [fallbacks, valueResolve(property, value.value, onesyStyle).value].flat().filter(Boolean);
 
         if (value.rule) response.options.rule = value.rule;
       }
       else {
         // Value plugins
-        const value_ = amauiStyle.subscriptions.rule.value.map({ property, value })?.value;
+        const value_ = onesyStyle.subscriptions.rule.value.map({ property, value })?.value;
 
         response.value = value_ || [];
       }
     }
     // Method
-    // AmauiSubscription
-    // For methods and AmauiSubscription leave as is
+    // OnesySubscription
+    // For methods and OnesySubscription leave as is
     // these are only used during add method
     else response.value = [value];
   }
@@ -124,7 +124,7 @@ export const valueResolve = (property: string, value: any, amauiStyle: AmauiStyl
 
 export const dynamic = (value: any) => (
   is('function', value) ||
-  isAmauiSubscription(value) ||
+  isOnesySubscription(value) ||
   is('object', value) && Object.keys(value).some(prop => dynamic(value[prop]))
 );
 
@@ -152,7 +152,7 @@ export const pxToRem = (value: number, htmlFontSize = 16) => Number((value / htm
 
 const env = getEnvironment();
 
-env.amaui_methods = {
+env.onesy_methods = {
   makeName: makeName(),
 };
 

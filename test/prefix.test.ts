@@ -1,28 +1,28 @@
 /* tslint:disable: no-shadowed-variable */
-import { assert } from '@amaui/test';
+import { assert } from '@onesy/test';
 
 import { evaluate } from '../utils/js/test/utils';
 
-import * as AmauiStyle from '../src';
+import * as OnesyStyle from '../src';
 
-group('@amaui/style/prefix', () => {
+group('@onesy/style/prefix', () => {
 
-  group('amauiStyle', () => {
+  group('onesyStyle', () => {
 
     to('add', async () => {
       const valueBrowsers = await evaluate((window: any) => {
-        const amauiStyle = new window.AmauiStyle.AmauiStyle();
+        const onesyStyle = new window.OnesyStyle.OnesyStyle();
 
-        amauiStyle.plugins.add = window.AmauiStyle.prefix;
+        onesyStyle.plugins.add = window.OnesyStyle.prefix;
 
-        return amauiStyle.subscriptions.rule.prefix.length === 1;
+        return onesyStyle.subscriptions.rule.prefix.length === 1;
       });
 
-      const amauiStyle = new AmauiStyle.AmauiStyle();
+      const onesyStyle = new OnesyStyle.OnesyStyle();
 
-      amauiStyle.plugins.add = AmauiStyle.prefix;
+      onesyStyle.plugins.add = OnesyStyle.prefix;
 
-      const valueNode = amauiStyle.subscriptions.rule.prefix.length === 1;
+      const valueNode = onesyStyle.subscriptions.rule.prefix.length === 1;
 
       const values = [valueNode, ...valueBrowsers];
 
@@ -31,25 +31,25 @@ group('@amaui/style/prefix', () => {
 
     to('remove', async () => {
       const valueBrowsers = await evaluate((window: any) => {
-        const amauiStyle = new window.AmauiStyle.AmauiStyle();
+        const onesyStyle = new window.OnesyStyle.OnesyStyle();
 
-        amauiStyle.plugins.add = window.AmauiStyle.prefix;
+        onesyStyle.plugins.add = window.OnesyStyle.prefix;
 
         return (
-          amauiStyle.subscriptions.rule.prefix.length === 1 &&
-          (amauiStyle.plugins.remove = window.AmauiStyle.prefix) &&
-          amauiStyle.subscriptions.rule.prefix.length === 0
+          onesyStyle.subscriptions.rule.prefix.length === 1 &&
+          (onesyStyle.plugins.remove = window.OnesyStyle.prefix) &&
+          onesyStyle.subscriptions.rule.prefix.length === 0
         );
       });
 
-      const amauiStyle = new AmauiStyle.AmauiStyle();
+      const onesyStyle = new OnesyStyle.OnesyStyle();
 
-      amauiStyle.plugins.add = AmauiStyle.prefix;
+      onesyStyle.plugins.add = OnesyStyle.prefix;
 
       const valueNode = (
-        amauiStyle.subscriptions.rule.prefix.length === 1 &&
-        (amauiStyle.plugins.remove = AmauiStyle.prefix) &&
-        (amauiStyle.subscriptions.rule.prefix.length as number) === 0
+        onesyStyle.subscriptions.rule.prefix.length === 1 &&
+        (onesyStyle.plugins.remove = OnesyStyle.prefix) &&
+        (onesyStyle.subscriptions.rule.prefix.length as number) === 0
       );
 
       const values = [valueNode, ...valueBrowsers];
@@ -65,7 +65,7 @@ group('@amaui/style/prefix', () => {
 
       to('response', async () => {
         const valueBrowsers = await evaluate((window: any) => {
-          return window.AmauiStyle.prefix(undefined).methods.method({ value: 'inherit', property: 'mask-image' });
+          return window.OnesyStyle.prefix(undefined).methods.method({ value: 'inherit', property: 'mask-image' });
         });
 
         const values = [...valueBrowsers];
@@ -91,7 +91,7 @@ group('@amaui/style/prefix', () => {
 
         to('value', async () => {
           const valueBrowsers = await evaluate((window: any) => {
-            return window.AmauiStyle.prefix(undefined).methods.method({ value: 'image-set(url(a.jpg) 1x)', property: 'background-image' });
+            return window.OnesyStyle.prefix(undefined).methods.method({ value: 'image-set(url(a.jpg) 1x)', property: 'background-image' });
           });
 
           const values = [...valueBrowsers];
@@ -105,7 +105,7 @@ group('@amaui/style/prefix', () => {
 
         to('property', async () => {
           const valueBrowsers = await evaluate((window: any) => {
-            return window.AmauiStyle.prefix(undefined).methods.method({ value: 'inherit', property: 'mask-image' });
+            return window.OnesyStyle.prefix(undefined).methods.method({ value: 'inherit', property: 'mask-image' });
           });
 
           const values = [...valueBrowsers];
@@ -129,8 +129,8 @@ group('@amaui/style/prefix', () => {
 
       to('all', async () => {
         const valueNode = [
-          AmauiStyle.prefix(undefined, { ssr: { all: true } }).methods.method({ value: 'inherit', property: 'mask-image' }).value,
-          AmauiStyle.prefix(undefined, { ssr: { all: true } }).methods.method({ value: 'image-set(url(a.jpg) 1x)', property: 'background-image' }).value,
+          OnesyStyle.prefix(undefined, { ssr: { all: true } }).methods.method({ value: 'inherit', property: 'mask-image' }).value,
+          OnesyStyle.prefix(undefined, { ssr: { all: true } }).methods.method({ value: 'image-set(url(a.jpg) 1x)', property: 'background-image' }).value,
         ];
 
         const values = [...valueNode];

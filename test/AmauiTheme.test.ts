@@ -1,12 +1,12 @@
 /* tslint:disable: no-shadowed-variable */
-import { assert } from '@amaui/test';
-import * as AmauiUtils from '@amaui/utils';
+import { assert } from '@onesy/test';
+import * as OnesyUtils from '@onesy/utils';
 
 import { evaluate } from '../utils/js/test/utils';
 
-import * as AmauiStyle from '../src';
+import * as OnesyStyle from '../src';
 
-group('AmauiTheme', () => {
+group('OnesyTheme', () => {
 
   preEveryGroupTo(async () => {
     await evaluate((window: any) => {
@@ -23,25 +23,25 @@ group('AmauiTheme', () => {
       </main>
     `;
 
-      new window.AmauiStyle.AmauiTheme({}, window.document.getElementById('a14'));
-      new window.AmauiStyle.AmauiTheme({}, window.document.getElementById('a1'));
-      new window.AmauiStyle.AmauiTheme({}, window.document.getElementById('a'));
-      new window.AmauiStyle.AmauiTheme({}, window.document.body);
+      new window.OnesyStyle.OnesyTheme({}, window.document.getElementById('a14'));
+      new window.OnesyStyle.OnesyTheme({}, window.document.getElementById('a1'));
+      new window.OnesyStyle.OnesyTheme({}, window.document.getElementById('a'));
+      new window.OnesyStyle.OnesyTheme({}, window.document.body);
     });
   });
 
-  group('AmauiTheme', () => {
+  group('OnesyTheme', () => {
 
-    to('amaui_theme', async () => {
+    to('onesy_theme', async () => {
       const valueBrowsers = await evaluate((window: any) => {
-        const amaui_theme = window.AmauiStyle.AmauiTheme.amaui_theme;
+        const onesy_theme = window.OnesyStyle.OnesyTheme.onesy_theme;
 
-        return amaui_theme instanceof window.AmauiStyle.AmauiTheme;
+        return onesy_theme instanceof window.OnesyStyle.OnesyTheme;
       });
 
-      const amaui_theme = AmauiStyle.AmauiTheme.amaui_theme;
+      const onesy_theme = OnesyStyle.OnesyTheme.onesy_theme;
 
-      const valueNode = amaui_theme instanceof AmauiStyle.AmauiTheme;
+      const valueNode = onesy_theme instanceof OnesyStyle.OnesyTheme;
 
       const values = [valueNode, ...valueBrowsers];
 
@@ -52,12 +52,12 @@ group('AmauiTheme', () => {
 
       to('color', async () => {
         const valueBrowsers = await evaluate((window: any) => {
-          const color = window.AmauiStyle.AmauiTheme.make.color('#ff0');
+          const color = window.OnesyStyle.OnesyTheme.make.color('#ff0');
 
           return color;
         });
 
-        const color = AmauiStyle.AmauiTheme.make.color('#ff0');
+        const color = OnesyStyle.OnesyTheme.make.color('#ff0');
 
         const valueNode = color;
 
@@ -87,12 +87,12 @@ group('AmauiTheme', () => {
 
       to('shadow', async () => {
         const valueBrowsers = await evaluate((window: any) => {
-          const shadow = window.AmauiStyle.AmauiTheme.make.shadow('#ff0', [.14, .11, .17]);
+          const shadow = window.OnesyStyle.OnesyTheme.make.shadow('#ff0', [.14, .11, .17]);
 
           return shadow;
         });
 
-        const shadow = AmauiStyle.AmauiTheme.make.shadow('#ff0', [.14, .11, .17]);
+        const shadow = OnesyStyle.OnesyTheme.make.shadow('#ff0', [.14, .11, .17]);
 
         const valueNode = shadow;
 
@@ -117,7 +117,7 @@ group('AmauiTheme', () => {
 
     to('all', async () => {
       const valueBrowsers = await evaluate((window: any) => {
-        return window.AmauiStyle.AmauiTheme.all(window.document.getElementById('a14')).map(item => item.element.id || item.element.tagName.toLowerCase());
+        return window.OnesyStyle.OnesyTheme.all(window.document.getElementById('a14')).map(item => item.element.id || item.element.tagName.toLowerCase());
       });
 
       const values = [...valueBrowsers];
@@ -132,7 +132,7 @@ group('AmauiTheme', () => {
 
     to('nearest', async () => {
       const valueBrowsers = await evaluate((window: any) => {
-        const item = window.AmauiStyle.AmauiTheme.nearest(window.document.getElementById('a14'));
+        const item = window.OnesyStyle.OnesyTheme.nearest(window.document.getElementById('a14'));
 
         return item.element.id || item.element.tagName.toLowerCase();
       });
@@ -144,7 +144,7 @@ group('AmauiTheme', () => {
 
     to('furthest', async () => {
       const valueBrowsers = await evaluate((window: any) => {
-        const item = window.AmauiStyle.AmauiTheme.furthest(window.document.getElementById('a14'));
+        const item = window.OnesyStyle.OnesyTheme.furthest(window.document.getElementById('a14'));
 
         return item.element.id || item.element.tagName.toLowerCase();
       });
@@ -156,7 +156,7 @@ group('AmauiTheme', () => {
 
     to('first', async () => {
       const valueBrowsers = await evaluate((window: any) => {
-        const item = window.AmauiStyle.AmauiTheme.first(window.document.getElementById('a14'));
+        const item = window.OnesyStyle.OnesyTheme.first(window.document.getElementById('a14'));
 
         return item.element.id || item.element.tagName.toLowerCase();
       });
@@ -168,7 +168,7 @@ group('AmauiTheme', () => {
 
     to('last', async () => {
       const valueBrowsers = await evaluate((window: any) => {
-        const item = window.AmauiStyle.AmauiTheme.last(window.document.getElementById('a14'));
+        const item = window.OnesyStyle.OnesyTheme.last(window.document.getElementById('a14'));
 
         return item.element.id || item.element.tagName.toLowerCase();
       });
@@ -182,7 +182,7 @@ group('AmauiTheme', () => {
 
       to('0', async () => {
         const valueBrowsers = await evaluate((window: any) => {
-          const item = window.AmauiStyle.AmauiTheme.get(window.document.getElementById('a14'), 0);
+          const item = window.OnesyStyle.OnesyTheme.get(window.document.getElementById('a14'), 0);
 
           return item.element.id || item.element.tagName.toLowerCase();
         });
@@ -194,7 +194,7 @@ group('AmauiTheme', () => {
 
       to('1', async () => {
         const valueBrowsers = await evaluate((window: any) => {
-          const item = window.AmauiStyle.AmauiTheme.get(window.document.getElementById('a14'), 1);
+          const item = window.OnesyStyle.OnesyTheme.get(window.document.getElementById('a14'), 1);
 
           return item.element.id || item.element.tagName.toLowerCase();
         });
@@ -206,7 +206,7 @@ group('AmauiTheme', () => {
 
       to('-1', async () => {
         const valueBrowsers = await evaluate((window: any) => {
-          const item = window.AmauiStyle.AmauiTheme.get(window.document.getElementById('a14'), -1);
+          const item = window.OnesyStyle.OnesyTheme.get(window.document.getElementById('a14'), -1);
 
           return item.element.id || item.element.tagName.toLowerCase();
         });
@@ -220,60 +220,60 @@ group('AmauiTheme', () => {
 
   });
 
-  group('amauiTheme', () => {
+  group('onesyTheme', () => {
 
-    to('amauiTheme', async () => {
+    to('onesyTheme', async () => {
       // Browser
       const valueBrowsers = await evaluate((window: any) => {
         window.document.body.dir = 'rtl';
 
-        const amauiTheme = new window.AmauiStyle.AmauiTheme(undefined, window.document.body, { rule: { prefix: false } });
+        const onesyTheme = new window.OnesyStyle.OnesyTheme(undefined, window.document.body, { rule: { prefix: false } });
 
         const response = [
-          typeof amauiTheme.id === 'string',
-          amauiTheme.element instanceof HTMLElement,
-          amauiTheme.element.tagName.toLowerCase(),
-          amauiTheme.options,
-          Object.keys(amauiTheme.methods),
-          Object.keys(amauiTheme.methods['palette']),
-          Object.keys(amauiTheme.methods['palette']).map(item => Object.keys(amauiTheme.methods['palette'][item]).every(item_ => window.AmauiUtils.is('function', amauiTheme.methods['palette'][item][item_]))),
-          Object.keys(amauiTheme.methods).filter(item => item !== 'palette').map(item => Object.keys(amauiTheme.methods[item]).every(item_ => window.AmauiUtils.is('function', amauiTheme.methods[item][item_]))),
+          typeof onesyTheme.id === 'string',
+          onesyTheme.element instanceof HTMLElement,
+          onesyTheme.element.tagName.toLowerCase(),
+          onesyTheme.options,
+          Object.keys(onesyTheme.methods),
+          Object.keys(onesyTheme.methods['palette']),
+          Object.keys(onesyTheme.methods['palette']).map(item => Object.keys(onesyTheme.methods['palette'][item]).every(item_ => window.OnesyUtils.is('function', onesyTheme.methods['palette'][item][item_]))),
+          Object.keys(onesyTheme.methods).filter(item => item !== 'palette').map(item => Object.keys(onesyTheme.methods[item]).every(item_ => window.OnesyUtils.is('function', onesyTheme.methods[item][item_]))),
         ];
 
-        delete amauiTheme.id;
-        delete amauiTheme.element;
-        delete amauiTheme.methods;
-        delete amauiTheme.subscriptions;
+        delete onesyTheme.id;
+        delete onesyTheme.element;
+        delete onesyTheme.methods;
+        delete onesyTheme.subscriptions;
 
-        amauiTheme.breakpoints = { values: amauiTheme.breakpoints.values, unit: amauiTheme.breakpoints.unit };
-        amauiTheme.space = { values: amauiTheme.space.values, unit: amauiTheme.space.unit };
+        onesyTheme.breakpoints = { values: onesyTheme.breakpoints.values, unit: onesyTheme.breakpoints.unit };
+        onesyTheme.space = { values: onesyTheme.space.values, unit: onesyTheme.space.unit };
 
-        response.push({ ...amauiTheme });
+        response.push({ ...onesyTheme });
 
         return response;
       });
 
       // Node
-      const amauiTheme = new AmauiStyle.AmauiTheme(undefined, { rule: { prefix: false } });
+      const onesyTheme = new OnesyStyle.OnesyTheme(undefined, { rule: { prefix: false } });
 
       const response = [
-        typeof amauiTheme.id === 'string',
-        amauiTheme.options,
-        Object.keys(amauiTheme.methods),
-        Object.keys(amauiTheme.methods['palette']),
-        Object.keys(amauiTheme.methods['palette']).map(item => Object.keys(amauiTheme.methods['palette'][item]).every(item_ => AmauiUtils.is('function', amauiTheme.methods['palette'][item][item_]))),
-        Object.keys(amauiTheme.methods).filter(item => item !== 'palette').map(item => Object.keys(amauiTheme.methods[item]).every(item_ => AmauiUtils.is('function', amauiTheme.methods[item][item_]))),
+        typeof onesyTheme.id === 'string',
+        onesyTheme.options,
+        Object.keys(onesyTheme.methods),
+        Object.keys(onesyTheme.methods['palette']),
+        Object.keys(onesyTheme.methods['palette']).map(item => Object.keys(onesyTheme.methods['palette'][item]).every(item_ => OnesyUtils.is('function', onesyTheme.methods['palette'][item][item_]))),
+        Object.keys(onesyTheme.methods).filter(item => item !== 'palette').map(item => Object.keys(onesyTheme.methods[item]).every(item_ => OnesyUtils.is('function', onesyTheme.methods[item][item_]))),
       ];
 
-      delete amauiTheme.id;
-      delete amauiTheme.element;
-      delete amauiTheme.methods;
-      delete amauiTheme.subscriptions;
+      delete onesyTheme.id;
+      delete onesyTheme.element;
+      delete onesyTheme.methods;
+      delete onesyTheme.subscriptions;
 
-      amauiTheme.breakpoints = { values: amauiTheme.breakpoints.values, unit: amauiTheme.breakpoints.unit };
-      amauiTheme.space = { values: amauiTheme.space.values, unit: amauiTheme.space.unit };
+      onesyTheme.breakpoints = { values: onesyTheme.breakpoints.values, unit: onesyTheme.breakpoints.unit };
+      onesyTheme.space = { values: onesyTheme.space.values, unit: onesyTheme.space.unit };
 
-      response.push({ ...(amauiTheme as any) });
+      response.push({ ...(onesyTheme as any) });
 
       const valueNode = response;
 
@@ -3420,19 +3420,19 @@ group('AmauiTheme', () => {
     to('mode', async () => {
       // Browser
       const valueBrowsers = await evaluate((window: any) => {
-        const amauiTheme = new window.AmauiStyle.AmauiTheme({
+        const onesyTheme = new window.OnesyStyle.OnesyTheme({
           mode: 'print'
         });
 
-        return amauiTheme.mode;
+        return onesyTheme.mode;
       });
 
       // Node
-      const amauiTheme = new AmauiStyle.AmauiTheme({
+      const onesyTheme = new OnesyStyle.OnesyTheme({
         mode: 'print'
       });
 
-      const valueNode = amauiTheme.mode;
+      const valueNode = onesyTheme.mode;
 
       const values = [valueNode, ...valueBrowsers];
 
@@ -3442,7 +3442,7 @@ group('AmauiTheme', () => {
     to('preference', async () => {
       // Browser
       const valueBrowsers = await evaluate((window: any) => {
-        const amauiTheme = new window.AmauiStyle.AmauiTheme({
+        const onesyTheme = new window.OnesyStyle.OnesyTheme({
           preference: {
             text: {
               default: 'quaternary'
@@ -3456,11 +3456,11 @@ group('AmauiTheme', () => {
           }
         });
 
-        return amauiTheme.palette;
+        return onesyTheme.palette;
       });
 
       // Node
-      const amauiTheme = new AmauiStyle.AmauiTheme({
+      const onesyTheme = new OnesyStyle.OnesyTheme({
         preference: {
           text: {
             default: 'quaternary'
@@ -3474,7 +3474,7 @@ group('AmauiTheme', () => {
         }
       });
 
-      const valueNode = amauiTheme.palette;
+      const valueNode = onesyTheme.palette;
 
       const values = [valueNode, ...valueBrowsers];
 
@@ -3897,23 +3897,23 @@ group('AmauiTheme', () => {
         to('light', async () => {
           // Browser
           const valueBrowsers = await evaluate((window: any) => {
-            const amauiTheme = new window.AmauiStyle.AmauiTheme({
+            const onesyTheme = new window.OnesyStyle.OnesyTheme({
               palette: {
                 light: true
               }
             });
 
-            return amauiTheme.palette;
+            return onesyTheme.palette;
           });
 
           // Node
-          const amauiTheme = new AmauiStyle.AmauiTheme({
+          const onesyTheme = new OnesyStyle.OnesyTheme({
             palette: {
               light: true
             }
           });
 
-          const valueNode = amauiTheme.palette;
+          const valueNode = onesyTheme.palette;
 
           const values = [valueNode, ...valueBrowsers];
 
@@ -4332,23 +4332,23 @@ group('AmauiTheme', () => {
         to('dark', async () => {
           // Browser
           const valueBrowsers = await evaluate((window: any) => {
-            const amauiTheme = new window.AmauiStyle.AmauiTheme({
+            const onesyTheme = new window.OnesyStyle.OnesyTheme({
               palette: {
                 light: false
               }
             });
 
-            return amauiTheme.palette;
+            return onesyTheme.palette;
           });
 
           // Node
-          const amauiTheme = new AmauiStyle.AmauiTheme({
+          const onesyTheme = new OnesyStyle.OnesyTheme({
             palette: {
               light: false
             }
           });
 
-          const valueNode = amauiTheme.palette;
+          const valueNode = onesyTheme.palette;
 
           const values = [valueNode, ...valueBrowsers];
 
@@ -4771,7 +4771,7 @@ group('AmauiTheme', () => {
         to('regular', async () => {
           // Browser
           const valueBrowsers = await evaluate((window: any) => {
-            const amauiTheme = new window.AmauiStyle.AmauiTheme({
+            const onesyTheme = new window.OnesyStyle.OnesyTheme({
               palette: {
                 color: {
                   primary: {
@@ -4782,11 +4782,11 @@ group('AmauiTheme', () => {
               }
             });
 
-            return amauiTheme.palette.color;
+            return onesyTheme.palette.color;
           });
 
           // Node
-          const amauiTheme = new AmauiStyle.AmauiTheme({
+          const onesyTheme = new OnesyStyle.OnesyTheme({
             palette: {
               color: {
                 primary: {
@@ -4797,7 +4797,7 @@ group('AmauiTheme', () => {
             }
           });
 
-          const valueNode = amauiTheme.palette.color;
+          const valueNode = onesyTheme.palette.color;
 
           const values = [valueNode, ...valueBrowsers];
 
@@ -4988,7 +4988,7 @@ group('AmauiTheme', () => {
         to('colorblind', async () => {
           // Browser
           const valueBrowsers = await evaluate((window: any) => {
-            const amauiTheme = new window.AmauiStyle.AmauiTheme({
+            const onesyTheme = new window.OnesyStyle.OnesyTheme({
               palette: {
                 color: {
                   primary: {
@@ -4999,11 +4999,11 @@ group('AmauiTheme', () => {
               }
             });
 
-            return amauiTheme.palette.color;
+            return onesyTheme.palette.color;
           });
 
           // Node
-          const amauiTheme = new AmauiStyle.AmauiTheme({
+          const onesyTheme = new OnesyStyle.OnesyTheme({
             palette: {
               color: {
                 primary: {
@@ -5014,7 +5014,7 @@ group('AmauiTheme', () => {
             }
           });
 
-          const valueNode = amauiTheme.palette.color;
+          const valueNode = onesyTheme.palette.color;
 
           const values = [valueNode, ...valueBrowsers];
 
@@ -5205,7 +5205,7 @@ group('AmauiTheme', () => {
         to('tritanopia', async () => {
           // Browser
           const valueBrowsers = await evaluate((window: any) => {
-            const amauiTheme = new window.AmauiStyle.AmauiTheme({
+            const onesyTheme = new window.OnesyStyle.OnesyTheme({
               palette: {
                 color: {
                   primary: {
@@ -5216,11 +5216,11 @@ group('AmauiTheme', () => {
               }
             });
 
-            return amauiTheme.palette.color;
+            return onesyTheme.palette.color;
           });
 
           // Node
-          const amauiTheme = new AmauiStyle.AmauiTheme({
+          const onesyTheme = new OnesyStyle.OnesyTheme({
             palette: {
               color: {
                 primary: {
@@ -5231,7 +5231,7 @@ group('AmauiTheme', () => {
             }
           });
 
-          const valueNode = amauiTheme.palette.color;
+          const valueNode = onesyTheme.palette.color;
 
           const values = [valueNode, ...valueBrowsers];
 
@@ -5424,7 +5424,7 @@ group('AmauiTheme', () => {
       to('visual_contrast', async () => {
         // Browser
         const valueBrowsers = await evaluate((window: any) => {
-          const amauiTheme = new window.AmauiStyle.AmauiTheme({
+          const onesyTheme = new window.OnesyStyle.OnesyTheme({
             palette: {
               visual_contrast: {
                 regular: {
@@ -5436,11 +5436,11 @@ group('AmauiTheme', () => {
             }
           });
 
-          return amauiTheme.palette.text.default;
+          return onesyTheme.palette.text.default;
         });
 
         // Node
-        const amauiTheme = new AmauiStyle.AmauiTheme({
+        const onesyTheme = new OnesyStyle.OnesyTheme({
           palette: {
             visual_contrast: {
               regular: {
@@ -5452,7 +5452,7 @@ group('AmauiTheme', () => {
           }
         });
 
-        const valueNode = amauiTheme.palette.text.default;
+        const valueNode = onesyTheme.palette.text.default;
 
         const values = [valueNode, ...valueBrowsers];
 
@@ -5467,7 +5467,7 @@ group('AmauiTheme', () => {
       to('color', async () => {
         // Browser
         const valueBrowsers = await evaluate((window: any) => {
-          const amauiTheme = new window.AmauiStyle.AmauiTheme({
+          const onesyTheme = new window.OnesyStyle.OnesyTheme({
             palette: {
               color: {
                 a: {
@@ -5477,11 +5477,11 @@ group('AmauiTheme', () => {
             }
           });
 
-          return amauiTheme.palette.color;
+          return onesyTheme.palette.color;
         });
 
         // Node
-        const amauiTheme = new AmauiStyle.AmauiTheme({
+        const onesyTheme = new OnesyStyle.OnesyTheme({
           palette: {
             color: {
               a: '#f4f4da'
@@ -5489,7 +5489,7 @@ group('AmauiTheme', () => {
           }
         });
 
-        const valueNode = amauiTheme.palette.color;
+        const valueNode = onesyTheme.palette.color;
 
         const values = [valueNode, ...valueBrowsers];
 
@@ -5700,7 +5700,7 @@ group('AmauiTheme', () => {
       to('text', async () => {
         // Browser
         const valueBrowsers = await evaluate((window: any) => {
-          const amauiTheme = new window.AmauiStyle.AmauiTheme({
+          const onesyTheme = new window.OnesyStyle.OnesyTheme({
             palette: {
               text: {
                 a: 'yellow'
@@ -5708,11 +5708,11 @@ group('AmauiTheme', () => {
             }
           });
 
-          return amauiTheme.palette.text;
+          return onesyTheme.palette.text;
         });
 
         // Node
-        const amauiTheme = new AmauiStyle.AmauiTheme({
+        const onesyTheme = new OnesyStyle.OnesyTheme({
           palette: {
             text: {
               a: 'yellow'
@@ -5720,7 +5720,7 @@ group('AmauiTheme', () => {
           }
         });
 
-        const valueNode = amauiTheme.palette.text;
+        const valueNode = onesyTheme.palette.text;
 
         const values = [valueNode, ...valueBrowsers];
 
@@ -5810,7 +5810,7 @@ group('AmauiTheme', () => {
       to('background', async () => {
         // Browser
         const valueBrowsers = await evaluate((window: any) => {
-          const amauiTheme = new window.AmauiStyle.AmauiTheme({
+          const onesyTheme = new window.OnesyStyle.OnesyTheme({
             palette: {
               background: {
                 a: 'yellow'
@@ -5818,11 +5818,11 @@ group('AmauiTheme', () => {
             }
           });
 
-          return amauiTheme.palette.background;
+          return onesyTheme.palette.background;
         });
 
         // Node
-        const amauiTheme = new AmauiStyle.AmauiTheme({
+        const onesyTheme = new OnesyStyle.OnesyTheme({
           palette: {
             background: {
               a: 'yellow'
@@ -5830,7 +5830,7 @@ group('AmauiTheme', () => {
           }
         });
 
-        const valueNode = amauiTheme.palette.background;
+        const valueNode = onesyTheme.palette.background;
 
         const values = [valueNode, ...valueBrowsers];
 
@@ -5916,7 +5916,7 @@ group('AmauiTheme', () => {
     to('shape', async () => {
       // Browser
       const valueBrowsers = await evaluate((window: any) => {
-        const amauiTheme = new window.AmauiStyle.AmauiTheme({
+        const onesyTheme = new window.OnesyStyle.OnesyTheme({
           shape: {
             radius: {
               values: {
@@ -5926,11 +5926,11 @@ group('AmauiTheme', () => {
           }
         });
 
-        return amauiTheme.shape;
+        return onesyTheme.shape;
       });
 
       // Node
-      const amauiTheme = new AmauiStyle.AmauiTheme({
+      const onesyTheme = new OnesyStyle.OnesyTheme({
         shape: {
           radius: {
             values: {
@@ -5940,7 +5940,7 @@ group('AmauiTheme', () => {
         }
       });
 
-      const valueNode = amauiTheme.shape;
+      const valueNode = onesyTheme.shape;
 
       const values = [valueNode, ...valueBrowsers];
 
@@ -5965,7 +5965,7 @@ group('AmauiTheme', () => {
     to('breakpoints', async () => {
       // Browser
       const valueBrowsers = await evaluate((window: any) => {
-        const amauiTheme = new window.AmauiStyle.AmauiTheme({
+        const onesyTheme = new window.OnesyStyle.OnesyTheme({
           breakpoints: {
             values: {
               a: 1114,
@@ -5974,11 +5974,11 @@ group('AmauiTheme', () => {
           }
         });
 
-        return ({ values: amauiTheme.breakpoints.values, unit: amauiTheme.breakpoints.unit, keys: amauiTheme.breakpoints.keys });
+        return ({ values: onesyTheme.breakpoints.values, unit: onesyTheme.breakpoints.unit, keys: onesyTheme.breakpoints.keys });
       });
 
       // Node
-      const amauiTheme = new AmauiStyle.AmauiTheme({
+      const onesyTheme = new OnesyStyle.OnesyTheme({
         breakpoints: {
           values: {
             a: 1114,
@@ -5987,7 +5987,7 @@ group('AmauiTheme', () => {
         }
       });
 
-      const valueNode = ({ values: amauiTheme.breakpoints.values, unit: amauiTheme.breakpoints.unit, keys: amauiTheme.breakpoints.keys });
+      const valueNode = ({ values: onesyTheme.breakpoints.values, unit: onesyTheme.breakpoints.unit, keys: onesyTheme.breakpoints.keys });
 
       const values = [valueNode, ...valueBrowsers];
 
@@ -6015,7 +6015,7 @@ group('AmauiTheme', () => {
     to('space', async () => {
       // Browser
       const valueBrowsers = await evaluate((window: any) => {
-        const amauiTheme = new window.AmauiStyle.AmauiTheme({
+        const onesyTheme = new window.OnesyStyle.OnesyTheme({
           space: {
             values: {
               a: 1114,
@@ -6024,11 +6024,11 @@ group('AmauiTheme', () => {
           }
         });
 
-        return ({ values: amauiTheme.space.values, unit: amauiTheme.space.unit, keys: amauiTheme.space.keys });
+        return ({ values: onesyTheme.space.values, unit: onesyTheme.space.unit, keys: onesyTheme.space.keys });
       });
 
       // Node
-      const amauiTheme = new AmauiStyle.AmauiTheme({
+      const onesyTheme = new OnesyStyle.OnesyTheme({
         space: {
           values: {
             a: 1114,
@@ -6037,7 +6037,7 @@ group('AmauiTheme', () => {
         }
       });
 
-      const valueNode = ({ values: amauiTheme.space.values, unit: amauiTheme.space.unit, keys: amauiTheme.space.keys });
+      const valueNode = ({ values: onesyTheme.space.values, unit: onesyTheme.space.unit, keys: onesyTheme.space.keys });
 
       const values = [valueNode, ...valueBrowsers];
 
@@ -6073,7 +6073,7 @@ group('AmauiTheme', () => {
     to('shadows', async () => {
       // Browser
       const valueBrowsers = await evaluate((window: any) => {
-        const amauiTheme = new window.AmauiStyle.AmauiTheme({
+        const onesyTheme = new window.OnesyStyle.OnesyTheme({
           shadows: {
             values: {
               a: 4
@@ -6082,11 +6082,11 @@ group('AmauiTheme', () => {
           }
         });
 
-        return amauiTheme.shadows;
+        return onesyTheme.shadows;
       });
 
       // Node
-      const amauiTheme = new AmauiStyle.AmauiTheme({
+      const onesyTheme = new OnesyStyle.OnesyTheme({
         shadows: {
           values: {
             a: 4
@@ -6095,7 +6095,7 @@ group('AmauiTheme', () => {
         }
       });
 
-      const valueNode = amauiTheme.shadows;
+      const valueNode = onesyTheme.shadows;
 
       const values = [valueNode, ...valueBrowsers];
 
@@ -6231,7 +6231,7 @@ group('AmauiTheme', () => {
     to('typography', async () => {
       // Browser
       const valueBrowsers = await evaluate((window: any) => {
-        const amauiTheme = new window.AmauiStyle.AmauiTheme({
+        const onesyTheme = new window.OnesyStyle.OnesyTheme({
           typography: {
             unit: 'em',
 
@@ -6249,11 +6249,11 @@ group('AmauiTheme', () => {
           }
         });
 
-        return amauiTheme.typography;
+        return onesyTheme.typography;
       });
 
       // Node
-      const amauiTheme = new AmauiStyle.AmauiTheme({
+      const onesyTheme = new OnesyStyle.OnesyTheme({
         typography: {
           unit: 'em',
 
@@ -6271,7 +6271,7 @@ group('AmauiTheme', () => {
         }
       });
 
-      const valueNode = amauiTheme.typography;
+      const valueNode = onesyTheme.typography;
 
       const values = [valueNode, ...valueBrowsers];
 
@@ -6399,7 +6399,7 @@ group('AmauiTheme', () => {
     to('transitions', async () => {
       // Browser
       const valueBrowsers = await evaluate((window: any) => {
-        const amauiTheme = new window.AmauiStyle.AmauiTheme({
+        const onesyTheme = new window.OnesyStyle.OnesyTheme({
           transitions: {
             timing_function: {
               a: 'ease'
@@ -6411,11 +6411,11 @@ group('AmauiTheme', () => {
           }
         });
 
-        return amauiTheme.transitions;
+        return onesyTheme.transitions;
       });
 
       // Node
-      const amauiTheme = new AmauiStyle.AmauiTheme({
+      const onesyTheme = new OnesyStyle.OnesyTheme({
         transitions: {
           timing_function: {
             a: 'ease'
@@ -6427,7 +6427,7 @@ group('AmauiTheme', () => {
         }
       });
 
-      const valueNode = amauiTheme.transitions;
+      const valueNode = onesyTheme.transitions;
 
       const values = [valueNode, ...valueBrowsers];
 
@@ -6455,23 +6455,23 @@ group('AmauiTheme', () => {
     to('z_index', async () => {
       // Browser
       const valueBrowsers = await evaluate((window: any) => {
-        const amauiTheme = new window.AmauiStyle.AmauiTheme({
+        const onesyTheme = new window.OnesyStyle.OnesyTheme({
           z_index: {
             a: 4
           }
         });
 
-        return amauiTheme.z_index;
+        return onesyTheme.z_index;
       });
 
       // Node
-      const amauiTheme = new AmauiStyle.AmauiTheme({
+      const onesyTheme = new OnesyStyle.OnesyTheme({
         z_index: {
           a: 4
         }
       });
 
-      const valueNode = amauiTheme.z_index;
+      const valueNode = onesyTheme.z_index;
 
       const values = [valueNode, ...valueBrowsers];
 
@@ -6495,9 +6495,9 @@ group('AmauiTheme', () => {
         to('image', async () => {
           // Browser
           const valueBrowsers = await evaluate(async (window: any) => {
-            const amauiTheme = new window.AmauiStyle.AmauiTheme();
+            const onesyTheme = new window.OnesyStyle.OnesyTheme();
 
-            return await amauiTheme.methods.palette.image(`/utils/images/image.jpg`);
+            return await onesyTheme.methods.palette.image(`/utils/images/image.jpg`);
           });
 
           // Info
@@ -6532,28 +6532,28 @@ group('AmauiTheme', () => {
           to('value', async () => {
             // Browser
             const valueBrowsers = await evaluate(async (window: any) => {
-              const amauiTheme = new window.AmauiStyle.AmauiTheme();
+              const onesyTheme = new window.OnesyStyle.OnesyTheme();
 
               const response = [
-                amauiTheme.methods.palette.color.value('primary', 40, true)
+                onesyTheme.methods.palette.color.value('primary', 40, true)
               ];
 
-              amauiTheme.update({ palette: { light: false } });
+              onesyTheme.update({ palette: { light: false } });
 
-              response.push(amauiTheme.methods.palette.color.value('primary', 40, true));
+              response.push(onesyTheme.methods.palette.color.value('primary', 40, true));
 
               return response;
             });
 
-            const amauiTheme = new AmauiStyle.AmauiTheme();
+            const onesyTheme = new OnesyStyle.OnesyTheme();
 
             const response = [
-              amauiTheme.methods.palette.color.value('primary', 40, true)
+              onesyTheme.methods.palette.color.value('primary', 40, true)
             ];
 
-            amauiTheme.update({ palette: { light: false } });
+            onesyTheme.update({ palette: { light: false } });
 
-            response.push(amauiTheme.methods.palette.color.value('primary', 40, true));
+            response.push(onesyTheme.methods.palette.color.value('primary', 40, true));
 
             const valueNode = response;
 
@@ -6568,7 +6568,7 @@ group('AmauiTheme', () => {
           to('text', async () => {
             // Browser
             const valueBrowsers = await evaluate(async (window: any) => {
-              const amauiTheme = new window.AmauiStyle.AmauiTheme({
+              const onesyTheme = new window.OnesyStyle.OnesyTheme({
                 preference: {
                   text: {
                     default: 'primary',
@@ -6577,17 +6577,17 @@ group('AmauiTheme', () => {
               });
 
               const response = [
-                amauiTheme.methods.palette.color.text(amauiTheme.palette.color.primary.main)
+                onesyTheme.methods.palette.color.text(onesyTheme.palette.color.primary.main)
               ];
 
-              amauiTheme.update({ preference: { visual_contrast: { default: 'low' } } });
+              onesyTheme.update({ preference: { visual_contrast: { default: 'low' } } });
 
-              response.push(amauiTheme.methods.palette.color.text(amauiTheme.palette.color.primary.main));
+              response.push(onesyTheme.methods.palette.color.text(onesyTheme.palette.color.primary.main));
 
               return response;
             });
 
-            const amauiTheme = new AmauiStyle.AmauiTheme({
+            const onesyTheme = new OnesyStyle.OnesyTheme({
               preference: {
                 text: {
                   default: 'primary',
@@ -6596,12 +6596,12 @@ group('AmauiTheme', () => {
             });
 
             const response = [
-              amauiTheme.methods.palette.color.text(amauiTheme.palette.color.primary.main)
+              onesyTheme.methods.palette.color.text(onesyTheme.palette.color.primary.main)
             ];
 
-            amauiTheme.update({ preference: { visual_contrast: { default: 'low' } } });
+            onesyTheme.update({ preference: { visual_contrast: { default: 'low' } } });
 
-            response.push(amauiTheme.methods.palette.color.text(amauiTheme.palette.color.primary.main));
+            response.push(onesyTheme.methods.palette.color.text(onesyTheme.palette.color.primary.main));
 
             const valueNode = response;
 
@@ -6622,28 +6622,28 @@ group('AmauiTheme', () => {
         to('value', async () => {
           // Browser
           const valueBrowsers = await evaluate(async (window: any) => {
-            const amauiTheme = new window.AmauiStyle.AmauiTheme();
+            const onesyTheme = new window.OnesyStyle.OnesyTheme();
 
             const response = [
-              amauiTheme.methods.space.value(5)
+              onesyTheme.methods.space.value(5)
             ];
 
-            amauiTheme.update({ space: { unit: 14 } });
+            onesyTheme.update({ space: { unit: 14 } });
 
-            response.push(amauiTheme.methods.space.value(1e1));
+            response.push(onesyTheme.methods.space.value(1e1));
 
             return response;
           });
 
-          const amauiTheme = new AmauiStyle.AmauiTheme();
+          const onesyTheme = new OnesyStyle.OnesyTheme();
 
           const response = [
-            amauiTheme.methods.space.value(5)
+            onesyTheme.methods.space.value(5)
           ];
 
-          amauiTheme.update({ space: { unit: 14 } });
+          onesyTheme.update({ space: { unit: 14 } });
 
-          response.push(amauiTheme.methods.space.value(1e1));
+          response.push(onesyTheme.methods.space.value(1e1));
 
           const valueNode = response;
 
@@ -6662,17 +6662,17 @@ group('AmauiTheme', () => {
         to('up', async () => {
           // Browser
           const valueBrowsers = await evaluate(async (window: any) => {
-            const amauiTheme = new window.AmauiStyle.AmauiTheme();
+            const onesyTheme = new window.OnesyStyle.OnesyTheme();
 
             return [
-              amauiTheme.methods.breakpoints.up(amauiTheme.breakpoints.values.md)
+              onesyTheme.methods.breakpoints.up(onesyTheme.breakpoints.values.md)
             ];
           });
 
-          const amauiTheme = new AmauiStyle.AmauiTheme();
+          const onesyTheme = new OnesyStyle.OnesyTheme();
 
           const valueNode = [
-            amauiTheme.methods.breakpoints.up(amauiTheme.breakpoints.values.md)
+            onesyTheme.methods.breakpoints.up(onesyTheme.breakpoints.values.md)
           ];
 
           const values = [valueNode, ...valueBrowsers];
@@ -6685,17 +6685,17 @@ group('AmauiTheme', () => {
         to('down', async () => {
           // Browser
           const valueBrowsers = await evaluate(async (window: any) => {
-            const amauiTheme = new window.AmauiStyle.AmauiTheme();
+            const onesyTheme = new window.OnesyStyle.OnesyTheme();
 
             return [
-              amauiTheme.methods.breakpoints.down(amauiTheme.breakpoints.values.md)
+              onesyTheme.methods.breakpoints.down(onesyTheme.breakpoints.values.md)
             ];
           });
 
-          const amauiTheme = new AmauiStyle.AmauiTheme();
+          const onesyTheme = new OnesyStyle.OnesyTheme();
 
           const valueNode = [
-            amauiTheme.methods.breakpoints.down(amauiTheme.breakpoints.values.md)
+            onesyTheme.methods.breakpoints.down(onesyTheme.breakpoints.values.md)
           ];
 
           const values = [valueNode, ...valueBrowsers];
@@ -6708,17 +6708,17 @@ group('AmauiTheme', () => {
         to('between', async () => {
           // Browser
           const valueBrowsers = await evaluate(async (window: any) => {
-            const amauiTheme = new window.AmauiStyle.AmauiTheme();
+            const onesyTheme = new window.OnesyStyle.OnesyTheme();
 
             return [
-              amauiTheme.methods.breakpoints.between(amauiTheme.breakpoints.values.sm, amauiTheme.breakpoints.values.md)
+              onesyTheme.methods.breakpoints.between(onesyTheme.breakpoints.values.sm, onesyTheme.breakpoints.values.md)
             ];
           });
 
-          const amauiTheme = new AmauiStyle.AmauiTheme();
+          const onesyTheme = new OnesyStyle.OnesyTheme();
 
           const valueNode = [
-            amauiTheme.methods.breakpoints.between(amauiTheme.breakpoints.values.sm, amauiTheme.breakpoints.values.md)
+            onesyTheme.methods.breakpoints.between(onesyTheme.breakpoints.values.sm, onesyTheme.breakpoints.values.md)
           ];
 
           const values = [valueNode, ...valueBrowsers];
@@ -6731,17 +6731,17 @@ group('AmauiTheme', () => {
         to('only', async () => {
           // Browser
           const valueBrowsers = await evaluate(async (window: any) => {
-            const amauiTheme = new window.AmauiStyle.AmauiTheme();
+            const onesyTheme = new window.OnesyStyle.OnesyTheme();
 
             return [
-              amauiTheme.methods.breakpoints.only(amauiTheme.breakpoints.values.md)
+              onesyTheme.methods.breakpoints.only(onesyTheme.breakpoints.values.md)
             ];
           });
 
-          const amauiTheme = new AmauiStyle.AmauiTheme();
+          const onesyTheme = new OnesyStyle.OnesyTheme();
 
           const valueNode = [
-            amauiTheme.methods.breakpoints.only(amauiTheme.breakpoints.values.md)
+            onesyTheme.methods.breakpoints.only(onesyTheme.breakpoints.values.md)
           ];
 
           const values = [valueNode, ...valueBrowsers];
@@ -6754,17 +6754,17 @@ group('AmauiTheme', () => {
         to('not', async () => {
           // Browser
           const valueBrowsers = await evaluate(async (window: any) => {
-            const amauiTheme = new window.AmauiStyle.AmauiTheme();
+            const onesyTheme = new window.OnesyStyle.OnesyTheme();
 
             return [
-              amauiTheme.methods.breakpoints.not('md')
+              onesyTheme.methods.breakpoints.not('md')
             ];
           });
 
-          const amauiTheme = new AmauiStyle.AmauiTheme();
+          const onesyTheme = new OnesyStyle.OnesyTheme();
 
           const valueNode = [
-            amauiTheme.methods.breakpoints.not('md')
+            onesyTheme.methods.breakpoints.not('md')
           ];
 
           const values = [valueNode, ...valueBrowsers];
@@ -6781,17 +6781,17 @@ group('AmauiTheme', () => {
         to('make', async () => {
           // Browser
           const valueBrowsers = await evaluate(async (window: any) => {
-            const amauiTheme = new window.AmauiStyle.AmauiTheme();
+            const onesyTheme = new window.OnesyStyle.OnesyTheme();
 
             return [
-              amauiTheme.methods.transitions.make(['width', 'background'], { duration: 'rg', timing_function: 'standard', delay: 114 })
+              onesyTheme.methods.transitions.make(['width', 'background'], { duration: 'rg', timing_function: 'standard', delay: 114 })
             ];
           });
 
-          const amauiTheme = new AmauiStyle.AmauiTheme();
+          const onesyTheme = new OnesyStyle.OnesyTheme();
 
           const valueNode = [
-            amauiTheme.methods.transitions.make(['width', 'background'], { duration: 'rg', timing_function: 'standard', delay: 114 })
+            onesyTheme.methods.transitions.make(['width', 'background'], { duration: 'rg', timing_function: 'standard', delay: 114 })
           ];
 
           const values = [valueNode, ...valueBrowsers];
@@ -6810,11 +6810,11 @@ group('AmauiTheme', () => {
   to('image', async () => {
     // Browser
     const valueBrowsers = await evaluate(async (window: any) => {
-      const amauiTheme = new window.AmauiStyle.AmauiTheme();
+      const onesyTheme = new window.OnesyStyle.OnesyTheme();
 
-      await amauiTheme.image('/utils/images/image.jpg', { palette: { light: false, color: { primary: { main: '#90ee90' } } } });
+      await onesyTheme.image('/utils/images/image.jpg', { palette: { light: false, color: { primary: { main: '#90ee90' } } } });
 
-      return amauiTheme.palette;
+      return onesyTheme.palette;
     });
 
     const values = [...valueBrowsers];
@@ -8059,13 +8059,13 @@ group('AmauiTheme', () => {
   to('update', async () => {
     // Browser
     const valueBrowsers = await evaluate((window: any) => {
-      const amauiTheme = new window.AmauiStyle.AmauiTheme();
+      const onesyTheme = new window.OnesyStyle.OnesyTheme();
 
       const update = [];
 
-      amauiTheme.subscriptions.update.subscribe(value => update.push(value));
+      onesyTheme.subscriptions.update.subscribe(value => update.push(value));
 
-      amauiTheme.update({
+      onesyTheme.update({
         palette: {
           light: false,
 
@@ -8078,25 +8078,25 @@ group('AmauiTheme', () => {
         a: 114
       });
 
-      delete amauiTheme.id;
-      delete amauiTheme.element;
-      delete amauiTheme.methods;
-      delete amauiTheme.subscriptions;
+      delete onesyTheme.id;
+      delete onesyTheme.element;
+      delete onesyTheme.methods;
+      delete onesyTheme.subscriptions;
 
-      amauiTheme.breakpoints = { values: amauiTheme.breakpoints.values, unit: amauiTheme.breakpoints.unit };
-      amauiTheme.space = { values: amauiTheme.space.values, unit: amauiTheme.space.unit };
+      onesyTheme.breakpoints = { values: onesyTheme.breakpoints.values, unit: onesyTheme.breakpoints.unit };
+      onesyTheme.space = { values: onesyTheme.space.values, unit: onesyTheme.space.unit };
 
-      return [update, { ...amauiTheme }];
+      return [update, { ...onesyTheme }];
     });
 
     // Node
-    const amauiTheme = new AmauiStyle.AmauiTheme();
+    const onesyTheme = new OnesyStyle.OnesyTheme();
 
     const update = [];
 
-    amauiTheme.subscriptions.update.subscribe(value => update.push(value));
+    onesyTheme.subscriptions.update.subscribe(value => update.push(value));
 
-    amauiTheme.update({
+    onesyTheme.update({
       palette: {
         light: false,
 
@@ -8109,15 +8109,15 @@ group('AmauiTheme', () => {
       a: 114
     });
 
-    delete amauiTheme.id;
-    delete amauiTheme.element;
-    delete amauiTheme.methods;
-    delete amauiTheme.subscriptions;
+    delete onesyTheme.id;
+    delete onesyTheme.element;
+    delete onesyTheme.methods;
+    delete onesyTheme.subscriptions;
 
-    amauiTheme.breakpoints = { values: amauiTheme.breakpoints.values, unit: amauiTheme.breakpoints.unit };
-    amauiTheme.space = { values: amauiTheme.space.values, unit: amauiTheme.space.unit };
+    onesyTheme.breakpoints = { values: onesyTheme.breakpoints.values, unit: onesyTheme.breakpoints.unit };
+    onesyTheme.space = { values: onesyTheme.space.values, unit: onesyTheme.space.unit };
 
-    const valueNode = [update, { ...amauiTheme }];
+    const valueNode = [update, { ...onesyTheme }];
 
     const values = [valueNode, ...valueBrowsers];
 

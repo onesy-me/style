@@ -1,6 +1,6 @@
-import isEnvironment from '@amaui/utils/isEnvironment';
+import isEnvironment from '@onesy/utils/isEnvironment';
 
-import AmauiStyle from './AmauiStyle';
+import OnesyStyle from './OnesyStyle';
 import { makeName } from './utils';
 
 export interface IOptionsDom {
@@ -25,12 +25,12 @@ const optionsDefault: IOptions = {
   )
 };
 
-let amauiMakeClassNameInc = 0;
+let onesyMakeClassNameInc = 0;
 
-function makeClassName(amauiStyle: AmauiStyle, options_: IOptions = {}) {
+function makeClassName(onesyStyle: OnesyStyle, options_: IOptions = {}) {
   const options = { ...optionsDefault, ...options_ };
 
-  const prefix = amauiStyle?.options?.classNamePrefix || '';
+  const prefix = onesyStyle?.options?.classNamePrefix || '';
 
   // If both dev and prod are false, then dev is true
   const production = options.production !== undefined ? options.production : optionsDefault.production;
@@ -71,13 +71,13 @@ function makeClassName(amauiStyle: AmauiStyle, options_: IOptions = {}) {
       }
       // Development
       else {
-        value.value = `${prefix}${value_.property}-${++amauiMakeClassNameInc}`;
+        value.value = `${prefix}${value_.property}-${++onesyMakeClassNameInc}`;
 
         while (true) {
           if (
             (options.dom?.unique && !domUnique(value.value))
           ) {
-            value.value = `${prefix}${value_?.property}-${++amauiMakeClassNameInc}`;
+            value.value = `${prefix}${value_?.property}-${++onesyMakeClassNameInc}`;
           }
           else break;
         }
@@ -94,18 +94,18 @@ function makeClassName(amauiStyle: AmauiStyle, options_: IOptions = {}) {
   const methodKeyframesName = method(makeNameMethodKeyframesName);
 
   // Add methods to subscriptions
-  if (amauiStyle) {
-    amauiStyle.subscriptions.className.name.subscribe(methodClassName);
+  if (onesyStyle) {
+    onesyStyle.subscriptions.className.name.subscribe(methodClassName);
 
-    amauiStyle.subscriptions.keyframes.name.subscribe(methodKeyframesName);
+    onesyStyle.subscriptions.keyframes.name.subscribe(methodKeyframesName);
   }
 
   const remove = () => {
     // Remove methods from subscriptions
-    if (amauiStyle) {
-      amauiStyle.subscriptions.className.name.unsubscribe(methodClassName);
+    if (onesyStyle) {
+      onesyStyle.subscriptions.className.name.unsubscribe(methodClassName);
 
-      amauiStyle.subscriptions.keyframes.name.unsubscribe(methodKeyframesName);
+      onesyStyle.subscriptions.keyframes.name.unsubscribe(methodKeyframesName);
     }
   };
 

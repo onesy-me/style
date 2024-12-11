@@ -1,6 +1,6 @@
 /* tslint:disable: no-shadowed-variable */
-import { assert } from '@amaui/test';
-import * as AmauiUtils from '@amaui/utils';
+import { assert } from '@onesy/test';
+import * as OnesyUtils from '@onesy/utils';
 
 import { evaluate } from '../utils/js/test/utils';
 
@@ -303,7 +303,7 @@ const valueColors = {
   'white': '#FFFFFF'
 };
 
-group('@amaui/style/colors', () => {
+group('@onesy/style/colors', () => {
 
   to('colors', async () => {
     const valueBrowsers = await evaluate((window: any) => {
@@ -604,10 +604,10 @@ group('@amaui/style/colors', () => {
         'white': '#FFFFFF'
       };
 
-      return window.AmauiUtils.equalDeep(valueColors, window.AmauiStyle.colors);
+      return window.OnesyUtils.equalDeep(valueColors, window.OnesyStyle.colors);
     });
 
-    const valueNode = AmauiUtils.equalDeep(valueColors, colors);
+    const valueNode = OnesyUtils.equalDeep(valueColors, colors);
 
     const values = [valueNode, ...valueBrowsers];
 

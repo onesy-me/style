@@ -1,21 +1,21 @@
 /* tslint:disable: no-shadowed-variable */
-import { assert } from '@amaui/test';
+import { assert } from '@onesy/test';
 
 import { evaluate } from '../utils/js/test/utils';
 
-group('AmauiStyleRenderer', () => {
+group('OnesyStyleRenderer', () => {
 
   to('make', async () => {
     const valueBrowsers = await evaluate((window: any) => {
-      const amauiStyleRenderer = new window.AmauiStyle.AmauiStyleRenderer();
+      const onesyStyleRenderer = new window.OnesyStyle.OnesyStyleRenderer();
 
       const response = [
         window.document.styleSheets.length,
       ];
 
-      const element = amauiStyleRenderer.make({ element: { type: 'text/css' }, data: { amaui: true } });
+      const element = onesyStyleRenderer.make({ element: { type: 'text/css' }, data: { onesy: true } });
 
-      response.push(element.tagName.toLowerCase(), element.type, element.amaui);
+      response.push(element.tagName.toLowerCase(), element.type, element.onesy);
 
       return response;
     });
@@ -34,19 +34,19 @@ group('AmauiStyleRenderer', () => {
 
     to('add', async () => {
       const valueBrowsers = await evaluate((window: any) => {
-        const amauiStyleRenderer = new window.AmauiStyle.AmauiStyleRenderer();
+        const onesyStyleRenderer = new window.OnesyStyle.OnesyStyleRenderer();
 
         const response = [
           window.document.styleSheets.length,
         ];
 
-        let element = amauiStyleRenderer.make({ element: { type: 'text/css' }, data: { amaui: true } });
+        let element = onesyStyleRenderer.make({ element: { type: 'text/css' }, data: { onesy: true } });
 
-        amauiStyleRenderer.add(element);
+        onesyStyleRenderer.add(element);
 
         element = window.document.styleSheets[0].ownerNode;
 
-        response.push(element.tagName.toLowerCase(), element.type, element.amaui);
+        response.push(element.tagName.toLowerCase(), element.type, element.onesy);
 
         return response;
       });
@@ -65,19 +65,19 @@ group('AmauiStyleRenderer', () => {
 
       to('upper', async () => {
         const valueBrowsers = await evaluate((window: any) => {
-          const amauiStyleRenderer = new window.AmauiStyle.AmauiStyleRenderer();
+          const onesyStyleRenderer = new window.OnesyStyle.OnesyStyleRenderer();
 
           const response = [
             window.document.styleSheets.length,
           ];
 
-          let element = amauiStyleRenderer.make({ element: { type: 'text/css' }, data: { amaui: true } });
+          let element = onesyStyleRenderer.make({ element: { type: 'text/css' }, data: { onesy: true } });
 
-          amauiStyleRenderer.add(element);
+          onesyStyleRenderer.add(element);
 
-          element = amauiStyleRenderer.make({ element: { type: 'text/css' }, data: { v: 1 } });
+          element = onesyStyleRenderer.make({ element: { type: 'text/css' }, data: { v: 1 } });
 
-          amauiStyleRenderer.add(element, 'upper');
+          onesyStyleRenderer.add(element, 'upper');
 
           element = window.document.styleSheets[1].ownerNode;
 
@@ -99,19 +99,19 @@ group('AmauiStyleRenderer', () => {
 
       to('lower', async () => {
         const valueBrowsers = await evaluate((window: any) => {
-          const amauiStyleRenderer = new window.AmauiStyle.AmauiStyleRenderer();
+          const onesyStyleRenderer = new window.OnesyStyle.OnesyStyleRenderer();
 
           const response = [
             window.document.styleSheets.length,
           ];
 
-          let element = amauiStyleRenderer.make({ element: { type: 'text/css' }, data: { amaui: true } });
+          let element = onesyStyleRenderer.make({ element: { type: 'text/css' }, data: { onesy: true } });
 
-          amauiStyleRenderer.add(element);
+          onesyStyleRenderer.add(element);
 
-          element = amauiStyleRenderer.make({ element: { type: 'text/css' }, data: { v: 1 } });
+          element = onesyStyleRenderer.make({ element: { type: 'text/css' }, data: { v: 1 } });
 
-          amauiStyleRenderer.add(element, 'lower');
+          onesyStyleRenderer.add(element, 'lower');
 
           element = window.document.styleSheets[0].ownerNode;
 
@@ -137,19 +137,19 @@ group('AmauiStyleRenderer', () => {
 
       to('reset', async () => {
         const valueBrowsers = await evaluate((window: any) => {
-          const amauiStyleRenderer = new window.AmauiStyle.AmauiStyleRenderer();
+          const onesyStyleRenderer = new window.OnesyStyle.OnesyStyleRenderer();
 
           const response = [
             window.document.styleSheets.length,
           ];
 
-          let element = amauiStyleRenderer.make({ element: { type: 'text/css' }, data: { amaui: true } });
+          let element = onesyStyleRenderer.make({ element: { type: 'text/css' }, data: { onesy: true } });
 
-          amauiStyleRenderer.add(element);
+          onesyStyleRenderer.add(element);
 
-          element = amauiStyleRenderer.make({ element: { type: 'text/css' }, data: { v: 1 } });
+          element = onesyStyleRenderer.make({ element: { type: 'text/css' }, data: { v: 1 } });
 
-          amauiStyleRenderer.add(element, undefined, { data: { method: 'reset' } });
+          onesyStyleRenderer.add(element, undefined, { data: { method: 'reset' } });
 
           element = window.document.styleSheets[0].ownerNode;
 
@@ -171,30 +171,30 @@ group('AmauiStyleRenderer', () => {
 
       to('pure', async () => {
         const valueBrowsers = await evaluate((window: any) => {
-          const amauiStyleRenderer = new window.AmauiStyle.AmauiStyleRenderer();
+          const onesyStyleRenderer = new window.OnesyStyle.OnesyStyleRenderer();
 
           const response = [
             window.document.styleSheets.length,
           ];
 
-          let element = amauiStyleRenderer.make({ element: { type: 'text/css' }, data: { amaui: true } });
+          let element = onesyStyleRenderer.make({ element: { type: 'text/css' }, data: { onesy: true } });
 
-          amauiStyleRenderer.add(element);
+          onesyStyleRenderer.add(element);
 
           // Reset
-          element = amauiStyleRenderer.make({ element: { type: 'text/css' }, data: { v: 1, method: 'reset' } });
+          element = onesyStyleRenderer.make({ element: { type: 'text/css' }, data: { v: 1, method: 'reset' } });
 
-          amauiStyleRenderer.add(element, undefined, { data: { method: 'reset' } });
+          onesyStyleRenderer.add(element, undefined, { data: { method: 'reset' } });
 
           // Pure 1
-          element = amauiStyleRenderer.make({ element: { type: 'text/css' }, data: { v: 11, method: 'pure' } });
+          element = onesyStyleRenderer.make({ element: { type: 'text/css' }, data: { v: 11, method: 'pure' } });
 
-          amauiStyleRenderer.add(element, undefined, { data: { method: 'pure' } });
+          onesyStyleRenderer.add(element, undefined, { data: { method: 'pure' } });
 
           // Pure 2
-          element = amauiStyleRenderer.make({ element: { type: 'text/css' }, data: { v: 14, method: 'pure' } });
+          element = onesyStyleRenderer.make({ element: { type: 'text/css' }, data: { v: 14, method: 'pure' } });
 
-          amauiStyleRenderer.add(element, undefined, { data: { method: 'pure' } });
+          onesyStyleRenderer.add(element, undefined, { data: { method: 'pure' } });
 
           response.push(
             window.document.styleSheets[0].ownerNode.v,
@@ -224,21 +224,21 @@ group('AmauiStyleRenderer', () => {
 
   to('remove', async () => {
     const valueBrowsers = await evaluate((window: any) => {
-      const amauiStyleRenderer = new window.AmauiStyle.AmauiStyleRenderer();
+      const onesyStyleRenderer = new window.OnesyStyle.OnesyStyleRenderer();
 
       const response = [
         window.document.styleSheets.length,
       ];
 
-      let element = amauiStyleRenderer.make({ element: { type: 'text/css' }, data: { amaui: true } });
+      let element = onesyStyleRenderer.make({ element: { type: 'text/css' }, data: { onesy: true } });
 
-      amauiStyleRenderer.add(element);
+      onesyStyleRenderer.add(element);
 
       element = window.document.styleSheets[0].ownerNode;
 
-      response.push(element.tagName.toLowerCase(), element.type, element.amaui);
+      response.push(element.tagName.toLowerCase(), element.type, element.onesy);
 
-      amauiStyleRenderer.remove(element);
+      onesyStyleRenderer.remove(element);
 
       response.push(window.document.styleSheets.length);
 

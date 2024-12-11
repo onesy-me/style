@@ -1,8 +1,8 @@
 
 const subs = {
-   background: new AmauiSubscription('beige'),
-   media: new AmauiSubscription('yellow'),
-   var: new AmauiSubscription({
+   background: new OnesySubscription('beige'),
+   media: new OnesySubscription('yellow'),
+   var: new OnesySubscription({
       width: 100,
 
       'max-width': 100,
@@ -34,11 +34,11 @@ const subs = {
 
 // All the methods used
 // Add unit, valueObject, rtl , sort
-const amauiStyle = new AmauiStyle.AmauiStyle(document.body);
+const onesyStyle = new OnesyStyle.OnesyStyle(document.body);
 
-amauiStyle.plugins.add = [AmauiStyle.unit, AmauiStyle.prefix, AmauiStyle.valueObject, AmauiStyle.rtl, AmauiStyle.sort];
+onesyStyle.plugins.add = [OnesyStyle.unit, OnesyStyle.prefix, OnesyStyle.valueObject, OnesyStyle.rtl, OnesyStyle.sort];
 
-// amauiStyle.plugins.add = AmauiStyle.makeClassName;
+// onesyStyle.plugins.add = OnesyStyle.makeClassName;
 
 const a = {
    '@keyframes a': {
@@ -144,7 +144,7 @@ const a = {
 const responses = {};
 
 // Style
-const style = AmauiStyle.style(a, { amaui_style: { value: amauiStyle } });
+const style = OnesyStyle.style(a, { onesy_style: { value: onesyStyle } });
 
 responses.style = style.add();
 

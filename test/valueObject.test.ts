@@ -1,28 +1,28 @@
 /* tslint:disable: no-shadowed-variable */
-import { assert } from '@amaui/test';
+import { assert } from '@onesy/test';
 
 import { evaluate } from '../utils/js/test/utils';
 
-import * as AmauiStyle from '../src';
+import * as OnesyStyle from '../src';
 
 group('valueObject', () => {
 
-  group('amauiStyle', () => {
+  group('onesyStyle', () => {
 
     to('add', async () => {
       const valueBrowsers = await evaluate((window: any) => {
-        const amauiStyle = new window.AmauiStyle.AmauiStyle();
+        const onesyStyle = new window.OnesyStyle.OnesyStyle();
 
-        amauiStyle.plugins.add = window.AmauiStyle.valueObject;
+        onesyStyle.plugins.add = window.OnesyStyle.valueObject;
 
-        return amauiStyle.subscriptions.rule.value.length === 1;
+        return onesyStyle.subscriptions.rule.value.length === 1;
       });
 
-      const amauiStyle = new AmauiStyle.AmauiStyle();
+      const onesyStyle = new OnesyStyle.OnesyStyle();
 
-      amauiStyle.plugins.add = AmauiStyle.valueObject;
+      onesyStyle.plugins.add = OnesyStyle.valueObject;
 
-      const valueNode = amauiStyle.subscriptions.rule.value.length === 1;
+      const valueNode = onesyStyle.subscriptions.rule.value.length === 1;
 
       const values = [valueNode, ...valueBrowsers];
 
@@ -31,25 +31,25 @@ group('valueObject', () => {
 
     to('remove', async () => {
       const valueBrowsers = await evaluate((window: any) => {
-        const amauiStyle = new window.AmauiStyle.AmauiStyle();
+        const onesyStyle = new window.OnesyStyle.OnesyStyle();
 
-        amauiStyle.plugins.add = window.AmauiStyle.valueObject;
+        onesyStyle.plugins.add = window.OnesyStyle.valueObject;
 
         return (
-          amauiStyle.subscriptions.rule.value.length === 1 &&
-          (amauiStyle.plugins.remove = window.AmauiStyle.valueObject) &&
-          amauiStyle.subscriptions.rule.value.length === 0
+          onesyStyle.subscriptions.rule.value.length === 1 &&
+          (onesyStyle.plugins.remove = window.OnesyStyle.valueObject) &&
+          onesyStyle.subscriptions.rule.value.length === 0
         );
       });
 
-      const amauiStyle = new AmauiStyle.AmauiStyle();
+      const onesyStyle = new OnesyStyle.OnesyStyle();
 
-      amauiStyle.plugins.add = AmauiStyle.valueObject;
+      onesyStyle.plugins.add = OnesyStyle.valueObject;
 
       const valueNode = (
-        amauiStyle.subscriptions.rule.value.length === 1 &&
-        (amauiStyle.plugins.remove = AmauiStyle.valueObject) &&
-        (amauiStyle.subscriptions.rule.value.length as number) === 0
+        onesyStyle.subscriptions.rule.value.length === 1 &&
+        (onesyStyle.plugins.remove = OnesyStyle.valueObject) &&
+        (onesyStyle.subscriptions.rule.value.length as number) === 0
       );
 
       const values = [valueNode, ...valueBrowsers];
@@ -65,10 +65,10 @@ group('valueObject', () => {
 
       to('response', async () => {
         const valueBrowsers = await evaluate((window: any) => {
-          return window.AmauiStyle.valueObject(undefined).methods.method({ property: 'animation', value: { name: 'a' } });
+          return window.OnesyStyle.valueObject(undefined).methods.method({ property: 'animation', value: { name: 'a' } });
         });
 
-        const valueNode = AmauiStyle.valueObject(undefined).methods.method({ property: 'animation', value: { name: 'a' } });
+        const valueNode = OnesyStyle.valueObject(undefined).methods.method({ property: 'animation', value: { name: 'a' } });
 
         const values = [valueNode, ...valueBrowsers];
 
@@ -89,13 +89,13 @@ group('valueObject', () => {
 
       to('value', async () => {
         const valueBrowsers = await evaluate((window: any) => {
-          const method = window.AmauiStyle.valueObject(undefined).methods.method;
+          const method = window.OnesyStyle.valueObject(undefined).methods.method;
 
-          const amauiStyle = new window.AmauiStyle.AmauiStyle();
+          const onesyStyle = new window.OnesyStyle.OnesyStyle();
 
-          amauiStyle.plugins.add = window.AmauiStyle.unit;
+          onesyStyle.plugins.add = window.OnesyStyle.unit;
 
-          const methodWithStyle = window.AmauiStyle.valueObject(amauiStyle).methods.method;
+          const methodWithStyle = window.OnesyStyle.valueObject(onesyStyle).methods.method;
 
           return [
             // Animation
@@ -1134,13 +1134,13 @@ b b b`,
           ];
         });
 
-        const method = AmauiStyle.valueObject(undefined).methods.method;
+        const method = OnesyStyle.valueObject(undefined).methods.method;
 
-        const amauiStyle = new AmauiStyle.AmauiStyle();
+        const onesyStyle = new OnesyStyle.OnesyStyle();
 
-        amauiStyle.plugins.add = AmauiStyle.unit;
+        onesyStyle.plugins.add = OnesyStyle.unit;
 
-        const methodWithStyle = AmauiStyle.valueObject(amauiStyle).methods.method;
+        const methodWithStyle = OnesyStyle.valueObject(onesyStyle).methods.method;
 
         const valueNode = [
           // Animation

@@ -1,13 +1,13 @@
 /* tslint:disable: no-shadowed-variable */
-import { assert } from '@amaui/test';
-import * as AmauiUtils from '@amaui/utils';
+import { assert } from '@onesy/test';
+import * as OnesyUtils from '@onesy/utils';
 
 import { evaluate } from '../utils/js/test/utils';
 
-import * as AmauiStyle from '../src';
+import * as OnesyStyle from '../src';
 import { TValue } from '../src';
 
-group('AmauiStyle', () => {
+group('OnesyStyle', () => {
 
   preEveryGroupTo(async () => {
     await evaluate((window: any) => {
@@ -24,18 +24,18 @@ group('AmauiStyle', () => {
         </main>
     `;
 
-      new window.AmauiStyle.AmauiStyle(window.document.getElementById('a14'));
-      new window.AmauiStyle.AmauiStyle(window.document.getElementById('a1'));
-      new window.AmauiStyle.AmauiStyle(window.document.getElementById('a'));
-      new window.AmauiStyle.AmauiStyle(window.document.body);
+      new window.OnesyStyle.OnesyStyle(window.document.getElementById('a14'));
+      new window.OnesyStyle.OnesyStyle(window.document.getElementById('a1'));
+      new window.OnesyStyle.OnesyStyle(window.document.getElementById('a'));
+      new window.OnesyStyle.OnesyStyle(window.document.body);
     });
   });
 
-  group('AmauiStyle', () => {
+  group('OnesyStyle', () => {
 
     to('all', async () => {
       const valueBrowsers = await evaluate((window: any) => {
-        return window.AmauiStyle.AmauiStyle.all(window.document.getElementById('a14')).map(item => item.element.id || item.element.tagName.toLowerCase());
+        return window.OnesyStyle.OnesyStyle.all(window.document.getElementById('a14')).map(item => item.element.id || item.element.tagName.toLowerCase());
       });
 
       const values = [...valueBrowsers];
@@ -50,7 +50,7 @@ group('AmauiStyle', () => {
 
     to('nearest', async () => {
       const valueBrowsers = await evaluate((window: any) => {
-        const item = window.AmauiStyle.AmauiStyle.nearest(window.document.getElementById('a14'));
+        const item = window.OnesyStyle.OnesyStyle.nearest(window.document.getElementById('a14'));
 
         return item.element.id || item.element.tagName.toLowerCase();
       });
@@ -62,7 +62,7 @@ group('AmauiStyle', () => {
 
     to('furthest', async () => {
       const valueBrowsers = await evaluate((window: any) => {
-        const item = window.AmauiStyle.AmauiStyle.furthest(window.document.getElementById('a14'));
+        const item = window.OnesyStyle.OnesyStyle.furthest(window.document.getElementById('a14'));
 
         return item.element.id || item.element.tagName.toLowerCase();
       });
@@ -74,7 +74,7 @@ group('AmauiStyle', () => {
 
     to('first', async () => {
       const valueBrowsers = await evaluate((window: any) => {
-        const item = window.AmauiStyle.AmauiStyle.first(window.document.getElementById('a14'));
+        const item = window.OnesyStyle.OnesyStyle.first(window.document.getElementById('a14'));
 
         return item.element.id || item.element.tagName.toLowerCase();
       });
@@ -86,7 +86,7 @@ group('AmauiStyle', () => {
 
     to('last', async () => {
       const valueBrowsers = await evaluate((window: any) => {
-        const item = window.AmauiStyle.AmauiStyle.last(window.document.getElementById('a14'));
+        const item = window.OnesyStyle.OnesyStyle.last(window.document.getElementById('a14'));
 
         return item.element.id || item.element.tagName.toLowerCase();
       });
@@ -100,7 +100,7 @@ group('AmauiStyle', () => {
 
       to('0', async () => {
         const valueBrowsers = await evaluate((window: any) => {
-          const item = window.AmauiStyle.AmauiStyle.get(window.document.getElementById('a14'), 0);
+          const item = window.OnesyStyle.OnesyStyle.get(window.document.getElementById('a14'), 0);
 
           return item.element.id || item.element.tagName.toLowerCase();
         });
@@ -112,7 +112,7 @@ group('AmauiStyle', () => {
 
       to('1', async () => {
         const valueBrowsers = await evaluate((window: any) => {
-          const item = window.AmauiStyle.AmauiStyle.get(window.document.getElementById('a14'), 1);
+          const item = window.OnesyStyle.OnesyStyle.get(window.document.getElementById('a14'), 1);
 
           return item.element.id || item.element.tagName.toLowerCase();
         });
@@ -124,7 +124,7 @@ group('AmauiStyle', () => {
 
       to('-1', async () => {
         const valueBrowsers = await evaluate((window: any) => {
-          const item = window.AmauiStyle.AmauiStyle.get(window.document.getElementById('a14'), -1);
+          const item = window.OnesyStyle.OnesyStyle.get(window.document.getElementById('a14'), -1);
 
           return item.element.id || item.element.tagName.toLowerCase();
         });
@@ -138,19 +138,19 @@ group('AmauiStyle', () => {
 
   });
 
-  to('amauiStyle', async () => {
+  to('onesyStyle', async () => {
     // Browser
     const valueBrowsers = await evaluate((window: any) => {
       window.document.body.dir = 'rtl';
 
-      const amauiStyle = new window.AmauiStyle.AmauiStyle(window.document.body, 'regular', undefined, { rule: { prefix: false } });
+      const onesyStyle = new window.OnesyStyle.OnesyStyle(window.document.body, 'regular', undefined, { rule: { prefix: false } });
 
       return [
-        typeof amauiStyle.id === 'string',
-        amauiStyle.element.tagName.toLowerCase(),
-        amauiStyle.mode,
-        amauiStyle.options,
-        amauiStyle.renderer instanceof window.AmauiStyle.AmauiStyleRenderer,
+        typeof onesyStyle.id === 'string',
+        onesyStyle.element.tagName.toLowerCase(),
+        onesyStyle.mode,
+        onesyStyle.options,
+        onesyStyle.renderer instanceof window.OnesyStyle.OnesyStyleRenderer,
       ];
     });
 
@@ -172,13 +172,13 @@ group('AmauiStyle', () => {
     ]));
 
     // Node
-    const amauiStyle = new AmauiStyle.AmauiStyle({ rule: { prefix: false }, mode: 'regular' });
+    const onesyStyle = new OnesyStyle.OnesyStyle({ rule: { prefix: false }, mode: 'regular' });
 
     const valueNode = [
-      typeof amauiStyle.id === 'string',
-      amauiStyle.mode,
-      amauiStyle.options,
-      amauiStyle.renderer instanceof AmauiStyle.AmauiStyleRenderer,
+      typeof onesyStyle.id === 'string',
+      onesyStyle.mode,
+      onesyStyle.options,
+      onesyStyle.renderer instanceof OnesyStyle.OnesyStyleRenderer,
     ];
 
     assert(valueNode).eql([
@@ -200,7 +200,7 @@ group('AmauiStyle', () => {
     const valueBrowsers = await evaluate((window: any) => {
       window.document.documentElement.dir = 'ltr';
 
-      const amauiStyle = new window.AmauiStyle.AmauiStyle(window.document.documentElement, 'regular');
+      const onesyStyle = new window.OnesyStyle.OnesyStyle(window.document.documentElement, 'regular');
 
       const div = window.document.createElement('div');
 
@@ -208,13 +208,13 @@ group('AmauiStyle', () => {
 
       window.document.body.append(div);
 
-      const amauiStyle1 = new window.AmauiStyle.AmauiStyle(div, 'regular');
+      const onesyStyle1 = new window.OnesyStyle.OnesyStyle(div, 'regular');
 
       return [
-        amauiStyle.direction,
-        amauiStyle.options.rule.rtl,
-        amauiStyle1.direction,
-        amauiStyle1.options.rule.rtl,
+        onesyStyle.direction,
+        onesyStyle.options.rule.rtl,
+        onesyStyle1.direction,
+        onesyStyle1.options.rule.rtl,
       ];
     });
 
@@ -230,7 +230,7 @@ group('AmauiStyle', () => {
 
   to('sheet_managers', async () => {
     const valueBrowsers = await evaluate((window: any) => {
-      const amauiStyle = new window.AmauiStyle.AmauiStyle();
+      const onesyStyle = new window.OnesyStyle.OnesyStyle();
 
       const a = {
         a: {
@@ -268,12 +268,12 @@ group('AmauiStyle', () => {
         },
       };
 
-      window.AmauiStyle.style(a, { amaui_style: { value: amauiStyle } });
+      window.OnesyStyle.style(a, { onesy_style: { value: onesyStyle } });
 
-      return amauiStyle.sheet_managers.length;
+      return onesyStyle.sheet_managers.length;
     });
 
-    const amauiStyle = new AmauiStyle.AmauiStyle();
+    const onesyStyle = new OnesyStyle.OnesyStyle();
 
     const a: TValue = {
       a: {
@@ -311,9 +311,9 @@ group('AmauiStyle', () => {
       },
     };
 
-    AmauiStyle.style(a, { amaui_style: { value: amauiStyle } });
+    OnesyStyle.style(a, { onesy_style: { value: onesyStyle } });
 
-    const valueNode = amauiStyle.sheet_managers.length;
+    const valueNode = onesyStyle.sheet_managers.length;
 
     const values = [valueNode, ...valueBrowsers];
 
@@ -322,7 +322,7 @@ group('AmauiStyle', () => {
 
   to('sheets', async () => {
     const valueBrowsers = await evaluate((window: any) => {
-      const amauiStyle = new window.AmauiStyle.AmauiStyle();
+      const onesyStyle = new window.OnesyStyle.OnesyStyle();
 
       const a = {
         a: {
@@ -360,12 +360,12 @@ group('AmauiStyle', () => {
         },
       };
 
-      window.AmauiStyle.style(a, { amaui_style: { value: amauiStyle } });
+      window.OnesyStyle.style(a, { onesy_style: { value: onesyStyle } });
 
-      return amauiStyle.sheets.length;
+      return onesyStyle.sheets.length;
     });
 
-    const amauiStyle = new AmauiStyle.AmauiStyle();
+    const onesyStyle = new OnesyStyle.OnesyStyle();
 
     const a: TValue = {
       a: {
@@ -403,9 +403,9 @@ group('AmauiStyle', () => {
       },
     };
 
-    AmauiStyle.style(a, { amaui_style: { value: amauiStyle } });
+    OnesyStyle.style(a, { onesy_style: { value: onesyStyle } });
 
-    const valueNode = amauiStyle.sheets.length;
+    const valueNode = onesyStyle.sheets.length;
 
     const values = [valueNode, ...valueBrowsers];
 
@@ -414,7 +414,7 @@ group('AmauiStyle', () => {
 
   to('values', async () => {
     const valueBrowsers = await evaluate((window: any) => {
-      const amauiStyle = new window.AmauiStyle.AmauiStyle();
+      const onesyStyle = new window.OnesyStyle.OnesyStyle();
 
       const a = {
         a: {
@@ -452,12 +452,12 @@ group('AmauiStyle', () => {
         },
       };
 
-      window.AmauiStyle.style(a, { amaui_style: { value: amauiStyle } });
+      window.OnesyStyle.style(a, { onesy_style: { value: onesyStyle } });
 
-      return [AmauiUtils.equalDeep(amauiStyle.values, amauiStyle.response), amauiStyle.values];
+      return [OnesyUtils.equalDeep(onesyStyle.values, onesyStyle.response), onesyStyle.values];
     });
 
-    const amauiStyle = new AmauiStyle.AmauiStyle();
+    const onesyStyle = new OnesyStyle.OnesyStyle();
 
     const a: TValue = {
       a: {
@@ -495,9 +495,9 @@ group('AmauiStyle', () => {
       },
     };
 
-    AmauiStyle.style(a, { amaui_style: { value: amauiStyle } });
+    OnesyStyle.style(a, { onesy_style: { value: onesyStyle } });
 
-    const valueNode = [AmauiUtils.equalDeep(amauiStyle.values, amauiStyle.response), amauiStyle.values];
+    const valueNode = [OnesyUtils.equalDeep(onesyStyle.values, onesyStyle.response), onesyStyle.values];
 
     const values = [valueNode, ...valueBrowsers];
 
@@ -513,7 +513,7 @@ group('AmauiStyle', () => {
 
     to('response', async () => {
       const valueBrowsers = await evaluate((window: any) => {
-        const amauiStyle = new window.AmauiStyle.AmauiStyle();
+        const onesyStyle = new window.OnesyStyle.OnesyStyle();
 
         const a = {
           a: {
@@ -551,12 +551,12 @@ group('AmauiStyle', () => {
           },
         };
 
-        window.AmauiStyle.style(a, { amaui_style: { value: amauiStyle } });
+        window.OnesyStyle.style(a, { onesy_style: { value: onesyStyle } });
 
-        return [window.AmauiUtils.equalDeep(amauiStyle.values, amauiStyle.response), amauiStyle.response];
+        return [window.OnesyUtils.equalDeep(onesyStyle.values, onesyStyle.response), onesyStyle.response];
       });
 
-      const amauiStyle = new AmauiStyle.AmauiStyle();
+      const onesyStyle = new OnesyStyle.OnesyStyle();
 
       const a: TValue = {
         a: {
@@ -594,9 +594,9 @@ group('AmauiStyle', () => {
         },
       };
 
-      AmauiStyle.style(a, { amaui_style: { value: amauiStyle } });
+      OnesyStyle.style(a, { onesy_style: { value: onesyStyle } });
 
-      const valueNode = [AmauiUtils.equalDeep(amauiStyle.values, amauiStyle.response), amauiStyle.response];
+      const valueNode = [OnesyUtils.equalDeep(onesyStyle.values, onesyStyle.response), onesyStyle.response];
 
       const values = [valueNode, ...valueBrowsers];
 
@@ -610,7 +610,7 @@ group('AmauiStyle', () => {
 
     to('css', async () => {
       const valueBrowsers = await evaluate((window: any) => {
-        const amauiStyle = new window.AmauiStyle.AmauiStyle();
+        const onesyStyle = new window.OnesyStyle.OnesyStyle();
 
         const a = {
           a: {
@@ -648,12 +648,12 @@ group('AmauiStyle', () => {
           },
         };
 
-        window.AmauiStyle.style(a, { amaui_style: { value: amauiStyle } });
+        window.OnesyStyle.style(a, { onesy_style: { value: onesyStyle } });
 
-        return [AmauiUtils.equalDeep(amauiStyle.css, amauiStyle.values.css), amauiStyle.css];
+        return [OnesyUtils.equalDeep(onesyStyle.css, onesyStyle.values.css), onesyStyle.css];
       });
 
-      const amauiStyle = new AmauiStyle.AmauiStyle();
+      const onesyStyle = new OnesyStyle.OnesyStyle();
 
       const a: TValue = {
         a: {
@@ -691,9 +691,9 @@ group('AmauiStyle', () => {
         },
       };
 
-      AmauiStyle.style(a, { amaui_style: { value: amauiStyle } });
+      OnesyStyle.style(a, { onesy_style: { value: onesyStyle } });
 
-      const valueNode = [AmauiUtils.equalDeep(amauiStyle.css, amauiStyle.values.css), amauiStyle.css];
+      const valueNode = [OnesyUtils.equalDeep(onesyStyle.css, onesyStyle.values.css), onesyStyle.css];
 
       const values = [valueNode, ...valueBrowsers];
 
@@ -709,47 +709,47 @@ group('AmauiStyle', () => {
 
     to('add', async () => {
       const valueBrowsers = await evaluate((window: any) => {
-        const amauiStyle = new window.AmauiStyle.AmauiStyle();
+        const onesyStyle = new window.OnesyStyle.OnesyStyle();
 
         // Individual
-        amauiStyle.plugins.add = window.AmauiStyle.unit;
+        onesyStyle.plugins.add = window.OnesyStyle.unit;
 
         // Many at the same time
-        amauiStyle.plugins.add = [
-          window.AmauiStyle.sort,
-          window.AmauiStyle.prefix,
-          window.AmauiStyle.makeClassName,
-          window.AmauiStyle.rtl,
+        onesyStyle.plugins.add = [
+          window.OnesyStyle.sort,
+          window.OnesyStyle.prefix,
+          window.OnesyStyle.makeClassName,
+          window.OnesyStyle.rtl,
         ];
 
         return [
-          amauiStyle.subscriptions.rule.unit.length,
-          amauiStyle.subscriptions.rules.sort.length,
-          amauiStyle.subscriptions.rule.prefix.length,
-          amauiStyle.subscriptions.className.name.length,
-          amauiStyle.subscriptions.rule.rtl.length,
+          onesyStyle.subscriptions.rule.unit.length,
+          onesyStyle.subscriptions.rules.sort.length,
+          onesyStyle.subscriptions.rule.prefix.length,
+          onesyStyle.subscriptions.className.name.length,
+          onesyStyle.subscriptions.rule.rtl.length,
         ];
       });
 
-      const amauiStyle = new AmauiStyle.AmauiStyle();
+      const onesyStyle = new OnesyStyle.OnesyStyle();
 
       // Individual
-      amauiStyle.plugins.add = AmauiStyle.unit;
+      onesyStyle.plugins.add = OnesyStyle.unit;
 
       // Many at the same time
-      amauiStyle.plugins.add = [
-        AmauiStyle.sort,
-        AmauiStyle.prefix,
-        AmauiStyle.makeClassName,
-        AmauiStyle.rtl,
+      onesyStyle.plugins.add = [
+        OnesyStyle.sort,
+        OnesyStyle.prefix,
+        OnesyStyle.makeClassName,
+        OnesyStyle.rtl,
       ];
 
       const valueNode = [
-        amauiStyle.subscriptions.rule.unit.length,
-        amauiStyle.subscriptions.rules.sort.length,
-        amauiStyle.subscriptions.rule.prefix.length,
-        amauiStyle.subscriptions.className.name.length,
-        amauiStyle.subscriptions.rule.rtl.length,
+        onesyStyle.subscriptions.rule.unit.length,
+        onesyStyle.subscriptions.rules.sort.length,
+        onesyStyle.subscriptions.rule.prefix.length,
+        onesyStyle.subscriptions.className.name.length,
+        onesyStyle.subscriptions.rule.rtl.length,
       ];
 
       const values = [valueNode, ...valueBrowsers];
@@ -759,87 +759,87 @@ group('AmauiStyle', () => {
 
     to('remove', async () => {
       const valueBrowsers = await evaluate((window: any) => {
-        const amauiStyle = new window.AmauiStyle.AmauiStyle();
+        const onesyStyle = new window.OnesyStyle.OnesyStyle();
 
         // Individual
-        amauiStyle.plugins.add = window.AmauiStyle.unit;
+        onesyStyle.plugins.add = window.OnesyStyle.unit;
 
         // Many at the same time
-        amauiStyle.plugins.add = [
-          window.AmauiStyle.sort,
-          window.AmauiStyle.prefix,
-          window.AmauiStyle.makeClassName,
-          window.AmauiStyle.rtl,
+        onesyStyle.plugins.add = [
+          window.OnesyStyle.sort,
+          window.OnesyStyle.prefix,
+          window.OnesyStyle.makeClassName,
+          window.OnesyStyle.rtl,
         ];
 
         const response = [
-          amauiStyle.subscriptions.rule.unit.length,
-          amauiStyle.subscriptions.rules.sort.length,
-          amauiStyle.subscriptions.rule.prefix.length,
-          amauiStyle.subscriptions.className.name.length,
-          amauiStyle.subscriptions.rule.rtl.length,
+          onesyStyle.subscriptions.rule.unit.length,
+          onesyStyle.subscriptions.rules.sort.length,
+          onesyStyle.subscriptions.rule.prefix.length,
+          onesyStyle.subscriptions.className.name.length,
+          onesyStyle.subscriptions.rule.rtl.length,
         ];
 
         // Individual
-        amauiStyle.plugins.remove = window.AmauiStyle.unit;
+        onesyStyle.plugins.remove = window.OnesyStyle.unit;
 
         // Many at the same time
-        amauiStyle.plugins.remove = [
-          window.AmauiStyle.sort,
-          window.AmauiStyle.prefix,
-          window.AmauiStyle.makeClassName,
-          window.AmauiStyle.rtl,
+        onesyStyle.plugins.remove = [
+          window.OnesyStyle.sort,
+          window.OnesyStyle.prefix,
+          window.OnesyStyle.makeClassName,
+          window.OnesyStyle.rtl,
         ];
 
         response.push(
-          amauiStyle.subscriptions.rule.unit.length,
-          amauiStyle.subscriptions.rules.sort.length,
-          amauiStyle.subscriptions.rule.prefix.length,
-          amauiStyle.subscriptions.className.name.length,
-          amauiStyle.subscriptions.rule.rtl.length,
+          onesyStyle.subscriptions.rule.unit.length,
+          onesyStyle.subscriptions.rules.sort.length,
+          onesyStyle.subscriptions.rule.prefix.length,
+          onesyStyle.subscriptions.className.name.length,
+          onesyStyle.subscriptions.rule.rtl.length,
         );
 
         return response;
       });
 
-      const amauiStyle = new AmauiStyle.AmauiStyle();
+      const onesyStyle = new OnesyStyle.OnesyStyle();
 
       // Individual
-      amauiStyle.plugins.add = AmauiStyle.unit;
+      onesyStyle.plugins.add = OnesyStyle.unit;
 
       // Many at the same time
-      amauiStyle.plugins.add = [
-        AmauiStyle.sort,
-        AmauiStyle.prefix,
-        AmauiStyle.makeClassName,
-        AmauiStyle.rtl,
+      onesyStyle.plugins.add = [
+        OnesyStyle.sort,
+        OnesyStyle.prefix,
+        OnesyStyle.makeClassName,
+        OnesyStyle.rtl,
       ];
 
       const response = [
-        amauiStyle.subscriptions.rule.unit.length,
-        amauiStyle.subscriptions.rules.sort.length,
-        amauiStyle.subscriptions.rule.prefix.length,
-        amauiStyle.subscriptions.className.name.length,
-        amauiStyle.subscriptions.rule.rtl.length,
+        onesyStyle.subscriptions.rule.unit.length,
+        onesyStyle.subscriptions.rules.sort.length,
+        onesyStyle.subscriptions.rule.prefix.length,
+        onesyStyle.subscriptions.className.name.length,
+        onesyStyle.subscriptions.rule.rtl.length,
       ];
 
       // Individual
-      amauiStyle.plugins.remove = AmauiStyle.unit;
+      onesyStyle.plugins.remove = OnesyStyle.unit;
 
       // Many at the same time
-      amauiStyle.plugins.remove = [
-        AmauiStyle.sort,
-        AmauiStyle.prefix,
-        AmauiStyle.makeClassName,
-        AmauiStyle.rtl,
+      onesyStyle.plugins.remove = [
+        OnesyStyle.sort,
+        OnesyStyle.prefix,
+        OnesyStyle.makeClassName,
+        OnesyStyle.rtl,
       ];
 
       response.push(
-        amauiStyle.subscriptions.rule.unit.length,
-        amauiStyle.subscriptions.rules.sort.length,
-        amauiStyle.subscriptions.rule.prefix.length,
-        amauiStyle.subscriptions.className.name.length,
-        amauiStyle.subscriptions.rule.rtl.length,
+        onesyStyle.subscriptions.rule.unit.length,
+        onesyStyle.subscriptions.rules.sort.length,
+        onesyStyle.subscriptions.rule.prefix.length,
+        onesyStyle.subscriptions.className.name.length,
+        onesyStyle.subscriptions.rule.rtl.length,
       );
 
       const valueNode = response;

@@ -1,4 +1,4 @@
-import AmauiStyle from './AmauiStyle';
+import OnesyStyle from './OnesyStyle';
 import { is } from './utils';
 
 export interface IRtl {
@@ -6,7 +6,7 @@ export interface IRtl {
   arguments?: any;
 }
 
-function rtl(amauiStyle: AmauiStyle) {
+function rtl(onesyStyle: OnesyStyle) {
   const method = (value_: { value: string; property: string; }): IRtl => {
     const value: IRtl = {
       value: {
@@ -34,14 +34,14 @@ function rtl(amauiStyle: AmauiStyle) {
   };
 
   // Add method to subscriptions
-  if (amauiStyle) {
-    amauiStyle.subscriptions.rule.rtl.subscribe(method);
+  if (onesyStyle) {
+    onesyStyle.subscriptions.rule.rtl.subscribe(method);
   }
 
   const remove = () => {
     // Remove method from subscriptions
-    if (amauiStyle) {
-      amauiStyle.subscriptions.rule.rtl.unsubscribe(method);
+    if (onesyStyle) {
+      onesyStyle.subscriptions.rule.rtl.unsubscribe(method);
     }
   };
 

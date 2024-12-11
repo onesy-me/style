@@ -1,24 +1,24 @@
 /* tslint:disable: no-shadowed-variable */
-import { assert } from '@amaui/test';
+import { assert } from '@onesy/test';
 
 import { evaluate } from '../utils/js/test/utils';
 
-import * as AmauiStyle from '../src';
+import * as OnesyStyle from '../src';
 import { TValue } from '../src';
 
-group('@amaui/style/reset', () => {
+group('@onesy/style/reset', () => {
 
   to('reset', async () => {
     const valueBrowsers = await evaluate((window: any) => {
-      const amauiStyle = new window.AmauiStyle.AmauiStyle(window.document.body);
+      const onesyStyle = new window.OnesyStyle.OnesyStyle(window.document.body);
 
       // Plugins
-      amauiStyle.plugins.add = [
-        window.AmauiStyle.unit,
-        window.AmauiStyle.sort,
-        window.AmauiStyle.prefix,
-        window.AmauiStyle.makeClassName,
-        window.AmauiStyle.rtl,
+      onesyStyle.plugins.add = [
+        window.OnesyStyle.unit,
+        window.OnesyStyle.sort,
+        window.OnesyStyle.prefix,
+        window.OnesyStyle.makeClassName,
+        window.OnesyStyle.rtl,
       ];
 
       const a = {
@@ -62,7 +62,7 @@ group('@amaui/style/reset', () => {
         },
       };
 
-      const reset = window.AmauiStyle.reset(a, { amaui_style: { value: amauiStyle } });
+      const reset = window.OnesyStyle.reset(a, { onesy_style: { value: onesyStyle } });
 
       // Add
       reset.add();
@@ -76,9 +76,9 @@ group('@amaui/style/reset', () => {
       return [
         window.document.styleSheets.length,
         Object.keys(reset),
-        reset.amaui_style_sheet_manager.status === 'active',
+        reset.onesy_style_sheet_manager.status === 'active',
         valueCSS,
-        amauiStyle.css,
+        onesyStyle.css,
       ];
     });
 
@@ -89,7 +89,7 @@ group('@amaui/style/reset', () => {
         2,
         [
           "ids",
-          "amaui_style_sheet_manager",
+          "onesy_style_sheet_manager",
           "sheets",
           "add",
           "props",
@@ -105,7 +105,7 @@ group('@amaui/style/reset', () => {
         2,
         [
           "ids",
-          "amaui_style_sheet_manager",
+          "onesy_style_sheet_manager",
           "sheets",
           "add",
           "props",
@@ -121,7 +121,7 @@ group('@amaui/style/reset', () => {
         2,
         [
           "ids",
-          "amaui_style_sheet_manager",
+          "onesy_style_sheet_manager",
           "sheets",
           "add",
           "props",
@@ -135,15 +135,15 @@ group('@amaui/style/reset', () => {
       ]
     ]);
 
-    const amauiStyle = new AmauiStyle.AmauiStyle();
+    const onesyStyle = new OnesyStyle.OnesyStyle();
 
     // Plugins
-    amauiStyle.plugins.add = [
-      AmauiStyle.unit,
-      AmauiStyle.sort,
-      AmauiStyle.prefix,
-      AmauiStyle.makeClassName,
-      AmauiStyle.rtl,
+    onesyStyle.plugins.add = [
+      OnesyStyle.unit,
+      OnesyStyle.sort,
+      OnesyStyle.prefix,
+      OnesyStyle.makeClassName,
+      OnesyStyle.rtl,
     ];
 
     const a: TValue = {
@@ -187,21 +187,21 @@ group('@amaui/style/reset', () => {
       },
     };
 
-    const reset = AmauiStyle.reset(a, { amaui_style: { value: amauiStyle } });
+    const reset = OnesyStyle.reset(a, { onesy_style: { value: onesyStyle } });
 
     // Add
     reset.add();
 
     const value = [
       Object.keys(reset),
-      reset.amaui_style_sheet_manager.status === 'inited',
-      amauiStyle.css,
+      reset.onesy_style_sheet_manager.status === 'inited',
+      onesyStyle.css,
     ];
 
     assert(value).eql([
       [
         "ids",
-        "amaui_style_sheet_manager",
+        "onesy_style_sheet_manager",
         "sheets",
         "add",
         "props",
@@ -220,15 +220,15 @@ group('@amaui/style/reset', () => {
 
       to('true', async () => {
         const valueBrowsers = await evaluate((window: any) => {
-          const amauiStyle = new window.AmauiStyle.AmauiStyle(window.document.body);
+          const onesyStyle = new window.OnesyStyle.OnesyStyle(window.document.body);
 
           // Plugins
-          amauiStyle.plugins.add = [
-            window.AmauiStyle.unit,
-            window.AmauiStyle.sort,
-            window.AmauiStyle.prefix,
-            window.AmauiStyle.makeClassName,
-            window.AmauiStyle.rtl,
+          onesyStyle.plugins.add = [
+            window.OnesyStyle.unit,
+            window.OnesyStyle.sort,
+            window.OnesyStyle.prefix,
+            window.OnesyStyle.makeClassName,
+            window.OnesyStyle.rtl,
           ];
 
           const a = {
@@ -272,7 +272,7 @@ group('@amaui/style/reset', () => {
             },
           };
 
-          const reset = window.AmauiStyle.reset(a, { override: true, amaui_style: { value: amauiStyle } });
+          const reset = window.OnesyStyle.reset(a, { override: true, onesy_style: { value: onesyStyle } });
 
           // Add
           reset.add();
@@ -286,9 +286,9 @@ group('@amaui/style/reset', () => {
           return [
             window.document.styleSheets.length,
             Object.keys(reset),
-            reset.amaui_style_sheet_manager.status === 'active',
+            reset.onesy_style_sheet_manager.status === 'active',
             valueCSS,
-            amauiStyle.css,
+            onesyStyle.css,
           ];
         });
 
@@ -299,7 +299,7 @@ group('@amaui/style/reset', () => {
             2,
             [
               "ids",
-              "amaui_style_sheet_manager",
+              "onesy_style_sheet_manager",
               "sheets",
               "add",
               "props",
@@ -315,7 +315,7 @@ group('@amaui/style/reset', () => {
             2,
             [
               "ids",
-              "amaui_style_sheet_manager",
+              "onesy_style_sheet_manager",
               "sheets",
               "add",
               "props",
@@ -331,7 +331,7 @@ group('@amaui/style/reset', () => {
             2,
             [
               "ids",
-              "amaui_style_sheet_manager",
+              "onesy_style_sheet_manager",
               "sheets",
               "add",
               "props",
@@ -345,15 +345,15 @@ group('@amaui/style/reset', () => {
           ]
         ]);
 
-        const amauiStyle = new AmauiStyle.AmauiStyle();
+        const onesyStyle = new OnesyStyle.OnesyStyle();
 
         // Plugins
-        amauiStyle.plugins.add = [
-          AmauiStyle.unit,
-          AmauiStyle.sort,
-          AmauiStyle.prefix,
-          AmauiStyle.makeClassName,
-          AmauiStyle.rtl,
+        onesyStyle.plugins.add = [
+          OnesyStyle.unit,
+          OnesyStyle.sort,
+          OnesyStyle.prefix,
+          OnesyStyle.makeClassName,
+          OnesyStyle.rtl,
         ];
 
         const a: TValue = {
@@ -397,21 +397,21 @@ group('@amaui/style/reset', () => {
           },
         };
 
-        const reset = AmauiStyle.reset(a, { override: true, amaui_style: { value: amauiStyle } });
+        const reset = OnesyStyle.reset(a, { override: true, onesy_style: { value: onesyStyle } });
 
         // Add
         reset.add();
 
         const value = [
           Object.keys(reset),
-          reset.amaui_style_sheet_manager.status === 'inited',
-          amauiStyle.css,
+          reset.onesy_style_sheet_manager.status === 'inited',
+          onesyStyle.css,
         ];
 
         assert(value).eql([
           [
             "ids",
-            "amaui_style_sheet_manager",
+            "onesy_style_sheet_manager",
             "sheets",
             "add",
             "props",
@@ -426,15 +426,15 @@ group('@amaui/style/reset', () => {
 
       to('false', async () => {
         const valueBrowsers = await evaluate((window: any) => {
-          const amauiStyle = new window.AmauiStyle.AmauiStyle(window.document.body);
+          const onesyStyle = new window.OnesyStyle.OnesyStyle(window.document.body);
 
           // Plugins
-          amauiStyle.plugins.add = [
-            window.AmauiStyle.unit,
-            window.AmauiStyle.sort,
-            window.AmauiStyle.prefix,
-            window.AmauiStyle.makeClassName,
-            window.AmauiStyle.rtl,
+          onesyStyle.plugins.add = [
+            window.OnesyStyle.unit,
+            window.OnesyStyle.sort,
+            window.OnesyStyle.prefix,
+            window.OnesyStyle.makeClassName,
+            window.OnesyStyle.rtl,
           ];
 
           const a = {
@@ -478,7 +478,7 @@ group('@amaui/style/reset', () => {
             },
           };
 
-          const reset = window.AmauiStyle.reset(a, { amaui_style: { value: amauiStyle } });
+          const reset = window.OnesyStyle.reset(a, { onesy_style: { value: onesyStyle } });
 
           // Add
           reset.add();
@@ -492,9 +492,9 @@ group('@amaui/style/reset', () => {
           return [
             window.document.styleSheets.length,
             Object.keys(reset),
-            reset.amaui_style_sheet_manager.status === 'active',
+            reset.onesy_style_sheet_manager.status === 'active',
             valueCSS,
-            amauiStyle.css,
+            onesyStyle.css,
           ];
         });
 
@@ -505,7 +505,7 @@ group('@amaui/style/reset', () => {
             2,
             [
               "ids",
-              "amaui_style_sheet_manager",
+              "onesy_style_sheet_manager",
               "sheets",
               "add",
               "props",
@@ -521,7 +521,7 @@ group('@amaui/style/reset', () => {
             2,
             [
               "ids",
-              "amaui_style_sheet_manager",
+              "onesy_style_sheet_manager",
               "sheets",
               "add",
               "props",
@@ -537,7 +537,7 @@ group('@amaui/style/reset', () => {
             2,
             [
               "ids",
-              "amaui_style_sheet_manager",
+              "onesy_style_sheet_manager",
               "sheets",
               "add",
               "props",
@@ -551,15 +551,15 @@ group('@amaui/style/reset', () => {
           ]
         ]);
 
-        const amauiStyle = new AmauiStyle.AmauiStyle();
+        const onesyStyle = new OnesyStyle.OnesyStyle();
 
         // Plugins
-        amauiStyle.plugins.add = [
-          AmauiStyle.unit,
-          AmauiStyle.sort,
-          AmauiStyle.prefix,
-          AmauiStyle.makeClassName,
-          AmauiStyle.rtl,
+        onesyStyle.plugins.add = [
+          OnesyStyle.unit,
+          OnesyStyle.sort,
+          OnesyStyle.prefix,
+          OnesyStyle.makeClassName,
+          OnesyStyle.rtl,
         ];
 
         const a: TValue = {
@@ -603,21 +603,21 @@ group('@amaui/style/reset', () => {
           },
         };
 
-        const reset = AmauiStyle.reset(a, { amaui_style: { value: amauiStyle } });
+        const reset = OnesyStyle.reset(a, { onesy_style: { value: onesyStyle } });
 
         // Add
         reset.add();
 
         const value = [
           Object.keys(reset),
-          reset.amaui_style_sheet_manager.status === 'inited',
-          amauiStyle.css,
+          reset.onesy_style_sheet_manager.status === 'inited',
+          onesyStyle.css,
         ];
 
         assert(value).eql([
           [
             "ids",
-            "amaui_style_sheet_manager",
+            "onesy_style_sheet_manager",
             "sheets",
             "add",
             "props",

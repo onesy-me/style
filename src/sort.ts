@@ -1,6 +1,6 @@
-import AmauiStyle from './AmauiStyle';
-import AmauiStyleRuleProperty from './AmauiStyleRuleProperty';
-import { IRuleItem } from './AmauiStyleSheet';
+import OnesyStyle from './OnesyStyle';
+import OnesyStyleRuleProperty from './OnesyStyleRuleProperty';
+import { IRuleItem } from './OnesyStyleSheet';
 import { is } from './utils';
 
 export interface ISort {
@@ -18,7 +18,7 @@ const optionsDefault: IOptions = {
   priority: 'individual',
 };
 
-function sort(amauiStyle: AmauiStyle, options_: IOptions = {}) {
+function sort(onesyStyle: OnesyStyle, options_: IOptions = {}) {
   const options = { ...optionsDefault, ...options_ };
 
   const method = (values: Array<IRuleItem>): ISort => {
@@ -33,7 +33,7 @@ function sort(amauiStyle: AmauiStyle, options_: IOptions = {}) {
 
       // Sort by grouping all rules
       values.sort((a, b) => {
-        if (a.value instanceof AmauiStyleRuleProperty && !(b.value instanceof AmauiStyleRuleProperty)) return -1;
+        if (a.value instanceof OnesyStyleRuleProperty && !(b.value instanceof OnesyStyleRuleProperty)) return -1;
 
         if (
           (a.constructor === b.constructor) ||
@@ -46,7 +46,7 @@ function sort(amauiStyle: AmauiStyle, options_: IOptions = {}) {
       // Order by priority
       if (priority !== 'original') values.sort((a, b) => {
         if (!(
-          (a.value instanceof AmauiStyleRuleProperty && b.value instanceof AmauiStyleRuleProperty) ||
+          (a.value instanceof OnesyStyleRuleProperty && b.value instanceof OnesyStyleRuleProperty) ||
           (is('simple', a.value) && is('simple', b.value))
         )) return 0;
 
@@ -63,14 +63,14 @@ function sort(amauiStyle: AmauiStyle, options_: IOptions = {}) {
   };
 
   // Add method to subscriptions
-  if (amauiStyle) {
-    amauiStyle.subscriptions.rules.sort.subscribe(method);
+  if (onesyStyle) {
+    onesyStyle.subscriptions.rules.sort.subscribe(method);
   }
 
   const remove = () => {
     // Remove method from subscriptions
-    if (amauiStyle) {
-      amauiStyle.subscriptions.rules.sort.unsubscribe(method);
+    if (onesyStyle) {
+      onesyStyle.subscriptions.rules.sort.unsubscribe(method);
     }
   };
 

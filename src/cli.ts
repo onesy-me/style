@@ -4,13 +4,13 @@ import yargs from 'yargs';
 import url from 'url';
 import fg from 'fast-glob';
 
-import is from '@amaui/utils/is';
-import isEnvironment from '@amaui/utils/isEnvironment';
-import getEnvironment from '@amaui/utils/getEnvironment';
-import Try from '@amaui/utils/try';
-import parse from '@amaui/utils/parse';
-import merge from '@amaui/utils/merge';
-import { TMethod } from '@amaui/models';
+import is from '@onesy/utils/is';
+import isEnvironment from '@onesy/utils/isEnvironment';
+import getEnvironment from '@onesy/utils/getEnvironment';
+import Try from '@onesy/utils/try';
+import parse from '@onesy/utils/parse';
+import merge from '@onesy/utils/merge';
+import { TMethod } from '@onesy/models';
 
 import css from './css';
 import { ICSSOptions } from './interfaces';
@@ -24,7 +24,7 @@ interface IOptions {
   package?: string;
 }
 
-class AmauiCli {
+class OnesyCli {
   public options_: IOptions = {};
   public fileSource: string;
 
@@ -43,16 +43,16 @@ class AmauiCli {
       const packagePath = options_.package || 'package.json';
 
       const pkg = Try(() => require(path.resolve(wd, packagePath))) || {};
-      const amauiStyleOptions = Try(() => require(path.resolve(wd, 'amaui-style.options.js'))) || {};
+      const onesyStyleOptions = Try(() => require(path.resolve(wd, 'onesy-style.options.js'))) || {};
 
-      if (amauiStyleOptions?.files?.length) this.fileSource = wd;
-      else if (pkg['amaui-style']?.files?.length) this.fileSource = path.resolve(packagePath, '../');
+      if (onesyStyleOptions?.files?.length) this.fileSource = wd;
+      else if (pkg['onesy-style']?.files?.length) this.fileSource = path.resolve(packagePath, '../');
       else this.fileSource = wd;
 
-      // amaui-style.options.js priority over package.json 'amaui-style'
-      const fileOptions = merge(amauiStyleOptions, pkg['amaui-style'], { merge: { array: true } });
+      // onesy-style.options.js priority over package.json 'onesy-style'
+      const fileOptions = merge(onesyStyleOptions, pkg['onesy-style'], { merge: { array: true } });
 
-      // amaui options priority over file options values
+      // onesy options priority over file options values
       this.options_ = merge(options_, fileOptions, { copy: true, merge: { array: true } });
     }
   }
@@ -102,10 +102,10 @@ class AmauiCli {
     // Imports
     await this.imports();
 
-    // Import all the files to setup the mainAmauiGroup
+    // Import all the files to setup the mainOnesyGroup
     await this.initNode();
 
-    if (this.options.log) console.log('\nAmaui style\n');
+    if (this.options.log) console.log('\nOnesy style\n');
   }
 
   public async make() {
@@ -191,15 +191,15 @@ class AmauiCli {
 }
 
 const run = async (argv: any) => {
-  const amauiStyleCli = new AmauiCli();
+  const onesyStyleCli = new OnesyCli();
 
-  await amauiStyleCli.run(argv);
+  await onesyStyleCli.run(argv);
 };
 
 yargs
   .command({
     command: '$0',
-    description: 'Amaui style css maker',
+    description: 'Onesy style css maker',
     builder: (command => command
       .options('imports', { type: 'array' })
       .options('files', { type: 'array' })

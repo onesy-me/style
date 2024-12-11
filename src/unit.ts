@@ -1,6 +1,6 @@
-import copy from '@amaui/utils/copy';
+import copy from '@onesy/utils/copy';
 
-import AmauiStyle from './AmauiStyle';
+import OnesyStyle from './OnesyStyle';
 import { cammelCaseToKebabCase, is, kebabCasetoCammelCase } from './utils';
 
 export interface IUnit {
@@ -214,7 +214,7 @@ export const unitsDefault = {
   'zoom': '%',
 };
 
-function unit(amauiStyle: AmauiStyle, options_: IOptions = {}) {
+function unit(onesyStyle: OnesyStyle, options_: IOptions = {}) {
   const options = { ...optionsDefault, ...options_ };
 
   const units: TOptionsUnits = { ...unitsDefault, ...(options.units || {}) };
@@ -239,14 +239,14 @@ function unit(amauiStyle: AmauiStyle, options_: IOptions = {}) {
   };
 
   // Add method to subscriptions
-  if (amauiStyle) {
-    amauiStyle.subscriptions.rule.unit.subscribe(method);
+  if (onesyStyle) {
+    onesyStyle.subscriptions.rule.unit.subscribe(method);
   }
 
   const remove = () => {
     // Remove method from subscriptions
-    if (amauiStyle) {
-      amauiStyle.subscriptions.rule.unit.unsubscribe(method);
+    if (onesyStyle) {
+      onesyStyle.subscriptions.rule.unit.unsubscribe(method);
     }
   };
 

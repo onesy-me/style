@@ -1,24 +1,24 @@
-import alpha from '@amaui/utils/alpha';
-import castParam from '@amaui/utils/castParam';
-import clamp from '@amaui/utils/clamp';
-import colorToRgb from '@amaui/utils/colorToRgb';
-import copy from '@amaui/utils/copy';
-import darken from '@amaui/utils/darken';
-import elementMethod from '@amaui/utils/element';
-import emphasize from '@amaui/utils/emphasize';
-import getContrastRatio from '@amaui/utils/getContrastRatio';
-import getLuminance from '@amaui/utils/getLuminance';
-import hexToRgb from '@amaui/utils/hexToRgb';
-import hslToRgb from '@amaui/utils/hslToRgb';
-import imageToPalette from '@amaui/utils/imageToPalette';
-import lighten from '@amaui/utils/lighten';
-import isEnvironment from '@amaui/utils/isEnvironment';
-import rgbToHex from '@amaui/utils/rgbToHex';
-import rgbToHsl from '@amaui/utils/rgbToHsl';
-import rgbToRgba from '@amaui/utils/rgbToRgba';
-import Try from '@amaui/utils/try';
-import merge from '@amaui/utils/merge';
-import AmauiSubscription from '@amaui/subscription';
+import alpha from '@onesy/utils/alpha';
+import castParam from '@onesy/utils/castParam';
+import clamp from '@onesy/utils/clamp';
+import colorToRgb from '@onesy/utils/colorToRgb';
+import copy from '@onesy/utils/copy';
+import darken from '@onesy/utils/darken';
+import elementMethod from '@onesy/utils/element';
+import emphasize from '@onesy/utils/emphasize';
+import getContrastRatio from '@onesy/utils/getContrastRatio';
+import getLuminance from '@onesy/utils/getLuminance';
+import hexToRgb from '@onesy/utils/hexToRgb';
+import hslToRgb from '@onesy/utils/hslToRgb';
+import imageToPalette from '@onesy/utils/imageToPalette';
+import lighten from '@onesy/utils/lighten';
+import isEnvironment from '@onesy/utils/isEnvironment';
+import rgbToHex from '@onesy/utils/rgbToHex';
+import rgbToHsl from '@onesy/utils/rgbToHsl';
+import rgbToRgba from '@onesy/utils/rgbToRgba';
+import Try from '@onesy/utils/try';
+import merge from '@onesy/utils/merge';
+import OnesySubscription from '@onesy/subscription';
 
 import { IOptionsRule, TDirection, TValue } from './interfaces';
 import { getID, is, pxToRem } from './utils';
@@ -393,7 +393,7 @@ export interface IUi {
 
 export type IElements = Record<string, any>;
 
-export interface IAmauiTheme {
+export interface IOnesyTheme {
   preference?: TPreference;
 
   mode?: TMode;
@@ -431,7 +431,7 @@ for (let i = 100; i <= 4000; i += 100) {
   media[`${i}-up`] = `(min-width: ${i}px)`;
 }
 
-const amauiThemeValueDefault: IAmauiTheme = {
+const onesyThemeValueDefault: IOnesyTheme = {
   preference: {
     background: {
       default: 'neutral',
@@ -787,34 +787,34 @@ const amauiThemeValueDefault: IAmauiTheme = {
   },
 };
 
-class AmauiTheme {
+class OnesyTheme {
   public id?: string;
   public subscriptions = {
-    update: new AmauiSubscription(),
+    update: new OnesySubscription(),
   };
   public element?: HTMLElement;
   public direction: TDirection = 'ltr';
 
   // Preference
-  public preference: TPreference = copy(amauiThemeValueDefault.preference);
+  public preference: TPreference = copy(onesyThemeValueDefault.preference);
   // Mode
   public mode: TMode = 'regular';
   // Colors
-  public palette: IPalette = copy(amauiThemeValueDefault.palette);
+  public palette: IPalette = copy(onesyThemeValueDefault.palette);
   // Shape
-  public shape: IShape = copy(amauiThemeValueDefault.shape);
+  public shape: IShape = copy(onesyThemeValueDefault.shape);
   // Breakpoints
-  public breakpoints: IBreakpoints = copy(amauiThemeValueDefault.breakpoints);
+  public breakpoints: IBreakpoints = copy(onesyThemeValueDefault.breakpoints);
   // Space
-  public space: ISpace = copy(amauiThemeValueDefault.space);
+  public space: ISpace = copy(onesyThemeValueDefault.space);
   // Shadows
-  public shadows: IShadows = copy(amauiThemeValueDefault.shadows);
+  public shadows: IShadows = copy(onesyThemeValueDefault.shadows);
   // Typography
-  public typography: ITypography = copy(amauiThemeValueDefault.typography);
+  public typography: ITypography = copy(onesyThemeValueDefault.typography);
   // Transitions
-  public transitions: ITransitions = copy(amauiThemeValueDefault.transitions);
+  public transitions: ITransitions = copy(onesyThemeValueDefault.transitions);
   // zIndex
-  public z_index: IzIndex = copy(amauiThemeValueDefault.z_index);
+  public z_index: IzIndex = copy(onesyThemeValueDefault.z_index);
   // Methods
   public methods = {
     palette: {
@@ -888,9 +888,9 @@ class AmauiTheme {
       }
     },
 
-    color: (value: string) => AmauiTheme.make.color(value),
+    color: (value: string) => OnesyTheme.make.color(value),
 
-    shadow: (value: string = this.palette.color.primary.main, opacities: Array<number> = this.shadows.opacities) => AmauiTheme.make.shadow(value, opacities),
+    shadow: (value: string = this.palette.color.primary.main, opacities: Array<number> = this.shadows.opacities) => OnesyTheme.make.shadow(value, opacities),
 
     space: {
       value: (value: TSpaceKey | number, unit?: string, add = 0) => {
@@ -943,7 +943,7 @@ class AmauiTheme {
   [p: string]: any;
 
   public constructor(
-    value: IAmauiTheme = amauiThemeValueDefault,
+    value: IOnesyTheme = onesyThemeValueDefault,
     public options: IOptions = copy(optionsDefault),
   ) {
     this.options = merge(options, optionsDefault, { copy: true });
@@ -951,7 +951,7 @@ class AmauiTheme {
     this.init(value);
   }
 
-  public init(value_: IAmauiTheme | AmauiTheme = this) {
+  public init(value_: IOnesyTheme | OnesyTheme = this) {
     const { mode, preference, palette = {}, shape = {}, breakpoints = {}, space = {}, shadows = {}, typography = {}, transitions, z_index = {}, id, subscriptions, methods, element, options = {}, direction, ...other } = copy(value_ || {});
 
     const { light, color = {}, background = {}, text = {}, visual_contrast = {}, accessibility } = palette || {};
@@ -967,12 +967,12 @@ class AmauiTheme {
     if (isEnvironment('browser')) {
       if (!this.element) this.element = window.document.body;
 
-      // AmauiStyle in element
-      this.element.setAttribute('data-amaui-theme', 'true');
+      // OnesyStyle in element
+      this.element.setAttribute('data-onesy-theme', 'true');
 
-      (this.element)['amaui-theme'] = true;
+      (this.element)['onesy-theme'] = true;
 
-      (this.element as any).amaui_theme = this;
+      (this.element as any).onesy_theme = this;
 
       const style = Try(() => window.getComputedStyle(this.element));
 
@@ -1088,7 +1088,7 @@ class AmauiTheme {
 
     Object.keys(color).forEach(prop => {
       const item = color[prop];
-      const value = AmauiTheme.make.color((color[prop] as TValueColorValue).main || (color[prop] as TValueColorValue).light || (color[prop] as TValueColorValue).dark);
+      const value = OnesyTheme.make.color((color[prop] as TValueColorValue).main || (color[prop] as TValueColorValue).light || (color[prop] as TValueColorValue).dark);
 
       if (value) {
         this.palette.color[prop] = value;
@@ -1215,11 +1215,11 @@ class AmauiTheme {
     Object.keys(this.palette.color).forEach(item => {
       const version = this.palette.color[item] as TValueColorValue;
 
-      this.shadows.values[item] = AmauiTheme.make.shadow(version.main, this.shadows.opacities);
+      this.shadows.values[item] = OnesyTheme.make.shadow(version.main, this.shadows.opacities);
     });
 
     // Default
-    this.shadows.values.default = AmauiTheme.make.shadow((this.palette.color[this.preference.shadow.default] as any).main, this.shadows.opacities);
+    this.shadows.values.default = OnesyTheme.make.shadow((this.palette.color[this.preference.shadow.default] as any).main, this.shadows.opacities);
 
     // Typography
     if (is('object', typography)) this.typography = merge(typography, this.typography);
@@ -1273,7 +1273,7 @@ class AmauiTheme {
     }
   }
 
-  public update(value: IAmauiTheme) {
+  public update(value: IOnesyTheme) {
     if (value !== undefined) {
       this.init(copy(value));
 
@@ -1281,7 +1281,7 @@ class AmauiTheme {
     }
   }
 
-  public static get amaui_theme() { return new AmauiTheme(); }
+  public static get onesy_theme() { return new OnesyTheme(); }
 
   public static get make() {
     return {
@@ -1354,33 +1354,33 @@ class AmauiTheme {
   }
 
   public static attributes = [
-    'data-amaui-theme',
-    'amaui-theme'
+    'data-onesy-theme',
+    'onesy-theme'
   ];
 
-  public static get(value: HTMLElement, index = 0): AmauiTheme {
+  public static get(value: HTMLElement, index = 0): OnesyTheme {
     const themes = this.all(value);
 
     return themes[index === -1 ? themes.length - 1 : index];
   }
 
-  public static first(value: HTMLElement): AmauiTheme {
+  public static first(value: HTMLElement): OnesyTheme {
     return this.get(value);
   }
 
-  public static last(value: HTMLElement): AmauiTheme {
+  public static last(value: HTMLElement): OnesyTheme {
     return this.get(value, -1);
   }
 
-  public static nearest(value: HTMLElement): AmauiTheme {
-    return (elementMethod(value).nearest(this.attributes.map(item => `[${item}]`)) as any)?.amaui_theme;
+  public static nearest(value: HTMLElement): OnesyTheme {
+    return (elementMethod(value).nearest(this.attributes.map(item => `[${item}]`)) as any)?.onesy_theme;
   }
 
-  public static furthest(value: HTMLElement): AmauiTheme {
-    return (elementMethod(value).furthest(this.attributes.map(item => `[${item}]`)) as any)?.amaui_theme;
+  public static furthest(value: HTMLElement): OnesyTheme {
+    return (elementMethod(value).furthest(this.attributes.map(item => `[${item}]`)) as any)?.onesy_theme;
   }
 
-  public static all(value: HTMLElement): Array<AmauiTheme> {
+  public static all(value: HTMLElement): Array<OnesyTheme> {
     const elements = [
       value,
       ...elementMethod(value).parents(this.attributes.map(item => `[${item}]`)),
@@ -1388,9 +1388,9 @@ class AmauiTheme {
 
     return elements
       .filter(Boolean)
-      .map((item: any) => item.amaui_theme)
+      .map((item: any) => item.onesy_theme)
       .filter(Boolean) || [];
   }
 }
 
-export default AmauiTheme;
+export default OnesyTheme;

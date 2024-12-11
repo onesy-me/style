@@ -1,25 +1,25 @@
 /* tslint:disable: no-shadowed-variable */
-import { assert } from '@amaui/test';
-import AmauiSubscription from '@amaui/subscription';
+import { assert } from '@onesy/test';
+import OnesySubscription from '@onesy/subscription';
 
 import { evaluate } from '../utils/js/test/utils';
 
-import * as AmauiStyle from '../src';
+import * as OnesyStyle from '../src';
 import { TValue } from '../src';
 
 group('Use cases', () => {
 
-  to('amauiStyle sub values', async () => {
+  to('onesyStyle sub values', async () => {
     const valueBrowsers = await evaluate((window: any) => {
-      const amauiStyle = new window.AmauiStyle.AmauiStyle(window.document.body);
+      const onesyStyle = new window.OnesyStyle.OnesyStyle(window.document.body);
 
       // Plugins
-      amauiStyle.plugins.add = [
-        window.AmauiStyle.unit,
-        window.AmauiStyle.sort,
-        window.AmauiStyle.prefix,
-        window.AmauiStyle.makeClassName,
-        window.AmauiStyle.rtl,
+      onesyStyle.plugins.add = [
+        window.OnesyStyle.unit,
+        window.OnesyStyle.sort,
+        window.OnesyStyle.prefix,
+        window.OnesyStyle.makeClassName,
+        window.OnesyStyle.rtl,
       ];
 
       const a = {
@@ -73,12 +73,12 @@ group('Use cases', () => {
 
       const values = [];
 
-      // Add amauiStyle subs
-      Object.keys(amauiStyle.subscriptions).forEach(prop => {
-        Object.keys(amauiStyle.subscriptions[prop]).forEach(prop_ => amauiStyle.subscriptions[prop][prop_].subscribe(() => values.push(`${prop}-${prop_}`)));
+      // Add onesyStyle subs
+      Object.keys(onesyStyle.subscriptions).forEach(prop => {
+        Object.keys(onesyStyle.subscriptions[prop]).forEach(prop_ => onesyStyle.subscriptions[prop][prop_].subscribe(() => values.push(`${prop}-${prop_}`)));
       });
 
-      const style = window.AmauiStyle.style(a, { amaui_style: { value: amauiStyle } });
+      const style = window.OnesyStyle.style(a, { onesy_style: { value: onesyStyle } });
 
       // Add
       const response = style.add();
@@ -140,15 +140,15 @@ group('Use cases', () => {
       ];
     });
 
-    const amauiStyle = new AmauiStyle.AmauiStyle({ optimize: true });
+    const onesyStyle = new OnesyStyle.OnesyStyle({ optimize: true });
 
     // Plugins
-    amauiStyle.plugins.add = [
-      AmauiStyle.unit,
-      AmauiStyle.sort,
-      AmauiStyle.prefix,
-      AmauiStyle.makeClassName,
-      AmauiStyle.rtl,
+    onesyStyle.plugins.add = [
+      OnesyStyle.unit,
+      OnesyStyle.sort,
+      OnesyStyle.prefix,
+      OnesyStyle.makeClassName,
+      OnesyStyle.rtl,
     ];
 
     const a: TValue = {
@@ -200,14 +200,14 @@ group('Use cases', () => {
       },
     };
 
-    const amauiStyleValues = [];
+    const onesyStyleValues = [];
 
-    // Add amauiStyle subs
-    Object.keys(amauiStyle.subscriptions).forEach(prop => {
-      Object.keys(amauiStyle.subscriptions[prop]).forEach(prop_ => amauiStyle.subscriptions[prop][prop_].subscribe(() => amauiStyleValues.push(`${prop}-${prop_}`)));
+    // Add onesyStyle subs
+    Object.keys(onesyStyle.subscriptions).forEach(prop => {
+      Object.keys(onesyStyle.subscriptions[prop]).forEach(prop_ => onesyStyle.subscriptions[prop][prop_].subscribe(() => onesyStyleValues.push(`${prop}-${prop_}`)));
     });
 
-    const style = AmauiStyle.style(a, { amaui_style: { value: amauiStyle } });
+    const style = OnesyStyle.style(a, { onesy_style: { value: onesyStyle } });
 
     // Add
     const response = style.add();
@@ -265,29 +265,29 @@ group('Use cases', () => {
     style.remove(response.ids.dynamic);
 
     const valueNode = [
-      amauiStyleValues
+      onesyStyleValues
     ];
 
     const values = [valueNode, ...valueBrowsers];
 
     values.forEach(value => {
-      Object.keys(amauiStyle.subscriptions).forEach(prop => {
-        Object.keys(amauiStyle.subscriptions[prop]).forEach(prop_ => assert(value.indexOf(`${prop}-${prop_}`) > -1));
+      Object.keys(onesyStyle.subscriptions).forEach(prop => {
+        Object.keys(onesyStyle.subscriptions[prop]).forEach(prop_ => assert(value.indexOf(`${prop}-${prop_}`) > -1));
       });
     });
   });
 
-  to('Readding, not yet removed static amauiStyleSheet, that is left for a ref value', async () => {
+  to('Readding, not yet removed static onesyStyleSheet, that is left for a ref value', async () => {
     const valueBrowsers = await evaluate((window: any) => {
-      const amauiStyle = new window.AmauiStyle.AmauiStyle(window.document.body, undefined, undefined, { optimize: true });
+      const onesyStyle = new window.OnesyStyle.OnesyStyle(window.document.body, undefined, undefined, { optimize: true });
 
       // Plugins
-      amauiStyle.plugins.add = [
-        window.AmauiStyle.unit,
-        window.AmauiStyle.sort,
-        window.AmauiStyle.prefix,
-        window.AmauiStyle.makeClassName,
-        window.AmauiStyle.rtl,
+      onesyStyle.plugins.add = [
+        window.OnesyStyle.unit,
+        window.OnesyStyle.sort,
+        window.OnesyStyle.prefix,
+        window.OnesyStyle.makeClassName,
+        window.OnesyStyle.rtl,
       ];
 
       const a = {
@@ -329,9 +329,9 @@ group('Use cases', () => {
         },
       };
 
-      const style = window.AmauiStyle.style(a, { amaui_style: { value: amauiStyle } });
+      const style = window.OnesyStyle.style(a, { onesy_style: { value: onesyStyle } });
 
-      const style1 = window.AmauiStyle.style({ a: a.a }, { amaui_style: { value: amauiStyle } });
+      const style1 = window.OnesyStyle.style({ a: a.a }, { onesy_style: { value: onesyStyle } });
 
       // Add
       style.add();
@@ -347,7 +347,7 @@ group('Use cases', () => {
       });
 
       const response = [
-        amauiStyle.sheets.length,
+        onesyStyle.sheets.length,
         style.sheets.static[0].rules.length,
         css
       ];
@@ -386,15 +386,15 @@ group('Use cases', () => {
       return response;
     });
 
-    const amauiStyle = new AmauiStyle.AmauiStyle({ optimize: true });
+    const onesyStyle = new OnesyStyle.OnesyStyle({ optimize: true });
 
     // Plugins
-    amauiStyle.plugins.add = [
-      AmauiStyle.unit,
-      AmauiStyle.sort,
-      AmauiStyle.prefix,
-      AmauiStyle.makeClassName,
-      AmauiStyle.rtl,
+    onesyStyle.plugins.add = [
+      OnesyStyle.unit,
+      OnesyStyle.sort,
+      OnesyStyle.prefix,
+      OnesyStyle.makeClassName,
+      OnesyStyle.rtl,
     ];
 
     const a = {
@@ -436,9 +436,9 @@ group('Use cases', () => {
       },
     };
 
-    const style = AmauiStyle.style(a, { amaui_style: { value: amauiStyle } });
+    const style = OnesyStyle.style(a, { onesy_style: { value: onesyStyle } });
 
-    const style1 = AmauiStyle.style({ a: a.a }, { amaui_style: { value: amauiStyle } });
+    const style1 = OnesyStyle.style({ a: a.a }, { onesy_style: { value: onesyStyle } });
 
     // Add
     style.add();
@@ -446,7 +446,7 @@ group('Use cases', () => {
     style1.add();
 
     const response = [
-      amauiStyle.sheets.length,
+      onesyStyle.sheets.length,
       style.sheets.static[0].rules.length
     ];
 
@@ -507,15 +507,15 @@ group('Use cases', () => {
 
   to('xss injection attack', async () => {
     const valueBrowsers = await evaluate((window: any) => {
-      const amauiStyle = new window.AmauiStyle.AmauiStyle(window.document.body, undefined, undefined, { optimize: true });
+      const onesyStyle = new window.OnesyStyle.OnesyStyle(window.document.body, undefined, undefined, { optimize: true });
 
       // Plugins
-      amauiStyle.plugins.add = [
-        window.AmauiStyle.unit,
-        window.AmauiStyle.sort,
-        window.AmauiStyle.prefix,
-        window.AmauiStyle.makeClassName,
-        window.AmauiStyle.rtl,
+      onesyStyle.plugins.add = [
+        window.OnesyStyle.unit,
+        window.OnesyStyle.sort,
+        window.OnesyStyle.prefix,
+        window.OnesyStyle.makeClassName,
+        window.OnesyStyle.rtl,
       ];
 
       const a = {
@@ -560,7 +560,7 @@ group('Use cases', () => {
         },
       };
 
-      const style = window.AmauiStyle.style(a, { amaui_style: { value: amauiStyle } });
+      const style = window.OnesyStyle.style(a, { onesy_style: { value: onesyStyle } });
 
       // Add
       style.add();
@@ -596,15 +596,15 @@ group('Use cases', () => {
 
   to('Pseudo classes and elements', async () => {
     const valueBrowsers = await evaluate((window: any) => {
-      const amauiStyle = new window.AmauiStyle.AmauiStyle(window.document.body, undefined, undefined, { optimize: true });
+      const onesyStyle = new window.OnesyStyle.OnesyStyle(window.document.body, undefined, undefined, { optimize: true });
 
       // Plugins
-      amauiStyle.plugins.add = [
-        window.AmauiStyle.unit,
-        window.AmauiStyle.sort,
-        window.AmauiStyle.prefix,
-        window.AmauiStyle.makeClassName,
-        window.AmauiStyle.rtl,
+      onesyStyle.plugins.add = [
+        window.OnesyStyle.unit,
+        window.OnesyStyle.sort,
+        window.OnesyStyle.prefix,
+        window.OnesyStyle.makeClassName,
+        window.OnesyStyle.rtl,
       ];
 
       const a = {
@@ -656,7 +656,7 @@ group('Use cases', () => {
         },
       };
 
-      const style = window.AmauiStyle.style(a, { amaui_style: { value: amauiStyle } });
+      const style = window.OnesyStyle.style(a, { onesy_style: { value: onesyStyle } });
 
       // Add
       style.add();
@@ -676,15 +676,15 @@ group('Use cases', () => {
       return response;
     });
 
-    const amauiStyle = new AmauiStyle.AmauiStyle({ optimize: true });
+    const onesyStyle = new OnesyStyle.OnesyStyle({ optimize: true });
 
     // Plugins
-    amauiStyle.plugins.add = [
-      AmauiStyle.unit,
-      AmauiStyle.sort,
-      AmauiStyle.prefix,
-      AmauiStyle.makeClassName,
-      AmauiStyle.rtl,
+    onesyStyle.plugins.add = [
+      OnesyStyle.unit,
+      OnesyStyle.sort,
+      OnesyStyle.prefix,
+      OnesyStyle.makeClassName,
+      OnesyStyle.rtl,
     ];
 
     const a = {
@@ -736,13 +736,13 @@ group('Use cases', () => {
       },
     };
 
-    const style = AmauiStyle.style(a, { amaui_style: { value: amauiStyle } });
+    const style = OnesyStyle.style(a, { onesy_style: { value: onesyStyle } });
 
     // Add
     style.add();
 
     const response = [
-      style.amaui_style_sheet_manager.css
+      style.onesy_style_sheet_manager.css
     ];
 
     const valueNode = response;
@@ -769,22 +769,22 @@ group('Use cases', () => {
     const valueBrowsers = await evaluate((window: any) => {
       window.document.body.dir = 'rtl';
 
-      const amauiStyle = new window.AmauiStyle.AmauiStyle(window.document.body, undefined, undefined, { rule: { prefix: true } });
+      const onesyStyle = new window.OnesyStyle.OnesyStyle(window.document.body, undefined, undefined, { rule: { prefix: true } });
 
       // Plugins
-      amauiStyle.plugins.add = [
-        window.AmauiStyle.unit,
-        window.AmauiStyle.sort,
-        window.AmauiStyle.prefix,
-        window.AmauiStyle.makeClassName,
-        window.AmauiStyle.valueObject,
-        window.AmauiStyle.rtl,
+      onesyStyle.plugins.add = [
+        window.OnesyStyle.unit,
+        window.OnesyStyle.sort,
+        window.OnesyStyle.prefix,
+        window.OnesyStyle.makeClassName,
+        window.OnesyStyle.valueObject,
+        window.OnesyStyle.rtl,
       ];
 
       const subs = {
-        background: new window.AmauiSubscription('beige'),
-        media: new window.AmauiSubscription('yellow'),
-        var: new window.AmauiSubscription({
+        background: new window.OnesySubscription('beige'),
+        media: new window.OnesySubscription('yellow'),
+        var: new window.OnesySubscription({
           width: 100,
 
           'max-width': 100,
@@ -1017,7 +1017,7 @@ group('Use cases', () => {
         },
 
         a8: {
-          // AmauiSubscription
+          // OnesySubscription
           background: subs.background,
         },
 
@@ -1328,7 +1328,7 @@ group('Use cases', () => {
           },
 
           $a8: {
-            // AmauiSubscription
+            // OnesySubscription
             background: subs.media,
           },
 
@@ -1579,7 +1579,7 @@ group('Use cases', () => {
             },
 
             $a8: {
-              // AmauiSubscription
+              // OnesySubscription
               background: subs.media,
             },
 
@@ -1759,9 +1759,9 @@ group('Use cases', () => {
 
       });
 
-      const amauiTheme = new window.AmauiStyle.AmauiTheme({}, window.document.body, { rule: { prefix: true } });
+      const onesyTheme = new window.OnesyStyle.OnesyTheme({}, window.document.body, { rule: { prefix: true } });
 
-      const style = window.AmauiStyle.style(a, { amaui_style: { value: amauiStyle }, amaui_theme: { value: amauiTheme } });
+      const style = window.OnesyStyle.style(a, { onesy_style: { value: onesyStyle }, onesy_theme: { value: onesyTheme } });
 
       // Add
       style.add();
@@ -1781,22 +1781,22 @@ group('Use cases', () => {
       return response;
     });
 
-    const amauiStyle = new AmauiStyle.AmauiStyle({ optimize: true });
+    const onesyStyle = new OnesyStyle.OnesyStyle({ optimize: true });
 
     // Plugins
-    amauiStyle.plugins.add = [
-      AmauiStyle.unit,
-      AmauiStyle.sort,
-      AmauiStyle.prefix,
-      AmauiStyle.makeClassName,
-      AmauiStyle.valueObject,
-      AmauiStyle.rtl,
+    onesyStyle.plugins.add = [
+      OnesyStyle.unit,
+      OnesyStyle.sort,
+      OnesyStyle.prefix,
+      OnesyStyle.makeClassName,
+      OnesyStyle.valueObject,
+      OnesyStyle.rtl,
     ];
 
     const subs = {
-      background: new AmauiSubscription('beige'),
-      media: new AmauiSubscription('yellow'),
-      var: new AmauiSubscription({
+      background: new OnesySubscription('beige'),
+      media: new OnesySubscription('yellow'),
+      var: new OnesySubscription({
         width: 100,
 
         'max-width': 100,
@@ -2029,7 +2029,7 @@ group('Use cases', () => {
       },
 
       a8: {
-        // AmauiSubscription
+        // OnesySubscription
         background: subs.background,
       },
 
@@ -2339,7 +2339,7 @@ group('Use cases', () => {
         },
 
         $a8: {
-          // AmauiSubscription
+          // OnesySubscription
           background: subs.media,
         },
 
@@ -2590,7 +2590,7 @@ group('Use cases', () => {
           },
 
           $a8: {
-            // AmauiSubscription
+            // OnesySubscription
             background: subs.media,
           },
 
@@ -2770,15 +2770,15 @@ group('Use cases', () => {
 
     });
 
-    const amauiTheme = new AmauiStyle.AmauiTheme();
+    const onesyTheme = new OnesyStyle.OnesyTheme();
 
-    const style = AmauiStyle.style(a, { amaui_style: { value: amauiStyle }, amaui_theme: { value: amauiTheme } });
+    const style = OnesyStyle.style(a, { onesy_style: { value: onesyStyle }, onesy_theme: { value: onesyTheme } });
 
     // Add
     style.add();
 
     const response = [
-      style.amaui_style_sheet_manager.css
+      style.onesy_style_sheet_manager.css
     ];
 
     const valueNode = response;

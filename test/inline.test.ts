@@ -1,25 +1,25 @@
 /* tslint:disable: no-shadowed-variable */
-import { assert } from '@amaui/test';
+import { assert } from '@onesy/test';
 
 import { evaluate } from '../utils/js/test/utils';
 
-import * as AmauiStyle from '../src';
+import * as OnesyStyle from '../src';
 
-group('@amaui/style/inline', () => {
+group('@onesy/style/inline', () => {
 
   to('inline', async () => {
     const valueBrowsers = await evaluate((window: any) => {
       window.document.body.dir = 'rtl';
 
-      const amauiStyle = new window.AmauiStyle.AmauiStyle(window.document.body, undefined, undefined, { rule: { prefix: true } });
+      const onesyStyle = new window.OnesyStyle.OnesyStyle(window.document.body, undefined, undefined, { rule: { prefix: true } });
 
       // Plugins
-      amauiStyle.plugins.add = [
-        window.AmauiStyle.unit,
-        window.AmauiStyle.sort,
-        window.AmauiStyle.prefix,
-        window.AmauiStyle.makeClassName,
-        window.AmauiStyle.rtl,
+      onesyStyle.plugins.add = [
+        window.OnesyStyle.unit,
+        window.OnesyStyle.sort,
+        window.OnesyStyle.prefix,
+        window.OnesyStyle.makeClassName,
+        window.OnesyStyle.rtl,
       ];
 
       const a: any = {
@@ -55,7 +55,7 @@ group('@amaui/style/inline', () => {
         backgroundColor: props => props.a === 1 ? 'yellow' : 'orange',
       };
 
-      const inline = window.AmauiStyle.inline(a, { a: 1 }, { amaui_style: { value: amauiStyle } });
+      const inline = window.OnesyStyle.inline(a, { a: 1 }, { onesy_style: { value: onesyStyle } });
 
       return inline;
     });
@@ -68,15 +68,15 @@ group('@amaui/style/inline', () => {
       "background: #faa; background-color: yellow; float: right; margin: 0 14px 4px 40px; margin-right: 41px; mask-image: linear-gradient(rgba(0, 0, 0, 1.0), transparent); mask-origin: inherit; mask-position: 40% 74%; max-width: 100px; padding: 40px; padding-right: 41px; position: sticky; transition: all .4s ease; width: 100px;"
     ]);
 
-    const amauiStyle = new AmauiStyle.AmauiStyle();
+    const onesyStyle = new OnesyStyle.OnesyStyle();
 
     // Plugins
-    amauiStyle.plugins.add = [
-      AmauiStyle.unit,
-      AmauiStyle.sort,
-      AmauiStyle.prefix,
-      AmauiStyle.makeClassName,
-      AmauiStyle.rtl,
+    onesyStyle.plugins.add = [
+      OnesyStyle.unit,
+      OnesyStyle.sort,
+      OnesyStyle.prefix,
+      OnesyStyle.makeClassName,
+      OnesyStyle.rtl,
     ];
 
     const a: any = {
@@ -112,7 +112,7 @@ group('@amaui/style/inline', () => {
       backgroundColor: props => props.a === 1 ? 'yellow' : 'orange',
     };
 
-    const inline = AmauiStyle.inline(a, { a: 1 }, { amaui_style: { value: amauiStyle } });
+    const inline = OnesyStyle.inline(a, { a: 1 }, { onesy_style: { value: onesyStyle } });
 
     const valueNode = inline;
 
@@ -125,10 +125,10 @@ group('@amaui/style/inline', () => {
 
       to('css', async () => {
         const valueBrowsers = await evaluate((window: any) => {
-          return window.AmauiStyle.inline({ color: 'yellow', backgroundColor: 'orange' }, {}, { response: 'css' });
+          return window.OnesyStyle.inline({ color: 'yellow', backgroundColor: 'orange' }, {}, { response: 'css' });
         });
 
-        const valueNode = AmauiStyle.inline({ color: 'yellow', backgroundColor: 'orange' }, {}, { response: 'css' });
+        const valueNode = OnesyStyle.inline({ color: 'yellow', backgroundColor: 'orange' }, {}, { response: 'css' });
 
         const values = [valueNode, ...valueBrowsers];
 
@@ -137,10 +137,10 @@ group('@amaui/style/inline', () => {
 
       to('json', async () => {
         const valueBrowsers = await evaluate((window: any) => {
-          return window.AmauiStyle.inline({ color: 'yellow', backgroundColor: 'orange' }, {}, { response: 'json' });
+          return window.OnesyStyle.inline({ color: 'yellow', backgroundColor: 'orange' }, {}, { response: 'json' });
         });
 
-        const valueNode = AmauiStyle.inline({ color: 'yellow', backgroundColor: 'orange' }, {}, { response: 'json' });
+        const valueNode = OnesyStyle.inline({ color: 'yellow', backgroundColor: 'orange' }, {}, { response: 'json' });
 
         const values = [valueNode, ...valueBrowsers];
 
@@ -153,10 +153,10 @@ group('@amaui/style/inline', () => {
 
       to('cammel', async () => {
         const valueBrowsers = await evaluate((window: any) => {
-          return window.AmauiStyle.inline({ color: 'yellow', backgroundColor: 'orange' }, {}, { response: 'json', response_json_property_version: 'cammel' });
+          return window.OnesyStyle.inline({ color: 'yellow', backgroundColor: 'orange' }, {}, { response: 'json', response_json_property_version: 'cammel' });
         });
 
-        const valueNode = AmauiStyle.inline({ color: 'yellow', backgroundColor: 'orange' }, {}, { response: 'json', response_json_property_version: 'cammel' });
+        const valueNode = OnesyStyle.inline({ color: 'yellow', backgroundColor: 'orange' }, {}, { response: 'json', response_json_property_version: 'cammel' });
 
         const values = [valueNode, ...valueBrowsers];
 
@@ -165,10 +165,10 @@ group('@amaui/style/inline', () => {
 
       to('kebab', async () => {
         const valueBrowsers = await evaluate((window: any) => {
-          return window.AmauiStyle.inline({ color: 'yellow', backgroundColor: 'orange' }, {}, { response: 'json', response_json_property_version: 'kebab' });
+          return window.OnesyStyle.inline({ color: 'yellow', backgroundColor: 'orange' }, {}, { response: 'json', response_json_property_version: 'kebab' });
         });
 
-        const valueNode = AmauiStyle.inline({ color: 'yellow', backgroundColor: 'orange' }, {}, { response: 'json', response_json_property_version: 'kebab' });
+        const valueNode = OnesyStyle.inline({ color: 'yellow', backgroundColor: 'orange' }, {}, { response: 'json', response_json_property_version: 'kebab' });
 
         const values = [valueNode, ...valueBrowsers];
 

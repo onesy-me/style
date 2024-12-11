@@ -1,10 +1,10 @@
-import merge from '@amaui/utils/merge';
-import Try from '@amaui/utils/try';
+import merge from '@onesy/utils/merge';
+import Try from '@onesy/utils/try';
 
-import AmauiStyle from './AmauiStyle';
-import AmauiStyleSheetManager from './AmauiStyleSheetManager';
-import AmauiTheme from './AmauiTheme';
-import { TValue, TValueMethod, IAmauiStyleSheetManagerProps, IMethodResponse, IOptionsAmauiStyle, IOptionsAmauiTheme } from './interfaces';
+import OnesyStyle from './OnesyStyle';
+import OnesyStyleSheetManager from './OnesyStyleSheetManager';
+import OnesyTheme from './OnesyTheme';
+import { TValue, TValueMethod, IOnesyStyleSheetManagerProps, IMethodResponse, IOptionsOnesyStyle, IOptionsOnesyTheme } from './interfaces';
 import { is } from './utils';
 
 export interface IOptions {
@@ -12,17 +12,17 @@ export interface IOptions {
 
   name?: string;
 
-  amaui_style?: IOptionsAmauiStyle;
+  onesy_style?: IOptionsOnesyStyle;
 
-  amaui_theme?: IOptionsAmauiTheme;
+  onesy_theme?: IOptionsOnesyTheme;
 }
 
 const optionsDefault: IOptions = {
-  amaui_style: {
-    get: AmauiStyle.first.bind(AmauiStyle),
+  onesy_style: {
+    get: OnesyStyle.first.bind(OnesyStyle),
   },
-  amaui_theme: {
-    get: AmauiTheme.first.bind(AmauiTheme),
+  onesy_theme: {
+    get: OnesyTheme.first.bind(OnesyTheme),
   }
 };
 
@@ -32,26 +32,26 @@ function pure(
 ): IMethodResponse {
   const options = merge(options_, optionsDefault, { copy: true });
 
-  // Amaui style
-  let amauiStyle = options.amaui_style.value || (is('function', options.amaui_style.get) && options.amaui_style.get(options.element));
+  // Onesy style
+  let onesyStyle = options.onesy_style.value || (is('function', options.onesy_style.get) && options.onesy_style.get(options.element));
 
-  if (amauiStyle === undefined) amauiStyle = new AmauiStyle();
+  if (onesyStyle === undefined) onesyStyle = new OnesyStyle();
 
-  // Amaui theme
-  const amauiTheme: AmauiTheme = options.amaui_theme.value || (is('function', options.amaui_theme.get) && options.amaui_theme.get(options.element));
+  // Onesy theme
+  const onesyTheme: OnesyTheme = options.onesy_theme.value || (is('function', options.onesy_theme.get) && options.onesy_theme.get(options.element));
 
   // Make value if it's a function
-  const value = is('function', value_) ? Try(() => (value_ as TValueMethod)(amauiTheme)) : value_;
+  const value = is('function', value_) ? Try(() => (value_ as TValueMethod)(onesyTheme)) : value_;
 
-  // Make an instance of amauiStyleSheetManager
-  const amauiStyleSheetManager = new AmauiStyleSheetManager(
+  // Make an instance of onesyStyleSheetManager
+  const onesyStyleSheetManager = new OnesyStyleSheetManager(
     value,
     {
       mode: 'regular',
       pure: true,
       priority: 'lower',
-      amauiTheme,
-      amauiStyle,
+      onesyTheme,
+      onesyStyle,
       name: options.name,
       style: {
         attributes: {
@@ -62,14 +62,14 @@ function pure(
   );
 
   const response: IMethodResponse = {
-    ids: amauiStyleSheetManager.ids,
-    amaui_style_sheet_manager: amauiStyleSheetManager,
-    sheets: amauiStyleSheetManager.sheets,
-    add: amauiStyleSheetManager.add.bind(amauiStyleSheetManager),
-    set props(value__: IAmauiStyleSheetManagerProps) { amauiStyleSheetManager.props = value__; },
-    update: amauiStyleSheetManager.update.bind(amauiStyleSheetManager),
-    remove: amauiStyleSheetManager.remove.bind(amauiStyleSheetManager),
-    addRule: amauiStyleSheetManager.sheets.static[0] && amauiStyleSheetManager.sheets.static[0].addRule.bind(amauiStyleSheetManager.sheets.static[0]),
+    ids: onesyStyleSheetManager.ids,
+    onesy_style_sheet_manager: onesyStyleSheetManager,
+    sheets: onesyStyleSheetManager.sheets,
+    add: onesyStyleSheetManager.add.bind(onesyStyleSheetManager),
+    set props(value__: IOnesyStyleSheetManagerProps) { onesyStyleSheetManager.props = value__; },
+    update: onesyStyleSheetManager.update.bind(onesyStyleSheetManager),
+    remove: onesyStyleSheetManager.remove.bind(onesyStyleSheetManager),
+    addRule: onesyStyleSheetManager.sheets.static[0] && onesyStyleSheetManager.sheets.static[0].addRule.bind(onesyStyleSheetManager.sheets.static[0]),
   };
 
   // Response

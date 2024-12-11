@@ -1,13 +1,13 @@
 /* tslint:disable: no-shadowed-variable */
-import { assert } from '@amaui/test';
-import AmauiSubscription from '@amaui/subscription';
-import * as AmauiUtils from '@amaui/utils';
+import { assert } from '@onesy/test';
+import OnesySubscription from '@onesy/subscription';
+import * as OnesyUtils from '@onesy/utils';
 
 import { evaluate } from '../utils/js/test/utils';
 
-import * as AmauiStyle from '../src';
+import * as OnesyStyle from '../src';
 
-group('@amaui/style/utils', () => {
+group('@onesy/style/utils', () => {
 
   to('kebabCasetoCammelCase', async () => {
     const valueBrowsers = await evaluate((window: any) => {
@@ -27,7 +27,7 @@ group('@amaui/style/utils', () => {
         new Array(),
       ];
 
-      return values_.map(item => window.AmauiStyle.kebabCasetoCammelCase(item));
+      return values_.map(item => window.OnesyStyle.kebabCasetoCammelCase(item));
     });
 
     const values_ = [
@@ -46,7 +46,7 @@ group('@amaui/style/utils', () => {
       new Array(),
     ];
 
-    const valueNode = values_.map((item: any) => AmauiStyle.kebabCasetoCammelCase(item));
+    const valueNode = values_.map((item: any) => OnesyStyle.kebabCasetoCammelCase(item));
 
     const values = [valueNode, ...valueBrowsers];
 
@@ -86,7 +86,7 @@ group('@amaui/style/utils', () => {
         new Array(),
       ];
 
-      return values_.map(item => window.AmauiStyle.cammelCaseToKebabCase(item));
+      return values_.map(item => window.OnesyStyle.cammelCaseToKebabCase(item));
     });
 
     const values_ = [
@@ -106,7 +106,7 @@ group('@amaui/style/utils', () => {
       new Array(),
     ];
 
-    const valueNode = values_.map((item: any) => AmauiStyle.cammelCaseToKebabCase(item));
+    const valueNode = values_.map((item: any) => OnesyStyle.cammelCaseToKebabCase(item));
 
     const values = [valueNode, ...valueBrowsers];
 
@@ -147,7 +147,7 @@ group('@amaui/style/utils', () => {
         new Array(),
       ];
 
-      return values_.map(item => window.AmauiStyle.capitalizedCammelCase(item));
+      return values_.map(item => window.OnesyStyle.capitalizedCammelCase(item));
     });
 
     const values_ = [
@@ -167,7 +167,7 @@ group('@amaui/style/utils', () => {
       new Array(),
     ];
 
-    const valueNode = values_.map((item: any) => AmauiStyle.capitalizedCammelCase(item));
+    const valueNode = values_.map((item: any) => OnesyStyle.capitalizedCammelCase(item));
 
     const values = [valueNode, ...valueBrowsers];
 
@@ -189,10 +189,10 @@ group('@amaui/style/utils', () => {
     ]));
   });
 
-  to('isAmauiSubscription', async () => {
+  to('isOnesySubscription', async () => {
     const valueBrowsers = await evaluate((window: any) => {
       const values_ = [
-        new window.AmauiSubscription(),
+        new window.OnesySubscription(),
         '',
         4,
         true,
@@ -200,11 +200,11 @@ group('@amaui/style/utils', () => {
         new Array()
       ];
 
-      return values_.map(item => window.AmauiStyle.isAmauiSubscription(item));
+      return values_.map(item => window.OnesyStyle.isOnesySubscription(item));
     });
 
     const values_ = [
-      new AmauiSubscription(),
+      new OnesySubscription(),
       '',
       4,
       true,
@@ -212,7 +212,7 @@ group('@amaui/style/utils', () => {
       new Array()
     ];
 
-    const valueNode = values_.map((item: any) => AmauiStyle.isAmauiSubscription(item));
+    const valueNode = values_.map((item: any) => OnesyStyle.isOnesySubscription(item));
 
     const values = [valueNode, ...valueBrowsers];
 
@@ -238,7 +238,7 @@ group('@amaui/style/utils', () => {
         new Array()
       ];
 
-      return values_.map(item => window.AmauiStyle.getRefs(item));
+      return values_.map(item => window.OnesyStyle.getRefs(item));
     });
 
     const values_ = [
@@ -255,7 +255,7 @@ group('@amaui/style/utils', () => {
       new Array()
     ];
 
-    const valueNode = values_.map((item: any) => AmauiStyle.getRefs(item));
+    const valueNode = values_.map((item: any) => OnesyStyle.getRefs(item));
 
     const values = [valueNode, ...valueBrowsers];
 
@@ -321,7 +321,7 @@ group('@amaui/style/utils', () => {
           position: 'center center',
         }],
         ['background', props => props.a === 1 ? 'yellow' : 'orange'],
-        ['background', new window.AmauiSubscription('yellow')],
+        ['background', new window.OnesySubscription('yellow')],
 
         [''],
         [4],
@@ -330,16 +330,16 @@ group('@amaui/style/utils', () => {
         [new Array()]
       ];
 
-      const amauiStyle = new window.AmauiStyle.AmauiStyle();
+      const onesyStyle = new window.OnesyStyle.OnesyStyle();
 
-      amauiStyle.plugins.add = [window.AmauiStyle.unit, window.AmauiStyle.valueObject];
+      onesyStyle.plugins.add = [window.OnesyStyle.unit, window.OnesyStyle.valueObject];
 
       return values_.map(item => {
-        const value = window.AmauiStyle.valueResolve(...item, amauiStyle).value;
+        const value = window.OnesyStyle.valueResolve(...item, onesyStyle).value;
 
         if (
-          window.AmauiUtils.is('function', value[0]) ||
-          window.AmauiStyle.isAmauiSubscription(value[0])
+          window.OnesyUtils.is('function', value[0]) ||
+          window.OnesyStyle.isOnesySubscription(value[0])
         ) return true;
 
         return value;
@@ -398,7 +398,7 @@ group('@amaui/style/utils', () => {
         position: 'center center',
       }],
       ['background', props => props.a === 1 ? 'yellow' : 'orange'],
-      ['background', new AmauiSubscription('yellow')],
+      ['background', new OnesySubscription('yellow')],
 
       [''],
       [4],
@@ -407,16 +407,16 @@ group('@amaui/style/utils', () => {
       [new Array()]
     ];
 
-    const amauiStyle = new AmauiStyle.AmauiStyle();
+    const onesyStyle = new OnesyStyle.OnesyStyle();
 
-    amauiStyle.plugins.add = [AmauiStyle.unit, AmauiStyle.valueObject];
+    onesyStyle.plugins.add = [OnesyStyle.unit, OnesyStyle.valueObject];
 
     const valueNode = values_.map((item: [any, any]) => {
-      const value = AmauiStyle.valueResolve(...item, amauiStyle).value;
+      const value = OnesyStyle.valueResolve(...item, onesyStyle).value;
 
       if (
-        AmauiUtils.is('function', value[0]) ||
-        AmauiStyle.isAmauiSubscription(value[0])
+        OnesyUtils.is('function', value[0]) ||
+        OnesyStyle.isOnesySubscription(value[0])
       ) return true;
 
       return value;
@@ -443,9 +443,9 @@ group('@amaui/style/utils', () => {
     const valueBrowsers = await evaluate((window: any) => {
       const values_ = [
         () => 'a',
-        new window.AmauiSubscription(),
+        new window.OnesySubscription(),
         { a: () => 'a' },
-        { a: new window.AmauiSubscription() },
+        { a: new window.OnesySubscription() },
         { a: 'a' },
         { a: new Array() },
         '',
@@ -455,14 +455,14 @@ group('@amaui/style/utils', () => {
         new Array()
       ];
 
-      return values_.map(item => window.AmauiStyle.dynamic(item));
+      return values_.map(item => window.OnesyStyle.dynamic(item));
     });
 
     const values_ = [
       () => 'a',
-      new AmauiSubscription(),
+      new OnesySubscription(),
       { a: () => 'a' },
-      { a: new AmauiSubscription() },
+      { a: new OnesySubscription() },
       { a: 'a' },
       { a: new Array() },
       '',
@@ -472,7 +472,7 @@ group('@amaui/style/utils', () => {
       new Array()
     ];
 
-    const valueNode = values_.map((item: any) => AmauiStyle.dynamic(item));
+    const valueNode = values_.map((item: any) => OnesyStyle.dynamic(item));
 
     const values = [valueNode, ...valueBrowsers];
 
@@ -484,7 +484,7 @@ group('@amaui/style/utils', () => {
 
   to('makeName', async () => {
     const valueBrowsers = await evaluate((window: any) => {
-      const makeNameMethod = window.AmauiStyle.makeName();
+      const makeNameMethod = window.OnesyStyle.makeName();
 
       const values_ = [];
 
@@ -493,7 +493,7 @@ group('@amaui/style/utils', () => {
       return values_;
     });
 
-    const makeNameMethod = AmauiStyle.makeName();
+    const makeNameMethod = OnesyStyle.makeName();
 
     const values_ = [];
 
@@ -525,7 +525,7 @@ group('@amaui/style/utils', () => {
         [124, 14],
       ];
 
-      return values_.map(item => window.AmauiStyle.pxToRem(...item));
+      return values_.map(item => window.OnesyStyle.pxToRem(...item));
     });
 
     const values_ = [
@@ -543,7 +543,7 @@ group('@amaui/style/utils', () => {
       [124, 14],
     ];
 
-    const valueNode = values_.map((item: [any, any?]) => AmauiStyle.pxToRem(...item));
+    const valueNode = values_.map((item: [any, any?]) => OnesyStyle.pxToRem(...item));
 
     const values = [valueNode, ...valueBrowsers];
 
@@ -566,16 +566,16 @@ group('@amaui/style/utils', () => {
   to('names', async () => {
     const valueBrowsers = await evaluate((window: any) => {
       const values_ = [
-        window.AmauiStyle.names({ classNames: { a: 'a-0', a1: 'a1-1' } }).className,
-        window.AmauiStyle.names({ classes: { a: 'a-0 a14-4', a1: 'a1-1' } }).class,
+        window.OnesyStyle.names({ classNames: { a: 'a-0', a1: 'a1-1' } }).className,
+        window.OnesyStyle.names({ classes: { a: 'a-0 a14-4', a1: 'a1-1' } }).class,
       ];
 
       return values_;
     });
 
     const values_ = [
-      AmauiStyle.names({ classNames: { a: 'a-0', a1: 'a1-1' } } as any).className,
-      AmauiStyle.names({ classes: { a: 'a-0 a14-4', a1: 'a1-1' } } as any).class,
+      OnesyStyle.names({ classNames: { a: 'a-0', a1: 'a1-1' } } as any).className,
+      OnesyStyle.names({ classes: { a: 'a-0 a14-4', a1: 'a1-1' } } as any).class,
     ];
 
     const valueNode = values_;

@@ -1,16 +1,16 @@
-import { TMethod } from '@amaui/models';
+import { TMethod } from '@onesy/models';
 
 import { ICSSOptions } from './interfaces';
 
 export * from './utils';
 export * from './interfaces';
-export { default as AmauiStyle } from './AmauiStyle';
-export { default as AmauiStyleRenderer } from './AmauiStyleRenderer';
-export { default as AmauiStyleSheet } from './AmauiStyleSheet';
-export { default as AmauiStyleSheetManager } from './AmauiStyleSheetManager';
-export { default as AmauiStyleRule } from './AmauiStyleRule';
-export { default as AmauiStyleRuleProperty } from './AmauiStyleRuleProperty';
-export { default as AmauiTheme } from './AmauiTheme';
+export { default as OnesyStyle } from './OnesyStyle';
+export { default as OnesyStyleRenderer } from './OnesyStyleRenderer';
+export { default as OnesyStyleSheet } from './OnesyStyleSheet';
+export { default as OnesyStyleSheetManager } from './OnesyStyleSheetManager';
+export { default as OnesyStyleRule } from './OnesyStyleRule';
+export { default as OnesyStyleRuleProperty } from './OnesyStyleRuleProperty';
+export { default as OnesyTheme } from './OnesyTheme';
 export { default as style } from './style';
 export { default as pure } from './pure';
 export { default as reset } from './reset';

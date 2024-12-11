@@ -1,12 +1,12 @@
 import type * as CSS from 'csstype';
 
-import AmauiSubscription from '@amaui/subscription';
+import OnesySubscription from '@onesy/subscription';
 
-import AmauiStyle from './AmauiStyle';
-import AmauiStyleRule from './AmauiStyleRule';
-import AmauiStyleSheet from './AmauiStyleSheet';
-import AmauiStyleSheetManager from './AmauiStyleSheetManager';
-import AmauiTheme from './AmauiTheme';
+import OnesyStyle from './OnesyStyle';
+import OnesyStyleRule from './OnesyStyleRule';
+import OnesyStyleSheet from './OnesyStyleSheet';
+import OnesyStyleSheetManager from './OnesyStyleSheetManager';
+import OnesyTheme from './OnesyTheme';
 
 declare module 'csstype' {
   interface Properties {
@@ -23,7 +23,7 @@ export type TValueObjectValue = (
 
   ((props?: any) => TValueObjectValue) |
 
-  AmauiSubscription |
+  OnesySubscription |
 
   CSS.Properties<string | number | Array<string | number> | Array<Array<string | number>> | Array<TValueObjectValue> | Array<Array<TValueObjectValue>> | ((props?: any) => TValueObjectValue)> |
 
@@ -34,7 +34,7 @@ export type TValueObjectValue = (
 
 export type TValueObject = Record<string, TValueObjectValue>;
 
-export type TValueMethod = (theme: AmauiTheme) => TValueObject;
+export type TValueMethod = (theme: OnesyTheme) => TValueObject;
 
 export type TValue = TValueObject | TValueMethod;
 
@@ -42,9 +42,9 @@ export type TMode = 'regular' | 'atomic';
 
 export type TDirection = 'ltr' | 'rtl';
 
-export type TValueVersion = 'value' | 'method' | 'amaui_subscription';
+export type TValueVersion = 'value' | 'method' | 'onesy_subscription';
 
-export type TRef = { main: { sheet: AmauiStyleSheet, rule: AmauiStyleRule }, className: string; refs: Array<AmauiStyleSheet> };
+export type TRef = { main: { sheet: OnesyStyleSheet, rule: OnesyStyleRule }, className: string; refs: Array<OnesyStyleSheet> };
 
 export type TRefs = Record<string, TRef>;
 
@@ -84,12 +84,12 @@ export interface IResponse {
 export type TPriority = 'lower' | 'upper';
 
 export interface ISheets {
-  static: Array<AmauiStyleSheet>;
-  dynamic: Array<AmauiStyleSheet>;
+  static: Array<OnesyStyleSheet>;
+  dynamic: Array<OnesyStyleSheet>;
 }
 
 export interface IMethodResponse {
-  amaui_style_sheet_manager: AmauiStyleSheetManager;
+  onesy_style_sheet_manager: OnesyStyleSheetManager;
   sheets: ISheets;
   ids: IIds;
   add: (props?: any) => IResponse;
@@ -99,14 +99,14 @@ export interface IMethodResponse {
   addRule: (value: any, property?: string) => IAddRuleResponse;
 }
 
-export interface IOptionsAmauiTheme {
-  value?: AmauiTheme;
-  get?: (value?: Element) => AmauiTheme;
+export interface IOptionsOnesyTheme {
+  value?: OnesyTheme;
+  get?: (value?: Element) => OnesyTheme;
 }
 
-export interface IOptionsAmauiStyle {
-  value?: AmauiStyle;
-  get?: (value?: Element) => AmauiStyle;
+export interface IOptionsOnesyStyle {
+  value?: OnesyStyle;
+  get?: (value?: Element) => OnesyStyle;
 }
 
 export interface IInsert {
@@ -114,9 +114,9 @@ export interface IInsert {
 }
 
 export interface ICSSOptions {
-  amaui_style?: IOptionsAmauiStyle;
+  onesy_style?: IOptionsOnesyStyle;
 
-  amaui_theme?: IOptionsAmauiTheme;
+  onesy_theme?: IOptionsOnesyTheme;
 
   mode?: TMode;
 
@@ -159,7 +159,7 @@ export interface ICSSOptions {
   log?: boolean;
 }
 
-export interface IAmauiStyleSheetManagerProps {
+export interface IOnesyStyleSheetManagerProps {
   props: any;
   ids: string | Array<string>;
 }

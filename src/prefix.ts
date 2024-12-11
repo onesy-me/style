@@ -1,6 +1,6 @@
-import isEnvironment from '@amaui/utils/isEnvironment';
+import isEnvironment from '@onesy/utils/isEnvironment';
 
-import AmauiStyle from './AmauiStyle';
+import OnesyStyle from './OnesyStyle';
 import { capitalizedCammelCase } from './utils';
 
 export interface IPrefix {
@@ -89,7 +89,7 @@ const mapAllValuePrefixes = {
   },
 };
 
-function prefix(amauiStyle: AmauiStyle, options_: IOptions = {}) {
+function prefix(onesyStyle: OnesyStyle, options_: IOptions = {}) {
   const options = { ...optionsDefault, ...options_ };
 
   const valid = (value: any, property: any) => {
@@ -160,14 +160,14 @@ function prefix(amauiStyle: AmauiStyle, options_: IOptions = {}) {
   };
 
   // Add methods to subscriptions
-  if (amauiStyle) {
-    amauiStyle.subscriptions.rule.prefix.subscribe(method);
+  if (onesyStyle) {
+    onesyStyle.subscriptions.rule.prefix.subscribe(method);
   }
 
   const remove = () => {
     // Remove methods from subscriptions
-    if (amauiStyle) {
-      amauiStyle.subscriptions.rule.prefix.unsubscribe(method);
+    if (onesyStyle) {
+      onesyStyle.subscriptions.rule.prefix.unsubscribe(method);
     }
   };
 

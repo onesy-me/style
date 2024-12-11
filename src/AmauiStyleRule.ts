@@ -1,32 +1,32 @@
-import hash from '@amaui/utils/hash';
-import Try from '@amaui/utils/try';
-import castParam from '@amaui/utils/castParam';
-import getEnvironment from '@amaui/utils/getEnvironment';
-import merge from '@amaui/utils/merge';
-import AmauiSubscription from '@amaui/subscription';
+import hash from '@onesy/utils/hash';
+import Try from '@onesy/utils/try';
+import castParam from '@onesy/utils/castParam';
+import getEnvironment from '@onesy/utils/getEnvironment';
+import merge from '@onesy/utils/merge';
+import OnesySubscription from '@onesy/subscription';
 
-import AmauiStyle from './AmauiStyle';
-import AmauiStyleSheet from './AmauiStyleSheet';
-import AmauiStyleRuleProperty from './AmauiStyleRuleProperty';
+import OnesyStyle from './OnesyStyle';
+import OnesyStyleSheet from './OnesyStyleSheet';
+import OnesyStyleRuleProperty from './OnesyStyleRuleProperty';
 import classNamesMethod from './classNames';
 import { IOptionsRule, IValuesVersion, TMode, TRef, TStatus, TValueVersion } from './interfaces';
-import { cammelCaseToKebabCase, getID, getRefs, is, isAmauiSubscription, valueResolve } from './utils';
+import { cammelCaseToKebabCase, getID, getRefs, is, isOnesySubscription, valueResolve } from './utils';
 
 export type TVersion = 'property' | 'at-rule';
 
 export interface IRuleItemWithString {
   property: string;
-  value: AmauiStyleRule | AmauiStyleRuleProperty;
+  value: OnesyStyleRule | OnesyStyleRuleProperty;
 }
 
-export interface IAmauiStyleRuleValue {
-  value: Array<string | (() => any) | AmauiSubscription>;
+export interface IOnesyStyleRuleValue {
+  value: Array<string | (() => any) | OnesySubscription>;
   options?: {
     rule?: IOptionsRule;
   };
 }
 
-export type TRules = Array<{ property: string; value: AmauiStyleRule | AmauiStyleRuleProperty }>;
+export type TRules = Array<{ property: string; value: OnesyStyleRule | OnesyStyleRuleProperty }>;
 
 interface IOptions extends IOptionsRule {
   mode?: TMode;
@@ -34,10 +34,10 @@ interface IOptions extends IOptionsRule {
   version?: TVersion;
   pure?: boolean;
   index?: number;
-  owner?: AmauiStyleRule | AmauiStyleSheet;
-  parents?: Array<AmauiStyleSheet | AmauiStyleRule>;
-  amauiStyle?: AmauiStyle;
-  amauiStyleSheet?: AmauiStyleSheet;
+  owner?: OnesyStyleRule | OnesyStyleSheet;
+  parents?: Array<OnesyStyleSheet | OnesyStyleRule>;
+  onesyStyle?: OnesyStyle;
+  onesyStyleSheet?: OnesyStyleSheet;
 }
 
 const optionsDefault: IOptions = {
@@ -53,17 +53,17 @@ const optionsDefault: IOptions = {
 
 const env = getEnvironment();
 
-class AmauiStyleRule {
+class OnesyStyleRule {
   public id: string;
   public value_version: TValueVersion = 'value';
   public mode: TMode = 'regular';
   public version: TVersion = 'property';
   public pure = false;
   public index = 0;
-  public owner: AmauiStyleRule | AmauiStyleSheet;
-  public parents: Array<AmauiStyleSheet | AmauiStyleRule> = [];
-  public amauiStyleSheet: AmauiStyleSheet;
-  public amauiStyle: AmauiStyle;
+  public owner: OnesyStyleRule | OnesyStyleSheet;
+  public parents: Array<OnesyStyleSheet | OnesyStyleRule> = [];
+  public onesyStyleSheet: OnesyStyleSheet;
+  public onesyStyle: OnesyStyle;
   public rule_: CSSStyleRule;
   public status: TStatus = 'idle';
   public level: number;
@@ -71,7 +71,7 @@ class AmauiStyleRule {
   public isVariable = false;
   public hash_: string;
   public static = true;
-  public rules_owned: Array<AmauiStyleRule | AmauiStyleRuleProperty> = [];
+  public rules_owned: Array<OnesyStyleRule | OnesyStyleRuleProperty> = [];
   public ref: TRef;
   public className_: string = '';
   public selector_: string = '';
@@ -114,11 +114,11 @@ class AmauiStyleRule {
       // Update classNames
       if (!this.classNames.match(new RegExp(`^(\.)?${this.className} | (\.)?${this.className} | (\.)?${this.className}$`, 'g'))) this.classNames = `${this.className} ${this.classNames}`.trim();
 
-      this.amauiStyleSheet.names.classNames[this.property] = this.className;
+      this.onesyStyleSheet.names.classNames[this.property] = this.className;
 
-      // in amauiStyleSheetManager only for static sheets
-      if (this.amauiStyleSheet.version === 'static' && this.amauiStyleSheet.amauiStyleSheetManager) {
-        this.amauiStyleSheet.amauiStyleSheetManager.names.classNames[this.property] = this.className;
+      // in onesyStyleSheetManager only for static sheets
+      if (this.onesyStyleSheet.version === 'static' && this.onesyStyleSheet.onesyStyleSheetManager) {
+        this.onesyStyleSheet.onesyStyleSheetManager.names.classNames[this.property] = this.className;
       }
     }
   }
@@ -130,11 +130,11 @@ class AmauiStyleRule {
   public set classNames(value: string) {
     this.classNames_ = value;
 
-    this.amauiStyleSheet.names.classes[this.property] = this.classNames;
+    this.onesyStyleSheet.names.classes[this.property] = this.classNames;
 
-    // in amauiStyleSheetManager only for static sheets
-    if (this.amauiStyleSheet.version === 'static' && this.amauiStyleSheet.amauiStyleSheetManager) {
-      this.amauiStyleSheet.amauiStyleSheetManager.names.classes[this.property] = this.classNames;
+    // in onesyStyleSheetManager only for static sheets
+    if (this.onesyStyleSheet.version === 'static' && this.onesyStyleSheet.onesyStyleSheetManager) {
+      this.onesyStyleSheet.onesyStyleSheetManager.names.classes[this.property] = this.classNames;
     }
   }
 
@@ -147,13 +147,13 @@ class AmauiStyleRule {
 
     const property = this.property.indexOf('@') === 0 ? this.property.split(' ')[1] : this.property;
 
-    // Update amauiStyleSheet keyframes
-    this.amauiStyleSheet.names.keyframes[property] = this.keyframesName;
+    // Update onesyStyleSheet keyframes
+    this.onesyStyleSheet.names.keyframes[property] = this.keyframesName;
 
-    // in amauiStyleSheetManager only for static sheets
-    if (this.amauiStyleSheet.version === 'static' && this.amauiStyleSheet.amauiStyleSheetManager) {
-      if (!this.amauiStyleSheet.amauiStyleSheetManager.names.keyframes[property]) {
-        this.amauiStyleSheet.amauiStyleSheetManager.names.keyframes[property] = this.keyframesName;
+    // in onesyStyleSheetManager only for static sheets
+    if (this.onesyStyleSheet.version === 'static' && this.onesyStyleSheet.onesyStyleSheetManager) {
+      if (!this.onesyStyleSheet.onesyStyleSheetManager.names.keyframes[property]) {
+        this.onesyStyleSheet.onesyStyleSheetManager.names.keyframes[property] = this.keyframesName;
       }
     }
   }
@@ -162,7 +162,7 @@ class AmauiStyleRule {
     return this.hash_;
   }
 
-  public get parent(): AmauiStyleRule | AmauiStyleSheet {
+  public get parent(): OnesyStyleRule | OnesyStyleSheet {
     return this.parents[this.parents.length - 1];
   }
 
@@ -178,8 +178,8 @@ class AmauiStyleRule {
     let value = this.values.css;
 
     this.rules_owned
-      .filter(item => item instanceof AmauiStyleRule)
-      .forEach((item: AmauiStyleRule) => value += `\n\n${item.allOwnedCss}`);
+      .filter(item => item instanceof OnesyStyleRule)
+      .forEach((item: OnesyStyleRule) => value += `\n\n${item.allOwnedCss}`);
 
     // Replace its own property selector with a constant
     value = value.replace(`${this.selector || this.property} {`, 'AMAUI_ITEM {');
@@ -188,12 +188,12 @@ class AmauiStyleRule {
   }
 
   public get counter() {
-    return AmauiStyle.counter;
+    return OnesyStyle.counter;
   }
 
-  private makeRuleClassNameDefault = (value: string = 'a') => `${this.amauiStyle.options?.classNamePrefix || ''}${value}-${++this.counter.className}`;
+  private makeRuleClassNameDefault = (value: string = 'a') => `${this.onesyStyle.options?.classNamePrefix || ''}${value}-${++this.counter.className}`;
 
-  private makeRuleKeyframesNameDefault = (value: string = 'a') => `${this.amauiStyle.options?.classNamePrefix || ''}${value}-${++this.counter.keyframesName}`;
+  private makeRuleKeyframesNameDefault = (value: string = 'a') => `${this.onesyStyle.options?.classNamePrefix || ''}${value}-${++this.counter.keyframesName}`;
 
   public updateValues(hash_ = true) {
     // Response
@@ -209,7 +209,7 @@ class AmauiStyleRule {
       if (css) {
         empty = false;
 
-        this.values.css += `${'  '.repeat(rule.value.level_actual)}${css}${'\n'.repeat((rule.value instanceof AmauiStyleRule && index !== this.rules.length - 1) ? 2 : 1)}`;
+        this.values.css += `${'  '.repeat(rule.value.level_actual)}${css}${'\n'.repeat((rule.value instanceof OnesyStyleRule && index !== this.rules.length - 1) ? 2 : 1)}`;
       }
     });
 
@@ -219,11 +219,11 @@ class AmauiStyleRule {
     // Only if it's a variable,
     // in some use cases if there are no props in css,
     // we still have to insertRule for dynamic rules
-    // so we have a rule ref for that amauiStyleRuleProperty to
+    // so we have a rule ref for that onesyStyleRuleProperty to
     // update with a new value on update
     if (
       empty &&
-      (!this.className || this.amauiStyleSheet.version === 'static')
+      (!this.className || this.onesyStyleSheet.version === 'static')
     ) this.values.css = '';
 
     // Hash
@@ -234,11 +234,11 @@ class AmauiStyleRule {
     if (
       !this.hash &&
       this.static &&
-      this.amauiStyleSheet.amauiStyle.options.optimize &&
-      this.amauiStyleSheet.version === 'static' &&
+      this.onesyStyleSheet.onesyStyle.options.optimize &&
+      this.onesyStyleSheet.version === 'static' &&
       this.version === 'property' &&
-      !(this.isVariable && this.amauiStyleSheet.mode === 'atomic')
-    ) this.hash_ = hash(this.amauiStyleSheet.mode === 'atomic' ? this.css : this.allOwnedCss);
+      !(this.isVariable && this.onesyStyleSheet.mode === 'atomic')
+    ) this.hash_ = hash(this.onesyStyleSheet.mode === 'atomic' ? this.css : this.allOwnedCss);
   }
 
   private init(value_?: any) {
@@ -251,8 +251,8 @@ class AmauiStyleRule {
     this.index = this.options.index !== undefined ? this.options.index : this.index;
     this.owner = this.options.owner;
     this.parents = this.options.parents || [];
-    this.amauiStyleSheet = this.options.amauiStyleSheet;
-    this.amauiStyle = this.options.amauiStyle;
+    this.onesyStyleSheet = this.options.onesyStyleSheet;
+    this.onesyStyle = this.options.onesyStyle;
 
     if (this.id === undefined) this.id = getID();
 
@@ -261,7 +261,7 @@ class AmauiStyleRule {
     if (this.owner) this.level_actual = (this.owner as any).level_actual === undefined ? 0 : (this.owner as any).level_actual + 1;
 
     // Add to rules_owned to all parents
-    this.parents.filter(parent => !(parent instanceof AmauiStyleSheet)).forEach(parent => (parent as AmauiStyleRule).rules_owned.push(this));
+    this.parents.filter(parent => !(parent instanceof OnesyStyleSheet)).forEach(parent => (parent as OnesyStyleRule).rules_owned.push(this));
 
     // Make string template value into an object
     const valueString = () => {
@@ -297,15 +297,15 @@ class AmauiStyleRule {
       (this.level === 0 && this.property.indexOf('@') !== 0)
     ) this.isVariable = true;
 
-    // value method or amauiSubscription
+    // value method or onesySubscription
     if (is('function', value)) this.value_version = 'method';
-    else if (isAmauiSubscription(value)) {
-      this.value_version = 'amaui_subscription';
+    else if (isOnesySubscription(value)) {
+      this.value_version = 'onesy_subscription';
 
       if (!(value as any).subscribed) (value as any).subscribed = [];
 
       if ((value as any).subscribed.indexOf(this) === -1) {
-        (value as AmauiSubscription).subscribe(this.update.bind(this));
+        (value as OnesySubscription).subscribe(this.update.bind(this));
 
         (value as any).subscribed.push(this);
       }
@@ -318,13 +318,13 @@ class AmauiStyleRule {
 
     this.version = atRule ? 'at-rule' : 'property';
 
-    // method or AmauiSubscription
-    if ((['method', 'amaui_subscription'].indexOf(this.value_version) > -1)) {
-      if (this.value_version === 'method') this.values.value = Try(() => value(this.amauiStyleSheet.props));
-      else if (this.value_version === 'amaui_subscription') this.values.value = this.value.value;
+    // method or OnesySubscription
+    if ((['method', 'onesy_subscription'].indexOf(this.value_version) > -1)) {
+      if (this.value_version === 'method') this.values.value = Try(() => value(this.onesyStyleSheet.props));
+      else if (this.value_version === 'onesy_subscription') this.values.value = this.value.value;
 
       // Value
-      this.values.value = is('function', this.values.value) ? Try(() => this.values.value(this.amauiStyleSheet.props)) : this.values.value;
+      this.values.value = is('function', this.values.value) ? Try(() => this.values.value(this.onesyStyleSheet.props)) : this.values.value;
     }
 
     value = this.values.value;
@@ -360,11 +360,11 @@ class AmauiStyleRule {
       this.unique;
 
       // Dynamic
-      const dynamic = (rule: AmauiStyleRule = this) => {
+      const dynamic = (rule: OnesyStyleRule = this) => {
         return rule.rules.some(item => (
           is('function', item.value.value) ||
-          isAmauiSubscription(item.value.value) ||
-          (item.value instanceof AmauiStyleRule && dynamic(item.value))
+          isOnesySubscription(item.value.value) ||
+          (item.value instanceof OnesyStyleRule && dynamic(item.value))
         ));
       };
 
@@ -389,7 +389,7 @@ class AmauiStyleRule {
 
   public addProperty(prop: string, value: any, index = this.rules.length, unique = true, add = true) {
     const atRule_ = prop.indexOf('@') === 0;
-    const parent = this as unknown as AmauiStyleRule;
+    const parent = this as unknown as OnesyStyleRule;
     const parentAtRule = this.version === 'at-rule';
     const parentKeyFrames = parentAtRule && parent.property?.indexOf('@keyframes') > -1;
     const selector = prop.indexOf('&') > -1 || parentAtRule || parentKeyFrames;
@@ -403,32 +403,32 @@ class AmauiStyleRule {
     if (isProperty) {
       const property = cammelCaseToKebabCase(prop);
 
-      const { value: ruleValues = [], options } = valueResolve(property, value, this.amauiStyle);
+      const { value: ruleValues = [], options } = valueResolve(property, value, this.onesyStyle);
 
       // Add to rules
       ruleValues.forEach(item => {
-        if (this.amauiStyleSheet.mode === 'regular' || !parent.isVariable) {
+        if (this.onesyStyleSheet.mode === 'regular' || !parent.isVariable) {
           if (!!item) {
-            AmauiStyleRuleProperty.make(
+            OnesyStyleRuleProperty.make(
               item,
               property,
               {
-                value_version: (is('function', item) || isAmauiSubscription(item)) ? is('function', item) ? 'method' : 'amaui_subscription' : 'value',
+                value_version: (is('function', item) || isOnesySubscription(item)) ? is('function', item) ? 'method' : 'onesy_subscription' : 'value',
                 pure: this.pure,
                 owner: parent,
                 parents: [...parent.parents, parent],
-                amauiStyleRule: parent,
-                amauiStyleSheet: parent.amauiStyleSheet,
-                amauiStyle: parent.amauiStyle,
+                onesyStyleRule: parent,
+                onesyStyleSheet: parent.onesyStyleSheet,
+                onesyStyle: parent.onesyStyle,
                 ...options.rule
               }
             );
           }
         }
-        else if (this.amauiStyleSheet.mode === 'atomic' && parent.isVariable) {
-          AmauiStyleRule.make(
+        else if (this.onesyStyleSheet.mode === 'atomic' && parent.isVariable) {
+          OnesyStyleRule.make(
             { [property]: item },
-            env.amaui_methods.makeName.next().value,
+            env.onesy_methods.makeName.next().value,
             {
               mode: 'atomic',
               version: 'property',
@@ -436,8 +436,8 @@ class AmauiStyleRule {
               index: (this.index + 1) + index,
               owner: parent.parent,
               parents: [...parent.parents, parent],
-              amauiStyleSheet: parent.amauiStyleSheet,
-              amauiStyle: parent.amauiStyle
+              onesyStyleSheet: parent.onesyStyleSheet,
+              onesyStyle: parent.onesyStyle
             }
           );
         }
@@ -445,9 +445,9 @@ class AmauiStyleRule {
     }
     else {
       // Pre
-      this.amauiStyle.subscriptions.rule.pre.emit();
+      this.onesyStyle.subscriptions.rule.pre.emit();
 
-      let rule: AmauiStyleRule;
+      let rule: OnesyStyleRule;
 
       const parents = [...parent.parents, parent];
 
@@ -458,7 +458,7 @@ class AmauiStyleRule {
 
       // if parent is keyframes
       if (parentKeyFrames) {
-        rule = AmauiStyleRule.make(
+        rule = OnesyStyleRule.make(
           value,
           prop,
           {
@@ -468,14 +468,14 @@ class AmauiStyleRule {
             index,
             owner: parent,
             parents,
-            amauiStyleSheet: parent.amauiStyleSheet,
-            amauiStyle: parent.amauiStyle
+            onesyStyleSheet: parent.onesyStyleSheet,
+            onesyStyle: parent.onesyStyle
           }
         );
       }
       // if it's a top level at-rule
       else if (atRule_ && atTopLevel.some(item => prop.indexOf(item) === 0)) {
-        rule = AmauiStyleRule.make(
+        rule = OnesyStyleRule.make(
           value,
           prop,
           {
@@ -483,10 +483,10 @@ class AmauiStyleRule {
             version: atRule_ ? 'at-rule' : 'property',
             pure: false,
             index,
-            owner: this.amauiStyleSheet,
+            owner: this.onesyStyleSheet,
             parents,
-            amauiStyleSheet: parent.amauiStyleSheet,
-            amauiStyle: parent.amauiStyle
+            onesyStyleSheet: parent.onesyStyleSheet,
+            onesyStyle: parent.onesyStyle
           }
         );
       }
@@ -501,18 +501,18 @@ class AmauiStyleRule {
         for (let i = parents.length - 1; i >= 0; i--) {
           owner = parents[i];
 
-          // Move it to nearest @media or @supports or AmauiStyleSheet parent as a rule in rules value
-          // only if the parent is at-rule @media or @supports, or AmauiStyleSheet
+          // Move it to nearest @media or @supports or OnesyStyleSheet parent as a rule in rules value
+          // only if the parent is at-rule @media or @supports, or OnesyStyleSheet
           if (
             (
               owner.version === 'at-rule' &&
               atNested.some(item => owner.property.indexOf(item) === 0)
             ) ||
-            owner instanceof AmauiStyleSheet
+            owner instanceof OnesyStyleSheet
           ) break;
         }
 
-        rule = AmauiStyleRule.make(
+        rule = OnesyStyleRule.make(
           value,
           prop,
           {
@@ -522,14 +522,14 @@ class AmauiStyleRule {
             index,
             owner,
             parents,
-            amauiStyleSheet: parent.amauiStyleSheet,
-            amauiStyle: parent.amauiStyle
+            onesyStyleSheet: parent.onesyStyleSheet,
+            onesyStyle: parent.onesyStyle
           }
         );
       }
 
       // Post
-      this.amauiStyle.subscriptions.rule.post.emit(rule);
+      this.onesyStyle.subscriptions.rule.post.emit(rule);
     }
 
     // Adding individual new prop
@@ -553,20 +553,20 @@ class AmauiStyleRule {
     // Make selector
     this.makeSelector();
 
-    // add for amauiStyleRule value
-    this.rules_owned.filter(rule => rule instanceof AmauiStyleRule).forEach(rule => (rule as AmauiStyleRule).add());
+    // add for onesyStyleRule value
+    this.rules_owned.filter(rule => rule instanceof OnesyStyleRule).forEach(rule => (rule as OnesyStyleRule).add());
 
     // Update values
     if (update) this.updateValues();
 
     // Add rule if sheet is active
-    if (this.amauiStyleSheet.status === 'active') return this.addRuleToCss();
+    if (this.onesyStyleSheet.status === 'active') return this.addRuleToCss();
 
     this.status = 'active';
   }
 
   public updateProps() {
-    if ((['method', 'amaui_subscription'].indexOf(this.value_version) > -1)) this.init();
+    if ((['method', 'onesy_subscription'].indexOf(this.value_version) > -1)) this.init();
 
     // Add
     this.add(false);
@@ -577,14 +577,14 @@ class AmauiStyleRule {
     // Update values
     this.updateValues();
 
-    this.amauiStyle.subscriptions.rule.update_props.emit(this);
+    this.onesyStyle.subscriptions.rule.update_props.emit(this);
   }
 
   public update(value?: any) {
     // Manual update
     if (
       value !== undefined ||
-      (['method', 'amaui_subscription'].indexOf(this.value_version) > -1)
+      (['method', 'onesy_subscription'].indexOf(this.value_version) > -1)
     ) this.init(value);
 
     // Add
@@ -596,32 +596,32 @@ class AmauiStyleRule {
     // Update values
     this.updateValues();
 
-    this.amauiStyle.subscriptions.rule.update.emit(this);
+    this.onesyStyle.subscriptions.rule.update.emit(this);
   }
 
   public remove() {
-    // Remove all own amauiStyleRules
-    this.rules_owned.filter(rule => rule instanceof AmauiStyleRule).forEach(rule => (rule as AmauiStyleRule).remove());
+    // Remove all own onesyStyleRules
+    this.rules_owned.filter(rule => rule instanceof OnesyStyleRule).forEach(rule => (rule as OnesyStyleRule).remove());
 
-    // Only if rule and amauiStyleSheet.sheet exists
+    // Only if rule and onesyStyleSheet.sheet exists
     // find index of the rule in the sheet
     // remove the rule from the sheet
-    const ref = this.amauiStyle.refs[this.hash];
+    const ref = this.onesyStyle.refs[this.hash];
 
     // No ref or ref is main and ref.refs are empty
     if (!ref || (ref.main.rule === this && !ref.refs.length)) {
-      if (ref) delete this.amauiStyle.refs[this.hash];
+      if (ref) delete this.onesyStyle.refs[this.hash];
 
-      if (this.amauiStyleSheet.sheet) {
-        const index = Array.from(this.amauiStyleSheet.sheet.cssRules).findIndex(item => item === this.rule);
+      if (this.onesyStyleSheet.sheet) {
+        const index = Array.from(this.onesyStyleSheet.sheet.cssRules).findIndex(item => item === this.rule);
 
-        if (index > -1) this.amauiStyleSheet.sheet.deleteRule(index);
+        if (index > -1) this.onesyStyleSheet.sheet.deleteRule(index);
       }
 
       this.clear();
     }
     else if (ref && ref.main.rule !== this) {
-      const indexRef = ref.refs.indexOf(this.amauiStyleSheet);
+      const indexRef = ref.refs.indexOf(this.onesyStyleSheet);
 
       if (indexRef > -1) ref.refs.splice(indexRef, 1);
 
@@ -640,7 +640,7 @@ class AmauiStyleRule {
       const css = this.css;
 
       if (css) {
-        const rule = ((this.owner as AmauiStyleSheet).sheet || (this.owner as AmauiStyleRule).rule) as (CSSStyleSheet | CSSMediaRule);
+        const rule = ((this.owner as OnesyStyleSheet).sheet || (this.owner as OnesyStyleRule).rule) as (CSSStyleSheet | CSSMediaRule);
 
         if (rule?.cssRules) {
           let index = rule.cssRules.length;
@@ -652,7 +652,7 @@ class AmauiStyleRule {
 
             this.rule = ruleCSS;
 
-            this.amauiStyle.subscriptions.rule.add.emit(this);
+            this.onesyStyle.subscriptions.rule.add.emit(this);
 
             return true;
           }
@@ -663,7 +663,7 @@ class AmauiStyleRule {
 
   public addRuleRef() {
     if (!this.rule) {
-      const rule = ((this.owner as AmauiStyleSheet).sheet || (this.owner as AmauiStyleRule).rule) as (CSSStyleSheet | CSSMediaRule);
+      const rule = ((this.owner as OnesyStyleSheet).sheet || (this.owner as OnesyStyleRule).rule) as (CSSStyleSheet | CSSMediaRule);
 
       if (rule?.cssRules) {
         const ref = Array.from(rule.cssRules).find((item: CSSStyleRule) => item.selectorText === this.selector) as CSSStyleRule;
@@ -671,7 +671,7 @@ class AmauiStyleRule {
         if (ref !== undefined) this.rule = ref;
 
         // Move through rules
-        this.rules_owned.filter(rule_ => rule_ instanceof AmauiStyleRule).forEach((rule_: AmauiStyleRule) => rule_.addRuleRef());
+        this.rules_owned.filter(rule_ => rule_ instanceof OnesyStyleRule).forEach((rule_: OnesyStyleRule) => rule_.addRuleRef());
       }
     }
   }
@@ -703,7 +703,7 @@ class AmauiStyleRule {
 
           while (parent.version === 'at-rule') parent = parent.parent;
 
-          this.selector = this.selector.replace(/&/g, (parent as AmauiStyleRule).selector);
+          this.selector = this.selector.replace(/&/g, (parent as OnesyStyleRule).selector);
 
           // properties ie. body should remain the same targeting html element
           // we only replace $ ref values in properties
@@ -722,7 +722,7 @@ class AmauiStyleRule {
         // and & value rules
         else {
           // & ref
-          this.selector = this.selector.replace(/&/g, (this.parent as AmauiStyleRule).selector);
+          this.selector = this.selector.replace(/&/g, (this.parent as OnesyStyleRule).selector);
 
           // $ ref
           const refs = getRefs(this.selector as string);
@@ -745,30 +745,30 @@ class AmauiStyleRule {
     }
   }
 
-  private makeClassName(property: string, rule?: AmauiStyleRule) {
-    const names = this.amauiStyleSheet.amauiStyleSheetManager?.names || this.amauiStyleSheet.names;
+  private makeClassName(property: string, rule?: OnesyStyleRule) {
+    const names = this.onesyStyleSheet.onesyStyleSheetManager?.names || this.onesyStyleSheet.names;
 
     const cached = names.classNames[property];
 
     if (cached) return cached;
 
-    // amauiStyle ref
+    // onesyStyle ref
     // ref className already exists for the same hash
-    const ref = this.amauiStyle.refs[this.hash];
+    const ref = this.onesyStyle.refs[this.hash];
 
-    // Only reuse classNames for static amauiStyleSheets and for variables only not & rules
+    // Only reuse classNames for static onesyStyleSheets and for variables only not & rules
     if (
-      rule instanceof AmauiStyleRule &&
+      rule instanceof OnesyStyleRule &&
       (rule.isVariable || rule.mode === 'atomic') &&
       this.hash &&
       ref &&
-      this.amauiStyleSheet.version === 'static'
+      this.onesyStyleSheet.version === 'static'
     ) {
-      // Push amauiStyleSheet ref if it doesn't already exist in refs
+      // Push onesyStyleSheet ref if it doesn't already exist in refs
       if (
-        ref.main.sheet !== this.amauiStyleSheet &&
-        ref.refs.indexOf(this.amauiStyleSheet) === -1
-      ) ref.refs.push(this.amauiStyleSheet);
+        ref.main.sheet !== this.onesyStyleSheet &&
+        ref.refs.indexOf(this.onesyStyleSheet) === -1
+      ) ref.refs.push(this.onesyStyleSheet);
 
       // Update rule ref
       rule.ref = ref;
@@ -779,23 +779,23 @@ class AmauiStyleRule {
     // Make a className
     const className = (
       // Make with plugin/s
-      this.amauiStyle.subscriptions.className.name.map({ property, value: rule?.value })?.value ||
+      this.onesyStyle.subscriptions.className.name.map({ property, value: rule?.value })?.value ||
 
       // Make with a default method
       this.makeRuleClassNameDefault(property)
     );
 
-    // Add to amauiStyle ref,
-    // only reuse classNames for static amauiStyleSheets
+    // Add to onesyStyle ref,
+    // only reuse classNames for static onesyStyleSheets
     if (
-      rule instanceof AmauiStyleRule &&
+      rule instanceof OnesyStyleRule &&
       (rule.isVariable || rule.mode === 'atomic') &&
       this.hash &&
-      this.amauiStyleSheet.version === 'static'
+      this.onesyStyleSheet.version === 'static'
     ) {
-      this.amauiStyle.refs[this.hash] = {
+      this.onesyStyle.refs[this.hash] = {
         main: {
-          sheet: this.amauiStyleSheet,
+          sheet: this.onesyStyleSheet,
           rule: this
         },
         className,
@@ -806,25 +806,25 @@ class AmauiStyleRule {
     // if no rule, means it's a non-existent (or dynamic) variable
     // so cache the className value as this value
     if (!rule) {
-      this.amauiStyleSheet.names.classNames[property] = className;
-      this.amauiStyleSheet.names.classes[property] = className;
+      this.onesyStyleSheet.names.classNames[property] = className;
+      this.onesyStyleSheet.names.classes[property] = className;
 
-      if (this.amauiStyleSheet.version === 'static' && this.amauiStyleSheet.amauiStyleSheetManager) {
-        this.amauiStyleSheet.amauiStyleSheetManager.names.classNames[property] = className;
-        this.amauiStyleSheet.amauiStyleSheetManager.names.classes[property] = className;
+      if (this.onesyStyleSheet.version === 'static' && this.onesyStyleSheet.onesyStyleSheetManager) {
+        this.onesyStyleSheet.onesyStyleSheetManager.names.classNames[property] = className;
+        this.onesyStyleSheet.onesyStyleSheetManager.names.classes[property] = className;
       }
     }
 
     return className;
   }
 
-  private makeRuleClassName(property: string = this.property, rule: AmauiStyleRule = this) {
+  private makeRuleClassName(property: string = this.property, rule: OnesyStyleRule = this) {
     if (
-      rule instanceof AmauiStyleRule &&
+      rule instanceof OnesyStyleRule &&
       (rule.isVariable || rule.mode === 'atomic') &&
       !rule.className
     ) {
-      const names = this.amauiStyleSheet.amauiStyleSheetManager?.names || this.amauiStyleSheet.names;
+      const names = this.onesyStyleSheet.onesyStyleSheetManager?.names || this.onesyStyleSheet.names;
 
       const cached = names.classNames[rule.property];
 
@@ -832,13 +832,13 @@ class AmauiStyleRule {
 
       // Make a className
       // Pre
-      this.amauiStyle.subscriptions.className.pre.emit();
+      this.onesyStyle.subscriptions.className.pre.emit();
 
       // Name
       const className = this.makeClassName(property, rule);
 
       // Post
-      this.amauiStyle.subscriptions.className.post.emit(className);
+      this.onesyStyle.subscriptions.className.post.emit(className);
 
       rule.className = className;
 
@@ -848,16 +848,16 @@ class AmauiStyleRule {
     }
   }
 
-  private makeRuleKeyframesName(property_: string = this.property, rule: AmauiStyleRule = this) {
+  private makeRuleKeyframesName(property_: string = this.property, rule: OnesyStyleRule = this) {
     if (
-      rule instanceof AmauiStyleRule &&
+      rule instanceof OnesyStyleRule &&
       !rule.keyframesName &&
       rule.property.indexOf('@keyframes') === 0
     ) {
       const keyframe = property_.indexOf('@keyframes') === 0;
       const property = keyframe ? property_.split(' ')[1] : property_;
 
-      const names = this.amauiStyleSheet.amauiStyleSheetManager?.names || this.amauiStyleSheet.names;
+      const names = this.onesyStyleSheet.onesyStyleSheetManager?.names || this.onesyStyleSheet.names;
 
       const cached = names.keyframes[property];
 
@@ -865,19 +865,19 @@ class AmauiStyleRule {
 
       // Make a keyframes name value
       // Pre
-      this.amauiStyle.subscriptions.keyframes.pre.emit();
+      this.onesyStyle.subscriptions.keyframes.pre.emit();
 
       // Name
       const keyframesName = (
         // Make with plugin/s
-        this.amauiStyle.subscriptions.keyframes.name.map({ property, value: rule.value })?.value ||
+        this.onesyStyle.subscriptions.keyframes.name.map({ property, value: rule.value })?.value ||
 
         // Make with a default method
         this.makeRuleKeyframesNameDefault(property)
       );
 
       // Post
-      this.amauiStyle.subscriptions.keyframes.post.emit(keyframesName);
+      this.onesyStyle.subscriptions.keyframes.post.emit(keyframesName);
 
       rule.keyframesName = keyframesName;
 
@@ -903,9 +903,9 @@ class AmauiStyleRule {
         if (item instanceof CSSMediaRule) selector = `@media ${item.conditionText}`;
         else if (item instanceof CSSSupportsRule) selector = `@supports ${item.conditionText}`;
 
-        const rule_ = this.rules.find(rule__ => (rule__.value as AmauiStyleRule).selector === selector);
+        const rule_ = this.rules.find(rule__ => (rule__.value as OnesyStyleRule).selector === selector);
 
-        if (rule_) (rule_.value as AmauiStyleRule).rule = item;
+        if (rule_) (rule_.value as OnesyStyleRule).rule = item;
       });
     }
   }
@@ -915,8 +915,8 @@ class AmauiStyleRule {
     const values = [];
 
     this.rules.forEach((rule, index) => {
-      const exists = rule instanceof AmauiStyleRuleProperty && values.find(item => (
-        item instanceof AmauiStyleRuleProperty &&
+      const exists = rule instanceof OnesyStyleRuleProperty && values.find(item => (
+        item instanceof OnesyStyleRuleProperty &&
         item.values.property === rule.values.property &&
         item.values.value === rule.values.value
       ));
@@ -938,18 +938,18 @@ class AmauiStyleRule {
     // Sort
     const useSort = (
       !atRule &&
-      this.amauiStyle.options.rule.sort &&
-      (this.amauiStyleSheet !== undefined || this.amauiStyleSheet.options.rule.sort !== false) &&
-      (this.amauiStyleSheet?.amauiTheme !== undefined || this.amauiStyleSheet.amauiTheme?.options.rule.sort !== false) &&
+      this.onesyStyle.options.rule.sort &&
+      (this.onesyStyleSheet !== undefined || this.onesyStyleSheet.options.rule.sort !== false) &&
+      (this.onesyStyleSheet?.onesyTheme !== undefined || this.onesyStyleSheet.onesyTheme?.options.rule.sort !== false) &&
       // by default is true
       this.options.sort !== false
     );
 
     if (useSort) {
-      this.amauiStyle.subscriptions.rules.sort.map(this.rules);
+      this.onesyStyle.subscriptions.rules.sort.map(this.rules);
 
       // Post
-      this.amauiStyle.subscriptions.rules.sort.emit(this);
+      this.onesyStyle.subscriptions.rules.sort.emit(this);
     }
 
     return this.rules;
@@ -968,31 +968,31 @@ class AmauiStyleRule {
     }
 
     // rules owned
-    this.parents.filter(parent => !(parent instanceof AmauiStyleSheet)).forEach(parent => {
-      const index = (parent as AmauiStyleRule).rules_owned.findIndex(item => item.value === this);
+    this.parents.filter(parent => !(parent instanceof OnesyStyleSheet)).forEach(parent => {
+      const index = (parent as OnesyStyleRule).rules_owned.findIndex(item => item.value === this);
 
-      if (index > -1) (parent as AmauiStyleRule).rules_owned.splice(index, 1);
+      if (index > -1) (parent as OnesyStyleRule).rules_owned.splice(index, 1);
     });
 
     // remove it's selector
     // or keyframes name from
     // sheet and sheetManager
     if (this.className) {
-      delete this.amauiStyleSheet.names.classNames[this.property];
-      delete this.amauiStyleSheet.names.classes[this.property];
+      delete this.onesyStyleSheet.names.classNames[this.property];
+      delete this.onesyStyleSheet.names.classes[this.property];
 
-      delete this.amauiStyleSheet.amauiStyleSheetManager.names.classNames[this.property];
-      delete this.amauiStyleSheet.amauiStyleSheetManager.names.classes[this.property];
+      delete this.onesyStyleSheet.onesyStyleSheetManager.names.classNames[this.property];
+      delete this.onesyStyleSheet.onesyStyleSheetManager.names.classes[this.property];
     }
     else if (this.keyframesName) {
       const property = this.property.split(' ')[1];
 
-      delete this.amauiStyleSheet.names.keyframes[property];
+      delete this.onesyStyleSheet.names.keyframes[property];
 
-      delete this.amauiStyleSheet.amauiStyleSheetManager.names.keyframes[property];
+      delete this.onesyStyleSheet.onesyStyleSheetManager.names.keyframes[property];
     }
 
-    this.amauiStyle.subscriptions.rule.remove.emit(this);
+    this.onesyStyle.subscriptions.rule.remove.emit(this);
   }
 
   public static make(
@@ -1005,8 +1005,8 @@ class AmauiStyleRule {
       index: 0,
       parents: [this] as any[],
     }
-  ): AmauiStyleRule {
-    return new AmauiStyleRule(
+  ): OnesyStyleRule {
+    return new OnesyStyleRule(
       value,
       property,
       options
@@ -1014,4 +1014,4 @@ class AmauiStyleRule {
   }
 }
 
-export default AmauiStyleRule;
+export default OnesyStyleRule;

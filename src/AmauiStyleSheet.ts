@@ -1,13 +1,13 @@
-import copy from '@amaui/utils/copy';
-import hash from '@amaui/utils/hash';
-import isEnvironment from '@amaui/utils/isEnvironment';
-import getEnvironment from '@amaui/utils/getEnvironment';
-import merge from '@amaui/utils/merge';
+import copy from '@onesy/utils/copy';
+import hash from '@onesy/utils/hash';
+import isEnvironment from '@onesy/utils/isEnvironment';
+import getEnvironment from '@onesy/utils/getEnvironment';
+import merge from '@onesy/utils/merge';
 
-import AmauiStyle from './AmauiStyle';
-import AmauiStyleRule from './AmauiStyleRule';
-import AmauiStyleSheetManager from './AmauiStyleSheetManager';
-import AmauiTheme from './AmauiTheme';
+import OnesyStyle from './OnesyStyle';
+import OnesyStyleRule from './OnesyStyleRule';
+import OnesyStyleSheetManager from './OnesyStyleSheetManager';
+import OnesyTheme from './OnesyTheme';
 import { TMode, IOptionsRule, IValuesVersion, TStatus, TPriority, IAddRuleResponse, TValueObject } from './interfaces';
 import { dynamic, getID, is } from './utils';
 
@@ -27,9 +27,9 @@ export interface IOptions {
   mode?: TMode;
   pure?: boolean;
   priority?: TPriority;
-  amauiTheme?: AmauiTheme;
-  amauiStyleSheetManager?: AmauiStyleSheetManager;
-  amauiStyle?: AmauiStyle;
+  onesyTheme?: OnesyTheme;
+  onesyStyleSheetManager?: OnesyStyleSheetManager;
+  onesyStyle?: OnesyStyle;
   props?: any;
   style?: IOptionsStyle;
   rule?: IOptionsRule;
@@ -49,15 +49,15 @@ const optionsDefault: IOptions = {
   }
 };
 
-class AmauiStyleSheet {
+class OnesyStyleSheet {
   public id: string;
   public version: TVersion = 'static';
   public mode: TMode = 'regular';
   public pure: boolean = false;
   public priority: TPriority = 'upper';
-  public amauiTheme: AmauiTheme;
-  public amauiStyleSheetManager: AmauiStyleSheetManager;
-  public amauiStyle: AmauiStyle;
+  public onesyTheme: OnesyTheme;
+  public onesyStyleSheetManager: OnesyStyleSheetManager;
+  public onesyStyle: OnesyStyle;
   public status: TStatus = 'idle';
   public element: HTMLStyleElement;
   public sheet: CSSStyleSheet;
@@ -153,15 +153,15 @@ class AmauiStyleSheet {
     this.mode = this.options.mode || this.mode;
     this.pure = this.options.pure || this.pure;
     this.priority = this.options.priority || this.priority;
-    this.amauiTheme = this.options.amauiTheme;
-    this.amauiStyleSheetManager = this.options.amauiStyleSheetManager;
-    this.amauiStyle = this.options.amauiStyle;
+    this.onesyTheme = this.options.onesyTheme;
+    this.onesyStyleSheetManager = this.options.onesyStyleSheetManager;
+    this.onesyStyle = this.options.onesyStyle;
     this.props = this.options.props;
 
     this.id = getID();
 
-    // Inherits first from amauiStyle
-    this.mode = this.amauiStyle.mode || this.mode;
+    // Inherits first from onesyStyle
+    this.mode = this.onesyStyle.mode || this.mode;
 
     // Reset rules
     this.rules = [];
@@ -180,7 +180,7 @@ class AmauiStyleSheet {
 
       const ignore = ['@pure', '@p'];
 
-      // Make an AmauiStyleRule for all lvl 0 props
+      // Make an OnesyStyleRule for all lvl 0 props
       const propsAll = props
         .filter(prop => ignore.indexOf(prop) === -1)
         .flatMap(prop => is('array', this.value[prop]) ? (this.value[prop] as any[]).map((item: any) => ({ property: prop, value: item })) : { property: prop, value: this.value[prop] });
@@ -207,17 +207,17 @@ class AmauiStyleSheet {
 
         // Update owned rules css
         // to use for allCss and hash value
-        rule.value.rules_owned.filter(rule_ => rule_ instanceof AmauiStyleRule).forEach(rule_ => rule_.updateValues());
+        rule.value.rules_owned.filter(rule_ => rule_ instanceof OnesyStyleRule).forEach(rule_ => rule_.updateValues());
 
         // Make selectors
         rule.value.makeSelector();
       });
     }
 
-    // Add to amauiStyle and amauiStyleSheetManager
-    if (this.amauiStyleSheetManager) this.amauiStyleSheetManager.sheets[this.version]?.push(this);
+    // Add to onesyStyle and onesyStyleSheetManager
+    if (this.onesyStyleSheetManager) this.onesyStyleSheetManager.sheets[this.version]?.push(this);
 
-    if (this.amauiStyleSheetManager && this.amauiStyleSheetManager.options.amaui_style_cache) this.amauiStyle.sheets.push(this);
+    if (this.onesyStyleSheetManager && this.onesyStyleSheetManager.options.onesy_style_cache) this.onesyStyle.sheets.push(this);
 
     // Update inited status
     this.status = 'inited';
@@ -233,11 +233,11 @@ class AmauiStyleSheet {
         (this.version === 'dynamic' && isDynamic)
       )
     ) {
-      let property = property_ !== undefined ? property_ : env.amaui_methods.makeName.next().value;
+      let property = property_ !== undefined ? property_ : env.onesy_methods.makeName.next().value;
 
       const props = (is('object', this.value) && Object.keys(this.value)) || [];
 
-      if (!!props.length) while (props.indexOf(property) > -1) property = env.amaui_methods.makeName.next().value;
+      if (!!props.length) while (props.indexOf(property) > -1) property = env.onesy_methods.makeName.next().value;
 
       const isPure = ['@pure', '@p'];
 
@@ -282,7 +282,7 @@ class AmauiStyleSheet {
           },
           data: {
             ...(this.options.style?.attributes || {}),
-            amaui: true,
+            onesy: true,
             mode: this.mode,
             pure: this.pure,
             version: this.version,
@@ -290,10 +290,10 @@ class AmauiStyleSheet {
           },
         };
 
-        this.element = this.amauiStyle.renderer.make(attributes) as HTMLStyleElement;
+        this.element = this.onesyStyle.renderer.make(attributes) as HTMLStyleElement;
 
         // Add to the DOM
-        this.amauiStyle.renderer.add(this.element, this.priority, attributes);
+        this.onesyStyle.renderer.add(this.element, this.priority, attributes);
 
         // Add
         this.rules.filter(item => !item.value.ref).forEach(item => {
@@ -314,7 +314,7 @@ class AmauiStyleSheet {
         // Update active status
         this.status = 'active';
 
-        this.amauiStyle.subscriptions.sheet.add.emit(this);
+        this.onesyStyle.subscriptions.sheet.add.emit(this);
       }
       // Node only make names
       else {
@@ -381,7 +381,7 @@ class AmauiStyleSheet {
       items.new.push(...add);
 
       const parents = item => {
-        const parents_ = item.value.parents.filter(item_ => !(item_ instanceof AmauiStyleSheet));
+        const parents_ = item.value.parents.filter(item_ => !(item_ instanceof OnesyStyleSheet));
 
         return parents_.map(item_ => item_.property).join(' ') || item.value.property;
       };
@@ -450,7 +450,7 @@ class AmauiStyleSheet {
         });
       });
 
-      this.amauiStyle.subscriptions.sheet.update.emit(this);
+      this.onesyStyle.subscriptions.sheet.update.emit(this);
     }
   }
 
@@ -462,24 +462,24 @@ class AmauiStyleSheet {
 
     // Remove the style tag, only if all the rules are removed
     if (!this.rules.length) {
-      if (is('function', this.element?.remove)) this.amauiStyle.renderer.remove(this.element);
+      if (is('function', this.element?.remove)) this.onesyStyle.renderer.remove(this.element);
 
-      // Remove from amauistyle
-      let index = this.amauiStyle.sheets.findIndex(sheet => sheet.id === this.id);
+      // Remove from onesystyle
+      let index = this.onesyStyle.sheets.findIndex(sheet => sheet.id === this.id);
 
-      if (index > -1) this.amauiStyle.sheets.splice(index, 1);
+      if (index > -1) this.onesyStyle.sheets.splice(index, 1);
 
-      // Remove from amauiStyleSheetManager
-      index = this.amauiStyleSheetManager.sheets[this.version].findIndex(sheet => sheet.id === this.id);
+      // Remove from onesyStyleSheetManager
+      index = this.onesyStyleSheetManager.sheets[this.version].findIndex(sheet => sheet.id === this.id);
 
-      if (index > -1) this.amauiStyleSheetManager.sheets[this.version].splice(index, 1);
+      if (index > -1) this.onesyStyleSheetManager.sheets[this.version].splice(index, 1);
 
       // Update idle status
       this.status = 'idle';
       this.element = undefined;
       this.sheet = undefined;
 
-      this.amauiStyle.subscriptions.sheet.remove.emit(this);
+      this.onesyStyle.subscriptions.sheet.remove.emit(this);
     }
     else {
       // Update remove status
@@ -490,7 +490,7 @@ class AmauiStyleSheet {
   private updateProps() {
     this.rules.forEach(rule => rule.value.updateProps());
 
-    this.amauiStyle.subscriptions.sheet.update_props.emit(this);
+    this.onesyStyle.subscriptions.sheet.update_props.emit(this);
   }
 
   private propsAreNew(props: any) {
@@ -512,9 +512,9 @@ class AmauiStyleSheet {
       }
   ) {
     // Pre
-    this.amauiStyle.subscriptions.rule.pre.emit();
+    this.onesyStyle.subscriptions.rule.pre.emit();
 
-    const rule = AmauiStyleRule.make(
+    const rule = OnesyStyleRule.make(
       value,
       property,
       {
@@ -524,17 +524,17 @@ class AmauiStyleSheet {
         index: options.index,
         owner: this,
         parents: [this],
-        amauiStyleSheet: this,
-        amauiStyle: this.amauiStyle
+        onesyStyleSheet: this,
+        onesyStyle: this.onesyStyle
       }
     );
 
     // Post
-    this.amauiStyle.subscriptions.rule.post.emit(rule);
+    this.onesyStyle.subscriptions.rule.post.emit(rule);
 
     return rule;
   }
 
 }
 
-export default AmauiStyleSheet;
+export default OnesyStyleSheet;

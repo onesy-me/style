@@ -1,8 +1,8 @@
-import isEnvironment from '@amaui/utils/isEnvironment';
+import isEnvironment from '@onesy/utils/isEnvironment';
 
 import { TPriority } from './interfaces';
 
-class AmauiStyleRenderer {
+class OnesyStyleRenderer {
 
   public make(attributes = { element: {}, data: {} }, version = 'style'): Element {
     // Append to the bottom of head element
@@ -59,4 +59,4 @@ class AmauiStyleRenderer {
 
 }
 
-export default AmauiStyleRenderer;
+export default OnesyStyleRenderer;

@@ -1,11 +1,11 @@
-import AmauiSubscription from '@amaui/subscription';
+import OnesySubscription from '@onesy/subscription';
 
-import * as AmauiStyle from '../../../src';
+import * as OnesyStyle from '../../../src';
 
 const subs = {
-  background: new AmauiSubscription('beige'),
-  media: new AmauiSubscription('yellow'),
-  var: new AmauiSubscription({
+  background: new OnesySubscription('beige'),
+  media: new OnesySubscription('yellow'),
+  var: new OnesySubscription({
     width: 100,
 
     'max-width': 100,
@@ -35,14 +35,14 @@ const subs = {
 };
 
 // All the methods used
-const amauiStyle = new AmauiStyle.AmauiStyle(undefined, undefined, undefined, { rule: { prefix: true, rtl: true } });
+const onesyStyle = new OnesyStyle.OnesyStyle(undefined, undefined, undefined, { rule: { prefix: true, rtl: true } });
 
-amauiStyle.plugins.add = [
-  AmauiStyle.unit,
-  AmauiStyle.prefix,
-  AmauiStyle.valueObject,
-  AmauiStyle.rtl,
-  AmauiStyle.sort
+onesyStyle.plugins.add = [
+  OnesyStyle.unit,
+  OnesyStyle.prefix,
+  OnesyStyle.valueObject,
+  OnesyStyle.rtl,
+  OnesyStyle.sort
 ];
 
 const a = {
@@ -192,7 +192,7 @@ const a = {
   },
 
   a5: {
-    // AmauiSubscription
+    // OnesySubscription
     background: subs.background,
   },
 };
@@ -200,7 +200,7 @@ const a = {
 // Reset
 css({}, {
   reset: true,
-  amaui_style: { value: amauiStyle },
+  onesy_style: { value: onesyStyle },
   css: {
     file: {
       name: 'reset',
@@ -219,7 +219,7 @@ css({}, {
 
 // Style
 css(a, {
-  amaui_style: { value: amauiStyle },
+  onesy_style: { value: onesyStyle },
   css: {
     folders: [
       { url: 'test/folders/css' }

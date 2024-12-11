@@ -1,15 +1,15 @@
 /* tslint:disable: no-shadowed-variable */
-import { assert } from '@amaui/test';
-import * as AmauiUtils from '@amaui/utils';
+import { assert } from '@onesy/test';
+import * as OnesyUtils from '@onesy/utils';
 
 import { evaluate } from '../utils/js/test/utils';
 
-import * as AmauiStyle from '../src';
+import * as OnesyStyle from '../src';
 import { TValue } from '../src';
 
-group('@amaui/style/amaui-style-rule-property', () => {
+group('@onesy/style/onesy-style-rule-property', () => {
 
-  group('AmauiStyleRuleProperty', () => {
+  group('OnesyStyleRuleProperty', () => {
 
     to('make', async () => {
       const valueBrowsers = await evaluate((window: any) => {
@@ -44,18 +44,18 @@ group('@amaui/style/amaui-style-rule-property', () => {
           },
         };
 
-        const amauiStyle = new window.AmauiStyle.AmauiStyle(window.document.body);
+        const onesyStyle = new window.OnesyStyle.OnesyStyle(window.document.body);
 
-        amauiStyle.plugins.add = [
-          window.AmauiStyle.unit,
-          window.AmauiStyle.sort,
-          window.AmauiStyle.prefix,
-          window.AmauiStyle.rtl,
+        onesyStyle.plugins.add = [
+          window.OnesyStyle.unit,
+          window.OnesyStyle.sort,
+          window.OnesyStyle.prefix,
+          window.OnesyStyle.rtl,
         ];
 
-        const amauiStyleSheetManager = new window.AmauiStyle.AmauiStyleSheetManager(undefined, 'regular', false, 'upper', undefined, amauiStyle, {}, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+        const onesyStyleSheetManager = new window.OnesyStyle.OnesyStyleSheetManager(undefined, 'regular', false, 'upper', undefined, onesyStyle, {}, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
-        const amauiStyleSheet = new window.AmauiStyle.AmauiStyleSheet(a, 'static', 'regular', false, 'upper', undefined, amauiStyleSheetManager, amauiStyle, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+        const onesyStyleSheet = new window.OnesyStyle.OnesyStyleSheet(a, 'static', 'regular', false, 'upper', undefined, onesyStyleSheetManager, onesyStyle, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
         const a1 = {
           'max-width': 100,
@@ -84,38 +84,38 @@ group('@amaui/style/amaui-style-rule-property', () => {
           animation: '$a .4s ease',
         };
 
-        const amauiStyleRule = window.AmauiStyle.AmauiStyleRule.make(
+        const onesyStyleRule = window.OnesyStyle.OnesyStyleRule.make(
           a1,
           'a1',
           'regular',
           'property',
           false,
           1,
-          amauiStyleSheet,
-          [amauiStyleSheet],
-          amauiStyleSheet,
-          amauiStyle
+          onesyStyleSheet,
+          [onesyStyleSheet],
+          onesyStyleSheet,
+          onesyStyle
         );
 
-        const amauiStyleRuleProperty = window.AmauiStyle.AmauiStyleRuleProperty.make(
+        const onesyStyleRuleProperty = window.OnesyStyle.OnesyStyleRuleProperty.make(
           100,
           'width',
           {
             value_version: 'value',
             pure: false,
-            owner: amauiStyleRule,
-            parents: [...amauiStyleRule.parents, amauiStyleRule],
-            amauiStyleRule,
-            amauiStyleSheet,
-            amauiStyle
+            owner: onesyStyleRule,
+            parents: [...onesyStyleRule.parents, onesyStyleRule],
+            onesyStyleRule,
+            onesyStyleSheet,
+            onesyStyle
           }
         );
 
         return [
-          typeof amauiStyleRuleProperty.id === 'string',
-          amauiStyleRuleProperty.level,
-          amauiStyleRuleProperty.values,
-          amauiStyleRuleProperty.options
+          typeof onesyStyleRuleProperty.id === 'string',
+          onesyStyleRuleProperty.level,
+          onesyStyleRuleProperty.values,
+          onesyStyleRuleProperty.options
         ];
       });
 
@@ -150,18 +150,18 @@ group('@amaui/style/amaui-style-rule-property', () => {
         },
       };
 
-      const amauiStyle = new AmauiStyle.AmauiStyle();
+      const onesyStyle = new OnesyStyle.OnesyStyle();
 
-      amauiStyle.plugins.add = [
-        AmauiStyle.unit,
-        AmauiStyle.sort,
-        AmauiStyle.prefix,
-        AmauiStyle.rtl,
+      onesyStyle.plugins.add = [
+        OnesyStyle.unit,
+        OnesyStyle.sort,
+        OnesyStyle.prefix,
+        OnesyStyle.rtl,
       ];
 
-      const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(undefined, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+      const onesyStyleSheetManager = new OnesyStyle.OnesyStyleSheetManager(undefined, { mode: 'regular', pure: false, priority: 'upper', onesyStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
-      const amauiStyleSheet = new AmauiStyle.AmauiStyleSheet(a, { version: 'static', mode: 'regular', pure: false, priority: 'upper', amauiStyle, amauiStyleSheetManager, style: { attributes: { method: 'style' } } });
+      const onesyStyleSheet = new OnesyStyle.OnesyStyleSheet(a, { version: 'static', mode: 'regular', pure: false, priority: 'upper', onesyStyle, onesyStyleSheetManager, style: { attributes: { method: 'style' } } });
 
       const a1 = {
         'max-width': 100,
@@ -190,7 +190,7 @@ group('@amaui/style/amaui-style-rule-property', () => {
         animation: '$a .4s ease',
       };
 
-      const amauiStyleRule = AmauiStyle.AmauiStyleRule.make(
+      const onesyStyleRule = OnesyStyle.OnesyStyleRule.make(
         a1,
         'a1',
         {
@@ -198,32 +198,32 @@ group('@amaui/style/amaui-style-rule-property', () => {
           version: 'property',
           pure: false,
           index: 1,
-          owner: amauiStyleSheet,
-          parents: [amauiStyleSheet],
-          amauiStyleSheet,
-          amauiStyle
+          owner: onesyStyleSheet,
+          parents: [onesyStyleSheet],
+          onesyStyleSheet,
+          onesyStyle
         }
       );
 
-      const amauiStyleRuleProperty = AmauiStyle.AmauiStyleRuleProperty.make(
+      const onesyStyleRuleProperty = OnesyStyle.OnesyStyleRuleProperty.make(
         100,
         'width',
         {
           value_version: 'value',
           pure: false,
-          owner: amauiStyleRule,
-          parents: [...amauiStyleRule.parents, amauiStyleRule],
-          amauiStyleRule,
-          amauiStyleSheet,
-          amauiStyle
+          owner: onesyStyleRule,
+          parents: [...onesyStyleRule.parents, onesyStyleRule],
+          onesyStyleRule,
+          onesyStyleSheet,
+          onesyStyle
         }
       );
 
       const valueNode = [
-        typeof amauiStyleRuleProperty.id === 'string',
-        amauiStyleRuleProperty.level,
-        amauiStyleRuleProperty.values,
-        amauiStyleRuleProperty.options
+        typeof onesyStyleRuleProperty.id === 'string',
+        onesyStyleRuleProperty.level,
+        onesyStyleRuleProperty.values,
+        onesyStyleRuleProperty.options
       ];
 
       const values = [valueNode, ...valueBrowsers];
@@ -242,9 +242,9 @@ group('@amaui/style/amaui-style-rule-property', () => {
 
   });
 
-  group('amauiStyleRuleProperty', () => {
+  group('onesyStyleRuleProperty', () => {
 
-    to('amauiStyleRuleProperty', async () => {
+    to('onesyStyleRuleProperty', async () => {
       const valueBrowsers = await evaluate((window: any) => {
         const a = {
           a: {
@@ -277,18 +277,18 @@ group('@amaui/style/amaui-style-rule-property', () => {
           },
         };
 
-        const amauiStyle = new window.AmauiStyle.AmauiStyle(window.document.body);
+        const onesyStyle = new window.OnesyStyle.OnesyStyle(window.document.body);
 
-        amauiStyle.plugins.add = [
-          window.AmauiStyle.unit,
-          window.AmauiStyle.sort,
-          window.AmauiStyle.prefix,
-          window.AmauiStyle.rtl,
+        onesyStyle.plugins.add = [
+          window.OnesyStyle.unit,
+          window.OnesyStyle.sort,
+          window.OnesyStyle.prefix,
+          window.OnesyStyle.rtl,
         ];
 
-        const amauiStyleSheetManager = new window.AmauiStyle.AmauiStyleSheetManager(undefined, 'regular', false, 'upper', undefined, amauiStyle, {}, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+        const onesyStyleSheetManager = new window.OnesyStyle.OnesyStyleSheetManager(undefined, 'regular', false, 'upper', undefined, onesyStyle, {}, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
-        const amauiStyleSheet = new window.AmauiStyle.AmauiStyleSheet(a, 'static', 'regular', false, 'upper', undefined, amauiStyleSheetManager, amauiStyle, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+        const onesyStyleSheet = new window.OnesyStyle.OnesyStyleSheet(a, 'static', 'regular', false, 'upper', undefined, onesyStyleSheetManager, onesyStyle, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
         const a1 = {
           'max-width': 100,
@@ -317,38 +317,38 @@ group('@amaui/style/amaui-style-rule-property', () => {
           animation: '$a .4s ease',
         };
 
-        const amauiStyleRule = window.AmauiStyle.AmauiStyleRule.make(
+        const onesyStyleRule = window.OnesyStyle.OnesyStyleRule.make(
           a1,
           'a1',
           'regular',
           'property',
           false,
           1,
-          amauiStyleSheet,
-          [amauiStyleSheet],
-          amauiStyleSheet,
-          amauiStyle
+          onesyStyleSheet,
+          [onesyStyleSheet],
+          onesyStyleSheet,
+          onesyStyle
         );
 
-        const amauiStyleRuleProperty = new window.AmauiStyle.AmauiStyleRuleProperty(
+        const onesyStyleRuleProperty = new window.OnesyStyle.OnesyStyleRuleProperty(
           100,
           'width',
           {
             value_version: 'value',
             pure: false,
-            owner: amauiStyleRule,
-            parents: [...amauiStyleRule.parents, amauiStyleRule],
-            amauiStyleRule,
-            amauiStyleSheet,
-            amauiStyle
+            owner: onesyStyleRule,
+            parents: [...onesyStyleRule.parents, onesyStyleRule],
+            onesyStyleRule,
+            onesyStyleSheet,
+            onesyStyle
           }
         );
 
         return [
-          typeof amauiStyleRuleProperty.id === 'string',
-          amauiStyleRuleProperty.level,
-          amauiStyleRuleProperty.values,
-          amauiStyleRuleProperty.options
+          typeof onesyStyleRuleProperty.id === 'string',
+          onesyStyleRuleProperty.level,
+          onesyStyleRuleProperty.values,
+          onesyStyleRuleProperty.options
         ];
       });
 
@@ -383,18 +383,18 @@ group('@amaui/style/amaui-style-rule-property', () => {
         },
       };
 
-      const amauiStyle = new AmauiStyle.AmauiStyle();
+      const onesyStyle = new OnesyStyle.OnesyStyle();
 
-      amauiStyle.plugins.add = [
-        AmauiStyle.unit,
-        AmauiStyle.sort,
-        AmauiStyle.prefix,
-        AmauiStyle.rtl,
+      onesyStyle.plugins.add = [
+        OnesyStyle.unit,
+        OnesyStyle.sort,
+        OnesyStyle.prefix,
+        OnesyStyle.rtl,
       ];
 
-      const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(undefined, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+      const onesyStyleSheetManager = new OnesyStyle.OnesyStyleSheetManager(undefined, { mode: 'regular', pure: false, priority: 'upper', onesyStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
-      const amauiStyleSheet = new AmauiStyle.AmauiStyleSheet(a, { version: 'static', mode: 'regular', pure: false, priority: 'upper', amauiStyle, amauiStyleSheetManager, style: { attributes: { method: 'style' } } });
+      const onesyStyleSheet = new OnesyStyle.OnesyStyleSheet(a, { version: 'static', mode: 'regular', pure: false, priority: 'upper', onesyStyle, onesyStyleSheetManager, style: { attributes: { method: 'style' } } });
 
       const a1 = {
         'max-width': 100,
@@ -423,7 +423,7 @@ group('@amaui/style/amaui-style-rule-property', () => {
         animation: '$a .4s ease',
       };
 
-      const amauiStyleRule = AmauiStyle.AmauiStyleRule.make(
+      const onesyStyleRule = OnesyStyle.OnesyStyleRule.make(
         a1,
         'a1',
         {
@@ -431,32 +431,32 @@ group('@amaui/style/amaui-style-rule-property', () => {
           version: 'property',
           pure: false,
           index: 1,
-          owner: amauiStyleSheet,
-          parents: [amauiStyleSheet],
-          amauiStyleSheet,
-          amauiStyle
+          owner: onesyStyleSheet,
+          parents: [onesyStyleSheet],
+          onesyStyleSheet,
+          onesyStyle
         }
       );
 
-      const amauiStyleRuleProperty = new AmauiStyle.AmauiStyleRuleProperty(
+      const onesyStyleRuleProperty = new OnesyStyle.OnesyStyleRuleProperty(
         100,
         'width',
         {
           value_version: 'value',
           pure: false,
-          owner: amauiStyleRule,
-          parents: [...amauiStyleRule.parents, amauiStyleRule],
-          amauiStyleRule,
-          amauiStyleSheet,
-          amauiStyle
+          owner: onesyStyleRule,
+          parents: [...onesyStyleRule.parents, onesyStyleRule],
+          onesyStyleRule,
+          onesyStyleSheet,
+          onesyStyle
         }
       );
 
       const valueNode = [
-        typeof amauiStyleRuleProperty.id === 'string',
-        amauiStyleRuleProperty.level,
-        amauiStyleRuleProperty.values,
-        amauiStyleRuleProperty.options
+        typeof onesyStyleRuleProperty.id === 'string',
+        onesyStyleRuleProperty.level,
+        onesyStyleRuleProperty.values,
+        onesyStyleRuleProperty.options
       ];
 
       const values = [valueNode, ...valueBrowsers];
@@ -508,18 +508,18 @@ group('@amaui/style/amaui-style-rule-property', () => {
           },
         };
 
-        const amauiStyle = new window.AmauiStyle.AmauiStyle(window.document.body);
+        const onesyStyle = new window.OnesyStyle.OnesyStyle(window.document.body);
 
-        amauiStyle.plugins.add = [
-          window.AmauiStyle.unit,
-          window.AmauiStyle.sort,
-          window.AmauiStyle.prefix,
-          window.AmauiStyle.rtl,
+        onesyStyle.plugins.add = [
+          window.OnesyStyle.unit,
+          window.OnesyStyle.sort,
+          window.OnesyStyle.prefix,
+          window.OnesyStyle.rtl,
         ];
 
-        const amauiStyleSheetManager = new window.AmauiStyle.AmauiStyleSheetManager(undefined, 'regular', false, 'upper', undefined, amauiStyle, {}, { style: { attributes: { method: 'style' } } });
+        const onesyStyleSheetManager = new window.OnesyStyle.OnesyStyleSheetManager(undefined, 'regular', false, 'upper', undefined, onesyStyle, {}, { style: { attributes: { method: 'style' } } });
 
-        const amauiStyleSheet = new window.AmauiStyle.AmauiStyleSheet(a, 'static', 'regular', false, 'upper', undefined, amauiStyleSheetManager, amauiStyle, { style: { attributes: { method: 'style' } } });
+        const onesyStyleSheet = new window.OnesyStyle.OnesyStyleSheet(a, 'static', 'regular', false, 'upper', undefined, onesyStyleSheetManager, onesyStyle, { style: { attributes: { method: 'style' } } });
 
         const a1 = {
           'max-width': 100,
@@ -546,54 +546,54 @@ group('@amaui/style/amaui-style-rule-property', () => {
           animation: '$a .4s ease',
         };
 
-        const amauiStyleRule = window.AmauiStyle.AmauiStyleRule.make(
+        const onesyStyleRule = window.OnesyStyle.OnesyStyleRule.make(
           a1,
           'a1',
           'regular',
           'property',
           false,
           1,
-          amauiStyleSheet,
-          [amauiStyleSheet],
-          amauiStyleSheet,
-          amauiStyle
+          onesyStyleSheet,
+          [onesyStyleSheet],
+          onesyStyleSheet,
+          onesyStyle
         );
 
         // maskOrigin
-        new window.AmauiStyle.AmauiStyleRuleProperty(
+        new window.OnesyStyle.OnesyStyleRuleProperty(
           'inherit',
           'maskOrigin',
           {
             value_version: 'value',
             pure: false,
-            owner: amauiStyleRule,
-            parents: [...amauiStyleRule.parents, amauiStyleRule],
-            amauiStyleRule,
-            amauiStyleSheet,
-            amauiStyle
+            owner: onesyStyleRule,
+            parents: [...onesyStyleRule.parents, onesyStyleRule],
+            onesyStyleRule,
+            onesyStyleSheet,
+            onesyStyle
           }
         );
 
         // marginLeft
-        new window.AmauiStyle.AmauiStyleRuleProperty(
+        new window.OnesyStyle.OnesyStyleRuleProperty(
           41,
           'marginLeft',
           {
             value_version: 'value',
             pure: false,
-            owner: amauiStyleRule,
-            parents: [...amauiStyleRule.parents, amauiStyleRule],
-            amauiStyleRule,
-            amauiStyleSheet,
-            amauiStyle
+            owner: onesyStyleRule,
+            parents: [...onesyStyleRule.parents, onesyStyleRule],
+            onesyStyleRule,
+            onesyStyleSheet,
+            onesyStyle
           }
         );
 
         // Add
-        amauiStyleRule.add();
+        onesyStyleRule.add();
 
         return [
-          amauiStyleRule.css
+          onesyStyleRule.css
         ];
       });
 
@@ -628,18 +628,18 @@ group('@amaui/style/amaui-style-rule-property', () => {
         },
       };
 
-      const amauiStyle = new AmauiStyle.AmauiStyle();
+      const onesyStyle = new OnesyStyle.OnesyStyle();
 
-      amauiStyle.plugins.add = [
-        AmauiStyle.unit,
-        AmauiStyle.sort,
-        AmauiStyle.prefix,
-        AmauiStyle.rtl,
+      onesyStyle.plugins.add = [
+        OnesyStyle.unit,
+        OnesyStyle.sort,
+        OnesyStyle.prefix,
+        OnesyStyle.rtl,
       ];
 
-      const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(undefined, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } } });
+      const onesyStyleSheetManager = new OnesyStyle.OnesyStyleSheetManager(undefined, { mode: 'regular', pure: false, priority: 'upper', onesyStyle, style: { attributes: { method: 'style' } } });
 
-      const amauiStyleSheet = new AmauiStyle.AmauiStyleSheet(a, { version: 'static', mode: 'regular', pure: false, priority: 'upper', amauiStyle, amauiStyleSheetManager, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+      const onesyStyleSheet = new OnesyStyle.OnesyStyleSheet(a, { version: 'static', mode: 'regular', pure: false, priority: 'upper', onesyStyle, onesyStyleSheetManager, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
       const a1 = {
         'max-width': 100,
@@ -666,7 +666,7 @@ group('@amaui/style/amaui-style-rule-property', () => {
         animation: '$a .4s ease',
       };
 
-      const amauiStyleRule = AmauiStyle.AmauiStyleRule.make(
+      const onesyStyleRule = OnesyStyle.OnesyStyleRule.make(
         a1,
         'a1',
         {
@@ -674,48 +674,48 @@ group('@amaui/style/amaui-style-rule-property', () => {
           version: 'property',
           pure: false,
           index: 1,
-          owner: amauiStyleSheet,
-          parents: [amauiStyleSheet],
-          amauiStyleSheet,
-          amauiStyle
+          owner: onesyStyleSheet,
+          parents: [onesyStyleSheet],
+          onesyStyleSheet,
+          onesyStyle
         }
       );
 
       // maskOrigin
-      new AmauiStyle.AmauiStyleRuleProperty(
+      new OnesyStyle.OnesyStyleRuleProperty(
         'inherit',
         'maskOrigin',
         {
           value_version: 'value',
           pure: false,
-          owner: amauiStyleRule,
-          parents: [...amauiStyleRule.parents, amauiStyleRule],
-          amauiStyleRule,
-          amauiStyleSheet,
-          amauiStyle
+          owner: onesyStyleRule,
+          parents: [...onesyStyleRule.parents, onesyStyleRule],
+          onesyStyleRule,
+          onesyStyleSheet,
+          onesyStyle
         }
       );
 
       // marginLeft
-      new AmauiStyle.AmauiStyleRuleProperty(
+      new OnesyStyle.OnesyStyleRuleProperty(
         41,
         'marginLeft',
         {
           value_version: 'value',
           pure: false,
-          owner: amauiStyleRule,
-          parents: [...amauiStyleRule.parents, amauiStyleRule],
-          amauiStyleRule,
-          amauiStyleSheet,
-          amauiStyle
+          owner: onesyStyleRule,
+          parents: [...onesyStyleRule.parents, onesyStyleRule],
+          onesyStyleRule,
+          onesyStyleSheet,
+          onesyStyle
         }
       );
 
       // Add
-      amauiStyleRule.add();
+      onesyStyleRule.add();
 
       const valueNode = [
-        amauiStyleRule.css
+        onesyStyleRule.css
       ];
 
       const values = [...valueBrowsers];
@@ -743,13 +743,13 @@ group('@amaui/style/amaui-style-rule-property', () => {
         const valueBrowsers = await evaluate((window: any) => {
           window.document.body.dir = 'rtl';
 
-          const amauiStyle = new window.AmauiStyle.AmauiStyle(window.document.body);
+          const onesyStyle = new window.OnesyStyle.OnesyStyle(window.document.body);
 
-          amauiStyle.plugins.add = [
-            window.AmauiStyle.unit,
-            window.AmauiStyle.sort,
-            window.AmauiStyle.prefix,
-            window.AmauiStyle.rtl,
+          onesyStyle.plugins.add = [
+            window.OnesyStyle.unit,
+            window.OnesyStyle.sort,
+            window.OnesyStyle.prefix,
+            window.OnesyStyle.rtl,
           ];
 
           const a: TValue = {
@@ -781,25 +781,25 @@ group('@amaui/style/amaui-style-rule-property', () => {
             },
           };
 
-          const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(undefined, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } } });
+          const onesyStyleSheetManager = new OnesyStyle.OnesyStyleSheetManager(undefined, { mode: 'regular', pure: false, priority: 'upper', onesyStyle, style: { attributes: { method: 'style' } } });
 
-          const amauiStyleSheet = new AmauiStyle.AmauiStyleSheet(a, { version: 'static', mode: 'regular', pure: false, priority: 'upper', amauiStyle, amauiStyleSheetManager, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+          const onesyStyleSheet = new OnesyStyle.OnesyStyleSheet(a, { version: 'static', mode: 'regular', pure: false, priority: 'upper', onesyStyle, onesyStyleSheetManager, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
-          const amauiStyleRule = amauiStyleSheet.rules[0].value;
+          const onesyStyleRule = onesyStyleSheet.rules[0].value;
 
-          const amauiStyleRuleProperty = new window.AmauiStyle.AmauiStyleRuleProperty(
+          const onesyStyleRuleProperty = new window.OnesyStyle.OnesyStyleRuleProperty(
             100,
             'width',
             'value',
             false,
-            amauiStyleRule,
-            [...amauiStyleRule.parents, amauiStyleRule],
-            amauiStyleRule,
-            amauiStyleSheet,
-            amauiStyle
+            onesyStyleRule,
+            [...onesyStyleRule.parents, onesyStyleRule],
+            onesyStyleRule,
+            onesyStyleSheet,
+            onesyStyle
           );
 
-          return [window.AmauiUtils.equalDeep({ css: amauiStyleRuleProperty.values.css }, amauiStyleRuleProperty.response), amauiStyleRuleProperty.response];
+          return [window.OnesyUtils.equalDeep({ css: onesyStyleRuleProperty.values.css }, onesyStyleRuleProperty.response), onesyStyleRuleProperty.response];
         });
 
         const a: TValue = {
@@ -833,36 +833,36 @@ group('@amaui/style/amaui-style-rule-property', () => {
           },
         };
 
-        const amauiStyle = new AmauiStyle.AmauiStyle();
+        const onesyStyle = new OnesyStyle.OnesyStyle();
 
-        amauiStyle.plugins.add = [
-          AmauiStyle.unit,
-          AmauiStyle.sort,
-          AmauiStyle.prefix,
-          AmauiStyle.rtl,
+        onesyStyle.plugins.add = [
+          OnesyStyle.unit,
+          OnesyStyle.sort,
+          OnesyStyle.prefix,
+          OnesyStyle.rtl,
         ];
 
-        const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(undefined, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } } });
+        const onesyStyleSheetManager = new OnesyStyle.OnesyStyleSheetManager(undefined, { mode: 'regular', pure: false, priority: 'upper', onesyStyle, style: { attributes: { method: 'style' } } });
 
-        const amauiStyleSheet = new AmauiStyle.AmauiStyleSheet(a, { version: 'static', mode: 'regular', pure: false, priority: 'upper', amauiStyle, amauiStyleSheetManager, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+        const onesyStyleSheet = new OnesyStyle.OnesyStyleSheet(a, { version: 'static', mode: 'regular', pure: false, priority: 'upper', onesyStyle, onesyStyleSheetManager, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
-        const amauiStyleRule = amauiStyleSheet.rules[0].value;
+        const onesyStyleRule = onesyStyleSheet.rules[0].value;
 
-        const amauiStyleRuleProperty = new AmauiStyle.AmauiStyleRuleProperty(
+        const onesyStyleRuleProperty = new OnesyStyle.OnesyStyleRuleProperty(
           100,
           'width',
           {
             value_version: 'value',
             pure: false,
-            owner: amauiStyleRule,
-            parents: [...amauiStyleRule.parents, amauiStyleRule],
-            amauiStyleRule,
-            amauiStyleSheet,
-            amauiStyle
+            owner: onesyStyleRule,
+            parents: [...onesyStyleRule.parents, onesyStyleRule],
+            onesyStyleRule,
+            onesyStyleSheet,
+            onesyStyle
           }
         );
 
-        const valueNode = [AmauiUtils.equalDeep({ css: amauiStyleRuleProperty.values.css }, amauiStyleRuleProperty.response), amauiStyleRuleProperty.response];
+        const valueNode = [OnesyUtils.equalDeep({ css: onesyStyleRuleProperty.values.css }, onesyStyleRuleProperty.response), onesyStyleRuleProperty.response];
 
         const values = [valueNode, ...valueBrowsers];
 
@@ -878,13 +878,13 @@ group('@amaui/style/amaui-style-rule-property', () => {
         const valueBrowsers = await evaluate((window: any) => {
           window.document.body.dir = 'rtl';
 
-          const amauiStyle = new window.AmauiStyle.AmauiStyle(window.document.body);
+          const onesyStyle = new window.OnesyStyle.OnesyStyle(window.document.body);
 
-          amauiStyle.plugins.add = [
-            window.AmauiStyle.unit,
-            window.AmauiStyle.sort,
-            window.AmauiStyle.prefix,
-            window.AmauiStyle.rtl,
+          onesyStyle.plugins.add = [
+            window.OnesyStyle.unit,
+            window.OnesyStyle.sort,
+            window.OnesyStyle.prefix,
+            window.OnesyStyle.rtl,
           ];
 
           const a: TValue = {
@@ -916,25 +916,25 @@ group('@amaui/style/amaui-style-rule-property', () => {
             },
           };
 
-          const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(undefined, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } } });
+          const onesyStyleSheetManager = new OnesyStyle.OnesyStyleSheetManager(undefined, { mode: 'regular', pure: false, priority: 'upper', onesyStyle, style: { attributes: { method: 'style' } } });
 
-          const amauiStyleSheet = new AmauiStyle.AmauiStyleSheet(a, { version: 'static', mode: 'regular', pure: false, priority: 'upper', amauiStyle, amauiStyleSheetManager, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+          const onesyStyleSheet = new OnesyStyle.OnesyStyleSheet(a, { version: 'static', mode: 'regular', pure: false, priority: 'upper', onesyStyle, onesyStyleSheetManager, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
-          const amauiStyleRule = amauiStyleSheet.rules[0].value;
+          const onesyStyleRule = onesyStyleSheet.rules[0].value;
 
-          const amauiStyleRuleProperty = new window.AmauiStyle.AmauiStyleRuleProperty(
+          const onesyStyleRuleProperty = new window.OnesyStyle.OnesyStyleRuleProperty(
             100,
             'width',
             'value',
             false,
-            amauiStyleRule,
-            [...amauiStyleRule.parents, amauiStyleRule],
-            amauiStyleRule,
-            amauiStyleSheet,
-            amauiStyle
+            onesyStyleRule,
+            [...onesyStyleRule.parents, onesyStyleRule],
+            onesyStyleRule,
+            onesyStyleSheet,
+            onesyStyle
           );
 
-          return [window.AmauiUtils.equalDeep(amauiStyleRuleProperty.values.css, amauiStyleRuleProperty.css), amauiStyleRuleProperty.css];
+          return [window.OnesyUtils.equalDeep(onesyStyleRuleProperty.values.css, onesyStyleRuleProperty.css), onesyStyleRuleProperty.css];
         });
 
         const a: TValue = {
@@ -968,36 +968,36 @@ group('@amaui/style/amaui-style-rule-property', () => {
           },
         };
 
-        const amauiStyle = new AmauiStyle.AmauiStyle();
+        const onesyStyle = new OnesyStyle.OnesyStyle();
 
-        amauiStyle.plugins.add = [
-          AmauiStyle.unit,
-          AmauiStyle.sort,
-          AmauiStyle.prefix,
-          AmauiStyle.rtl,
+        onesyStyle.plugins.add = [
+          OnesyStyle.unit,
+          OnesyStyle.sort,
+          OnesyStyle.prefix,
+          OnesyStyle.rtl,
         ];
 
-        const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(undefined, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } } });
+        const onesyStyleSheetManager = new OnesyStyle.OnesyStyleSheetManager(undefined, { mode: 'regular', pure: false, priority: 'upper', onesyStyle, style: { attributes: { method: 'style' } } });
 
-        const amauiStyleSheet = new AmauiStyle.AmauiStyleSheet(a, { version: 'static', mode: 'regular', pure: false, priority: 'upper', amauiStyle, amauiStyleSheetManager, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+        const onesyStyleSheet = new OnesyStyle.OnesyStyleSheet(a, { version: 'static', mode: 'regular', pure: false, priority: 'upper', onesyStyle, onesyStyleSheetManager, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
-        const amauiStyleRule = amauiStyleSheet.rules[0].value;
+        const onesyStyleRule = onesyStyleSheet.rules[0].value;
 
-        const amauiStyleRuleProperty = new AmauiStyle.AmauiStyleRuleProperty(
+        const onesyStyleRuleProperty = new OnesyStyle.OnesyStyleRuleProperty(
           100,
           'width',
           {
             value_version: 'value',
             pure: false,
-            owner: amauiStyleRule,
-            parents: [...amauiStyleRule.parents, amauiStyleRule],
-            amauiStyleRule,
-            amauiStyleSheet,
-            amauiStyle
+            owner: onesyStyleRule,
+            parents: [...onesyStyleRule.parents, onesyStyleRule],
+            onesyStyleRule,
+            onesyStyleSheet,
+            onesyStyle
           }
         );
 
-        const valueNode = [AmauiUtils.equalDeep(amauiStyleRuleProperty.values.css, amauiStyleRuleProperty.css), amauiStyleRuleProperty.css];
+        const valueNode = [OnesyUtils.equalDeep(onesyStyleRuleProperty.values.css, onesyStyleRuleProperty.css), onesyStyleRuleProperty.css];
 
         const values = [valueNode, ...valueBrowsers];
 
@@ -1047,24 +1047,24 @@ group('@amaui/style/amaui-style-rule-property', () => {
           }
         };
 
-        const amauiStyle = new window.AmauiStyle.AmauiStyle();
+        const onesyStyle = new window.OnesyStyle.OnesyStyle();
 
-        amauiStyle.plugins.add = [
-          window.AmauiStyle.unit,
-          window.AmauiStyle.sort,
-          window.AmauiStyle.prefix,
-          window.AmauiStyle.rtl,
+        onesyStyle.plugins.add = [
+          window.OnesyStyle.unit,
+          window.OnesyStyle.sort,
+          window.OnesyStyle.prefix,
+          window.OnesyStyle.rtl,
         ];
 
-        const amauiStyleSheetManager = new window.AmauiStyle.AmauiStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } } });
+        const onesyStyleSheetManager = new window.OnesyStyle.OnesyStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', onesyStyle, style: { attributes: { method: 'style' } } });
 
-        amauiStyleSheetManager.add();
+        onesyStyleSheetManager.add();
 
-        const amauiStyleSheet = amauiStyleSheetManager.sheets.dynamic[0];
+        const onesyStyleSheet = onesyStyleSheetManager.sheets.dynamic[0];
 
-        const amauiStyleRuleProperty = amauiStyleSheet.rules[0].value.rules[0].value;
+        const onesyStyleRuleProperty = onesyStyleSheet.rules[0].value.rules[0].value;
 
-        const amauiStyleRuleProperty1 = amauiStyleSheet.rules[0].value.rules[1].value;
+        const onesyStyleRuleProperty1 = onesyStyleSheet.rules[0].value.rules[1].value;
 
         let css = '';
 
@@ -1073,17 +1073,17 @@ group('@amaui/style/amaui-style-rule-property', () => {
         });
 
         const response = [
-          amauiStyleSheetManager.css,
+          onesyStyleSheetManager.css,
           css
         ];
 
-        amauiStyleSheet.props = { a: 1 };
+        onesyStyleSheet.props = { a: 1 };
 
         // Update props
-        amauiStyleRuleProperty.update();
+        onesyStyleRuleProperty.update();
 
         // Update value
-        amauiStyleRuleProperty1.update(1114);
+        onesyStyleRuleProperty1.update(1114);
 
         css = '';
 
@@ -1092,7 +1092,7 @@ group('@amaui/style/amaui-style-rule-property', () => {
         });
 
         response.push(
-          amauiStyleSheetManager.css,
+          onesyStyleSheetManager.css,
           css
         );
 
@@ -1158,39 +1158,39 @@ group('@amaui/style/amaui-style-rule-property', () => {
         }
       };
 
-      const amauiStyle = new AmauiStyle.AmauiStyle();
+      const onesyStyle = new OnesyStyle.OnesyStyle();
 
-      amauiStyle.plugins.add = [
-        AmauiStyle.unit,
-        AmauiStyle.sort,
-        AmauiStyle.prefix,
-        AmauiStyle.rtl,
+      onesyStyle.plugins.add = [
+        OnesyStyle.unit,
+        OnesyStyle.sort,
+        OnesyStyle.prefix,
+        OnesyStyle.rtl,
       ];
 
-      const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } } });
+      const onesyStyleSheetManager = new OnesyStyle.OnesyStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', onesyStyle, style: { attributes: { method: 'style' } } });
 
-      amauiStyleSheetManager.add();
+      onesyStyleSheetManager.add();
 
-      const amauiStyleSheet = amauiStyleSheetManager.sheets.dynamic[0];
+      const onesyStyleSheet = onesyStyleSheetManager.sheets.dynamic[0];
 
-      const amauiStyleRuleProperty = amauiStyleSheet.rules[0].value.rules[0].value;
+      const onesyStyleRuleProperty = onesyStyleSheet.rules[0].value.rules[0].value;
 
-      const amauiStyleRuleProperty1 = amauiStyleSheet.rules[0].value.rules[1].value;
+      const onesyStyleRuleProperty1 = onesyStyleSheet.rules[0].value.rules[1].value;
 
       const response = [
-        amauiStyleSheetManager.css
+        onesyStyleSheetManager.css
       ];
 
-      amauiStyleSheet.props = { a: 1 };
+      onesyStyleSheet.props = { a: 1 };
 
       // Update props
-      amauiStyleRuleProperty.update();
+      onesyStyleRuleProperty.update();
 
       // Update value
-      amauiStyleRuleProperty1.update(1114);
+      onesyStyleRuleProperty1.update(1114);
 
       response.push(
-        amauiStyleSheetManager.css
+        onesyStyleSheetManager.css
       );
 
       const valueNode = response;
@@ -1239,24 +1239,24 @@ group('@amaui/style/amaui-style-rule-property', () => {
           }
         };
 
-        const amauiStyle = new window.AmauiStyle.AmauiStyle();
+        const onesyStyle = new window.OnesyStyle.OnesyStyle();
 
-        amauiStyle.plugins.add = [
-          window.AmauiStyle.unit,
-          window.AmauiStyle.sort,
-          window.AmauiStyle.prefix,
-          window.AmauiStyle.rtl,
+        onesyStyle.plugins.add = [
+          window.OnesyStyle.unit,
+          window.OnesyStyle.sort,
+          window.OnesyStyle.prefix,
+          window.OnesyStyle.rtl,
         ];
 
-        const amauiStyleSheetManager = new window.AmauiStyle.AmauiStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } } });
+        const onesyStyleSheetManager = new window.OnesyStyle.OnesyStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', onesyStyle, style: { attributes: { method: 'style' } } });
 
-        amauiStyleSheetManager.add();
+        onesyStyleSheetManager.add();
 
-        const amauiStyleSheet = amauiStyleSheetManager.sheets.dynamic[0];
+        const onesyStyleSheet = onesyStyleSheetManager.sheets.dynamic[0];
 
-        const amauiStyleRuleProperty = amauiStyleSheet.rules[0].value.rules[0].value;
+        const onesyStyleRuleProperty = onesyStyleSheet.rules[0].value.rules[0].value;
 
-        const amauiStyleRuleProperty1 = amauiStyleSheet.rules[0].value.rules[1].value;
+        const onesyStyleRuleProperty1 = onesyStyleSheet.rules[0].value.rules[1].value;
 
         let css = '';
 
@@ -1265,20 +1265,20 @@ group('@amaui/style/amaui-style-rule-property', () => {
         });
 
         const response = [
-          amauiStyleSheetManager.css,
+          onesyStyleSheetManager.css,
           css
         ];
 
-        amauiStyleSheet.props = { a: 1 };
+        onesyStyleSheet.props = { a: 1 };
 
         // Update props
-        amauiStyleRuleProperty.update();
+        onesyStyleRuleProperty.update();
 
         // Update value
-        amauiStyleRuleProperty1.update(1114);
+        onesyStyleRuleProperty1.update(1114);
 
         // Update rule values
-        amauiStyleRuleProperty.owner.updateValues();
+        onesyStyleRuleProperty.owner.updateValues();
 
         css = '';
 
@@ -1287,15 +1287,15 @@ group('@amaui/style/amaui-style-rule-property', () => {
         });
 
         response.push(
-          amauiStyleSheetManager.css,
+          onesyStyleSheetManager.css,
           css
         );
 
         // Remove value
-        amauiStyleRuleProperty1.remove();
+        onesyStyleRuleProperty1.remove();
 
         // Update rule values
-        amauiStyleRuleProperty.owner.updateValues();
+        onesyStyleRuleProperty.owner.updateValues();
 
         css = '';
 
@@ -1304,7 +1304,7 @@ group('@amaui/style/amaui-style-rule-property', () => {
         });
 
         response.push(
-          amauiStyleSheetManager.css,
+          onesyStyleSheetManager.css,
           css
         );
 
@@ -1376,52 +1376,52 @@ group('@amaui/style/amaui-style-rule-property', () => {
         }
       };
 
-      const amauiStyle = new AmauiStyle.AmauiStyle();
+      const onesyStyle = new OnesyStyle.OnesyStyle();
 
-      amauiStyle.plugins.add = [
-        AmauiStyle.unit,
-        AmauiStyle.sort,
-        AmauiStyle.prefix,
-        AmauiStyle.rtl,
+      onesyStyle.plugins.add = [
+        OnesyStyle.unit,
+        OnesyStyle.sort,
+        OnesyStyle.prefix,
+        OnesyStyle.rtl,
       ];
 
-      const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } } });
+      const onesyStyleSheetManager = new OnesyStyle.OnesyStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', onesyStyle, style: { attributes: { method: 'style' } } });
 
-      amauiStyleSheetManager.add();
+      onesyStyleSheetManager.add();
 
-      const amauiStyleSheet = amauiStyleSheetManager.sheets.dynamic[0];
+      const onesyStyleSheet = onesyStyleSheetManager.sheets.dynamic[0];
 
-      const amauiStyleRuleProperty = amauiStyleSheet.rules[0].value.rules[0].value;
+      const onesyStyleRuleProperty = onesyStyleSheet.rules[0].value.rules[0].value;
 
-      const amauiStyleRuleProperty1 = amauiStyleSheet.rules[0].value.rules[1].value;
+      const onesyStyleRuleProperty1 = onesyStyleSheet.rules[0].value.rules[1].value;
 
       const response = [
-        amauiStyleSheetManager.css
+        onesyStyleSheetManager.css
       ];
 
-      amauiStyleSheet.props = { a: 1 };
+      onesyStyleSheet.props = { a: 1 };
 
       // Update props
-      amauiStyleRuleProperty.update();
+      onesyStyleRuleProperty.update();
 
       // Update value
-      amauiStyleRuleProperty1.update(1114);
+      onesyStyleRuleProperty1.update(1114);
 
       // Update rule values
-      amauiStyleRuleProperty.owner.updateValues();
+      onesyStyleRuleProperty.owner.updateValues();
 
       response.push(
-        amauiStyleSheetManager.css
+        onesyStyleSheetManager.css
       );
 
       // Remove value
-      amauiStyleRuleProperty1.remove();
+      onesyStyleRuleProperty1.remove();
 
       // Update rule values
-      amauiStyleRuleProperty.owner.updateValues();
+      onesyStyleRuleProperty.owner.updateValues();
 
       response.push(
-        amauiStyleSheetManager.css
+        onesyStyleSheetManager.css
       );
 
       const valueNode = response;

@@ -1,28 +1,28 @@
 /* tslint:disable: no-shadowed-variable */
-import { assert } from '@amaui/test';
+import { assert } from '@onesy/test';
 
 import { evaluate } from '../utils/js/test/utils';
 
-import * as AmauiStyle from '../src';
+import * as OnesyStyle from '../src';
 
-group('@amaui/style/rtl', () => {
+group('@onesy/style/rtl', () => {
 
-  group('amauiStyle', () => {
+  group('onesyStyle', () => {
 
     to('add', async () => {
       const valueBrowsers = await evaluate((window: any) => {
-        const amauiStyle = new window.AmauiStyle.AmauiStyle();
+        const onesyStyle = new window.OnesyStyle.OnesyStyle();
 
-        amauiStyle.plugins.add = window.AmauiStyle.rtl;
+        onesyStyle.plugins.add = window.OnesyStyle.rtl;
 
-        return amauiStyle.subscriptions.rule.rtl.length === 1;
+        return onesyStyle.subscriptions.rule.rtl.length === 1;
       });
 
-      const amauiStyle = new AmauiStyle.AmauiStyle();
+      const onesyStyle = new OnesyStyle.OnesyStyle();
 
-      amauiStyle.plugins.add = AmauiStyle.rtl;
+      onesyStyle.plugins.add = OnesyStyle.rtl;
 
-      const valueNode = amauiStyle.subscriptions.rule.rtl.length === 1;
+      const valueNode = onesyStyle.subscriptions.rule.rtl.length === 1;
 
       const values = [valueNode, ...valueBrowsers];
 
@@ -31,25 +31,25 @@ group('@amaui/style/rtl', () => {
 
     to('remove', async () => {
       const valueBrowsers = await evaluate((window: any) => {
-        const amauiStyle = new window.AmauiStyle.AmauiStyle();
+        const onesyStyle = new window.OnesyStyle.OnesyStyle();
 
-        amauiStyle.plugins.add = window.AmauiStyle.rtl;
+        onesyStyle.plugins.add = window.OnesyStyle.rtl;
 
         return (
-          amauiStyle.subscriptions.rule.rtl.length === 1 &&
-          (amauiStyle.plugins.remove = window.AmauiStyle.rtl) &&
-          amauiStyle.subscriptions.rule.rtl.length === 0
+          onesyStyle.subscriptions.rule.rtl.length === 1 &&
+          (onesyStyle.plugins.remove = window.OnesyStyle.rtl) &&
+          onesyStyle.subscriptions.rule.rtl.length === 0
         );
       });
 
-      const amauiStyle = new AmauiStyle.AmauiStyle();
+      const onesyStyle = new OnesyStyle.OnesyStyle();
 
-      amauiStyle.plugins.add = AmauiStyle.rtl;
+      onesyStyle.plugins.add = OnesyStyle.rtl;
 
       const valueNode = (
-        amauiStyle.subscriptions.rule.rtl.length === 1 &&
-        (amauiStyle.plugins.remove = AmauiStyle.rtl) &&
-        (amauiStyle.subscriptions.rule.rtl.length as number) === 0
+        onesyStyle.subscriptions.rule.rtl.length === 1 &&
+        (onesyStyle.plugins.remove = OnesyStyle.rtl) &&
+        (onesyStyle.subscriptions.rule.rtl.length as number) === 0
       );
 
       const values = [valueNode, ...valueBrowsers];
@@ -65,10 +65,10 @@ group('@amaui/style/rtl', () => {
 
       to('response', async () => {
         const valueBrowsers = await evaluate((window: any) => {
-          return window.AmauiStyle.rtl(undefined).methods.method({ value: '14', property: 'padding-left' });
+          return window.OnesyStyle.rtl(undefined).methods.method({ value: '14', property: 'padding-left' });
         });
 
-        const valueNode = AmauiStyle.rtl(undefined).methods.method({ value: '14', property: 'padding-left' });
+        const valueNode = OnesyStyle.rtl(undefined).methods.method({ value: '14', property: 'padding-left' });
 
         const values = [valueNode, ...valueBrowsers];
 
@@ -96,7 +96,7 @@ group('@amaui/style/rtl', () => {
             { value: 'right', property: 'float' },
           ];
 
-          return values_.map(item => window.AmauiStyle.rtl(undefined).methods.method(item).value);
+          return values_.map(item => window.OnesyStyle.rtl(undefined).methods.method(item).value);
         });
 
         const values_ = [
@@ -107,7 +107,7 @@ group('@amaui/style/rtl', () => {
           { value: 'right', property: 'float' },
         ];
 
-        const valueNode = values_.map(item => AmauiStyle.rtl(undefined).methods.method(item).value);
+        const valueNode = values_.map(item => OnesyStyle.rtl(undefined).methods.method(item).value);
 
         const values = [valueNode, ...valueBrowsers];
 

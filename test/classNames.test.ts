@@ -1,18 +1,18 @@
 /* tslint:disable: no-shadowed-variable */
-import { assert } from '@amaui/test';
+import { assert } from '@onesy/test';
 
 import { evaluate } from '../utils/js/test/utils';
 
-import * as AmauiStyle from '../src';
+import * as OnesyStyle from '../src';
 
-group('@amaui/style/classNames', () => {
+group('@onesy/style/classNames', () => {
 
   to('classNames', async () => {
     const valueBrowsers = await evaluate((window: any) => {
-      return window.AmauiStyle.classNames(['a', { a1: true, a2: { a4: true, a3: false } }, true && 'a5', false && 'a6', 'a7']);
+      return window.OnesyStyle.classNames(['a', { a1: true, a2: { a4: true, a3: false } }, true && 'a5', false && 'a6', 'a7']);
     });
 
-    const valueNode = AmauiStyle.classNames(['a', { a1: true, a2: { a4: true, a3: false } }, true && 'a5', false && 'a6', 'a7']);
+    const valueNode = OnesyStyle.classNames(['a', { a1: true, a2: { a4: true, a3: false } }, true && 'a5', false && 'a6', 'a7']);
 
     const values = [valueNode, ...valueBrowsers];
 
@@ -21,10 +21,10 @@ group('@amaui/style/classNames', () => {
 
   to('prefix', async () => {
     const valueBrowsers = await evaluate((window: any) => {
-      return window.AmauiStyle.classNames(['a', { a1: true, a2: { a4: true, a3: false } }, true && 'a5', false && 'a6', 'a7'], '.');
+      return window.OnesyStyle.classNames(['a', { a1: true, a2: { a4: true, a3: false } }, true && 'a5', false && 'a6', 'a7'], '.');
     });
 
-    const valueNode = AmauiStyle.classNames(['a', { a1: true, a2: { a4: true, a3: false } }, true && 'a5', false && 'a6', 'a7'], '.');
+    const valueNode = OnesyStyle.classNames(['a', { a1: true, a2: { a4: true, a3: false } }, true && 'a5', false && 'a6', 'a7'], '.');
 
     const values = [valueNode, ...valueBrowsers];
 
@@ -33,10 +33,10 @@ group('@amaui/style/classNames', () => {
 
   to('array', async () => {
     const valueBrowsers = await evaluate((window: any) => {
-      return window.AmauiStyle.classNames(['a', { a1: true, a2: { a4: true, a3: false } }, true && 'a5', false && 'a6', 'a7'], '', true);
+      return window.OnesyStyle.classNames(['a', { a1: true, a2: { a4: true, a3: false } }, true && 'a5', false && 'a6', 'a7'], '', true);
     });
 
-    const valueNode = AmauiStyle.classNames(['a', { a1: true, a2: { a4: true, a3: false } }, true && 'a5', false && 'a6', 'a7'], '', true);
+    const valueNode = OnesyStyle.classNames(['a', { a1: true, a2: { a4: true, a3: false } }, true && 'a5', false && 'a6', 'a7'], '', true);
 
     const values = [valueNode, ...valueBrowsers];
 

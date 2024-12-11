@@ -1,17 +1,17 @@
 /* tslint:disable: no-shadowed-variable */
-import { assert } from '@amaui/test';
-import * as AmauiUtils from '@amaui/utils';
+import { assert } from '@onesy/test';
+import * as OnesyUtils from '@onesy/utils';
 
 import { evaluate } from '../utils/js/test/utils';
 
-import * as AmauiStyle from '../src';
+import * as OnesyStyle from '../src';
 import { TValue } from '../src';
 
-group('AmauiStyleSheetManager', () => {
+group('OnesyStyleSheetManager', () => {
 
-  to('amauiStyleSheetManager', async () => {
+  to('onesyStyleSheetManager', async () => {
     const valueBrowsers = await evaluate((window: any) => {
-      const amauiStyle = new window.AmauiStyle.AmauiStyle();
+      const onesyStyle = new window.OnesyStyle.OnesyStyle();
 
       const a = {
         a: {
@@ -49,18 +49,18 @@ group('AmauiStyleSheetManager', () => {
         }
       };
 
-      const amauiStyleSheetManager = new window.AmauiStyle.AmauiStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+      const onesyStyleSheetManager = new window.OnesyStyle.OnesyStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', onesyStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
       return [
-        typeof amauiStyleSheetManager.id === 'string',
-        amauiStyleSheetManager.mode === 'regular',
-        amauiStyleSheetManager.status === 'inited',
-        amauiStyleSheetManager.priority === 'upper',
-        window.AmauiUtils.equalDeep(amauiStyleSheetManager.names.classNames, { a: 'a-0' }),
-        window.AmauiUtils.equalDeep(amauiStyleSheetManager.names.classes, { a: 'a-0' }),
-        window.AmauiUtils.equalDeep(amauiStyleSheetManager.names.className, 'a-0'),
-        window.AmauiUtils.equalDeep(amauiStyleSheetManager.names.class, 'a-0'),
-        window.AmauiUtils.equalDeep(amauiStyleSheetManager.options, {
+        typeof onesyStyleSheetManager.id === 'string',
+        onesyStyleSheetManager.mode === 'regular',
+        onesyStyleSheetManager.status === 'inited',
+        onesyStyleSheetManager.priority === 'upper',
+        window.OnesyUtils.equalDeep(onesyStyleSheetManager.names.classNames, { a: 'a-0' }),
+        window.OnesyUtils.equalDeep(onesyStyleSheetManager.names.classes, { a: 'a-0' }),
+        window.OnesyUtils.equalDeep(onesyStyleSheetManager.names.className, 'a-0'),
+        window.OnesyUtils.equalDeep(onesyStyleSheetManager.names.class, 'a-0'),
+        window.OnesyUtils.equalDeep(onesyStyleSheetManager.options, {
           "name": "style",
           "style": {
             "attributes": {
@@ -72,13 +72,13 @@ group('AmauiStyleSheetManager', () => {
             "prefix": false,
             "rtl": true
           },
-          amaui_style_cache: true
+          onesy_style_cache: true
         }),
-        !!amauiStyleSheetManager.amauiStyle,
-        !amauiStyleSheetManager.amauiTheme,
-        amauiStyleSheetManager.properties.static.length === 1,
-        amauiStyleSheetManager.properties.static[0].property === 'a',
-        window.AmauiUtils.equalDeep(amauiStyleSheetManager.properties.static[0].value, {
+        !!onesyStyleSheetManager.onesyStyle,
+        !onesyStyleSheetManager.onesyTheme,
+        onesyStyleSheetManager.properties.static.length === 1,
+        onesyStyleSheetManager.properties.static[0].property === 'a',
+        window.OnesyUtils.equalDeep(onesyStyleSheetManager.properties.static[0].value, {
           "width": 100,
           "max-width": 100,
           "background": "#faa",
@@ -94,18 +94,18 @@ group('AmauiStyleSheetManager', () => {
           "maskPosition": "40% 74%",
           "animation": "$a .4s ease"
         }),
-        amauiStyleSheetManager.properties.dynamic.length === 1,
-        amauiStyleSheetManager.properties.dynamic[0].property === 'a7',
-        Object.keys(amauiStyleSheetManager.properties.dynamic[0].value).length === 1,
-        window.AmauiUtils.is('function', amauiStyleSheetManager.properties.dynamic[0].value.background),
-        !amauiStyleSheetManager.pure,
-        amauiStyleSheetManager.sheets.static.length === 1,
-        amauiStyleSheetManager.sheets.dynamic.length === 0,
-        window.AmauiUtils.equalDeep(amauiStyleSheetManager.values, { "css": amauiStyleSheetManager.css })
+        onesyStyleSheetManager.properties.dynamic.length === 1,
+        onesyStyleSheetManager.properties.dynamic[0].property === 'a7',
+        Object.keys(onesyStyleSheetManager.properties.dynamic[0].value).length === 1,
+        window.OnesyUtils.is('function', onesyStyleSheetManager.properties.dynamic[0].value.background),
+        !onesyStyleSheetManager.pure,
+        onesyStyleSheetManager.sheets.static.length === 1,
+        onesyStyleSheetManager.sheets.dynamic.length === 0,
+        window.OnesyUtils.equalDeep(onesyStyleSheetManager.values, { "css": onesyStyleSheetManager.css })
       ];
     });
 
-    const amauiStyle = new AmauiStyle.AmauiStyle();
+    const onesyStyle = new OnesyStyle.OnesyStyle();
 
     const a: TValue = {
       a: {
@@ -143,18 +143,18 @@ group('AmauiStyleSheetManager', () => {
       },
     };
 
-    const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+    const onesyStyleSheetManager = new OnesyStyle.OnesyStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', onesyStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
     const valueNode = [
-      typeof amauiStyleSheetManager.id === 'string',
-      amauiStyleSheetManager.mode === 'regular',
-      amauiStyleSheetManager.status === 'inited',
-      amauiStyleSheetManager.priority === 'upper',
-      AmauiUtils.equalDeep(amauiStyleSheetManager.names.classNames, { a: 'a-0' }),
-      AmauiUtils.equalDeep(amauiStyleSheetManager.names.classes, { a: 'a-0' }),
-      AmauiUtils.equalDeep(amauiStyleSheetManager.names.className, 'a-0'),
-      AmauiUtils.equalDeep(amauiStyleSheetManager.names.class, 'a-0'),
-      AmauiUtils.equalDeep(amauiStyleSheetManager.options, {
+      typeof onesyStyleSheetManager.id === 'string',
+      onesyStyleSheetManager.mode === 'regular',
+      onesyStyleSheetManager.status === 'inited',
+      onesyStyleSheetManager.priority === 'upper',
+      OnesyUtils.equalDeep(onesyStyleSheetManager.names.classNames, { a: 'a-0' }),
+      OnesyUtils.equalDeep(onesyStyleSheetManager.names.classes, { a: 'a-0' }),
+      OnesyUtils.equalDeep(onesyStyleSheetManager.names.className, 'a-0'),
+      OnesyUtils.equalDeep(onesyStyleSheetManager.names.class, 'a-0'),
+      OnesyUtils.equalDeep(onesyStyleSheetManager.options, {
         "name": "style",
         "style": {
           "attributes": {
@@ -166,13 +166,13 @@ group('AmauiStyleSheetManager', () => {
           "prefix": false,
           "rtl": true
         },
-        amaui_style_cache: true
+        onesy_style_cache: true
       }),
-      !!amauiStyleSheetManager.amauiStyle,
-      !amauiStyleSheetManager.amauiTheme,
-      amauiStyleSheetManager.properties.static.length === 1,
-      amauiStyleSheetManager.properties.static[0].property === 'a',
-      AmauiUtils.equalDeep(amauiStyleSheetManager.properties.static[0].value, {
+      !!onesyStyleSheetManager.onesyStyle,
+      !onesyStyleSheetManager.onesyTheme,
+      onesyStyleSheetManager.properties.static.length === 1,
+      onesyStyleSheetManager.properties.static[0].property === 'a',
+      OnesyUtils.equalDeep(onesyStyleSheetManager.properties.static[0].value, {
         "width": 100,
         "max-width": 100,
         "background": "#faa",
@@ -188,14 +188,14 @@ group('AmauiStyleSheetManager', () => {
         "maskPosition": "40% 74%",
         "animation": "$a .4s ease"
       }),
-      amauiStyleSheetManager.properties.dynamic.length === 1,
-      amauiStyleSheetManager.properties.dynamic[0].property === 'a7',
-      Object.keys(amauiStyleSheetManager.properties.dynamic[0].value).length === 1,
-      AmauiUtils.is('function', amauiStyleSheetManager.properties.dynamic[0].value.background),
-      !amauiStyleSheetManager.pure,
-      amauiStyleSheetManager.sheets.static.length === 1,
-      amauiStyleSheetManager.sheets.dynamic.length === 0,
-      AmauiUtils.equalDeep(amauiStyleSheetManager.values, { "css": amauiStyleSheetManager.css })
+      onesyStyleSheetManager.properties.dynamic.length === 1,
+      onesyStyleSheetManager.properties.dynamic[0].property === 'a7',
+      Object.keys(onesyStyleSheetManager.properties.dynamic[0].value).length === 1,
+      OnesyUtils.is('function', onesyStyleSheetManager.properties.dynamic[0].value.background),
+      !onesyStyleSheetManager.pure,
+      onesyStyleSheetManager.sheets.static.length === 1,
+      onesyStyleSheetManager.sheets.dynamic.length === 0,
+      OnesyUtils.equalDeep(onesyStyleSheetManager.values, { "css": onesyStyleSheetManager.css })
     ];
 
     const values = [valueNode, ...valueBrowsers];
@@ -203,11 +203,11 @@ group('AmauiStyleSheetManager', () => {
     values.forEach(value => assert(value).eql(new Array(22).fill(true)));
   });
 
-  group('amaui_style_cache', () => {
+  group('onesy_style_cache', () => {
 
     to('true', async () => {
       const valueBrowsers = await evaluate((window: any) => {
-        const amauiStyle = new window.AmauiStyle.AmauiStyle();
+        const onesyStyle = new window.OnesyStyle.OnesyStyle();
 
         const a = {
           a: {
@@ -247,14 +247,14 @@ group('AmauiStyleSheetManager', () => {
           },
         };
 
-        const amauiStyleSheetManager = new window.AmauiStyle.AmauiStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false }, amaui_style_cache: true });
+        const onesyStyleSheetManager = new window.OnesyStyle.OnesyStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', onesyStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false }, onesy_style_cache: true });
 
-        amauiStyleSheetManager.add();
+        onesyStyleSheetManager.add();
 
-        return amauiStyle.css;
+        return onesyStyle.css;
       });
 
-      const amauiStyle = new AmauiStyle.AmauiStyle();
+      const onesyStyle = new OnesyStyle.OnesyStyle();
 
       const a: TValue = {
         a: {
@@ -294,11 +294,11 @@ group('AmauiStyleSheetManager', () => {
         },
       };
 
-      const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false }, amaui_style_cache: true });
+      const onesyStyleSheetManager = new OnesyStyle.OnesyStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', onesyStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false }, onesy_style_cache: true });
 
-      amauiStyleSheetManager.add();
+      onesyStyleSheetManager.add();
 
-      const valueNode = amauiStyle.css;
+      const valueNode = onesyStyle.css;
 
       const values = [valueNode, ...valueBrowsers];
 
@@ -307,7 +307,7 @@ group('AmauiStyleSheetManager', () => {
 
     to('false', async () => {
       const valueBrowsers = await evaluate((window: any) => {
-        const amauiStyle = new window.AmauiStyle.AmauiStyle();
+        const onesyStyle = new window.OnesyStyle.OnesyStyle();
 
         const a = {
           a: {
@@ -347,14 +347,14 @@ group('AmauiStyleSheetManager', () => {
           },
         };
 
-        const amauiStyleSheetManager = new window.AmauiStyle.AmauiStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false }, amaui_style_cache: false });
+        const onesyStyleSheetManager = new window.OnesyStyle.OnesyStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', onesyStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false }, onesy_style_cache: false });
 
-        amauiStyleSheetManager.add();
+        onesyStyleSheetManager.add();
 
-        return amauiStyle.css;
+        return onesyStyle.css;
       });
 
-      const amauiStyle = new AmauiStyle.AmauiStyle();
+      const onesyStyle = new OnesyStyle.OnesyStyle();
 
       const a: TValue = {
         a: {
@@ -394,11 +394,11 @@ group('AmauiStyleSheetManager', () => {
         },
       };
 
-      const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false }, amaui_style_cache: false });
+      const onesyStyleSheetManager = new OnesyStyle.OnesyStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', onesyStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false }, onesy_style_cache: false });
 
-      amauiStyleSheetManager.add();
+      onesyStyleSheetManager.add();
 
-      const valueNode = amauiStyle.css;
+      const valueNode = onesyStyle.css;
 
       const values = [valueNode, ...valueBrowsers];
 
@@ -411,7 +411,7 @@ group('AmauiStyleSheetManager', () => {
 
     to('regular', async () => {
       const valueBrowsers = await evaluate((window: any) => {
-        const amauiStyle = new window.AmauiStyle.AmauiStyle();
+        const onesyStyle = new window.OnesyStyle.OnesyStyle();
 
         const a = {
           a: {
@@ -451,21 +451,21 @@ group('AmauiStyleSheetManager', () => {
           },
         };
 
-        const amauiStyleSheetManager = new window.AmauiStyle.AmauiStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+        const onesyStyleSheetManager = new window.OnesyStyle.OnesyStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', onesyStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
         const response = [];
 
-        amauiStyleSheetManager.add();
+        onesyStyleSheetManager.add();
 
         response.push(
-          amauiStyleSheetManager.sheets.static[0].css,
-          amauiStyleSheetManager.sheets.dynamic[0].css,
+          onesyStyleSheetManager.sheets.static[0].css,
+          onesyStyleSheetManager.sheets.dynamic[0].css,
         );
 
         return response;
       });
 
-      const amauiStyle = new AmauiStyle.AmauiStyle();
+      const onesyStyle = new OnesyStyle.OnesyStyle();
 
       const a: TValue = {
         a: {
@@ -505,13 +505,13 @@ group('AmauiStyleSheetManager', () => {
         },
       };
 
-      const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+      const onesyStyleSheetManager = new OnesyStyle.OnesyStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', onesyStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
-      amauiStyleSheetManager.add();
+      onesyStyleSheetManager.add();
 
       const valueNode = [
-        amauiStyleSheetManager.sheets.static[0].css,
-        amauiStyleSheetManager.sheets.dynamic[0].css,
+        onesyStyleSheetManager.sheets.static[0].css,
+        onesyStyleSheetManager.sheets.dynamic[0].css,
       ];
 
       const values = [valueNode, ...valueBrowsers];
@@ -524,7 +524,7 @@ group('AmauiStyleSheetManager', () => {
 
     to('atomic', async () => {
       const valueBrowsers = await evaluate((window: any) => {
-        const amauiStyle = new window.AmauiStyle.AmauiStyle();
+        const onesyStyle = new window.OnesyStyle.OnesyStyle();
 
         const a = {
           a: {
@@ -564,21 +564,21 @@ group('AmauiStyleSheetManager', () => {
           },
         };
 
-        const amauiStyleSheetManager = new window.AmauiStyle.AmauiStyleSheetManager(a, 'atomic', false, 'upper', undefined, amauiStyle, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+        const onesyStyleSheetManager = new window.OnesyStyle.OnesyStyleSheetManager(a, 'atomic', false, 'upper', undefined, onesyStyle, { style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
         const response = [];
 
-        amauiStyleSheetManager.add();
+        onesyStyleSheetManager.add();
 
         response.push(
-          amauiStyleSheetManager.sheets.static[0].css,
-          amauiStyleSheetManager.sheets.dynamic[0].css,
+          onesyStyleSheetManager.sheets.static[0].css,
+          onesyStyleSheetManager.sheets.dynamic[0].css,
         );
 
         return response;
       });
 
-      const amauiStyle = new AmauiStyle.AmauiStyle();
+      const onesyStyle = new OnesyStyle.OnesyStyle();
 
       const a: TValue = {
         a: {
@@ -618,13 +618,13 @@ group('AmauiStyleSheetManager', () => {
         },
       };
 
-      const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(a, { mode: 'atomic', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+      const onesyStyleSheetManager = new OnesyStyle.OnesyStyleSheetManager(a, { mode: 'atomic', pure: false, priority: 'upper', onesyStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
-      amauiStyleSheetManager.add();
+      onesyStyleSheetManager.add();
 
       const valueNode = [
-        amauiStyleSheetManager.sheets.static[0].css,
-        amauiStyleSheetManager.sheets.dynamic[0].css,
+        onesyStyleSheetManager.sheets.static[0].css,
+        onesyStyleSheetManager.sheets.dynamic[0].css,
       ];
 
       const values = [valueNode, ...valueBrowsers];
@@ -639,7 +639,7 @@ group('AmauiStyleSheetManager', () => {
 
   to('names', async () => {
     const valueBrowsers = await evaluate((window: any) => {
-      const amauiStyle = new window.AmauiStyle.AmauiStyle();
+      const onesyStyle = new window.OnesyStyle.OnesyStyle();
 
       const a = {
         '@keyframes a': {
@@ -690,17 +690,17 @@ group('AmauiStyleSheetManager', () => {
         },
       };
 
-      const amauiStyleSheetManager = new window.AmauiStyle.AmauiStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+      const onesyStyleSheetManager = new window.OnesyStyle.OnesyStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', onesyStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
       return [
-        amauiStyleSheetManager.names.classNames,
-        amauiStyleSheetManager.names.classes,
-        amauiStyleSheetManager.names.keyframes,
-        amauiStyleSheetManager.names.styles('a', 'a4'),
+        onesyStyleSheetManager.names.classNames,
+        onesyStyleSheetManager.names.classes,
+        onesyStyleSheetManager.names.keyframes,
+        onesyStyleSheetManager.names.styles('a', 'a4'),
       ];
     });
 
-    const amauiStyle = new AmauiStyle.AmauiStyle();
+    const onesyStyle = new OnesyStyle.OnesyStyle();
 
     const a: TValue = {
       '@keyframes a': {
@@ -751,13 +751,13 @@ group('AmauiStyleSheetManager', () => {
       },
     };
 
-    const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+    const onesyStyleSheetManager = new OnesyStyle.OnesyStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', onesyStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
     const valueNode = [
-      amauiStyleSheetManager.names.classNames,
-      amauiStyleSheetManager.names.classes,
-      amauiStyleSheetManager.names.keyframes,
-      amauiStyleSheetManager.names.styles('a', 'a4'),
+      onesyStyleSheetManager.names.classNames,
+      onesyStyleSheetManager.names.classes,
+      onesyStyleSheetManager.names.keyframes,
+      onesyStyleSheetManager.names.styles('a', 'a4'),
     ];
 
     const values = [valueNode, ...valueBrowsers];
@@ -780,7 +780,7 @@ group('AmauiStyleSheetManager', () => {
 
   to('ids', async () => {
     const valueBrowsers = await evaluate((window: any) => {
-      const amauiStyle = new window.AmauiStyle.AmauiStyle();
+      const onesyStyle = new window.OnesyStyle.OnesyStyle();
 
       const a = {
         a: {
@@ -818,11 +818,11 @@ group('AmauiStyleSheetManager', () => {
         },
       };
 
-      const amauiStyleSheetManager = new window.AmauiStyle.AmauiStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+      const onesyStyleSheetManager = new window.OnesyStyle.OnesyStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', onesyStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
-      amauiStyleSheetManager.add();
+      onesyStyleSheetManager.add();
 
-      const ids = amauiStyleSheetManager.ids;
+      const ids = onesyStyleSheetManager.ids;
 
       return [
         ids.static.length === 1,
@@ -830,7 +830,7 @@ group('AmauiStyleSheetManager', () => {
       ];
     });
 
-    const amauiStyle = new AmauiStyle.AmauiStyle();
+    const onesyStyle = new OnesyStyle.OnesyStyle();
 
     const a: TValue = {
       a: {
@@ -868,11 +868,11 @@ group('AmauiStyleSheetManager', () => {
       },
     };
 
-    const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+    const onesyStyleSheetManager = new OnesyStyle.OnesyStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', onesyStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
-    amauiStyleSheetManager.add();
+    onesyStyleSheetManager.add();
 
-    const ids = amauiStyleSheetManager.ids;
+    const ids = onesyStyleSheetManager.ids;
 
     const valueNode = [
       ids.static.length === 1,
@@ -886,7 +886,7 @@ group('AmauiStyleSheetManager', () => {
 
   to('props', async () => {
     const valueBrowsers = await evaluate((window: any) => {
-      const amauiStyle = new window.AmauiStyle.AmauiStyle();
+      const onesyStyle = new window.OnesyStyle.OnesyStyle();
 
       const a = {
         a: {
@@ -924,27 +924,27 @@ group('AmauiStyleSheetManager', () => {
         },
       };
 
-      const amauiStyleSheetManager = new window.AmauiStyle.AmauiStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+      const onesyStyleSheetManager = new window.OnesyStyle.OnesyStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', onesyStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
-      amauiStyleSheetManager.add();
+      onesyStyleSheetManager.add();
 
-      const ids = amauiStyleSheetManager.ids;
+      const ids = onesyStyleSheetManager.ids;
 
       const response = [
-        amauiStyleSheetManager.sheets.dynamic[0].rules[0].value.rules[0].value.values.value,
+        onesyStyleSheetManager.sheets.dynamic[0].rules[0].value.rules[0].value.values.value,
       ];
 
-      amauiStyleSheetManager.props = { ids: ids.dynamic, props: { a: 1 } };
+      onesyStyleSheetManager.props = { ids: ids.dynamic, props: { a: 1 } };
 
       response.push(
-        amauiStyleSheetManager.sheets.dynamic[0].rules[0].value.rules[0].value.values.value,
-        window.AmauiUtils.equalDeep(amauiStyleSheetManager.sheets.dynamic[0].props, { a: 1 })
+        onesyStyleSheetManager.sheets.dynamic[0].rules[0].value.rules[0].value.values.value,
+        window.OnesyUtils.equalDeep(onesyStyleSheetManager.sheets.dynamic[0].props, { a: 1 })
       );
 
       return response;
     });
 
-    const amauiStyle = new AmauiStyle.AmauiStyle();
+    const onesyStyle = new OnesyStyle.OnesyStyle();
 
     const a: TValue = {
       a: {
@@ -982,21 +982,21 @@ group('AmauiStyleSheetManager', () => {
       },
     };
 
-    const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+    const onesyStyleSheetManager = new OnesyStyle.OnesyStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', onesyStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
-    amauiStyleSheetManager.add();
+    onesyStyleSheetManager.add();
 
-    const ids = amauiStyleSheetManager.ids;
+    const ids = onesyStyleSheetManager.ids;
 
     const response = [
-      amauiStyleSheetManager.sheets.dynamic[0].rules[0].value.rules[0].value.values.value,
+      onesyStyleSheetManager.sheets.dynamic[0].rules[0].value.rules[0].value.values.value,
     ];
 
-    amauiStyleSheetManager.props = { ids: ids.dynamic, props: { a: 1 } };
+    onesyStyleSheetManager.props = { ids: ids.dynamic, props: { a: 1 } };
 
     response.push(
-      amauiStyleSheetManager.sheets.dynamic[0].rules[0].value.rules[0].value.values.value,
-      AmauiUtils.equalDeep(amauiStyleSheetManager.sheets.dynamic[0].props, { a: 1 })
+      onesyStyleSheetManager.sheets.dynamic[0].rules[0].value.rules[0].value.values.value,
+      OnesyUtils.equalDeep(onesyStyleSheetManager.sheets.dynamic[0].props, { a: 1 })
     );
 
     const valueNode = response;
@@ -1012,7 +1012,7 @@ group('AmauiStyleSheetManager', () => {
 
   to('values', async () => {
     const valueBrowsers = await evaluate((window: any) => {
-      const amauiStyle = new window.AmauiStyle.AmauiStyle();
+      const onesyStyle = new window.OnesyStyle.OnesyStyle();
 
       const a: TValue = {
         a: {
@@ -1050,9 +1050,9 @@ group('AmauiStyleSheetManager', () => {
         },
       };
 
-      const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+      const onesyStyleSheetManager = new OnesyStyle.OnesyStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', onesyStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
-      return [AmauiUtils.equalDeep(amauiStyleSheetManager.values, amauiStyleSheetManager.response), amauiStyleSheetManager.values];
+      return [OnesyUtils.equalDeep(onesyStyleSheetManager.values, onesyStyleSheetManager.response), onesyStyleSheetManager.values];
     });
 
     const a: TValue = {
@@ -1091,11 +1091,11 @@ group('AmauiStyleSheetManager', () => {
       },
     };
 
-    const amauiStyle = new AmauiStyle.AmauiStyle();
+    const onesyStyle = new OnesyStyle.OnesyStyle();
 
-    const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+    const onesyStyleSheetManager = new OnesyStyle.OnesyStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', onesyStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
-    const valueNode = [AmauiUtils.equalDeep(amauiStyleSheetManager.values, amauiStyleSheetManager.response), amauiStyleSheetManager.values];
+    const valueNode = [OnesyUtils.equalDeep(onesyStyleSheetManager.values, onesyStyleSheetManager.response), onesyStyleSheetManager.values];
 
     const values = [valueNode, ...valueBrowsers];
 
@@ -1111,7 +1111,7 @@ group('AmauiStyleSheetManager', () => {
 
     to('response', async () => {
       const valueBrowsers = await evaluate((window: any) => {
-        const amauiStyle = new window.AmauiStyle.AmauiStyle();
+        const onesyStyle = new window.OnesyStyle.OnesyStyle();
 
         const a: TValue = {
           a: {
@@ -1149,9 +1149,9 @@ group('AmauiStyleSheetManager', () => {
           },
         };
 
-        const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+        const onesyStyleSheetManager = new OnesyStyle.OnesyStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', onesyStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
-        return [AmauiUtils.equalDeep(amauiStyleSheetManager.values, amauiStyleSheetManager.response), amauiStyleSheetManager.response];
+        return [OnesyUtils.equalDeep(onesyStyleSheetManager.values, onesyStyleSheetManager.response), onesyStyleSheetManager.response];
       });
 
       const a: TValue = {
@@ -1190,11 +1190,11 @@ group('AmauiStyleSheetManager', () => {
         },
       };
 
-      const amauiStyle = new AmauiStyle.AmauiStyle();
+      const onesyStyle = new OnesyStyle.OnesyStyle();
 
-      const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+      const onesyStyleSheetManager = new OnesyStyle.OnesyStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', onesyStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
-      const valueNode = [AmauiUtils.equalDeep(amauiStyleSheetManager.values, amauiStyleSheetManager.response), amauiStyleSheetManager.response];
+      const valueNode = [OnesyUtils.equalDeep(onesyStyleSheetManager.values, onesyStyleSheetManager.response), onesyStyleSheetManager.response];
 
       const values = [valueNode, ...valueBrowsers];
 
@@ -1208,7 +1208,7 @@ group('AmauiStyleSheetManager', () => {
 
     to('css', async () => {
       const valueBrowsers = await evaluate((window: any) => {
-        const amauiStyle = new window.AmauiStyle.AmauiStyle();
+        const onesyStyle = new window.OnesyStyle.OnesyStyle();
 
         const a: TValue = {
           a: {
@@ -1246,12 +1246,12 @@ group('AmauiStyleSheetManager', () => {
           },
         };
 
-        const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+        const onesyStyleSheetManager = new OnesyStyle.OnesyStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', onesyStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
-        return [AmauiUtils.equalDeep(amauiStyleSheetManager.css, amauiStyleSheetManager.values.css), amauiStyleSheetManager.css];
+        return [OnesyUtils.equalDeep(onesyStyleSheetManager.css, onesyStyleSheetManager.values.css), onesyStyleSheetManager.css];
       });
 
-      const amauiStyle = new AmauiStyle.AmauiStyle();
+      const onesyStyle = new OnesyStyle.OnesyStyle();
 
       const a: TValue = {
         a: {
@@ -1289,9 +1289,9 @@ group('AmauiStyleSheetManager', () => {
         },
       };
 
-      const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+      const onesyStyleSheetManager = new OnesyStyle.OnesyStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', onesyStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
-      const valueNode = [AmauiUtils.equalDeep(amauiStyleSheetManager.css, amauiStyleSheetManager.values.css), amauiStyleSheetManager.css];
+      const valueNode = [OnesyUtils.equalDeep(onesyStyleSheetManager.css, onesyStyleSheetManager.values.css), onesyStyleSheetManager.css];
 
       const values = [valueNode, ...valueBrowsers];
 
@@ -1305,7 +1305,7 @@ group('AmauiStyleSheetManager', () => {
 
   to('add', async () => {
     const valueBrowsers = await evaluate((window: any) => {
-      const amauiStyle = new window.AmauiStyle.AmauiStyle();
+      const onesyStyle = new window.OnesyStyle.OnesyStyle();
 
       const a = {
         a: {
@@ -1343,20 +1343,20 @@ group('AmauiStyleSheetManager', () => {
         },
       };
 
-      const amauiStyleSheetManager = new window.AmauiStyle.AmauiStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+      const onesyStyleSheetManager = new window.OnesyStyle.OnesyStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', onesyStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
       const response = [];
 
       const styleSheetsLength = window.document.styleSheets.length;
 
-      amauiStyleSheetManager.add();
+      onesyStyleSheetManager.add();
 
       response.push(
-        amauiStyleSheetManager.status === 'active',
-        amauiStyleSheetManager.sheets.static.length === 1,
-        amauiStyleSheetManager.sheets.dynamic.length === 1,
-        amauiStyleSheetManager.sheets.static[0].status === 'active',
-        amauiStyleSheetManager.sheets.dynamic[0].status === 'active',
+        onesyStyleSheetManager.status === 'active',
+        onesyStyleSheetManager.sheets.static.length === 1,
+        onesyStyleSheetManager.sheets.dynamic.length === 1,
+        onesyStyleSheetManager.sheets.static[0].status === 'active',
+        onesyStyleSheetManager.sheets.dynamic[0].status === 'active',
         window.document.styleSheets.length === styleSheetsLength + 2
       );
 
@@ -1367,7 +1367,7 @@ group('AmauiStyleSheetManager', () => {
 
     values.forEach(value => assert(value).eql(new Array(6).fill(true)));
 
-    const amauiStyle = new AmauiStyle.AmauiStyle();
+    const onesyStyle = new OnesyStyle.OnesyStyle();
 
     const a: TValue = {
       a: {
@@ -1405,15 +1405,15 @@ group('AmauiStyleSheetManager', () => {
       },
     };
 
-    const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+    const onesyStyleSheetManager = new OnesyStyle.OnesyStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', onesyStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
-    amauiStyleSheetManager.add();
+    onesyStyleSheetManager.add();
 
     const valueNode = [
-      amauiStyleSheetManager.sheets.static.length === 1,
-      amauiStyleSheetManager.sheets.dynamic.length === 1,
-      amauiStyleSheetManager.sheets.static[0].status === 'inited',
-      amauiStyleSheetManager.sheets.dynamic[0].status === 'inited',
+      onesyStyleSheetManager.sheets.static.length === 1,
+      onesyStyleSheetManager.sheets.dynamic.length === 1,
+      onesyStyleSheetManager.sheets.static[0].status === 'inited',
+      onesyStyleSheetManager.sheets.dynamic[0].status === 'inited',
     ];
 
     assert(valueNode).eql(new Array(4).fill(true));
@@ -1421,7 +1421,7 @@ group('AmauiStyleSheetManager', () => {
 
   to('update', async () => {
     const valueBrowsers = await evaluate((window: any) => {
-      const amauiStyle = new window.AmauiStyle.AmauiStyle();
+      const onesyStyle = new window.OnesyStyle.OnesyStyle();
 
       const a = {
         a: {
@@ -1470,19 +1470,19 @@ group('AmauiStyleSheetManager', () => {
         },
       };
 
-      const amauiStyleSheetManager = new window.AmauiStyle.AmauiStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+      const onesyStyleSheetManager = new window.OnesyStyle.OnesyStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', onesyStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
       const response = [];
 
-      amauiStyleSheetManager.add();
+      onesyStyleSheetManager.add();
 
       response.push(
-        amauiStyleSheetManager.status === 'active',
-        amauiStyleSheetManager.sheets.static[0].css,
-        amauiStyleSheetManager.sheets.dynamic[0].css,
+        onesyStyleSheetManager.status === 'active',
+        onesyStyleSheetManager.sheets.static[0].css,
+        onesyStyleSheetManager.sheets.dynamic[0].css,
       );
 
-      const updateResponse = amauiStyleSheetManager.update({
+      const updateResponse = onesyStyleSheetManager.update({
         a: {
           color: 'yellow',
 
@@ -1515,15 +1515,15 @@ group('AmauiStyleSheetManager', () => {
       delete updateResponse.styles;
 
       response.push(
-        amauiStyleSheetManager.sheets.static[0].css,
-        amauiStyleSheetManager.sheets.dynamic[0].css,
+        onesyStyleSheetManager.sheets.static[0].css,
+        onesyStyleSheetManager.sheets.dynamic[0].css,
         updateResponse
       );
 
       return response;
     });
 
-    const amauiStyle = new AmauiStyle.AmauiStyle();
+    const onesyStyle = new OnesyStyle.OnesyStyle();
 
     const a: TValue = {
       a: {
@@ -1572,20 +1572,20 @@ group('AmauiStyleSheetManager', () => {
       },
     };
 
-    const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+    const onesyStyleSheetManager = new OnesyStyle.OnesyStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', onesyStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
     const response = [];
 
-    amauiStyleSheetManager.add();
+    onesyStyleSheetManager.add();
 
     response.push(
       // Only in browser is active
-      amauiStyleSheetManager.status === 'inited',
-      amauiStyleSheetManager.sheets.static[0].css,
-      amauiStyleSheetManager.sheets.dynamic[0].css,
+      onesyStyleSheetManager.status === 'inited',
+      onesyStyleSheetManager.sheets.static[0].css,
+      onesyStyleSheetManager.sheets.dynamic[0].css,
     );
 
-    const updateResponse = amauiStyleSheetManager.update({
+    const updateResponse = onesyStyleSheetManager.update({
       a: {
         color: 'yellow',
 
@@ -1618,8 +1618,8 @@ group('AmauiStyleSheetManager', () => {
     delete updateResponse.styles;
 
     response.push(
-      amauiStyleSheetManager.sheets.static[0].css,
-      amauiStyleSheetManager.sheets.dynamic[0].css,
+      onesyStyleSheetManager.sheets.static[0].css,
+      onesyStyleSheetManager.sheets.dynamic[0].css,
       updateResponse
     );
 
@@ -1649,7 +1649,7 @@ group('AmauiStyleSheetManager', () => {
 
   to('remove', async () => {
     const valueBrowsers = await evaluate((window: any) => {
-      const amauiStyle = new window.AmauiStyle.AmauiStyle();
+      const onesyStyle = new window.OnesyStyle.OnesyStyle();
 
       const a = {
         a: {
@@ -1687,29 +1687,29 @@ group('AmauiStyleSheetManager', () => {
         },
       };
 
-      const amauiStyleSheetManager = new window.AmauiStyle.AmauiStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+      const onesyStyleSheetManager = new window.OnesyStyle.OnesyStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', onesyStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
       const response = [];
 
       const styleSheetsLength = window.document.styleSheets.length;
 
-      amauiStyleSheetManager.add();
+      onesyStyleSheetManager.add();
 
       response.push(
-        amauiStyleSheetManager.status === 'active',
-        amauiStyleSheetManager.sheets.static.length === 1,
-        amauiStyleSheetManager.sheets.dynamic.length === 1,
-        amauiStyleSheetManager.sheets.static[0].status === 'active',
-        amauiStyleSheetManager.sheets.dynamic[0].status === 'active',
+        onesyStyleSheetManager.status === 'active',
+        onesyStyleSheetManager.sheets.static.length === 1,
+        onesyStyleSheetManager.sheets.dynamic.length === 1,
+        onesyStyleSheetManager.sheets.static[0].status === 'active',
+        onesyStyleSheetManager.sheets.dynamic[0].status === 'active',
         window.document.styleSheets.length === styleSheetsLength + 2
       );
 
-      amauiStyleSheetManager.remove(amauiStyleSheetManager.ids.dynamic);
+      onesyStyleSheetManager.remove(onesyStyleSheetManager.ids.dynamic);
 
       response.push(
-        amauiStyleSheetManager.status === 'idle',
-        amauiStyleSheetManager.sheets.static.length === 0,
-        amauiStyleSheetManager.sheets.dynamic.length === 0,
+        onesyStyleSheetManager.status === 'idle',
+        onesyStyleSheetManager.sheets.static.length === 0,
+        onesyStyleSheetManager.sheets.dynamic.length === 0,
         window.document.styleSheets.length === styleSheetsLength
       );
 
@@ -1720,7 +1720,7 @@ group('AmauiStyleSheetManager', () => {
 
     values.forEach(value => assert(value).eql(new Array(10).fill(true)));
 
-    const amauiStyle = new AmauiStyle.AmauiStyle();
+    const onesyStyle = new OnesyStyle.OnesyStyle();
 
     const a: TValue = {
       a: {
@@ -1758,23 +1758,23 @@ group('AmauiStyleSheetManager', () => {
       },
     };
 
-    const amauiStyleSheetManager = new AmauiStyle.AmauiStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', amauiStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
+    const onesyStyleSheetManager = new OnesyStyle.OnesyStyleSheetManager(a, { mode: 'regular', pure: false, priority: 'upper', onesyStyle, style: { attributes: { method: 'style' } }, rule: { prefix: false } });
 
-    amauiStyleSheetManager.add();
+    onesyStyleSheetManager.add();
 
     const response = [
-      amauiStyleSheetManager.sheets.static.length === 1,
-      amauiStyleSheetManager.sheets.dynamic.length === 1,
-      amauiStyleSheetManager.sheets.static[0].status === 'inited',
-      amauiStyleSheetManager.sheets.dynamic[0].status === 'inited',
+      onesyStyleSheetManager.sheets.static.length === 1,
+      onesyStyleSheetManager.sheets.dynamic.length === 1,
+      onesyStyleSheetManager.sheets.static[0].status === 'inited',
+      onesyStyleSheetManager.sheets.dynamic[0].status === 'inited',
     ];
 
-    amauiStyleSheetManager.remove(amauiStyleSheetManager.ids.dynamic);
+    onesyStyleSheetManager.remove(onesyStyleSheetManager.ids.dynamic);
 
     response.push(
-      amauiStyleSheetManager.status === 'idle',
-      amauiStyleSheetManager.sheets.static.length === 0,
-      amauiStyleSheetManager.sheets.dynamic.length === 0
+      onesyStyleSheetManager.status === 'idle',
+      onesyStyleSheetManager.sheets.static.length === 0,
+      onesyStyleSheetManager.sheets.dynamic.length === 0
     );
 
     const valueNode = response;

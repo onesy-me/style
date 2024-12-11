@@ -1,10 +1,10 @@
-import isEnvironment from '@amaui/utils/isEnvironment';
-import merge from '@amaui/utils/merge';
+import isEnvironment from '@onesy/utils/isEnvironment';
+import merge from '@onesy/utils/merge';
 
-import AmauiStyle from './AmauiStyle';
-import AmauiStyleSheet from './AmauiStyleSheet';
-import AmauiTheme from './AmauiTheme';
-import { TMode, IOptionsRule, IValuesVersion, TStatus, IResponse, IIds, TPriority, ISheets, IAmauiStyleSheetManagerProps, TValueObject } from './interfaces';
+import OnesyStyle from './OnesyStyle';
+import OnesyStyleSheet from './OnesyStyleSheet';
+import OnesyTheme from './OnesyTheme';
+import { TMode, IOptionsRule, IValuesVersion, TStatus, IResponse, IIds, TPriority, ISheets, IOnesyStyleSheetManagerProps, TValueObject } from './interfaces';
 import { dynamic, getID, is, names } from './utils';
 
 interface IProperties {
@@ -20,11 +20,11 @@ interface IOptions {
   mode?: TMode;
   pure?: boolean;
   priority?: TPriority;
-  amauiTheme?: AmauiTheme;
-  amauiStyle?: AmauiStyle;
+  onesyTheme?: OnesyTheme;
+  onesyStyle?: OnesyStyle;
   style?: IOptionsStyle;
   rule?: IOptionsRule;
-  amaui_style_cache?: boolean;
+  onesy_style_cache?: boolean;
   name?: string;
 }
 
@@ -40,17 +40,17 @@ const optionsDefault: IOptions = {
     prefix: true,
     rtl: true,
   },
-  amaui_style_cache: true
+  onesy_style_cache: true
 };
 
-class AmauiStyleSheetManager {
+class OnesyStyleSheetManager {
   public id: string;
   public status: TStatus = 'idle';
   public mode: TMode = 'regular';
   public pure: boolean = false;
   public priority: TPriority = 'upper';
-  public amauiTheme: AmauiTheme;
-  public amauiStyle: AmauiStyle;
+  public onesyTheme: OnesyTheme;
+  public onesyStyle: OnesyStyle;
   public values = {
     css: '',
   };
@@ -93,7 +93,7 @@ class AmauiStyleSheetManager {
     return value;
   }
 
-  public set props(value: IAmauiStyleSheetManagerProps) {
+  public set props(value: IOnesyStyleSheetManagerProps) {
     const ids = (is('array', value.ids) ? value.ids : [value.ids]) as Array<string>;
 
     // Update all dynamic sheets from ids value
@@ -102,7 +102,7 @@ class AmauiStyleSheetManager {
       sheet.props = value.props;
     });
 
-    this.amauiStyle.subscriptions.sheet_manager.update_props.emit(this, value);
+    this.onesyStyle.subscriptions.sheet_manager.update_props.emit(this, value);
   }
 
   public get ids(): IIds {
@@ -154,11 +154,11 @@ class AmauiStyleSheetManager {
     this.mode = this.options.mode || this.mode;
     this.pure = this.options.pure !== undefined ? this.options.pure : this.pure;
     this.priority = this.options.priority || this.priority;
-    this.amauiTheme = this.options.amauiTheme;
-    this.amauiStyle = this.options.amauiStyle;
+    this.onesyTheme = this.options.onesyTheme;
+    this.onesyStyle = this.options.onesyStyle;
 
-    // Inherits first from amauiStyle
-    this.mode = this.amauiStyle.mode || this.mode;
+    // Inherits first from onesyStyle
+    this.mode = this.onesyStyle.mode || this.mode;
 
     this.options.name = this.options.name || this.options.style?.attributes?.method || this.mode;
 
@@ -176,16 +176,16 @@ class AmauiStyleSheetManager {
 
       // Make a static sheet only if it doesn't already exist
       if (!!this.properties.static.length && !this.sheets.static.length) {
-        new AmauiStyleSheet(
+        new OnesyStyleSheet(
           this.propertiesVersion(),
           {
             version: 'static',
             mode: this.mode,
             pure: this.pure,
             priority: this.priority,
-            amauiStyleSheetManager: this,
-            amauiTheme: this.amauiTheme,
-            amauiStyle: this.amauiStyle,
+            onesyStyleSheetManager: this,
+            onesyTheme: this.onesyTheme,
+            onesyStyle: this.onesyStyle,
             props: {},
             ...this.options
           }
@@ -196,8 +196,8 @@ class AmauiStyleSheetManager {
     // Update names with methods
     names(this.names);
 
-    // Add to amauiStyle
-    this.amauiStyle.sheet_managers.push(this);
+    // Add to onesyStyle
+    this.onesyStyle.sheet_managers.push(this);
 
     // Update inited status
     this.status = 'inited';
@@ -220,19 +220,19 @@ class AmauiStyleSheetManager {
     // If no static sheet
     // Usecase React.StrictMode purposefull add / remove / add of elements
     // while preserving their state meaning it will add, remove the static sheet
-    // yet reuse the AmauiStyleSheetManager instance
+    // yet reuse the OnesyStyleSheetManager instance
     if (!this.sheets.static.length) {
       if (!!this.properties.static.length) {
-        const sheet = new AmauiStyleSheet(
+        const sheet = new OnesyStyleSheet(
           this.propertiesVersion(),
           {
             version: 'static',
             mode: this.mode,
             pure: this.pure,
             priority: this.priority,
-            amauiStyleSheetManager: this,
-            amauiTheme: this.amauiTheme,
-            amauiStyle: this.amauiStyle,
+            onesyStyleSheetManager: this,
+            onesyTheme: this.onesyTheme,
+            onesyStyle: this.onesyStyle,
             props: {},
             ...this.options
           }
@@ -259,16 +259,16 @@ class AmauiStyleSheetManager {
 
     // if values.dynamic min 1 prop make a dynamic sheet
     if (!!this.properties.dynamic.length) {
-      const sheet = new AmauiStyleSheet(
+      const sheet = new OnesyStyleSheet(
         this.propertiesVersion('dynamic'),
         {
           version: 'dynamic',
           mode: this.mode,
           pure: this.pure,
           priority: this.priority,
-          amauiStyleSheetManager: this,
-          amauiTheme: this.amauiTheme,
-          amauiStyle: this.amauiStyle,
+          onesyStyleSheetManager: this,
+          onesyTheme: this.onesyTheme,
+          onesyStyle: this.onesyStyle,
           props: {},
           ...this.options
         }
@@ -298,7 +298,7 @@ class AmauiStyleSheetManager {
     // Update users value
     this.users++;
 
-    this.amauiStyle.subscriptions.sheet_manager.add.emit(this);
+    this.onesyStyle.subscriptions.sheet_manager.add.emit(this);
 
     return response;
   }
@@ -342,7 +342,7 @@ class AmauiStyleSheetManager {
       ...this.names,
     };
 
-    this.amauiStyle.subscriptions.sheet_manager.update.emit(this);
+    this.onesyStyle.subscriptions.sheet_manager.update.emit(this);
 
     return response;
   }
@@ -370,7 +370,7 @@ class AmauiStyleSheetManager {
       // update status to idle else update status to remove
       this.status = (!this.sheets.static.length && !this.sheets.dynamic.length) ? 'idle' : 'remove';
 
-      this.amauiStyle.subscriptions.sheet_manager.remove.emit(ids, this);
+      this.onesyStyle.subscriptions.sheet_manager.remove.emit(ids, this);
     }
   }
 
@@ -422,4 +422,4 @@ class AmauiStyleSheetManager {
 
 }
 
-export default AmauiStyleSheetManager;
+export default OnesyStyleSheetManager;

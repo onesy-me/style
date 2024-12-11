@@ -3,21 +3,21 @@ import path from 'path';
 import { fork } from 'child_process';
 import fs from 'fs-extra';
 
-import { assert } from '@amaui/test';
-import AmauiNode from '@amaui/node';
-import { Try } from '@amaui/utils';
+import { assert } from '@onesy/test';
+import OnesyNode from '@onesy/node';
+import { Try } from '@onesy/utils';
 
 function clearRequireCache() {
   const items = [
     path.resolve('test/example/test/a.ts'),
     path.resolve('test/example/package.json'),
-    path.resolve('amaui-test.options.js'),
+    path.resolve('onesy-test.options.js'),
   ];
 
   items.forEach(item => Try(() => delete require.cache[item]));
 }
 
-group('@amaui/style/cli', () => {
+group('@onesy/style/cli', () => {
   const clear = async () => {
     clearRequireCache();
 
@@ -36,7 +36,7 @@ group('@amaui/style/cli', () => {
     }
 
     const files = [
-      { path: 'amaui-style.options.js' },
+      { path: 'onesy-style.options.js' },
     ];
 
     for (const file of files) {
@@ -71,7 +71,7 @@ group('@amaui/style/cli', () => {
       { path: './test/folders/html/ad1.html' },
     ];
 
-    await Promise.all(files.slice(0, 2).map(file => AmauiNode.file.add(path.resolve(file.path), `<!DOCTYPE html>
+    await Promise.all(files.slice(0, 2).map(file => OnesyNode.file.add(path.resolve(file.path), `<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8">
@@ -86,7 +86,7 @@ group('@amaui/style/cli', () => {
 
 </html>`)));
 
-    await Promise.all(files.slice(2, 3).map(file => AmauiNode.file.add(path.resolve(file.path), `<!DOCTYPE html>
+    await Promise.all(files.slice(2, 3).map(file => OnesyNode.file.add(path.resolve(file.path), `<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8">
@@ -103,7 +103,7 @@ group('@amaui/style/cli', () => {
 
 </html>`)));
 
-    await Promise.all(files.slice(3, 4).map(file => AmauiNode.file.add(path.resolve(file.path), `<!DOCTYPE html>
+    await Promise.all(files.slice(3, 4).map(file => OnesyNode.file.add(path.resolve(file.path), `<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8">
@@ -135,9 +135,9 @@ group('@amaui/style/cli', () => {
 
     childProcess.on('message', async () => {
       const files = {
-        aa: await AmauiNode.file.get(path.resolve('./test/folders/css/aa.4ef63a4d8246658d6b6b62967e6fbc0f28ba075913154b2ac26131a58309ae33.css'), false),
-        reset: await AmauiNode.file.get(path.resolve('./test/folders/css/reset.040274290038a84d1c41be44406a45ee0c3889e9ecb4d612246b62d1bd785ad6.css'), false),
-        index: await AmauiNode.file.get(path.resolve('./test/folders/html/index.html'), false),
+        aa: await OnesyNode.file.get(path.resolve('./test/folders/css/aa.4ef63a4d8246658d6b6b62967e6fbc0f28ba075913154b2ac26131a58309ae33.css'), false),
+        reset: await OnesyNode.file.get(path.resolve('./test/folders/css/reset.040274290038a84d1c41be44406a45ee0c3889e9ecb4d612246b62d1bd785ad6.css'), false),
+        index: await OnesyNode.file.get(path.resolve('./test/folders/html/index.html'), false),
       };
 
       assert(files.aa).eq(`@keyframes a-0{ 0%{   color:white;  }  40%{   color:yellow;  }}.a-0{ width:100px;  max-width:100px;  background:#faa;  margin:0 14px 4px 40px;  margin-left:41px;  float:left;  padding-left:41px;  padding:40px;  position:-webkit-sticky;  position:sticky;  -webkit-transition:all .4s ease;  -o-transition:all .4s ease;  -moz-transition:all .4s ease;  transition:all .4s ease;  -webkit-mask-origin:inherit;  mask-origin:inherit;  -webkit-mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);  mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);  -webkit-mask-position:40% 74%;  mask-position:40% 74%;  -webkit-animation:a-0 .4s ease;  -moz-animation:a-0 .4s ease;  animation:a-0 .4s ease}.a1-1{ width:100px;  max-width:100px;  background:#faa;  margin:0 14px 4px 40px;  margin-left:41px;  float:left;  padding-left:41px;  padding:40px;  -webkit-transition:all .4s ease;  -o-transition:all .4s ease;  -moz-transition:all .4s ease;  transition:all .4s ease;  -webkit-mask-origin:inherit;  mask-origin:inherit;  -webkit-mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);  mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);  -webkit-mask-position:40% 74%;  mask-position:40% 74%;  -webkit-animation:a-0 .4s ease;  -moz-animation:a-0 .4s ease;  animation:a-0 .4s ease}.a2-2{ color:yellow}.a2-2 .a19{ color:white}.a3-3 .a1-1 .a2-2.a7-4{ color:yellow}.a2-2 .a19>a{ color:yellow}.a2-2 .a19>a:hover{ color:orange;  margin-left:40px;  float:left;  padding:40px;  padding-left:41px;  -webkit-transition:all .4s ease;  -o-transition:all .4s ease;  -moz-transition:all .4s ease;  transition:all .4s ease;  -webkit-mask-origin:margin-box;  mask-origin:margin-box;  -webkit-mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);  mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);  -webkit-mask-position:40% 74%;  mask-position:40% 74%}.a3-3 .a1-1>a:hover{ color:orange;  margin-left:40px;  float:left;  padding-left:41px;  padding:40px;  transition:all .4s ease;  mask-origin:margin-box;  mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);  mask-position:40% 74%}.a4-5{ background:orange}.a5-6{ background:beige}`);
@@ -151,12 +151,12 @@ group('@amaui/style/cli', () => {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel='stylesheet' href='../css/reset.040274290038a84d1c41be44406a45ee0c3889e9ecb4d612246b62d1bd785ad6.css' data-amaui='true' data-reset='true' />
-    <link rel='stylesheet' href='../css/aa.4ef63a4d8246658d6b6b62967e6fbc0f28ba075913154b2ac26131a58309ae33.css' data-amaui='true' />
+    <link rel='stylesheet' href='../css/reset.040274290038a84d1c41be44406a45ee0c3889e9ecb4d612246b62d1bd785ad6.css' data-onesy='true' data-reset='true' />
+    <link rel='stylesheet' href='../css/aa.4ef63a4d8246658d6b6b62967e6fbc0f28ba075913154b2ac26131a58309ae33.css' data-onesy='true' />
     <script>
-      if (!window.amauiStyleNames) window.amauiStyleNames = {};
+      if (!window.onesyStyleNames) window.onesyStyleNames = {};
 
-      window.amauiStyleNames['4ef63a4d8246658d6b6b62967e6fbc0f28ba075913154b2ac26131a58309ae33'] = {
+      window.onesyStyleNames['4ef63a4d8246658d6b6b62967e6fbc0f28ba075913154b2ac26131a58309ae33'] = {
       "classNames": {
             "a": "a-0",
             "a1": "a1-1",
@@ -205,9 +205,9 @@ group('@amaui/style/cli', () => {
 
     childProcess.on('message', async () => {
       const files = {
-        aa: await AmauiNode.file.get(path.resolve('./test/folders/css/aa.4ef63a4d8246658d6b6b62967e6fbc0f28ba075913154b2ac26131a58309ae33.css'), false),
-        reset: await AmauiNode.file.get(path.resolve('./test/folders/css/reset.040274290038a84d1c41be44406a45ee0c3889e9ecb4d612246b62d1bd785ad6.css'), false),
-        index: await AmauiNode.file.get(path.resolve('./test/folders/html/index.html'), false),
+        aa: await OnesyNode.file.get(path.resolve('./test/folders/css/aa.4ef63a4d8246658d6b6b62967e6fbc0f28ba075913154b2ac26131a58309ae33.css'), false),
+        reset: await OnesyNode.file.get(path.resolve('./test/folders/css/reset.040274290038a84d1c41be44406a45ee0c3889e9ecb4d612246b62d1bd785ad6.css'), false),
+        index: await OnesyNode.file.get(path.resolve('./test/folders/html/index.html'), false),
       };
 
       assert(files.aa).eq(`@keyframes a-0{ 0%{   color:white;  }  40%{   color:yellow;  }}.a-0{ width:100px;  max-width:100px;  background:#faa;  margin:0 14px 4px 40px;  margin-left:41px;  float:left;  padding-left:41px;  padding:40px;  position:-webkit-sticky;  position:sticky;  -webkit-transition:all .4s ease;  -o-transition:all .4s ease;  -moz-transition:all .4s ease;  transition:all .4s ease;  -webkit-mask-origin:inherit;  mask-origin:inherit;  -webkit-mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);  mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);  -webkit-mask-position:40% 74%;  mask-position:40% 74%;  -webkit-animation:a-0 .4s ease;  -moz-animation:a-0 .4s ease;  animation:a-0 .4s ease}.a1-1{ width:100px;  max-width:100px;  background:#faa;  margin:0 14px 4px 40px;  margin-left:41px;  float:left;  padding-left:41px;  padding:40px;  -webkit-transition:all .4s ease;  -o-transition:all .4s ease;  -moz-transition:all .4s ease;  transition:all .4s ease;  -webkit-mask-origin:inherit;  mask-origin:inherit;  -webkit-mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);  mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);  -webkit-mask-position:40% 74%;  mask-position:40% 74%;  -webkit-animation:a-0 .4s ease;  -moz-animation:a-0 .4s ease;  animation:a-0 .4s ease}.a2-2{ color:yellow}.a2-2 .a19{ color:white}.a3-3 .a1-1 .a2-2.a7-4{ color:yellow}.a2-2 .a19>a{ color:yellow}.a2-2 .a19>a:hover{ color:orange;  margin-left:40px;  float:left;  padding:40px;  padding-left:41px;  -webkit-transition:all .4s ease;  -o-transition:all .4s ease;  -moz-transition:all .4s ease;  transition:all .4s ease;  -webkit-mask-origin:margin-box;  mask-origin:margin-box;  -webkit-mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);  mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);  -webkit-mask-position:40% 74%;  mask-position:40% 74%}.a3-3 .a1-1>a:hover{ color:orange;  margin-left:40px;  float:left;  padding-left:41px;  padding:40px;  transition:all .4s ease;  mask-origin:margin-box;  mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);  mask-position:40% 74%}.a4-5{ background:orange}.a5-6{ background:beige}`);
@@ -221,12 +221,12 @@ group('@amaui/style/cli', () => {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel='stylesheet' href='../css/reset.040274290038a84d1c41be44406a45ee0c3889e9ecb4d612246b62d1bd785ad6.css' data-amaui='true' data-reset='true' />
-    <link rel='stylesheet' href='../css/aa.4ef63a4d8246658d6b6b62967e6fbc0f28ba075913154b2ac26131a58309ae33.css' data-amaui='true' />
+    <link rel='stylesheet' href='../css/reset.040274290038a84d1c41be44406a45ee0c3889e9ecb4d612246b62d1bd785ad6.css' data-onesy='true' data-reset='true' />
+    <link rel='stylesheet' href='../css/aa.4ef63a4d8246658d6b6b62967e6fbc0f28ba075913154b2ac26131a58309ae33.css' data-onesy='true' />
     <script>
-      if (!window.amauiStyleNames) window.amauiStyleNames = {};
+      if (!window.onesyStyleNames) window.onesyStyleNames = {};
 
-      window.amauiStyleNames['4ef63a4d8246658d6b6b62967e6fbc0f28ba075913154b2ac26131a58309ae33'] = {
+      window.onesyStyleNames['4ef63a4d8246658d6b6b62967e6fbc0f28ba075913154b2ac26131a58309ae33'] = {
       "classNames": {
             "a": "a-0",
             "a1": "a1-1",
@@ -262,11 +262,11 @@ group('@amaui/style/cli', () => {
     });
   });
 
-  to('cli with amaui-style.options.js', async () => {
+  to('cli with onesy-style.options.js', async () => {
     const method = () => new Promise(async resolve => {
-      // Create amaui-style.options.js
-      await AmauiNode.file.add(
-        path.join(process.cwd(), 'amaui-style.options.js'),
+      // Create onesy-style.options.js
+      await OnesyNode.file.add(
+        path.join(process.cwd(), 'onesy-style.options.js'),
         `
         module.exports = {
           imports: [
@@ -287,9 +287,9 @@ group('@amaui/style/cli', () => {
 
       childProcess.on('message', async () => {
         const files = {
-          aa: await AmauiNode.file.get(path.resolve('./test/folders/css/aa.4ef63a4d8246658d6b6b62967e6fbc0f28ba075913154b2ac26131a58309ae33.css'), false),
-          reset: await AmauiNode.file.get(path.resolve('./test/folders/css/reset.040274290038a84d1c41be44406a45ee0c3889e9ecb4d612246b62d1bd785ad6.css'), false),
-          index: await AmauiNode.file.get(path.resolve('./test/folders/html/index.html'), false),
+          aa: await OnesyNode.file.get(path.resolve('./test/folders/css/aa.4ef63a4d8246658d6b6b62967e6fbc0f28ba075913154b2ac26131a58309ae33.css'), false),
+          reset: await OnesyNode.file.get(path.resolve('./test/folders/css/reset.040274290038a84d1c41be44406a45ee0c3889e9ecb4d612246b62d1bd785ad6.css'), false),
+          index: await OnesyNode.file.get(path.resolve('./test/folders/html/index.html'), false),
         };
 
         assert(files.aa).eq(`@keyframes a-0{ 0%{   color:white;  }  40%{   color:yellow;  }}.a-0{ width:100px;  max-width:100px;  background:#faa;  margin:0 14px 4px 40px;  margin-left:41px;  float:left;  padding-left:41px;  padding:40px;  position:-webkit-sticky;  position:sticky;  -webkit-transition:all .4s ease;  -o-transition:all .4s ease;  -moz-transition:all .4s ease;  transition:all .4s ease;  -webkit-mask-origin:inherit;  mask-origin:inherit;  -webkit-mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);  mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);  -webkit-mask-position:40% 74%;  mask-position:40% 74%;  -webkit-animation:a-0 .4s ease;  -moz-animation:a-0 .4s ease;  animation:a-0 .4s ease}.a1-1{ width:100px;  max-width:100px;  background:#faa;  margin:0 14px 4px 40px;  margin-left:41px;  float:left;  padding-left:41px;  padding:40px;  -webkit-transition:all .4s ease;  -o-transition:all .4s ease;  -moz-transition:all .4s ease;  transition:all .4s ease;  -webkit-mask-origin:inherit;  mask-origin:inherit;  -webkit-mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);  mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);  -webkit-mask-position:40% 74%;  mask-position:40% 74%;  -webkit-animation:a-0 .4s ease;  -moz-animation:a-0 .4s ease;  animation:a-0 .4s ease}.a2-2{ color:yellow}.a2-2 .a19{ color:white}.a3-3 .a1-1 .a2-2.a7-4{ color:yellow}.a2-2 .a19>a{ color:yellow}.a2-2 .a19>a:hover{ color:orange;  margin-left:40px;  float:left;  padding:40px;  padding-left:41px;  -webkit-transition:all .4s ease;  -o-transition:all .4s ease;  -moz-transition:all .4s ease;  transition:all .4s ease;  -webkit-mask-origin:margin-box;  mask-origin:margin-box;  -webkit-mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);  mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);  -webkit-mask-position:40% 74%;  mask-position:40% 74%}.a3-3 .a1-1>a:hover{ color:orange;  margin-left:40px;  float:left;  padding-left:41px;  padding:40px;  transition:all .4s ease;  mask-origin:margin-box;  mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);  mask-position:40% 74%}.a4-5{ background:orange}.a5-6{ background:beige}`);
@@ -303,12 +303,12 @@ group('@amaui/style/cli', () => {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel='stylesheet' href='../css/reset.040274290038a84d1c41be44406a45ee0c3889e9ecb4d612246b62d1bd785ad6.css' data-amaui='true' data-reset='true' />
-    <link rel='stylesheet' href='../css/aa.4ef63a4d8246658d6b6b62967e6fbc0f28ba075913154b2ac26131a58309ae33.css' data-amaui='true' />
+    <link rel='stylesheet' href='../css/reset.040274290038a84d1c41be44406a45ee0c3889e9ecb4d612246b62d1bd785ad6.css' data-onesy='true' data-reset='true' />
+    <link rel='stylesheet' href='../css/aa.4ef63a4d8246658d6b6b62967e6fbc0f28ba075913154b2ac26131a58309ae33.css' data-onesy='true' />
     <script>
-      if (!window.amauiStyleNames) window.amauiStyleNames = {};
+      if (!window.onesyStyleNames) window.onesyStyleNames = {};
 
-      window.amauiStyleNames['4ef63a4d8246658d6b6b62967e6fbc0f28ba075913154b2ac26131a58309ae33'] = {
+      window.onesyStyleNames['4ef63a4d8246658d6b6b62967e6fbc0f28ba075913154b2ac26131a58309ae33'] = {
       "classNames": {
             "a": "a-0",
             "a1": "a1-1",
@@ -341,7 +341,7 @@ group('@amaui/style/cli', () => {
 </html>`.replace(/ /g, ''));
 
         // Remove example/package.json
-        await AmauiNode.file.remove(path.join(process.cwd(), 'amaui-style.options.js'));
+        await OnesyNode.file.remove(path.join(process.cwd(), 'onesy-style.options.js'));
 
         resolve(true);
       });

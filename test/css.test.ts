@@ -2,14 +2,14 @@
 import path from 'path';
 import fs from 'fs-extra';
 
-import { assert } from '@amaui/test';
-import AmauiNode from '@amaui/node';
+import { assert } from '@onesy/test';
+import OnesyNode from '@onesy/node';
 
-import * as AmauiStyle from '../src';
+import * as OnesyStyle from '../src';
 import css from '../src/css';
 import { TValue } from '../src';
 
-group('@amaui/style/css', () => {
+group('@onesy/style/css', () => {
   const clear = async () => {
     const folders = [
       { path: './test/folders/css' },
@@ -49,7 +49,7 @@ group('@amaui/style/css', () => {
       { path: './test/folders/html/ad1.html' },
     ];
 
-    await Promise.all(files.slice(0, 2).map(file => AmauiNode.file.add(path.resolve(file.path), `<!DOCTYPE html>
+    await Promise.all(files.slice(0, 2).map(file => OnesyNode.file.add(path.resolve(file.path), `<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8">
@@ -64,7 +64,7 @@ group('@amaui/style/css', () => {
 
 </html>`)));
 
-    await Promise.all(files.slice(2, 3).map(file => AmauiNode.file.add(path.resolve(file.path), `<!DOCTYPE html>
+    await Promise.all(files.slice(2, 3).map(file => OnesyNode.file.add(path.resolve(file.path), `<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8">
@@ -81,7 +81,7 @@ group('@amaui/style/css', () => {
 
 </html>`)));
 
-    await Promise.all(files.slice(3, 4).map(file => AmauiNode.file.add(path.resolve(file.path), `<!DOCTYPE html>
+    await Promise.all(files.slice(3, 4).map(file => OnesyNode.file.add(path.resolve(file.path), `<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8">
@@ -102,15 +102,15 @@ group('@amaui/style/css', () => {
   postEveryGroupTo(clear);
 
   to('css', async () => {
-    const amauiStyle = new AmauiStyle.AmauiStyle();
+    const onesyStyle = new OnesyStyle.OnesyStyle();
 
     // Plugins
-    amauiStyle.plugins.add = [
-      AmauiStyle.unit,
-      AmauiStyle.sort,
-      AmauiStyle.prefix,
-      AmauiStyle.makeClassName,
-      AmauiStyle.rtl,
+    onesyStyle.plugins.add = [
+      OnesyStyle.unit,
+      OnesyStyle.sort,
+      OnesyStyle.prefix,
+      OnesyStyle.makeClassName,
+      OnesyStyle.rtl,
     ];
 
     const a: TValue = {
@@ -145,7 +145,7 @@ group('@amaui/style/css', () => {
     };
 
     const style = css(a, {
-      amaui_style: { value: amauiStyle },
+      onesy_style: { value: onesyStyle },
       css: {
         file: {
           name: 'style',
@@ -162,8 +162,8 @@ group('@amaui/style/css', () => {
     await style.make();
 
     const files = {
-      css: await AmauiNode.file.get(path.resolve('./test/folders/css/style.css'), false),
-      css1: await AmauiNode.file.get(path.resolve('./test/folders/css1/style.css'), false),
+      css: await OnesyNode.file.get(path.resolve('./test/folders/css/style.css'), false),
+      css1: await OnesyNode.file.get(path.resolve('./test/folders/css1/style.css'), false),
     };
 
     assert(files.css).eq(files.css1);
@@ -176,15 +176,15 @@ group('@amaui/style/css', () => {
     group('mode', () => {
 
       to('regular', async () => {
-        const amauiStyle = new AmauiStyle.AmauiStyle();
+        const onesyStyle = new OnesyStyle.OnesyStyle();
 
         // Plugins
-        amauiStyle.plugins.add = [
-          AmauiStyle.unit,
-          AmauiStyle.sort,
-          AmauiStyle.prefix,
-          AmauiStyle.makeClassName,
-          AmauiStyle.rtl,
+        onesyStyle.plugins.add = [
+          OnesyStyle.unit,
+          OnesyStyle.sort,
+          OnesyStyle.prefix,
+          OnesyStyle.makeClassName,
+          OnesyStyle.rtl,
         ];
 
         const a: TValue = {
@@ -219,7 +219,7 @@ group('@amaui/style/css', () => {
         };
 
         const style = css(a, {
-          amaui_style: { value: amauiStyle },
+          onesy_style: { value: onesyStyle },
           mode: 'regular',
           css: {
             file: {
@@ -237,22 +237,22 @@ group('@amaui/style/css', () => {
         await style.make();
 
         const files = {
-          css: await AmauiNode.file.get(path.resolve('./test/folders/css/style.css'), false),
+          css: await OnesyNode.file.get(path.resolve('./test/folders/css/style.css'), false),
         };
 
         assert(files.css).eq(`.a-0{ background:#faa;  float:left;  margin:0 14px 4px 40px;  margin-left:41px;  mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);  mask-origin:inherit;  mask-position:40% 74%;  max-width:100px;  padding:40px;  padding-left:41px;  position:sticky;  transition:all .4s ease;  width:100px}`);
       });
 
       to('atomic', async () => {
-        const amauiStyle = new AmauiStyle.AmauiStyle();
+        const onesyStyle = new OnesyStyle.OnesyStyle();
 
         // Plugins
-        amauiStyle.plugins.add = [
-          AmauiStyle.unit,
-          AmauiStyle.sort,
-          AmauiStyle.prefix,
-          AmauiStyle.makeClassName,
-          AmauiStyle.rtl,
+        onesyStyle.plugins.add = [
+          OnesyStyle.unit,
+          OnesyStyle.sort,
+          OnesyStyle.prefix,
+          OnesyStyle.makeClassName,
+          OnesyStyle.rtl,
         ];
 
         const a: TValue = {
@@ -287,7 +287,7 @@ group('@amaui/style/css', () => {
         };
 
         const style = css(a, {
-          amaui_style: { value: amauiStyle },
+          onesy_style: { value: onesyStyle },
           mode: 'atomic',
           css: {
             file: {
@@ -305,7 +305,7 @@ group('@amaui/style/css', () => {
         await style.make();
 
         const files = {
-          css: await AmauiNode.file.get(path.resolve('./test/folders/css/style.css'), false),
+          css: await OnesyNode.file.get(path.resolve('./test/folders/css/style.css'), false),
         };
 
         assert(files.css).eq(`.aa-1{ width:100px}.ab-2{ max-width:100px}.ac-3{ background:#faa}.ad-4{ margin:0 14px 4px 40px}.ae-5{ margin-left:41px}.af-6{ float:left}.ag-7{ padding-left:41px}.ah-8{ padding:40px}.ai-9{ position:sticky}.aj-10{ transition:all .4s ease}.ak-11{ mask-origin:inherit}.al-12{ mask-image:linear-gradient(rgba(0,0,0,1.0),transparent)}.am-13{ mask-position:40% 74%}`);
@@ -314,15 +314,15 @@ group('@amaui/style/css', () => {
     });
 
     to('pure', async () => {
-      const amauiStyle = new AmauiStyle.AmauiStyle();
+      const onesyStyle = new OnesyStyle.OnesyStyle();
 
       // Plugins
-      amauiStyle.plugins.add = [
-        AmauiStyle.unit,
-        AmauiStyle.sort,
-        AmauiStyle.prefix,
-        AmauiStyle.makeClassName,
-        AmauiStyle.rtl,
+      onesyStyle.plugins.add = [
+        OnesyStyle.unit,
+        OnesyStyle.sort,
+        OnesyStyle.prefix,
+        OnesyStyle.makeClassName,
+        OnesyStyle.rtl,
       ];
 
       const a: TValue = {
@@ -357,7 +357,7 @@ group('@amaui/style/css', () => {
       };
 
       const style = css(a, {
-        amaui_style: { value: amauiStyle },
+        onesy_style: { value: onesyStyle },
         pure: true,
         css: {
           file: {
@@ -374,22 +374,22 @@ group('@amaui/style/css', () => {
       await style.make();
 
       const files = {
-        css: await AmauiNode.file.get(path.resolve('./test/folders/css/style.css'), false),
+        css: await OnesyNode.file.get(path.resolve('./test/folders/css/style.css'), false),
       };
 
       assert(files.css).eq(`a{ background:#faa;  float:left;  margin:0 14px 4px 40px;  margin-left:41px;  mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);  mask-origin:inherit;  mask-position:40% 74%;  max-width:100px;  padding:40px;  padding-left:41px;  position:sticky;  transition:all .4s ease;  width:100px}`);
     });
 
     to('reset', async () => {
-      const amauiStyle = new AmauiStyle.AmauiStyle();
+      const onesyStyle = new OnesyStyle.OnesyStyle();
 
       // Plugins
-      amauiStyle.plugins.add = [
-        AmauiStyle.unit,
-        AmauiStyle.sort,
-        AmauiStyle.prefix,
-        AmauiStyle.makeClassName,
-        AmauiStyle.rtl,
+      onesyStyle.plugins.add = [
+        OnesyStyle.unit,
+        OnesyStyle.sort,
+        OnesyStyle.prefix,
+        OnesyStyle.makeClassName,
+        OnesyStyle.rtl,
       ];
 
       const a: TValue = {
@@ -424,7 +424,7 @@ group('@amaui/style/css', () => {
       };
 
       const style = css(a, {
-        amaui_style: { value: amauiStyle },
+        onesy_style: { value: onesyStyle },
         reset: true,
         css: {
           file: {
@@ -441,7 +441,7 @@ group('@amaui/style/css', () => {
       await style.make();
 
       const files = {
-        css: await AmauiNode.file.get(path.resolve('./test/folders/css/style.css'), false),
+        css: await OnesyNode.file.get(path.resolve('./test/folders/css/style.css'), false),
       };
 
       assert(files.css).eq(`a{ background:#faa;  background-color:transparent;  cursor:pointer;  float:left;  margin:0 14px 4px 40px;  margin-left:41px;  mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);  mask-origin:inherit;  mask-position:40% 74%;  max-width:100px;  padding:40px;  padding-left:41px;  position:sticky;  text-decoration:none;  transition:all .4s ease;  width:100px}*{ background:transparent;  border:0px;  box-sizing:border-box;  font-size:100%;  margin:0px;  outline:none;  padding:0px;  touch-action:manipulation}body{ background-color:#fff;  font-family:Roboto,Helvetica,"Helvetica Neue",-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol",sans-serif;  font-size:0.875rem;  font-style:normal;  font-weight:normal;  overflow-x:hidden;  position:relative}img,embed,object,video{ height:auto;  max-width:100%}form{ width:100%}span{ word-wrap:break-word}hr{ background:#ddd;  box-sizing:content-box;  height:1px;  margin:24px 0;  overflow:visible;  width:100%}pre,code,kbd,samp{ font-family:Roboto Mono,monospace}:focus{ outline:none}html{ -webkit-text-size-adjust:100%;  line-height:1.15}main{ display:block}h1{ font-size:2em;  margin:0.67em 0}pre{ font-family:monospace,monospace;  font-size:1em}abbr[title]{ border-bottom:none;  text-decoration:underline dotted;  text-decoration:underline}b,strong{ font-weight:bolder}code,kbd,samp{ font-family:monospace,monospace;  font-size:1em}small{ font-size:80%}sub,sup{ font-size:75%;  line-height:0;  position:relative;  vertical-align:baseline}sub{ bottom:-0.25em}sup{ top:-0.5em}img{ border-style:none}button,input,optgroup,select,textarea{ font-family:inherit;  font-size:100%;  line-height:1.15;  margin:0px}button,input{ overflow:visible}button,select{ text-transform:none}button,[type="button"],[type="reset"],[type="submit"]{ -webkit-appearance:button}button::-moz-focus-inner,[type="button"]::-moz-focus-inner,[type="reset"]::-moz-focus-inner,[type="submit"]::-moz-focus-inner{ border-style:none;  padding:0px}button:-moz-focusring,[type="button"]:-moz-focusring,[type="reset"]:-moz-focusring,[type="submit"]:-moz-focusring{ outline:1px dotted ButtonText}fieldset{ padding:0.35em 0.75em 0.625em}legend{ box-sizing:border-box;  color:inherit;  display:table;  max-width:100%;  padding:0px;  white-space:normal}progress{ vertical-align:baseline}textarea{ overflow:auto}[type="checkbox"],[type="radio"]{ box-sizing:border-box;  padding:0px}[type="number"]::-webkit-inner-spin-button,[type="number"]::-webkit-outer-spin-button{ height:auto}[type="search"]{ -webkit-appearance:textfield;  outline-offset:-2px}[type="search"]::-webkit-search-decoration{ -webkit-appearance:none}::-webkit-file-upload-button{ -webkit-appearance:button;  font:inherit}details{ display:block}summary{ display:list-item}template{ display:none}[hidden]{ display:none}*[contenteditable]{ user-select:text}code span{ white-space:pre-wrap}`);
@@ -450,15 +450,15 @@ group('@amaui/style/css', () => {
     group('resetProps', () => {
 
       to('override', async () => {
-        const amauiStyle = new AmauiStyle.AmauiStyle();
+        const onesyStyle = new OnesyStyle.OnesyStyle();
 
         // Plugins
-        amauiStyle.plugins.add = [
-          AmauiStyle.unit,
-          AmauiStyle.sort,
-          AmauiStyle.prefix,
-          AmauiStyle.makeClassName,
-          AmauiStyle.rtl,
+        onesyStyle.plugins.add = [
+          OnesyStyle.unit,
+          OnesyStyle.sort,
+          OnesyStyle.prefix,
+          OnesyStyle.makeClassName,
+          OnesyStyle.rtl,
         ];
 
         const a: TValue = {
@@ -493,7 +493,7 @@ group('@amaui/style/css', () => {
         };
 
         const style = css(a, {
-          amaui_style: { value: amauiStyle },
+          onesy_style: { value: onesyStyle },
           reset: true,
           resetProps: {
             override: true,
@@ -513,7 +513,7 @@ group('@amaui/style/css', () => {
         await style.make();
 
         const files = {
-          css: await AmauiNode.file.get(path.resolve('./test/folders/css/style.css'), false),
+          css: await OnesyNode.file.get(path.resolve('./test/folders/css/style.css'), false),
         };
 
         assert(files.css).eq(`*{ background:transparent;  border:0px;  box-sizing:border-box;  font-size:100%;  margin:0px;  outline:none;  padding:0px;  touch-action:manipulation}body{ background-color:#fff;  font-family:Roboto,Helvetica,"Helvetica Neue",-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol",sans-serif;  font-size:0.875rem;  font-style:normal;  font-weight:normal;  overflow-x:hidden;  position:relative}img,embed,object,video{ height:auto;  max-width:100%}a{ background:#faa;  float:left;  margin:0 14px 4px 40px;  margin-left:41px;  mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);  mask-origin:inherit;  mask-position:40% 74%;  max-width:100px;  padding:40px;  padding-left:41px;  position:sticky;  transition:all .4s ease;  width:100px}form{ width:100%}span{ word-wrap:break-word}hr{ background:#ddd;  box-sizing:content-box;  height:1px;  margin:24px 0;  overflow:visible;  width:100%}pre,code,kbd,samp{ font-family:Roboto Mono,monospace}:focus{ outline:none}html{ -webkit-text-size-adjust:100%;  line-height:1.15}main{ display:block}h1{ font-size:2em;  margin:0.67em 0}pre{ font-family:monospace,monospace;  font-size:1em}abbr[title]{ border-bottom:none;  text-decoration:underline dotted;  text-decoration:underline}b,strong{ font-weight:bolder}code,kbd,samp{ font-family:monospace,monospace;  font-size:1em}small{ font-size:80%}sub,sup{ font-size:75%;  line-height:0;  position:relative;  vertical-align:baseline}sub{ bottom:-0.25em}sup{ top:-0.5em}img{ border-style:none}button,input,optgroup,select,textarea{ font-family:inherit;  font-size:100%;  line-height:1.15;  margin:0px}button,input{ overflow:visible}button,select{ text-transform:none}button,[type="button"],[type="reset"],[type="submit"]{ -webkit-appearance:button}button::-moz-focus-inner,[type="button"]::-moz-focus-inner,[type="reset"]::-moz-focus-inner,[type="submit"]::-moz-focus-inner{ border-style:none;  padding:0px}button:-moz-focusring,[type="button"]:-moz-focusring,[type="reset"]:-moz-focusring,[type="submit"]:-moz-focusring{ outline:1px dotted ButtonText}fieldset{ padding:0.35em 0.75em 0.625em}legend{ box-sizing:border-box;  color:inherit;  display:table;  max-width:100%;  padding:0px;  white-space:normal}progress{ vertical-align:baseline}textarea{ overflow:auto}[type="checkbox"],[type="radio"]{ box-sizing:border-box;  padding:0px}[type="number"]::-webkit-inner-spin-button,[type="number"]::-webkit-outer-spin-button{ height:auto}[type="search"]{ -webkit-appearance:textfield;  outline-offset:-2px}[type="search"]::-webkit-search-decoration{ -webkit-appearance:none}::-webkit-file-upload-button{ -webkit-appearance:button;  font:inherit}details{ display:block}summary{ display:list-item}template{ display:none}[hidden]{ display:none}*[contenteditable]{ user-select:text}code span{ white-space:pre-wrap}`);
@@ -526,15 +526,15 @@ group('@amaui/style/css', () => {
       group('file', () => {
 
         to('name', async () => {
-          const amauiStyle = new AmauiStyle.AmauiStyle();
+          const onesyStyle = new OnesyStyle.OnesyStyle();
 
           // Plugins
-          amauiStyle.plugins.add = [
-            AmauiStyle.unit,
-            AmauiStyle.sort,
-            AmauiStyle.prefix,
-            AmauiStyle.makeClassName,
-            AmauiStyle.rtl,
+          onesyStyle.plugins.add = [
+            OnesyStyle.unit,
+            OnesyStyle.sort,
+            OnesyStyle.prefix,
+            OnesyStyle.makeClassName,
+            OnesyStyle.rtl,
           ];
 
           const a: TValue = {
@@ -569,7 +569,7 @@ group('@amaui/style/css', () => {
           };
 
           const style = css(a, {
-            amaui_style: { value: amauiStyle },
+            onesy_style: { value: onesyStyle },
             css: {
               file: {
                 name: 'a',
@@ -586,22 +586,22 @@ group('@amaui/style/css', () => {
           await style.make();
 
           const files = {
-            css: await AmauiNode.file.get(path.resolve('./test/folders/css/a.css'), false),
+            css: await OnesyNode.file.get(path.resolve('./test/folders/css/a.css'), false),
           };
 
           assert(files.css).eq(`.a-0{ background:#faa;  float:left;  margin:0 14px 4px 40px;  margin-left:41px;  mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);  mask-origin:inherit;  mask-position:40% 74%;  max-width:100px;  padding:40px;  padding-left:41px;  position:sticky;  transition:all .4s ease;  width:100px}`);
         });
 
         to('hash', async () => {
-          const amauiStyle = new AmauiStyle.AmauiStyle();
+          const onesyStyle = new OnesyStyle.OnesyStyle();
 
           // Plugins
-          amauiStyle.plugins.add = [
-            AmauiStyle.unit,
-            AmauiStyle.sort,
-            AmauiStyle.prefix,
-            AmauiStyle.makeClassName,
-            AmauiStyle.rtl,
+          onesyStyle.plugins.add = [
+            OnesyStyle.unit,
+            OnesyStyle.sort,
+            OnesyStyle.prefix,
+            OnesyStyle.makeClassName,
+            OnesyStyle.rtl,
           ];
 
           const a: TValue = {
@@ -636,7 +636,7 @@ group('@amaui/style/css', () => {
           };
 
           const style = css(a, {
-            amaui_style: { value: amauiStyle },
+            onesy_style: { value: onesyStyle },
             css: {
               file: {
                 name: 'style',
@@ -653,7 +653,7 @@ group('@amaui/style/css', () => {
           await style.make();
 
           const files = {
-            css: await AmauiNode.file.get(path.resolve('./test/folders/css/style.a2a1e199ecef63186aabd6fef54cb34c01c9597aff210207fa79bb9f4561dc62.css'), false),
+            css: await OnesyNode.file.get(path.resolve('./test/folders/css/style.a2a1e199ecef63186aabd6fef54cb34c01c9597aff210207fa79bb9f4561dc62.css'), false),
           };
 
           assert(files.css).eq(`.a-0{ background:#faa;  float:left;  margin:0 14px 4px 40px;  margin-left:41px;  mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);  mask-origin:inherit;  mask-position:40% 74%;  max-width:100px;  padding:40px;  padding-left:41px;  position:sticky;  transition:all .4s ease;  width:100px}`);
@@ -662,15 +662,15 @@ group('@amaui/style/css', () => {
       });
 
       to('folders', async () => {
-        const amauiStyle = new AmauiStyle.AmauiStyle();
+        const onesyStyle = new OnesyStyle.OnesyStyle();
 
         // Plugins
-        amauiStyle.plugins.add = [
-          AmauiStyle.unit,
-          AmauiStyle.sort,
-          AmauiStyle.prefix,
-          AmauiStyle.makeClassName,
-          AmauiStyle.rtl,
+        onesyStyle.plugins.add = [
+          OnesyStyle.unit,
+          OnesyStyle.sort,
+          OnesyStyle.prefix,
+          OnesyStyle.makeClassName,
+          OnesyStyle.rtl,
         ];
 
         const a: TValue = {
@@ -705,7 +705,7 @@ group('@amaui/style/css', () => {
         };
 
         const style = css(a, {
-          amaui_style: { value: amauiStyle },
+          onesy_style: { value: onesyStyle },
           css: {
             file: {
               name: 'style',
@@ -722,8 +722,8 @@ group('@amaui/style/css', () => {
         await style.make();
 
         const files = {
-          css: await AmauiNode.file.get(path.resolve('./test/folders/css/style.css'), false),
-          css1: await AmauiNode.file.get(path.resolve('./test/folders/css1/style.css'), false),
+          css: await OnesyNode.file.get(path.resolve('./test/folders/css/style.css'), false),
+          css1: await OnesyNode.file.get(path.resolve('./test/folders/css1/style.css'), false),
         };
 
         assert(files.css).eq(files.css1);
@@ -734,15 +734,15 @@ group('@amaui/style/css', () => {
       group('clear', () => {
 
         to('true', async () => {
-          const amauiStyle = new AmauiStyle.AmauiStyle();
+          const onesyStyle = new OnesyStyle.OnesyStyle();
 
           // Plugins
-          amauiStyle.plugins.add = [
-            AmauiStyle.unit,
-            AmauiStyle.sort,
-            AmauiStyle.prefix,
-            AmauiStyle.makeClassName,
-            AmauiStyle.rtl,
+          onesyStyle.plugins.add = [
+            OnesyStyle.unit,
+            OnesyStyle.sort,
+            OnesyStyle.prefix,
+            OnesyStyle.makeClassName,
+            OnesyStyle.rtl,
           ];
 
           const a: TValue = {
@@ -777,7 +777,7 @@ group('@amaui/style/css', () => {
           };
 
           const style = css(a, {
-            amaui_style: { value: amauiStyle },
+            onesy_style: { value: onesyStyle },
             css: {
               file: {
                 name: 'style',
@@ -795,14 +795,14 @@ group('@amaui/style/css', () => {
             log: false
           });
 
-          await AmauiNode.file.add(path.resolve('./test/folders/css/a.js'), '');
+          await OnesyNode.file.add(path.resolve('./test/folders/css/a.js'), '');
 
-          await AmauiNode.file.add(path.resolve('./test/folders/css1/a.js'), '');
+          await OnesyNode.file.add(path.resolve('./test/folders/css1/a.js'), '');
 
           await style.make();
 
           const files = {
-            css: await AmauiNode.file.get(path.resolve('./test/folders/css/style.css'), false),
+            css: await OnesyNode.file.get(path.resolve('./test/folders/css/style.css'), false),
           };
 
           assert(files.css).eq(`.a-0{ background:#faa;  float:left;  margin:0 14px 4px 40px;  margin-left:41px;  mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);  mask-origin:inherit;  mask-position:40% 74%;  max-width:100px;  padding:40px;  padding-left:41px;  position:sticky;  transition:all .4s ease;  width:100px}`);
@@ -817,15 +817,15 @@ group('@amaui/style/css', () => {
         });
 
         to('false', async () => {
-          const amauiStyle = new AmauiStyle.AmauiStyle();
+          const onesyStyle = new OnesyStyle.OnesyStyle();
 
           // Plugins
-          amauiStyle.plugins.add = [
-            AmauiStyle.unit,
-            AmauiStyle.sort,
-            AmauiStyle.prefix,
-            AmauiStyle.makeClassName,
-            AmauiStyle.rtl,
+          onesyStyle.plugins.add = [
+            OnesyStyle.unit,
+            OnesyStyle.sort,
+            OnesyStyle.prefix,
+            OnesyStyle.makeClassName,
+            OnesyStyle.rtl,
           ];
 
           const a: TValue = {
@@ -860,7 +860,7 @@ group('@amaui/style/css', () => {
           };
 
           const style = css(a, {
-            amaui_style: { value: amauiStyle },
+            onesy_style: { value: onesyStyle },
             css: {
               file: {
                 name: 'style',
@@ -875,12 +875,12 @@ group('@amaui/style/css', () => {
             log: false
           });
 
-          await AmauiNode.file.add(path.resolve('./test/folders/css/a.js'), '');
+          await OnesyNode.file.add(path.resolve('./test/folders/css/a.js'), '');
 
           await style.make();
 
           const files = {
-            css: await AmauiNode.file.get(path.resolve('./test/folders/css/style.css'), false),
+            css: await OnesyNode.file.get(path.resolve('./test/folders/css/style.css'), false),
           };
 
           assert(files.css).eq(`.a-0{ background:#faa;  float:left;  margin:0 14px 4px 40px;  margin-left:41px;  mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);  mask-origin:inherit;  mask-position:40% 74%;  max-width:100px;  padding:40px;  padding-left:41px;  position:sticky;  transition:all .4s ease;  width:100px}`);
@@ -895,15 +895,15 @@ group('@amaui/style/css', () => {
       group('minify', () => {
 
         to('true', async () => {
-          const amauiStyle = new AmauiStyle.AmauiStyle();
+          const onesyStyle = new OnesyStyle.OnesyStyle();
 
           // Plugins
-          amauiStyle.plugins.add = [
-            AmauiStyle.unit,
-            AmauiStyle.sort,
-            AmauiStyle.prefix,
-            AmauiStyle.makeClassName,
-            AmauiStyle.rtl,
+          onesyStyle.plugins.add = [
+            OnesyStyle.unit,
+            OnesyStyle.sort,
+            OnesyStyle.prefix,
+            OnesyStyle.makeClassName,
+            OnesyStyle.rtl,
           ];
 
           const a: TValue = {
@@ -938,7 +938,7 @@ group('@amaui/style/css', () => {
           };
 
           const style = css(a, {
-            amaui_style: { value: amauiStyle },
+            onesy_style: { value: onesyStyle },
             css: {
               file: {
                 name: 'style',
@@ -956,22 +956,22 @@ group('@amaui/style/css', () => {
           await style.make();
 
           const files = {
-            css: await AmauiNode.file.get(path.resolve('./test/folders/css/style.css'), false),
+            css: await OnesyNode.file.get(path.resolve('./test/folders/css/style.css'), false),
           };
 
           assert(files.css).eq(`.a-0{ background:#faa;  float:left;  margin:0 14px 4px 40px;  margin-left:41px;  mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);  mask-origin:inherit;  mask-position:40% 74%;  max-width:100px;  padding:40px;  padding-left:41px;  position:sticky;  transition:all .4s ease;  width:100px}`);
         });
 
         to('false', async () => {
-          const amauiStyle = new AmauiStyle.AmauiStyle();
+          const onesyStyle = new OnesyStyle.OnesyStyle();
 
           // Plugins
-          amauiStyle.plugins.add = [
-            AmauiStyle.unit,
-            AmauiStyle.sort,
-            AmauiStyle.prefix,
-            AmauiStyle.makeClassName,
-            AmauiStyle.rtl,
+          onesyStyle.plugins.add = [
+            OnesyStyle.unit,
+            OnesyStyle.sort,
+            OnesyStyle.prefix,
+            OnesyStyle.makeClassName,
+            OnesyStyle.rtl,
           ];
 
           const a: TValue = {
@@ -1006,7 +1006,7 @@ group('@amaui/style/css', () => {
           };
 
           const style = css(a, {
-            amaui_style: { value: amauiStyle },
+            onesy_style: { value: onesyStyle },
             css: {
               file: {
                 name: 'style',
@@ -1024,7 +1024,7 @@ group('@amaui/style/css', () => {
           await style.make();
 
           const files = {
-            css: await AmauiNode.file.get(path.resolve('./test/folders/css/style.css'), false),
+            css: await OnesyNode.file.get(path.resolve('./test/folders/css/style.css'), false),
           };
 
           assert(files.css).eq(`
@@ -1055,15 +1055,15 @@ group('@amaui/style/css', () => {
     group('html', () => {
 
       to('files', async () => {
-        const amauiStyle = new AmauiStyle.AmauiStyle();
+        const onesyStyle = new OnesyStyle.OnesyStyle();
 
         // Plugins
-        amauiStyle.plugins.add = [
-          AmauiStyle.unit,
-          AmauiStyle.sort,
-          AmauiStyle.prefix,
-          AmauiStyle.makeClassName,
-          AmauiStyle.rtl,
+        onesyStyle.plugins.add = [
+          OnesyStyle.unit,
+          OnesyStyle.sort,
+          OnesyStyle.prefix,
+          OnesyStyle.makeClassName,
+          OnesyStyle.rtl,
         ];
 
         const a: TValue = {
@@ -1098,7 +1098,7 @@ group('@amaui/style/css', () => {
         };
 
         const style = css(a, {
-          amaui_style: { value: amauiStyle },
+          onesy_style: { value: onesyStyle },
           css: {
             file: {
               name: 'style'
@@ -1120,9 +1120,9 @@ group('@amaui/style/css', () => {
         await style.make();
 
         const files = {
-          css: await AmauiNode.file.get(path.resolve('./test/folders/css/style.a2a1e199ecef63186aabd6fef54cb34c01c9597aff210207fa79bb9f4561dc62.css'), false),
-          index: await AmauiNode.file.get(path.resolve('./test/folders/html/index.html'), false),
-          about: await AmauiNode.file.get(path.resolve('./test/folders/html/about.html'), false),
+          css: await OnesyNode.file.get(path.resolve('./test/folders/css/style.a2a1e199ecef63186aabd6fef54cb34c01c9597aff210207fa79bb9f4561dc62.css'), false),
+          index: await OnesyNode.file.get(path.resolve('./test/folders/html/index.html'), false),
+          about: await OnesyNode.file.get(path.resolve('./test/folders/html/about.html'), false),
         };
 
         assert(files.css).eq(`.a-0{ background:#faa;  float:left;  margin:0 14px 4px 40px;  margin-left:41px;  mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);  mask-origin:inherit;  mask-position:40% 74%;  max-width:100px;  padding:40px;  padding-left:41px;  position:sticky;  transition:all .4s ease;  width:100px}`);
@@ -1134,7 +1134,7 @@ group('@amaui/style/css', () => {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel='stylesheet' href='../css/style.a2a1e199ecef63186aabd6fef54cb34c01c9597aff210207fa79bb9f4561dc62.css' data-amaui='true' />
+    <link rel='stylesheet' href='../css/style.a2a1e199ecef63186aabd6fef54cb34c01c9597aff210207fa79bb9f4561dc62.css' data-onesy='true' />
   </head>
 
   <body>
@@ -1150,7 +1150,7 @@ group('@amaui/style/css', () => {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel='stylesheet' href='../css/style.a2a1e199ecef63186aabd6fef54cb34c01c9597aff210207fa79bb9f4561dc62.css' data-amaui='true' />
+    <link rel='stylesheet' href='../css/style.a2a1e199ecef63186aabd6fef54cb34c01c9597aff210207fa79bb9f4561dc62.css' data-onesy='true' />
   </head>
 
   <body>
@@ -1161,15 +1161,15 @@ group('@amaui/style/css', () => {
       });
 
       to('insert', async () => {
-        const amauiStyle = new AmauiStyle.AmauiStyle();
+        const onesyStyle = new OnesyStyle.OnesyStyle();
 
         // Plugins
-        amauiStyle.plugins.add = [
-          AmauiStyle.unit,
-          AmauiStyle.sort,
-          AmauiStyle.prefix,
-          AmauiStyle.makeClassName,
-          AmauiStyle.rtl,
+        onesyStyle.plugins.add = [
+          OnesyStyle.unit,
+          OnesyStyle.sort,
+          OnesyStyle.prefix,
+          OnesyStyle.makeClassName,
+          OnesyStyle.rtl,
         ];
 
         const a: TValue = {
@@ -1204,7 +1204,7 @@ group('@amaui/style/css', () => {
         };
 
         const style = css(a, {
-          amaui_style: { value: amauiStyle },
+          onesy_style: { value: onesyStyle },
           css: {
             file: {
               name: 'style'
@@ -1233,9 +1233,9 @@ group('@amaui/style/css', () => {
         await style.make();
 
         const files = {
-          css: await AmauiNode.file.get(path.resolve('./test/folders/css/style.a2a1e199ecef63186aabd6fef54cb34c01c9597aff210207fa79bb9f4561dc62.css'), false),
-          ad: await AmauiNode.file.get(path.resolve('./test/folders/html/ad.html'), false),
-          ad1: await AmauiNode.file.get(path.resolve('./test/folders/html/ad1.html'), false),
+          css: await OnesyNode.file.get(path.resolve('./test/folders/css/style.a2a1e199ecef63186aabd6fef54cb34c01c9597aff210207fa79bb9f4561dc62.css'), false),
+          ad: await OnesyNode.file.get(path.resolve('./test/folders/html/ad.html'), false),
+          ad1: await OnesyNode.file.get(path.resolve('./test/folders/html/ad1.html'), false),
         };
 
         assert(files.css).eq(`.a-0{ background:#faa;  float:left;  margin:0 14px 4px 40px;  margin-left:41px;  mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);  mask-origin:inherit;  mask-position:40% 74%;  max-width:100px;  padding:40px;  padding-left:41px;  position:sticky;  transition:all .4s ease;  width:100px}`);
@@ -1249,7 +1249,7 @@ group('@amaui/style/css', () => {
     <title>Document</title>
 
     <!-- a insert here -->
-    <link rel='stylesheet' href='../css/style.a2a1e199ecef63186aabd6fef54cb34c01c9597aff210207fa79bb9f4561dc62.css' data-amaui='true' />
+    <link rel='stylesheet' href='../css/style.a2a1e199ecef63186aabd6fef54cb34c01c9597aff210207fa79bb9f4561dc62.css' data-onesy='true' />
   </head>
 
   <body>
@@ -1267,7 +1267,7 @@ group('@amaui/style/css', () => {
     <title>Document</title>
 
     <!-- a1 insert here -->
-    <link rel='stylesheet' href='../css/style.a2a1e199ecef63186aabd6fef54cb34c01c9597aff210207fa79bb9f4561dc62.css' data-amaui='true' />
+    <link rel='stylesheet' href='../css/style.a2a1e199ecef63186aabd6fef54cb34c01c9597aff210207fa79bb9f4561dc62.css' data-onesy='true' />
   </head>
 
   <body>
@@ -1280,15 +1280,15 @@ group('@amaui/style/css', () => {
       group('add', () => {
 
         to('true', async () => {
-          const amauiStyle = new AmauiStyle.AmauiStyle();
+          const onesyStyle = new OnesyStyle.OnesyStyle();
 
           // Plugins
-          amauiStyle.plugins.add = [
-            AmauiStyle.unit,
-            AmauiStyle.sort,
-            AmauiStyle.prefix,
-            AmauiStyle.makeClassName,
-            AmauiStyle.rtl,
+          onesyStyle.plugins.add = [
+            OnesyStyle.unit,
+            OnesyStyle.sort,
+            OnesyStyle.prefix,
+            OnesyStyle.makeClassName,
+            OnesyStyle.rtl,
           ];
 
           const a: TValue = {
@@ -1323,7 +1323,7 @@ group('@amaui/style/css', () => {
           };
 
           const style = css(a, {
-            amaui_style: { value: amauiStyle },
+            onesy_style: { value: onesyStyle },
             css: {
               file: {
                 name: 'style'
@@ -1344,8 +1344,8 @@ group('@amaui/style/css', () => {
           await style.make();
 
           const files = {
-            css: await AmauiNode.file.get(path.resolve('./test/folders/css/style.a2a1e199ecef63186aabd6fef54cb34c01c9597aff210207fa79bb9f4561dc62.css'), false),
-            about: await AmauiNode.file.get(path.resolve('./test/folders/html/about.html'), false),
+            css: await OnesyNode.file.get(path.resolve('./test/folders/css/style.a2a1e199ecef63186aabd6fef54cb34c01c9597aff210207fa79bb9f4561dc62.css'), false),
+            about: await OnesyNode.file.get(path.resolve('./test/folders/html/about.html'), false),
           };
 
           assert(files.css).eq(`.a-0{ background:#faa;  float:left;  margin:0 14px 4px 40px;  margin-left:41px;  mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);  mask-origin:inherit;  mask-position:40% 74%;  max-width:100px;  padding:40px;  padding-left:41px;  position:sticky;  transition:all .4s ease;  width:100px}`);
@@ -1357,7 +1357,7 @@ group('@amaui/style/css', () => {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel='stylesheet' href='../css/style.a2a1e199ecef63186aabd6fef54cb34c01c9597aff210207fa79bb9f4561dc62.css' data-amaui='true' />
+    <link rel='stylesheet' href='../css/style.a2a1e199ecef63186aabd6fef54cb34c01c9597aff210207fa79bb9f4561dc62.css' data-onesy='true' />
   </head>
 
   <body>
@@ -1368,15 +1368,15 @@ group('@amaui/style/css', () => {
         });
 
         to('false', async () => {
-          const amauiStyle = new AmauiStyle.AmauiStyle();
+          const onesyStyle = new OnesyStyle.OnesyStyle();
 
           // Plugins
-          amauiStyle.plugins.add = [
-            AmauiStyle.unit,
-            AmauiStyle.sort,
-            AmauiStyle.prefix,
-            AmauiStyle.makeClassName,
-            AmauiStyle.rtl,
+          onesyStyle.plugins.add = [
+            OnesyStyle.unit,
+            OnesyStyle.sort,
+            OnesyStyle.prefix,
+            OnesyStyle.makeClassName,
+            OnesyStyle.rtl,
           ];
 
           const a: TValue = {
@@ -1411,7 +1411,7 @@ group('@amaui/style/css', () => {
           };
 
           const style = css(a, {
-            amaui_style: { value: amauiStyle },
+            onesy_style: { value: onesyStyle },
             css: {
               file: {
                 name: 'style'
@@ -1432,8 +1432,8 @@ group('@amaui/style/css', () => {
           await style.make();
 
           const files = {
-            css: await AmauiNode.file.get(path.resolve('./test/folders/css/style.a2a1e199ecef63186aabd6fef54cb34c01c9597aff210207fa79bb9f4561dc62.css'), false),
-            about: await AmauiNode.file.get(path.resolve('./test/folders/html/about.html'), false),
+            css: await OnesyNode.file.get(path.resolve('./test/folders/css/style.a2a1e199ecef63186aabd6fef54cb34c01c9597aff210207fa79bb9f4561dc62.css'), false),
+            about: await OnesyNode.file.get(path.resolve('./test/folders/html/about.html'), false),
           };
 
           assert(files.css).eq(`.a-0{ background:#faa;  float:left;  margin:0 14px 4px 40px;  margin-left:41px;  mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);  mask-origin:inherit;  mask-position:40% 74%;  max-width:100px;  padding:40px;  padding-left:41px;  position:sticky;  transition:all .4s ease;  width:100px}`);
@@ -1457,15 +1457,15 @@ group('@amaui/style/css', () => {
       });
 
       to('addNames', async () => {
-        const amauiStyle = new AmauiStyle.AmauiStyle();
+        const onesyStyle = new OnesyStyle.OnesyStyle();
 
         // Plugins
-        amauiStyle.plugins.add = [
-          AmauiStyle.unit,
-          AmauiStyle.sort,
-          AmauiStyle.prefix,
-          AmauiStyle.makeClassName,
-          AmauiStyle.rtl,
+        onesyStyle.plugins.add = [
+          OnesyStyle.unit,
+          OnesyStyle.sort,
+          OnesyStyle.prefix,
+          OnesyStyle.makeClassName,
+          OnesyStyle.rtl,
         ];
 
         const a: TValue = {
@@ -1500,7 +1500,7 @@ group('@amaui/style/css', () => {
         };
 
         const style = css(a, {
-          amaui_style: { value: amauiStyle },
+          onesy_style: { value: onesyStyle },
           css: {
             file: {
               name: 'style'
@@ -1523,8 +1523,8 @@ group('@amaui/style/css', () => {
         await style.make();
 
         const files = {
-          css: await AmauiNode.file.get(path.resolve('./test/folders/css/style.a2a1e199ecef63186aabd6fef54cb34c01c9597aff210207fa79bb9f4561dc62.css'), false),
-          about: await AmauiNode.file.get(path.resolve('./test/folders/html/about.html'), false),
+          css: await OnesyNode.file.get(path.resolve('./test/folders/css/style.a2a1e199ecef63186aabd6fef54cb34c01c9597aff210207fa79bb9f4561dc62.css'), false),
+          about: await OnesyNode.file.get(path.resolve('./test/folders/html/about.html'), false),
         };
 
         assert(files.css).eq(`.a-0{ background:#faa;  float:left;  margin:0 14px 4px 40px;  margin-left:41px;  mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);  mask-origin:inherit;  mask-position:40% 74%;  max-width:100px;  padding:40px;  padding-left:41px;  position:sticky;  transition:all .4s ease;  width:100px}`);
@@ -1536,11 +1536,11 @@ group('@amaui/style/css', () => {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel='stylesheet' href='../css/style.a2a1e199ecef63186aabd6fef54cb34c01c9597aff210207fa79bb9f4561dc62.css' data-amaui='true' />
+    <link rel='stylesheet' href='../css/style.a2a1e199ecef63186aabd6fef54cb34c01c9597aff210207fa79bb9f4561dc62.css' data-onesy='true' />
     <script>
-      if (!window.amauiStyleNames) window.amauiStyleNames = {};
+      if (!window.onesyStyleNames) window.onesyStyleNames = {};
 
-      window.amauiStyleNames['a2a1e199ecef63186aabd6fef54cb34c01c9597aff210207fa79bb9f4561dc62'] = {
+      window.onesyStyleNames['a2a1e199ecef63186aabd6fef54cb34c01c9597aff210207fa79bb9f4561dc62'] = {
       "classNames": {
             "a": "a-0"
       },
@@ -1564,15 +1564,15 @@ group('@amaui/style/css', () => {
     group('rule', () => {
 
       to('true', async () => {
-        const amauiStyle = new AmauiStyle.AmauiStyle();
+        const onesyStyle = new OnesyStyle.OnesyStyle();
 
         // Plugins
-        amauiStyle.plugins.add = [
-          AmauiStyle.unit,
-          AmauiStyle.sort,
-          AmauiStyle.prefix,
-          AmauiStyle.makeClassName,
-          AmauiStyle.rtl,
+        onesyStyle.plugins.add = [
+          OnesyStyle.unit,
+          OnesyStyle.sort,
+          OnesyStyle.prefix,
+          OnesyStyle.makeClassName,
+          OnesyStyle.rtl,
         ];
 
         const a: TValue = {
@@ -1607,7 +1607,7 @@ group('@amaui/style/css', () => {
         };
 
         const style = css(a, {
-          amaui_style: { value: amauiStyle },
+          onesy_style: { value: onesyStyle },
           css: {
             file: {
               name: 'style',
@@ -1629,22 +1629,22 @@ group('@amaui/style/css', () => {
         await style.make();
 
         const files = {
-          css: await AmauiNode.file.get(path.resolve('./test/folders/css/style.css'), false),
+          css: await OnesyNode.file.get(path.resolve('./test/folders/css/style.css'), false),
         };
 
         assert(files.css).eq(`.a-0{ background:#faa;  float:left;  margin:0 14px 4px 40px;  margin-left:41px;  mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);  mask-origin:inherit;  mask-position:40% 74%;  max-width:100px;  padding:40px;  padding-left:41px;  position:sticky;  transition:all .4s ease;  width:100px}`);
       });
 
       to('false', async () => {
-        const amauiStyle = new AmauiStyle.AmauiStyle();
+        const onesyStyle = new OnesyStyle.OnesyStyle();
 
         // Plugins
-        amauiStyle.plugins.add = [
-          AmauiStyle.unit,
-          AmauiStyle.sort,
-          AmauiStyle.prefix,
-          AmauiStyle.makeClassName,
-          AmauiStyle.rtl,
+        onesyStyle.plugins.add = [
+          OnesyStyle.unit,
+          OnesyStyle.sort,
+          OnesyStyle.prefix,
+          OnesyStyle.makeClassName,
+          OnesyStyle.rtl,
         ];
 
         const a: TValue = {
@@ -1679,7 +1679,7 @@ group('@amaui/style/css', () => {
         };
 
         const style = css(a, {
-          amaui_style: { value: amauiStyle },
+          onesy_style: { value: onesyStyle },
           css: {
             file: {
               name: 'style',
@@ -1701,7 +1701,7 @@ group('@amaui/style/css', () => {
         await style.make();
 
         const files = {
-          css: await AmauiNode.file.get(path.resolve('./test/folders/css/style.css'), false),
+          css: await OnesyNode.file.get(path.resolve('./test/folders/css/style.css'), false),
         };
 
         assert(files.css).eq(`.a-0{ background:#faa;  float:left;  margin:0 14px 4px 40px;  margin-left:41px;  mask-image:linear-gradient(rgba(0,0,0,1.0),transparent);  mask-origin:inherit;  mask-position:40% 74%;  max-width:100px;  padding:40px;  padding-left:41px;  position:sticky;  transition:all .4s ease;  width:100px}`);

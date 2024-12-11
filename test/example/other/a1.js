@@ -1,8 +1,8 @@
 
 const subs = {
-   background: new AmauiSubscription('beige'),
-   media: new AmauiSubscription('yellow'),
-   var: new AmauiSubscription({
+   background: new OnesySubscription('beige'),
+   media: new OnesySubscription('yellow'),
+   var: new OnesySubscription({
       width: 100,
 
       'max-width': 100,
@@ -34,11 +34,11 @@ const subs = {
 
 // All the methods used
 // Add unit, valueObject, rtl , sort
-const amauiStyle = new AmauiStyle.AmauiStyle(document.body);
+const onesyStyle = new OnesyStyle.OnesyStyle(document.body);
 
-amauiStyle.plugins.add = [AmauiStyle.unit, AmauiStyle.prefix, AmauiStyle.valueObject, AmauiStyle.rtl, AmauiStyle.sort];
+onesyStyle.plugins.add = [OnesyStyle.unit, OnesyStyle.prefix, OnesyStyle.valueObject, OnesyStyle.rtl, OnesyStyle.sort];
 
-// amauiStyle.plugins.add = AmauiStyle.makeClassName;
+// onesyStyle.plugins.add = OnesyStyle.makeClassName;
 
 const responses = {};
 
@@ -184,12 +184,12 @@ const aa = {
    },
 
    a5: {
-      // AmauiSubscription
+      // OnesySubscription
       background: subs.background,
    },
 };
 
-const atomic = AmauiStyle.style(aa, { mode: 'atomic', amaui_style: { value: amauiStyle } });
+const atomic = OnesyStyle.style(aa, { mode: 'atomic', onesy_style: { value: onesyStyle } });
 
 responses.atomic = atomic.add();
 

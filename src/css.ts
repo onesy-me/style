@@ -2,19 +2,19 @@ import path from 'path';
 import fg from 'fast-glob';
 import fs from 'fs-extra';
 
-import is from '@amaui/utils/is';
-import getEnvironment from '@amaui/utils/getEnvironment';
-import hash from '@amaui/utils/hash';
-import merge from '@amaui/utils/merge';
-import stringify from '@amaui/utils/stringify';
-import to from '@amaui/utils/to';
-import Try from '@amaui/utils/try';
-import unique from '@amaui/utils/unique';
-import AmauiNode from '@amaui/node';
+import is from '@onesy/utils/is';
+import getEnvironment from '@onesy/utils/getEnvironment';
+import hash from '@onesy/utils/hash';
+import merge from '@onesy/utils/merge';
+import stringify from '@onesy/utils/stringify';
+import to from '@onesy/utils/to';
+import Try from '@onesy/utils/try';
+import unique from '@onesy/utils/unique';
+import OnesyNode from '@onesy/node';
 
-import AmauiStyle from './AmauiStyle';
-import AmauiTheme from './AmauiTheme';
-import AmauiStyleSheetManager from './AmauiStyleSheetManager';
+import OnesyStyle from './OnesyStyle';
+import OnesyTheme from './OnesyTheme';
+import OnesyStyleSheetManager from './OnesyStyleSheetManager';
 import { TValue, TValueMethod, IMethodResponse, TPriority, ICSSOptions } from './interfaces';
 import { resetDefault, normalize } from './reset';
 
@@ -24,11 +24,11 @@ interface IResponse {
 
 const optionsDefault: ICSSOptions = {
   mode: 'regular',
-  amaui_style: {
-    get: AmauiStyle.first.bind(AmauiStyle),
+  onesy_style: {
+    get: OnesyStyle.first.bind(OnesyStyle),
   },
-  amaui_theme: {
-    get: AmauiTheme.first.bind(AmauiTheme),
+  onesy_theme: {
+    get: OnesyTheme.first.bind(OnesyTheme),
   },
   css: {
     file: {
@@ -38,7 +38,7 @@ const optionsDefault: ICSSOptions = {
   },
   html: {
     insert: {
-      comment: '<!-- amaui style insert -->'
+      comment: '<!-- onesy style insert -->'
     },
 
     add: true
@@ -80,16 +80,16 @@ function css(
 ): IResponse {
   const options = merge(options_, optionsDefault, { copy: true });
 
-  // Amaui style
-  let amauiStyle = options.amaui_style.value || (is('function', options.amaui_style.get) && options.amaui_style.get());
+  // Onesy style
+  let onesyStyle = options.onesy_style.value || (is('function', options.onesy_style.get) && options.onesy_style.get());
 
-  if (amauiStyle === undefined) amauiStyle = new AmauiStyle();
+  if (onesyStyle === undefined) onesyStyle = new OnesyStyle();
 
-  // Amaui theme
-  const amauiTheme: AmauiTheme = options.amaui_theme.value || (is('function', options.amaui_theme.get) && options.amaui_theme.get());
+  // Onesy theme
+  const onesyTheme: OnesyTheme = options.onesy_theme.value || (is('function', options.onesy_theme.get) && options.onesy_theme.get());
 
   // Make value if it's a function
-  let value_ = is('function', value__) ? Try(() => (value__ as TValueMethod)(amauiTheme)) : value__;
+  let value_ = is('function', value__) ? Try(() => (value__ as TValueMethod)(onesyTheme)) : value__;
 
   // For reset, add reset to value
   let method = 'css';
@@ -115,15 +115,15 @@ function css(
 
   if (options.reset || options.pure) priority = 'lower';
 
-  // Make an instance of amauiStyleSheetManager
-  const amauiStyleSheetManager = new AmauiStyleSheetManager(
+  // Make an instance of onesyStyleSheetManager
+  const onesyStyleSheetManager = new OnesyStyleSheetManager(
     value_,
     {
       mode: options.mode,
       pure: options.reset || options.pure,
       priority,
-      amauiTheme,
-      amauiStyle,
+      onesyTheme,
+      onesyStyle,
       rule: options.rule,
       style: {
         attributes: {
@@ -134,14 +134,14 @@ function css(
   );
 
   const responseManager: IMethodResponse = {
-    ids: amauiStyleSheetManager.ids,
-    amaui_style_sheet_manager: amauiStyleSheetManager,
-    sheets: amauiStyleSheetManager.sheets,
-    add: amauiStyleSheetManager.add.bind(amauiStyleSheetManager),
-    props: amauiStyleSheetManager.props,
-    update: amauiStyleSheetManager.update.bind(amauiStyleSheetManager),
-    remove: amauiStyleSheetManager.remove.bind(amauiStyleSheetManager),
-    addRule: amauiStyleSheetManager.sheets.static[0] && amauiStyleSheetManager.sheets.static[0].addRule.bind(amauiStyleSheetManager.sheets.static[0]),
+    ids: onesyStyleSheetManager.ids,
+    onesy_style_sheet_manager: onesyStyleSheetManager,
+    sheets: onesyStyleSheetManager.sheets,
+    add: onesyStyleSheetManager.add.bind(onesyStyleSheetManager),
+    props: onesyStyleSheetManager.props,
+    update: onesyStyleSheetManager.update.bind(onesyStyleSheetManager),
+    remove: onesyStyleSheetManager.remove.bind(onesyStyleSheetManager),
+    addRule: onesyStyleSheetManager.sheets.static[0] && onesyStyleSheetManager.sheets.static[0].addRule.bind(onesyStyleSheetManager.sheets.static[0]),
   };
 
   const response: IResponse = {
@@ -152,7 +152,7 @@ function css(
       const responseManagerValue = responseManager.add();
 
       // All css
-      let value = amauiStyleSheetManager.css;
+      let value = onesyStyleSheetManager.css;
 
       const minified = minify(value);
 
@@ -181,7 +181,7 @@ function css(
       if (paths.folders.css?.length) {
         const folders = paths.folders.css;
 
-        const name = `${options.css?.file?.name || env.amaui_methods.makeName.next().value}${options.css?.file?.hash ? `.${fileHash}` : ''}.css`;
+        const name = `${options.css?.file?.name || env.onesy_methods.makeName.next().value}${options.css?.file?.hash ? `.${fileHash}` : ''}.css`;
 
         // Clear folder if clear
         const make = async (path_: string, index: number) => {
@@ -196,7 +196,7 @@ function css(
             // Make the file
             const nameWithPath = path.join(path_, name);
 
-            await AmauiNode.file.add(nameWithPath, value);
+            await OnesyNode.file.add(nameWithPath, value);
 
             // Add to files
             if (index === 0 || !madeFiles.css.length) madeFiles.css.push(nameWithPath);
@@ -227,7 +227,7 @@ function css(
 
           if (file) {
             // Add path relative from the css file to the index path
-            const valueHTML = await AmauiNode.file.get(path_, false) as string;
+            const valueHTML = await OnesyNode.file.get(path_, false) as string;
 
             const values = valueHTML.split('\n');
 
@@ -236,19 +236,19 @@ function css(
             // Add css files to folders
 
             // Start from insert or file.insert comment or if none exists
-            // start from the first group of amaui inserted links, or
+            // start from the first group of onesy inserted links, or
             // start from first the bottom of head
             const insert = file.insert?.comment || options.html?.insert?.comment;
 
             const indexInsertComment = values.findIndex(item => item.indexOf(insert) > -1);
 
-            const indexAmauiInserts = values.findIndex(item => item.indexOf('<link') > -1 && item.indexOf(`data-amaui='true'`) > -1);
+            const indexOnesyInserts = values.findIndex(item => item.indexOf('<link') > -1 && item.indexOf(`data-onesy='true'`) > -1);
             const indexBottomHead = values.findIndex(item => item.indexOf('</head>') > -1);
             const indexBottomBody = values.findIndex(item => item.indexOf('</body>') > -1);
 
             const indexStart = (
               (indexInsertComment > -1 && indexInsertComment + 1) ||
-              (indexAmauiInserts > -1 && indexAmauiInserts) ||
+              (indexOnesyInserts > -1 && indexOnesyInserts) ||
               indexBottomHead
             );
 
@@ -256,28 +256,28 @@ function css(
 
             // Adding order depends on if it's reset, pure or regular style
             const allLinks = values.slice(indexStart, inBody ? indexBottomBody : indexBottomHead).filter(item => item.indexOf('<link') > -1);
-            const amauiLinks = allLinks.filter(item => item.indexOf(`data-amaui='true'`) > -1);
-            const amauiLinksPure = amauiLinks.filter(item => item.indexOf(`data-pure='true'`) > -1);
-            const amauiLinksNoReset = amauiLinks.filter(item => item.indexOf(`data-reset='true'`) === -1);
-            const amauiLinkReset = values.find(item => item.indexOf('<link') > -1 && item.indexOf(`data-reset='true'`) > -1);
-            const amauiLinkResetIndex = values.findIndex(item => item === amauiLinkReset);
+            const onesyLinks = allLinks.filter(item => item.indexOf(`data-onesy='true'`) > -1);
+            const onesyLinksPure = onesyLinks.filter(item => item.indexOf(`data-pure='true'`) > -1);
+            const onesyLinksNoReset = onesyLinks.filter(item => item.indexOf(`data-reset='true'`) === -1);
+            const onesyLinkReset = values.find(item => item.indexOf('<link') > -1 && item.indexOf(`data-reset='true'`) > -1);
+            const onesyLinkResetIndex = values.findIndex(item => item === onesyLinkReset);
 
-            let indexInsert = amauiLinkResetIndex > - 1 ? amauiLinkResetIndex + 1 : indexStart;
+            let indexInsert = onesyLinkResetIndex > - 1 ? onesyLinkResetIndex + 1 : indexStart;
 
-            if (!!amauiLinksNoReset.length && !options.reset) {
+            if (!!onesyLinksNoReset.length && !options.reset) {
               if (!options.pure) {
-                const amauiLinkLastIndex = values.findIndex(item => item === amauiLinksNoReset[amauiLinksNoReset.length - 1]);
+                const onesyLinkLastIndex = values.findIndex(item => item === onesyLinksNoReset[onesyLinksNoReset.length - 1]);
 
-                indexInsert = amauiLinkLastIndex + 1;
+                indexInsert = onesyLinkLastIndex + 1;
               }
               else {
-                const amauiLinkFirstIndex = values.findIndex(item => item === amauiLinksNoReset[0]);
+                const onesyLinkFirstIndex = values.findIndex(item => item === onesyLinksNoReset[0]);
 
-                if (!amauiLinksPure.length) indexInsert = amauiLinkFirstIndex;
+                if (!onesyLinksPure.length) indexInsert = onesyLinkFirstIndex;
                 else {
-                  const amauiLinkPureLast = values.findIndex(item => item === amauiLinksPure[amauiLinksPure.length - 1]);
+                  const onesyLinkPureLast = values.findIndex(item => item === onesyLinksPure[onesyLinksPure.length - 1]);
 
-                  indexInsert = amauiLinkPureLast + 1;
+                  indexInsert = onesyLinkPureLast + 1;
                 }
               }
             }
@@ -293,7 +293,7 @@ function css(
             if (padding[0] !== ' ') padding = main.split(/(?! )/)[0];
             if (padding[0] !== ' ') padding = '  ';
 
-            filesRelative.forEach(file_ => values.splice(indexInsert, 0, `${padding}<link rel='stylesheet' href='${file_}' data-amaui='true'${options.reset ? ` data-reset='true'` : ''}${options.pure ? ` data-pure='true'` : ''} />`));
+            filesRelative.forEach(file_ => values.splice(indexInsert, 0, `${padding}<link rel='stylesheet' href='${file_}' data-onesy='true'${options.reset ? ` data-reset='true'` : ''}${options.pure ? ` data-pure='true'` : ''} />`));
 
             // if not pure and reset
             // get names and add (update) as a script global variable to window
@@ -302,14 +302,14 @@ function css(
               delete responseManagerValue.ids;
 
               values.splice(indexBottomHead + 1, 0, `${padding}<script>
-${padding}  if (!window.amauiStyleNames) window.amauiStyleNames = {};
+${padding}  if (!window.onesyStyleNames) window.onesyStyleNames = {};
 ${padding}
-${padding}  window.amauiStyleNames['${fileHash}'] = ${stringify(responseManagerValue, padding.length + 2)};
+${padding}  window.onesyStyleNames['${fileHash}'] = ${stringify(responseManagerValue, padding.length + 2)};
 ${padding}</script>`);
             }
 
             // Update the file
-            await AmauiNode.file.update(path_, values.join('\n'));
+            await OnesyNode.file.update(path_, values.join('\n'));
           }
         };
 

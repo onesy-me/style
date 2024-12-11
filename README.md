@@ -4,11 +4,11 @@
 
 <p align='center'>
   <a target='_blank' rel='noopener noreferrer' href='#'>
-    <img src='utils/images/logo.svg' alt='amaui logo' />
+    <img src='utils/images/logo.svg' alt='onesy logo' />
   </a>
 </p>
 
-<h1 align='center'>amaui Style</h1>
+<h1 align='center'>onesy Style</h1>
 
 <p align='center'>
   JS CSS framework agnostic solution
@@ -39,13 +39,13 @@
 ### Add
 
 ```sh
-yarn add @amaui/style
+yarn add @onesy/style
 ```
 
 ### Use
 
 ```javascript
-  import { style } from '@amaui/style';
+  import { style } from '@onesy/style';
 
   const styles = style(theme => ({
     '@keyframes a': {

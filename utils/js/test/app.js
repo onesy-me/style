@@ -22,9 +22,9 @@ const run = async () => {
     const paths = (await fg('build/umd/*.dev.js', { onlyFiles: true }));
 
     paths.push(
-      'https://unpkg.com/@amaui/utils@latest/umd/amaui-utils.prod.min.js',
+      'https://unpkg.com/@onesy/utils@latest/umd/onesy-utils.prod.min.js',
 
-      'https://unpkg.com/@amaui/subscription@latest/umd/amaui-subscription.prod.min.js'
+      'https://unpkg.com/@onesy/subscription@latest/umd/onesy-subscription.prod.min.js'
     );
 
     let value = `<!DOCTYPE html>

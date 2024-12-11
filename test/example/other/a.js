@@ -1,8 +1,8 @@
 
 const subs = {
-  background: new AmauiSubscription('beige'),
-  media: new AmauiSubscription('yellow'),
-  var: new AmauiSubscription({
+  background: new OnesySubscription('beige'),
+  media: new OnesySubscription('yellow'),
+  var: new OnesySubscription({
     width: 100,
 
     'max-width': 100,
@@ -34,11 +34,11 @@ const subs = {
 
 // All the methods used
 // Add unit, valueObject, rtl , sort
-const amauiStyle = new AmauiStyle.AmauiStyle(document.body);
+const onesyStyle = new OnesyStyle.OnesyStyle(document.body);
 
-amauiStyle.plugins.add = [AmauiStyle.unit, AmauiStyle.prefix, AmauiStyle.valueObject, AmauiStyle.rtl, AmauiStyle.sort];
+onesyStyle.plugins.add = [OnesyStyle.unit, OnesyStyle.prefix, OnesyStyle.valueObject, OnesyStyle.rtl, OnesyStyle.sort];
 
-// amauiStyle.plugins.add = AmauiStyle.makeClassName;
+// onesyStyle.plugins.add = OnesyStyle.makeClassName;
 
 const a = theme => ({
   '@keyframes a': {
@@ -229,7 +229,7 @@ const a = theme => ({
   },
 
   a8: {
-    // AmauiSubscription
+    // OnesySubscription
     background: subs.background,
   },
 
@@ -510,7 +510,7 @@ const a = theme => ({
     },
 
     $a8: {
-      // AmauiSubscription
+      // OnesySubscription
       background: subs.media,
     },
 
@@ -761,7 +761,7 @@ const a = theme => ({
       },
 
       $a8: {
-        // AmauiSubscription
+        // OnesySubscription
         background: subs.media,
       },
 
@@ -1044,12 +1044,12 @@ const i = {
     },
   },
 };
-const inline = AmauiStyle.inline(i, { amaui_style: { value: amauiStyle } });
+const inline = OnesyStyle.inline(i, { onesy_style: { value: onesyStyle } });
 
 console.log('Inline', inline);
 
 // Reset
-const reset = AmauiStyle.reset(r, { amaui_style: { value: amauiStyle } });
+const reset = OnesyStyle.reset(r, { onesy_style: { value: onesyStyle } });
 
 responses.reset = reset.add();
 
@@ -1087,16 +1087,16 @@ const p = {
   }
 };
 
-const pure = AmauiStyle.pure(p, { amaui_style: { value: amauiStyle } });
+const pure = OnesyStyle.pure(p, { onesy_style: { value: onesyStyle } });
 
 responses.pure = pure.add();
 
 console.log('Pure', responses.pure);
 
 // Style
-const style = AmauiStyle.style(a, { amaui_style: { value: amauiStyle } });
+const style = OnesyStyle.style(a, { onesy_style: { value: onesyStyle } });
 
-const styleA = AmauiStyle.style(a1, { amaui_style: { value: amauiStyle } });
+const styleA = OnesyStyle.style(a1, { onesy_style: { value: onesyStyle } });
 
 responses.style = style.add();
 

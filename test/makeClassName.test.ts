@@ -1,28 +1,28 @@
 /* tslint:disable: no-shadowed-variable */
-import { assert } from '@amaui/test';
+import { assert } from '@onesy/test';
 
 import { evaluate } from '../utils/js/test/utils';
 
-import * as AmauiStyle from '../src';
+import * as OnesyStyle from '../src';
 
-group('@amaui/style/makeClassName', () => {
+group('@onesy/style/makeClassName', () => {
 
-  group('amauiStyle', () => {
+  group('onesyStyle', () => {
 
     to('add', async () => {
       const valueBrowsers = await evaluate((window: any) => {
-        const amauiStyle = new window.AmauiStyle.AmauiStyle();
+        const onesyStyle = new window.OnesyStyle.OnesyStyle();
 
-        amauiStyle.plugins.add = window.AmauiStyle.makeClassName;
+        onesyStyle.plugins.add = window.OnesyStyle.makeClassName;
 
-        return amauiStyle.subscriptions.className.name.length === 1;
+        return onesyStyle.subscriptions.className.name.length === 1;
       });
 
-      const amauiStyle = new AmauiStyle.AmauiStyle();
+      const onesyStyle = new OnesyStyle.OnesyStyle();
 
-      amauiStyle.plugins.add = AmauiStyle.makeClassName;
+      onesyStyle.plugins.add = OnesyStyle.makeClassName;
 
-      const valueNode = amauiStyle.subscriptions.className.name.length === 1;
+      const valueNode = onesyStyle.subscriptions.className.name.length === 1;
 
       const values = [valueNode, ...valueBrowsers];
 
@@ -31,25 +31,25 @@ group('@amaui/style/makeClassName', () => {
 
     to('remove', async () => {
       const valueBrowsers = await evaluate((window: any) => {
-        const amauiStyle = new window.AmauiStyle.AmauiStyle();
+        const onesyStyle = new window.OnesyStyle.OnesyStyle();
 
-        amauiStyle.plugins.add = window.AmauiStyle.makeClassName;
+        onesyStyle.plugins.add = window.OnesyStyle.makeClassName;
 
         return (
-          amauiStyle.subscriptions.className.name.length === 1 &&
-          (amauiStyle.plugins.remove = window.AmauiStyle.makeClassName) &&
-          amauiStyle.subscriptions.className.name.length === 0
+          onesyStyle.subscriptions.className.name.length === 1 &&
+          (onesyStyle.plugins.remove = window.OnesyStyle.makeClassName) &&
+          onesyStyle.subscriptions.className.name.length === 0
         );
       });
 
-      const amauiStyle = new AmauiStyle.AmauiStyle();
+      const onesyStyle = new OnesyStyle.OnesyStyle();
 
-      amauiStyle.plugins.add = AmauiStyle.makeClassName;
+      onesyStyle.plugins.add = OnesyStyle.makeClassName;
 
       const valueNode = (
-        amauiStyle.subscriptions.className.name.length === 1 &&
-        (amauiStyle.plugins.remove = AmauiStyle.makeClassName) &&
-        (amauiStyle.subscriptions.className.name.length as number) === 0
+        onesyStyle.subscriptions.className.name.length === 1 &&
+        (onesyStyle.plugins.remove = OnesyStyle.makeClassName) &&
+        (onesyStyle.subscriptions.className.name.length as number) === 0
       );
 
       const values = [valueNode, ...valueBrowsers];
@@ -65,10 +65,10 @@ group('@amaui/style/makeClassName', () => {
 
       to('response', async () => {
         const valueBrowsers = await evaluate((window: any) => {
-          return window.AmauiStyle.makeClassName(undefined, { production: true }).methods.method({ property: 'width', value: '14px' });
+          return window.OnesyStyle.makeClassName(undefined, { production: true }).methods.method({ property: 'width', value: '14px' });
         });
 
-        const valueNode = AmauiStyle.makeClassName(undefined, { production: true }).methods.method({ property: 'width', value: '14px' });
+        const valueNode = OnesyStyle.makeClassName(undefined, { production: true }).methods.method({ property: 'width', value: '14px' });
 
         const values = [valueNode, ...valueBrowsers];
 
@@ -85,12 +85,12 @@ group('@amaui/style/makeClassName', () => {
 
       to('value', async () => {
         const valueBrowsers = await evaluate((window: any) => {
-          const method = window.AmauiStyle.makeClassName(undefined, { production: true }).methods.method;
+          const method = window.OnesyStyle.makeClassName(undefined, { production: true }).methods.method;
 
           return method({ property: 'width', value: '14px' }).value;
         });
 
-        const method = AmauiStyle.makeClassName(undefined, { production: true }).methods.method;
+        const method = OnesyStyle.makeClassName(undefined, { production: true }).methods.method;
 
         const valueNode = method({ property: 'width', value: '14px' }).value;
 
@@ -109,7 +109,7 @@ group('@amaui/style/makeClassName', () => {
 
       to('development', async () => {
         const valueBrowsers = await evaluate((window: any) => {
-          const method = window.AmauiStyle.makeClassName(undefined, { production: false }).methods.method;
+          const method = window.OnesyStyle.makeClassName(undefined, { production: false }).methods.method;
 
           return [
             method({ property: 'width', value: '14px' }).value,
@@ -118,7 +118,7 @@ group('@amaui/style/makeClassName', () => {
           ];
         });
 
-        const method = AmauiStyle.makeClassName(undefined, { production: false }).methods.method;
+        const method = OnesyStyle.makeClassName(undefined, { production: false }).methods.method;
 
         const valueNode = [
           method({ property: 'width', value: '14px' }).value,
@@ -137,7 +137,7 @@ group('@amaui/style/makeClassName', () => {
 
       to('prodution', async () => {
         const valueBrowsers = await evaluate((window: any) => {
-          const method = window.AmauiStyle.makeClassName(undefined, { production: true }).methods.method;
+          const method = window.OnesyStyle.makeClassName(undefined, { production: true }).methods.method;
 
           return [
             method({ property: 'width', value: '14px' }).value,
@@ -146,7 +146,7 @@ group('@amaui/style/makeClassName', () => {
           ];
         });
 
-        const method = AmauiStyle.makeClassName(undefined, { production: true }).methods.method;
+        const method = OnesyStyle.makeClassName(undefined, { production: true }).methods.method;
 
         const valueNode = [
           method({ property: 'width', value: '14px' }).value,
@@ -169,8 +169,8 @@ group('@amaui/style/makeClassName', () => {
 
       to('unique', async () => {
         const valueBrowsers = await evaluate((window: any) => {
-          const methodDev = window.AmauiStyle.makeClassName(undefined, { production: false, dom: { unique: true } }).methods.method;
-          const methodProd = window.AmauiStyle.makeClassName(undefined, { production: true, dom: { unique: true } }).methods.method;
+          const methodDev = window.OnesyStyle.makeClassName(undefined, { production: false, dom: { unique: true } }).methods.method;
+          const methodProd = window.OnesyStyle.makeClassName(undefined, { production: true, dom: { unique: true } }).methods.method;
 
           window.document.body.className = 'ab';
           window.document.head.className = 'width-0';

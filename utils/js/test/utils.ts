@@ -1,7 +1,7 @@
 /* tslint:disable: no-shadowed-variable */
 import playwright, { chromium, webkit, firefox } from 'playwright';
 
-import { TMethod } from '@amaui/models';
+import { TMethod } from '@onesy/models';
 
 import { makeName } from '../../../src';
 
@@ -123,10 +123,10 @@ export const evaluate = async (
       styleSheets.forEach(sheet => sheet.ownerNode.remove());
 
       // Counter
-      window.amaui_counter.className = 0;
-      window.amaui_counter.keyframesName = 0;
+      window.onesy_counter.className = 0;
+      window.onesy_counter.keyframesName = 0;
 
-      window.amaui_methods.makeName = window.AmauiStyle.makeName();
+      window.onesy_methods.makeName = window.OnesyStyle.makeName();
 
       // Body
       window.document.body.dir = 'ltr';
@@ -181,10 +181,10 @@ preAll(async () => utils.browsers = await startBrowsers());
 
 preEveryTo(async () => {
   // Counter
-  global.amaui_counter.className = 0;
-  global.amaui_counter.keyframesName = 0;
+  global.onesy_counter.className = 0;
+  global.onesy_counter.keyframesName = 0;
 
-  global.amaui_methods.makeName = makeName();
+  global.onesy_methods.makeName = makeName();
 });
 
 postAll(async () => await closeBrowsers(utils.browsers as IBrowsers));

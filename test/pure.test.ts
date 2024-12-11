@@ -1,26 +1,26 @@
 /* tslint:disable: no-shadowed-variable */
-import { assert } from '@amaui/test';
+import { assert } from '@onesy/test';
 
 import { evaluate } from '../utils/js/test/utils';
 
-import * as AmauiStyle from '../src';
+import * as OnesyStyle from '../src';
 import { TValue } from '../src';
 
-group('@amaui/style/pure', () => {
+group('@onesy/style/pure', () => {
 
   group('browser', () => {
 
     to('pure', async () => {
       const valueBrowsers = await evaluate((window: any) => {
-        const amauiStyle = new window.AmauiStyle.AmauiStyle(window.document.body);
+        const onesyStyle = new window.OnesyStyle.OnesyStyle(window.document.body);
 
         // Plugins
-        amauiStyle.plugins.add = [
-          window.AmauiStyle.unit,
-          window.AmauiStyle.sort,
-          window.AmauiStyle.prefix,
-          window.AmauiStyle.makeClassName,
-          window.AmauiStyle.rtl,
+        onesyStyle.plugins.add = [
+          window.OnesyStyle.unit,
+          window.OnesyStyle.sort,
+          window.OnesyStyle.prefix,
+          window.OnesyStyle.makeClassName,
+          window.OnesyStyle.rtl,
         ];
 
         const a = {
@@ -64,7 +64,7 @@ group('@amaui/style/pure', () => {
           },
         };
 
-        const pure = window.AmauiStyle.pure(a, { amaui_style: { value: amauiStyle } });
+        const pure = window.OnesyStyle.pure(a, { onesy_style: { value: onesyStyle } });
 
         // Add
         pure.add();
@@ -78,9 +78,9 @@ group('@amaui/style/pure', () => {
         return [
           window.document.styleSheets.length,
           Object.keys(pure),
-          pure.amaui_style_sheet_manager.status === 'active',
+          pure.onesy_style_sheet_manager.status === 'active',
           valueCSS,
-          amauiStyle.css,
+          onesyStyle.css,
         ];
       });
 
@@ -91,7 +91,7 @@ group('@amaui/style/pure', () => {
           2,
           [
             "ids",
-            "amaui_style_sheet_manager",
+            "onesy_style_sheet_manager",
             "sheets",
             "add",
             "props",
@@ -107,7 +107,7 @@ group('@amaui/style/pure', () => {
           2,
           [
             "ids",
-            "amaui_style_sheet_manager",
+            "onesy_style_sheet_manager",
             "sheets",
             "add",
             "props",
@@ -123,7 +123,7 @@ group('@amaui/style/pure', () => {
           2,
           [
             "ids",
-            "amaui_style_sheet_manager",
+            "onesy_style_sheet_manager",
             "sheets",
             "add",
             "props",
@@ -143,15 +143,15 @@ group('@amaui/style/pure', () => {
   group('node', () => {
 
     to('pure', async () => {
-      const amauiStyle = new AmauiStyle.AmauiStyle();
+      const onesyStyle = new OnesyStyle.OnesyStyle();
 
       // Plugins
-      amauiStyle.plugins.add = [
-        AmauiStyle.unit,
-        AmauiStyle.sort,
-        AmauiStyle.prefix,
-        AmauiStyle.makeClassName,
-        AmauiStyle.rtl,
+      onesyStyle.plugins.add = [
+        OnesyStyle.unit,
+        OnesyStyle.sort,
+        OnesyStyle.prefix,
+        OnesyStyle.makeClassName,
+        OnesyStyle.rtl,
       ];
 
       const a: TValue = {
@@ -195,21 +195,21 @@ group('@amaui/style/pure', () => {
         },
       };
 
-      const pure = AmauiStyle.pure(a, { amaui_style: { value: amauiStyle } });
+      const pure = OnesyStyle.pure(a, { onesy_style: { value: onesyStyle } });
 
       // Add
       pure.add();
 
       const value = [
         Object.keys(pure),
-        pure.amaui_style_sheet_manager.status === 'inited',
-        amauiStyle.css,
+        pure.onesy_style_sheet_manager.status === 'inited',
+        onesyStyle.css,
       ];
 
       assert(value).eql([
         [
           "ids",
-          "amaui_style_sheet_manager",
+          "onesy_style_sheet_manager",
           "sheets",
           "add",
           "props",

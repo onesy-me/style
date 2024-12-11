@@ -1,9 +1,9 @@
 /* tslint:disable: no-shadowed-variable */
-import { assert } from '@amaui/test';
+import { assert } from '@onesy/test';
 
 import { evaluate } from '../utils/js/test/utils';
 
-import * as AmauiStyle from '../src';
+import * as OnesyStyle from '../src';
 
 const unitsDefault = {
   'animation': 's',
@@ -198,24 +198,24 @@ const unitsDefault = {
   'zoom': '%',
 };
 
-group('@amaui/style/unit', () => {
+group('@onesy/style/unit', () => {
 
-  group('amauiStyle', () => {
+  group('onesyStyle', () => {
 
     to('add', async () => {
       const valueBrowsers = await evaluate((window: any) => {
-        const amauiStyle = new window.AmauiStyle.AmauiStyle();
+        const onesyStyle = new window.OnesyStyle.OnesyStyle();
 
-        amauiStyle.plugins.add = window.AmauiStyle.unit;
+        onesyStyle.plugins.add = window.OnesyStyle.unit;
 
-        return amauiStyle.subscriptions.rule.unit.length === 1;
+        return onesyStyle.subscriptions.rule.unit.length === 1;
       });
 
-      const amauiStyle = new AmauiStyle.AmauiStyle();
+      const onesyStyle = new OnesyStyle.OnesyStyle();
 
-      amauiStyle.plugins.add = AmauiStyle.unit;
+      onesyStyle.plugins.add = OnesyStyle.unit;
 
-      const valueNode = amauiStyle.subscriptions.rule.unit.length === 1;
+      const valueNode = onesyStyle.subscriptions.rule.unit.length === 1;
 
       const values = [valueNode, ...valueBrowsers];
 
@@ -224,25 +224,25 @@ group('@amaui/style/unit', () => {
 
     to('remove', async () => {
       const valueBrowsers = await evaluate((window: any) => {
-        const amauiStyle = new window.AmauiStyle.AmauiStyle();
+        const onesyStyle = new window.OnesyStyle.OnesyStyle();
 
-        amauiStyle.plugins.add = window.AmauiStyle.unit;
+        onesyStyle.plugins.add = window.OnesyStyle.unit;
 
         return (
-          amauiStyle.subscriptions.rule.unit.length === 1 &&
-          (amauiStyle.plugins.remove = window.AmauiStyle.unit) &&
-          amauiStyle.subscriptions.rule.unit.length === 0
+          onesyStyle.subscriptions.rule.unit.length === 1 &&
+          (onesyStyle.plugins.remove = window.OnesyStyle.unit) &&
+          onesyStyle.subscriptions.rule.unit.length === 0
         );
       });
 
-      const amauiStyle = new AmauiStyle.AmauiStyle();
+      const onesyStyle = new OnesyStyle.OnesyStyle();
 
-      amauiStyle.plugins.add = AmauiStyle.unit;
+      onesyStyle.plugins.add = OnesyStyle.unit;
 
       const valueNode = (
-        amauiStyle.subscriptions.rule.unit.length === 1 &&
-        (amauiStyle.plugins.remove = AmauiStyle.unit) &&
-        (amauiStyle.subscriptions.rule.unit.length as number) === 0
+        onesyStyle.subscriptions.rule.unit.length === 1 &&
+        (onesyStyle.plugins.remove = OnesyStyle.unit) &&
+        (onesyStyle.subscriptions.rule.unit.length as number) === 0
       );
 
       const values = [valueNode, ...valueBrowsers];
@@ -258,10 +258,10 @@ group('@amaui/style/unit', () => {
 
       to('response', async () => {
         const valueBrowsers = await evaluate((window: any) => {
-          return window.AmauiStyle.unit(undefined).methods.method({ property: 'width', value: 140 });
+          return window.OnesyStyle.unit(undefined).methods.method({ property: 'width', value: 140 });
         });
 
-        const valueNode = AmauiStyle.unit(undefined).methods.method({ property: 'width', value: 140 });
+        const valueNode = OnesyStyle.unit(undefined).methods.method({ property: 'width', value: 140 });
 
         const values = [valueNode, ...valueBrowsers];
 
@@ -278,7 +278,7 @@ group('@amaui/style/unit', () => {
 
       to('value', async () => {
         const valueBrowsers = await evaluate((window: any) => {
-          const method = window.AmauiStyle.unit(undefined).methods.method;
+          const method = window.OnesyStyle.unit(undefined).methods.method;
 
           const unitsDefault = {
             'animation': 's',
@@ -476,7 +476,7 @@ group('@amaui/style/unit', () => {
           return Object.keys(unitsDefault).map(item => method({ property: item, value: 140 }).value.unit === unitsDefault[item]);
         });
 
-        const method = AmauiStyle.unit(undefined).methods.method;
+        const method = OnesyStyle.unit(undefined).methods.method;
 
         const valueNode = Object.keys(unitsDefault).map(item => method({ property: item, value: 140 }).value.unit === unitsDefault[item]);
 
@@ -493,7 +493,7 @@ group('@amaui/style/unit', () => {
 
     to('units', async () => {
       const valueBrowsers = await evaluate((window: any) => {
-        const method = window.AmauiStyle.unit(undefined, {
+        const method = window.OnesyStyle.unit(undefined, {
           units: {
             width: value => ({ value: `${value / 2}px`, unit: `px` })
           }
@@ -504,7 +504,7 @@ group('@amaui/style/unit', () => {
         ];
       });
 
-      const method = AmauiStyle.unit(undefined, {
+      const method = OnesyStyle.unit(undefined, {
         units: {
           width: value => ({ value: `${value / 2}px`, unit: `px` })
         }

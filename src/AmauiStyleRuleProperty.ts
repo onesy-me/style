@@ -1,21 +1,21 @@
-import Try from '@amaui/utils/try';
-import isEnvironment from '@amaui/utils/isEnvironment';
-import AmauiSubscription from '@amaui/subscription';
+import Try from '@onesy/utils/try';
+import isEnvironment from '@onesy/utils/isEnvironment';
+import OnesySubscription from '@onesy/subscription';
 
-import AmauiStyle from './AmauiStyle';
-import AmauiStyleRule from './AmauiStyleRule';
-import AmauiStyleSheet from './AmauiStyleSheet';
+import OnesyStyle from './OnesyStyle';
+import OnesyStyleRule from './OnesyStyleRule';
+import OnesyStyleSheet from './OnesyStyleSheet';
 import { IOptionsRule, IValuesVersion, TValueVersion } from './interfaces';
 import { cammelCaseToKebabCase, getID, getRefs, is, valueResolve } from './utils';
 
 interface IOptions extends IOptionsRule {
   value_version?: TValueVersion;
   pure?: boolean;
-  owner?: AmauiStyleRule;
-  parents?: Array<AmauiStyleSheet | AmauiStyleRule>;
-  amauiStyle?: AmauiStyle;
-  amauiStyleSheet?: AmauiStyleSheet;
-  amauiStyleRule?: AmauiStyleRule;
+  owner?: OnesyStyleRule;
+  parents?: Array<OnesyStyleSheet | OnesyStyleRule>;
+  onesyStyle?: OnesyStyle;
+  onesyStyleSheet?: OnesyStyleSheet;
+  onesyStyleRule?: OnesyStyleRule;
 }
 
 const optionsDefault: IOptions = {
@@ -27,14 +27,14 @@ const optionsDefault: IOptions = {
   rtl: true
 };
 
-class AmauiStyleRuleProperty {
+class OnesyStyleRuleProperty {
   public value_version: TValueVersion = 'value';
   public pure: boolean = false;
-  public owner: AmauiStyleRule;
-  public parents: Array<AmauiStyleSheet | AmauiStyleRule> = [];
-  public amauiStyleRule: AmauiStyleRule;
-  public amauiStyleSheet: AmauiStyleSheet;
-  public amauiStyle: AmauiStyle;
+  public owner: OnesyStyleRule;
+  public parents: Array<OnesyStyleSheet | OnesyStyleRule> = [];
+  public onesyStyleRule: OnesyStyleRule;
+  public onesyStyleSheet: OnesyStyleSheet;
+  public onesyStyle: OnesyStyle;
   public level: number;
   public level_actual: number;
   public id: string;
@@ -52,8 +52,8 @@ class AmauiStyleRuleProperty {
     this.init();
   }
 
-  public get parent(): AmauiStyleRule {
-    return this.parents[this.parents.length - 1] as AmauiStyleRule;
+  public get parent(): OnesyStyleRule {
+    return this.parents[this.parents.length - 1] as OnesyStyleRule;
   }
 
   public get response(): IValuesVersion {
@@ -82,54 +82,54 @@ class AmauiStyleRuleProperty {
     this.pure = this.options.pure !== undefined ? this.options.pure : false;
     this.owner = this.options.owner;
     this.parents = this.options.parents || [];
-    this.amauiStyle = this.options.amauiStyle;
-    this.amauiStyleSheet = this.options.amauiStyleSheet;
-    this.amauiStyleRule = this.options.amauiStyleRule;
+    this.onesyStyle = this.options.onesyStyle;
+    this.onesyStyleSheet = this.options.onesyStyleSheet;
+    this.onesyStyleRule = this.options.onesyStyleRule;
 
     if (this.id === undefined) this.id = getID();
 
     if (this.level === undefined) this.level = this.parents.length - 1;
 
     // Add to rules_owned to all parents
-    this.parents.filter(parent => !(parent instanceof AmauiStyleSheet)).forEach(parent => (parent as AmauiStyleRule).rules_owned.push(this));
+    this.parents.filter(parent => !(parent instanceof OnesyStyleSheet)).forEach(parent => (parent as OnesyStyleRule).rules_owned.push(this));
 
-    // method or AmauiSubscription
+    // method or OnesySubscription
     if (
       value === undefined &&
-      ['method', 'amaui_subscription'].indexOf(this.value_version) > -1
+      ['method', 'onesy_subscription'].indexOf(this.value_version) > -1
     ) {
-      if (this.value_version === 'method') this.values.value = Try(() => this.value(this.amauiStyleSheet.props));
-      else if (this.value_version === 'amaui_subscription') {
+      if (this.value_version === 'method') this.values.value = Try(() => this.value(this.onesyStyleSheet.props));
+      else if (this.value_version === 'onesy_subscription') {
         this.values.value = this.value.value;
 
         if (!(this.value as any).subscribed) (this.value as any).subscribed = [];
 
         if ((this.value as any).subscribed.indexOf(this) === -1) {
-          (this.value as AmauiSubscription).subscribe(this.update.bind(this));
+          (this.value as OnesySubscription).subscribe(this.update.bind(this));
 
           (this.value as any).subscribed.push(this);
         }
       }
 
       // Value
-      this.values.value = is('function', this.values.value) ? Try(() => (this.values as any).value(this.amauiStyleSheet.props)) : this.values.value;
+      this.values.value = is('function', this.values.value) ? Try(() => (this.values as any).value(this.onesyStyleSheet.props)) : this.values.value;
     }
 
     // Value
-    this.values.value = valueResolve(this.values.property, this.values.value, this.amauiStyle).value[0] as any;
+    this.values.value = valueResolve(this.values.property, this.values.value, this.onesyStyle).value[0] as any;
 
     // Move through plugins
     // rtl
     const useRtl = (
-      this.amauiStyle.options.rule.rtl &&
-      (this.amauiStyleSheet === undefined || this.amauiStyleSheet.options.rule.rtl !== false) &&
-      (this.amauiStyleSheet?.amauiTheme === undefined || this.amauiStyleSheet.amauiTheme.options.rule.rtl) &&
+      this.onesyStyle.options.rule.rtl &&
+      (this.onesyStyleSheet === undefined || this.onesyStyleSheet.options.rule.rtl !== false) &&
+      (this.onesyStyleSheet?.onesyTheme === undefined || this.onesyStyleSheet.onesyTheme.options.rule.rtl) &&
       // by default is true
       this.parent?.options.rtl !== false
     );
 
     if (useRtl) {
-      const rtl = this.amauiStyle.subscriptions.rule.rtl.map(this.values);
+      const rtl = this.onesyStyle.subscriptions.rule.rtl.map(this.values);
 
       if (rtl?.value) {
         if (rtl?.value?.property) this.values.property = rtl.value.property;
@@ -139,9 +139,9 @@ class AmauiStyleRuleProperty {
 
     // prefix
     const usePrefix = (
-      this.amauiStyle.options.rule.prefix &&
-      (this.amauiStyleSheet === undefined || this.amauiStyleSheet.options.rule.prefix !== false) &&
-      (this.amauiStyleSheet?.amauiTheme === undefined || this.amauiStyleSheet.amauiTheme.options.rule.prefix !== false) &&
+      this.onesyStyle.options.rule.prefix &&
+      (this.onesyStyleSheet === undefined || this.onesyStyleSheet.options.rule.prefix !== false) &&
+      (this.onesyStyleSheet?.onesyTheme === undefined || this.onesyStyleSheet.onesyTheme.options.rule.prefix !== false) &&
       // by default is true
       this.parent?.options.prefix !== false
     );
@@ -153,18 +153,18 @@ class AmauiStyleRuleProperty {
         Try(() => this.values.value.indexOf('-') !== 0)
       )
     ) {
-      const prefixes = this.amauiStyle.subscriptions.rule.prefix.map({ value: this.values.value, property: this.values.property })?.value || [];
+      const prefixes = this.onesyStyle.subscriptions.rule.prefix.map({ value: this.values.value, property: this.values.property })?.value || [];
 
       if (!!prefixes.length) {
         prefixes.forEach(item => {
           const exists = (this.parent?.rules || []).find(rule_ => (
-            rule_ instanceof AmauiStyleRuleProperty &&
+            rule_ instanceof OnesyStyleRuleProperty &&
             rule_.values.property === item.property &&
             rule_.values.value === item.value
           ));
 
           if (!exists && this.parent) {
-            AmauiStyleRuleProperty.make(
+            OnesyStyleRuleProperty.make(
               item.value,
               item.property,
               {
@@ -172,9 +172,9 @@ class AmauiStyleRuleProperty {
                 pure: this.pure,
                 owner: this.parent,
                 parents: this.parents,
-                amauiStyleRule: this.amauiStyleRule,
-                amauiStyleSheet: this.parent.amauiStyleSheet,
-                amauiStyle: this.parent.amauiStyle
+                onesyStyleRule: this.onesyStyleRule,
+                onesyStyleSheet: this.parent.onesyStyleSheet,
+                onesyStyle: this.parent.onesyStyle
               }
             );
           }
@@ -195,7 +195,7 @@ class AmauiStyleRuleProperty {
     this.updateValues();
   }
 
-  // Update only if amauiStyleSheet is version 'dynamic'
+  // Update only if onesyStyleSheet is version 'dynamic'
   public update(value?: any) {
     // Init with value
     if (value !== undefined) this.init(value);
@@ -205,24 +205,24 @@ class AmauiStyleRuleProperty {
     this.makeSelector();
 
     // Update the rule
-    // method or AmauiSubscription
+    // method or OnesySubscription
     if (
       value === undefined &&
-      (['method', 'amaui_subscription'].indexOf(this.value_version) > -1)
+      (['method', 'onesy_subscription'].indexOf(this.value_version) > -1)
     ) {
-      if (this.value_version === 'method') this.values.value = Try(() => this.value(this.amauiStyleSheet.props));
-      else if (this.value_version === 'amaui_subscription') this.values.value = this.value.value;
+      if (this.value_version === 'method') this.values.value = Try(() => this.value(this.onesyStyleSheet.props));
+      else if (this.value_version === 'onesy_subscription') this.values.value = this.value.value;
 
       // Value
-      this.values.value = is('function', this.values.value) ? Try(() => (this.values as any).value(this.amauiStyleSheet.props)) : this.values.value;
+      this.values.value = is('function', this.values.value) ? Try(() => (this.values as any).value(this.onesyStyleSheet.props)) : this.values.value;
 
-      this.values.value = valueResolve(this.values.property, this.values.value, this.amauiStyle).value[0] as any;
+      this.values.value = valueResolve(this.values.property, this.values.value, this.onesyStyle).value[0] as any;
     }
 
     // Update values
     this.updateValues();
 
-    const domElement = this.amauiStyleSheet.domElementForTesting || (isEnvironment('browser') && window.document.createElement('div'));
+    const domElement = this.onesyStyleSheet.domElementForTesting || (isEnvironment('browser') && window.document.createElement('div'));
 
     if (domElement) domElement.style[this.values.property] = this.values.value;
 
@@ -232,7 +232,7 @@ class AmauiStyleRuleProperty {
     if (this.owner.rule) {
       // Only update if value is diff from previous update
       if (this.owner.rule.style[this.values.property] !== valueNew) {
-        const rule: any = ((this.owner.owner as AmauiStyleRule).rule || (this.owner.owner as AmauiStyleSheet).sheet);
+        const rule: any = ((this.owner.owner as OnesyStyleRule).rule || (this.owner.owner as OnesyStyleSheet).sheet);
 
         // For some reason important will not update the style property
         // updating it through rule.style[property]
@@ -268,9 +268,9 @@ class AmauiStyleRuleProperty {
     if (['animation', 'animation-name'].some(item => this.values.property.indexOf(item) > -1)) {
       const refs = getRefs(this.values.value as string);
 
-      const refValues = refs.map(item => this.amauiStyleSheet.amauiStyleSheetManager.names.keyframes[item]).filter(Boolean);
+      const refValues = refs.map(item => this.onesyStyleSheet.onesyStyleSheetManager.names.keyframes[item]).filter(Boolean);
 
-      refs.forEach((ref, i) => ((this as AmauiStyleRuleProperty)).values.value = (((this as AmauiStyleRuleProperty)).values.value as string).replace(`$${ref}`, refValues[i]));
+      refs.forEach((ref, i) => ((this as OnesyStyleRuleProperty)).values.value = (((this as OnesyStyleRuleProperty)).values.value as string).replace(`$${ref}`, refValues[i]));
 
       // Update values
       this.updateValues();
@@ -289,10 +289,10 @@ class AmauiStyleRuleProperty {
     }
 
     // rules owned
-    this.parents.filter(parent => !(parent instanceof AmauiStyleSheet)).forEach(parent => {
-      const index = (parent as AmauiStyleRule).rules_owned.findIndex(item => item.value === this);
+    this.parents.filter(parent => !(parent instanceof OnesyStyleSheet)).forEach(parent => {
+      const index = (parent as OnesyStyleRule).rules_owned.findIndex(item => item.value === this);
 
-      if (index > -1) (parent as AmauiStyleRule).rules_owned.splice(index, 1);
+      if (index > -1) (parent as OnesyStyleRule).rules_owned.splice(index, 1);
     });
   }
 
@@ -304,8 +304,8 @@ class AmauiStyleRuleProperty {
       pure: false,
       parents: [this] as any[],
     }
-  ): AmauiStyleRuleProperty {
-    return new AmauiStyleRuleProperty(
+  ): OnesyStyleRuleProperty {
+    return new OnesyStyleRuleProperty(
       value,
       property,
       options
@@ -314,4 +314,4 @@ class AmauiStyleRuleProperty {
 
 }
 
-export default AmauiStyleRuleProperty;
+export default OnesyStyleRuleProperty;

@@ -1,13 +1,13 @@
-import Try from '@amaui/utils/try';
+import Try from '@onesy/utils/try';
 
-import AmauiStyle from './AmauiStyle';
-import AmauiStyleSheetManager from './AmauiStyleSheetManager';
-import AmauiTheme from './AmauiTheme';
-import { TValue, TValueMethod, IIds, IOptionsAmauiStyle, IOptionsAmauiTheme } from './interfaces';
-import { cammelCaseToKebabCase, is, isAmauiSubscription, kebabCasetoCammelCase } from './utils';
+import OnesyStyle from './OnesyStyle';
+import OnesyStyleSheetManager from './OnesyStyleSheetManager';
+import OnesyTheme from './OnesyTheme';
+import { TValue, TValueMethod, IIds, IOptionsOnesyStyle, IOptionsOnesyTheme } from './interfaces';
+import { cammelCaseToKebabCase, is, isOnesySubscription, kebabCasetoCammelCase } from './utils';
 
 export interface IMakeStyles {
-  amaui_style_sheet_manager: AmauiStyleSheetManager;
+  onesy_style_sheet_manager: OnesyStyleSheetManager;
   ids: IIds;
   add: (props?: any) => void;
   update: (props: any) => void;
@@ -17,9 +17,9 @@ export interface IMakeStyles {
 export interface IOptions {
   element?: Element;
 
-  amaui_style?: IOptionsAmauiStyle;
+  onesy_style?: IOptionsOnesyStyle;
 
-  amaui_theme?: IOptionsAmauiTheme;
+  onesy_theme?: IOptionsOnesyTheme;
 
   response?: 'css' | 'json';
 
@@ -27,11 +27,11 @@ export interface IOptions {
 }
 
 const optionsDefault: IOptions = {
-  amaui_style: {
-    get: AmauiStyle.first.bind(AmauiStyle),
+  onesy_style: {
+    get: OnesyStyle.first.bind(OnesyStyle),
   },
-  amaui_theme: {
-    get: AmauiTheme.first.bind(AmauiTheme),
+  onesy_theme: {
+    get: OnesyTheme.first.bind(OnesyTheme),
   },
   response: 'css',
   response_json_property_version: 'cammel'
@@ -44,19 +44,19 @@ function inline(
 ) {
   const options = { ...optionsDefault, ...options_ };
 
-  // Amaui style
-  let amauiStyle = options.amaui_style.value || (is('function', options.amaui_style.get) && options.amaui_style.get(options.element));
+  // Onesy style
+  let onesyStyle = options.onesy_style.value || (is('function', options.onesy_style.get) && options.onesy_style.get(options.element));
 
-  if (amauiStyle === undefined) amauiStyle = new AmauiStyle();
+  if (onesyStyle === undefined) onesyStyle = new OnesyStyle();
 
-  // Amaui theme
-  const amauiTheme: AmauiTheme = options.amaui_theme.value || (is('function', options.amaui_theme.get) && options.amaui_theme.get(options.element));
+  // Onesy theme
+  const onesyTheme: OnesyTheme = options.onesy_theme.value || (is('function', options.onesy_theme.get) && options.onesy_theme.get(options.element));
 
   // Make value if it's a function
-  const value = is('function', value_) ? Try(() => (value_ as TValueMethod)(amauiTheme)) : value_;
+  const value = is('function', value_) ? Try(() => (value_ as TValueMethod)(onesyTheme)) : value_;
 
   // Go through all properties
-  // make an AmauiStyleRuleProperty for each prop
+  // make an OnesyStyleRuleProperty for each prop
   // and then make css string from each one
   let response: any = '';
 
@@ -69,33 +69,33 @@ function inline(
     properties
       .filter(prop =>
         (prop.indexOf('@') !== 0) &&
-        !(is('function', value[prop]) || isAmauiSubscription(value[prop]))
+        !(is('function', value[prop]) || isOnesySubscription(value[prop]))
       )
       .forEach(prop => valueNew[prop] = value[prop]);
 
     // Parse dynamic properties into static
     const propertiesDynamic = properties.filter(prop =>
       (prop.indexOf('@') !== 0) &&
-      (is('function', value[prop]) || isAmauiSubscription(value[prop]))
+      (is('function', value[prop]) || isOnesySubscription(value[prop]))
     );
 
     propertiesDynamic.forEach(prop => {
       const valueProp = value[prop];
 
       if (is('function', valueProp)) valueNew[prop] = Try(() => valueProp(props));
-      else if (isAmauiSubscription(valueProp)) valueNew[prop] = Try(() => valueProp.value);
+      else if (isOnesySubscription(valueProp)) valueNew[prop] = Try(() => valueProp.value);
     });
 
-    // Make an instance of amauiStyleSheetManager
-    const amauiStyleSheetManager = new AmauiStyleSheetManager(
+    // Make an instance of onesyStyleSheetManager
+    const onesyStyleSheetManager = new OnesyStyleSheetManager(
       { a: valueNew },
       {
         mode: 'regular',
         pure: false,
         priority: 'upper',
-        amauiTheme,
-        amauiStyle,
-        amaui_style_cache: false,
+        onesyTheme,
+        onesyStyle,
+        onesy_style_cache: false,
         style: {
           attributes: {
             method: 'inline'
@@ -104,7 +104,7 @@ function inline(
       }
     );
 
-    const rules = amauiStyleSheetManager.sheets.static[0].rules[0].value.rules;
+    const rules = onesyStyleSheetManager.sheets.static[0].rules[0].value.rules;
 
     rules.map((rule: any) => rule.value).forEach((rule: any) => response += ` ${rule.css}`);
 

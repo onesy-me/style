@@ -2,7 +2,7 @@
   "name": "@onesy/style",
   "version": "1.0.0",
   "description": "CSS in JS styling solution",
-  "repository": "https://github.com/onesy-org/onesy-style.git",
+  "repository": "https://github.com/onesy-me/style.git",
   "author": "Lazar <lazareric.com@gmail.com>",
   "license": "MIT",
   "private": false,

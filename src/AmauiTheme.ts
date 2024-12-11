@@ -25,8 +25,8 @@ import { getID, is, pxToRem } from './utils';
 import colors from './colors';
 
 const FONT_FAMILY = {
-  primary: ['DM Sans', 'Helvetica', 'Helvetica Neue', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Arial', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'sans-serif'].join(', '),
-  secondary: ['DM Sans', 'Helvetica', 'Helvetica Neue', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Arial', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'sans-serif'].join(', '),
+  primary: ['Montserrat', 'Helvetica', 'Helvetica Neue', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'sans-serif'].join(', '),
+  secondary: ['Outfit', 'Helvetica', 'Helvetica Neue', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'].join(', '),
   tertiary: ['Roboto Mono', 'monospace'].join(', ')
 };
 
@@ -36,11 +36,11 @@ export interface IMethodsPaletteImageOptions {
   allowCrossOrigin?: boolean;
 }
 
-export type TTone = 0 | 1 | 5 | 10 | 20 | 30 | 40 | 50 | 60 | 70 | 80 | 90 | 95 | 99 | 100;
+export type TTone = number;
 
 export type TColorVersion = 'light' | 'main' | 'dark';
 
-export type TColorValues = 'light' | 'main' | 'dark' | 0 | 1 | 5 | 10 | 20 | 30 | 40 | 50 | 60 | 70 | 80 | 90 | 95 | 99 | 100;
+export type TColorValues = 'light' | 'main' | 'dark' | number;
 
 export type TColorBackgroundVersion = 'primary' | 'secondary' | 'tertiary' | 'quaternary';
 
@@ -214,36 +214,14 @@ export interface IShape {
   radius?: IRadius;
 }
 
-export type TBreakpoint = 'min' | 'xxs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl' | 'max';
+// 400 or 400-up, from 100 to 4000
+export type IBreakpoint = string | number;
 
 export interface IBreakpoints {
-  values?: {
-    min?: number;
-    xxs?: number;
-    xs?: number;
-    sm?: number;
-    md?: number;
-    lg?: number;
-    xl?: number;
-    xxl?: number;
-    max?: number;
-
-    [p: string]: number;
-  };
+  keys?: IBreakpoint[];
   media?: {
-    min?: string;
-    xxs?: string;
-    xs?: string;
-    sm?: string;
-    md?: string;
-    lg?: string;
-    xl?: string;
-    xxl?: string;
-    max?: string;
-
-    [p: string]: string;
+    [p: IBreakpoint]: string;
   };
-  keys?: TBreakpoint[];
   unit?: string;
 }
 
@@ -446,6 +424,13 @@ export interface IAmauiTheme {
   [p: string]: any;
 }
 
+const media = {};
+
+for (let i = 100; i <= 4000; i += 100) {
+  media[i] = `(max-width: ${i}px)`;
+  media[`${i}-up`] = `(min-width: ${i}px)`;
+}
+
 const amauiThemeValueDefault: IAmauiTheme = {
   preference: {
     background: {
@@ -600,29 +585,9 @@ const amauiThemeValueDefault: IAmauiTheme = {
   },
 
   breakpoints: {
-    values: {
-      min: 170,
-      xxs: 320,
-      xs: 480,
-      sm: 640,
-      md: 1024,
-      lg: 1440,
-      xl: 1920,
-      xxl: 2560,
-      max: Number.MAX_SAFE_INTEGER
-    },
+    keys: Object.keys(media),
 
-    media: {
-      min: '(max-width: 169px)',
-      xxs: '(min-width: 170px) and (max-width: 319px)',
-      xs: '(min-width: 320px) and (max-width: 479px)',
-      sm: '(min-width: 480px) and (max-width: 639px)',
-      md: '(min-width: 640px) and (max-width: 1023px)',
-      lg: '(min-width: 1024px) and (max-width: 1439px)',
-      xl: '(min-width: 1440px) and (max-width: 1919px)',
-      xxl: '(min-width: 1920px) and (max-width: 2559px)',
-      max: '(min-width: 2560px)'
-    },
+    media,
 
     unit: 'px'
   },
@@ -948,23 +913,6 @@ class AmauiTheme {
       },
     },
 
-    breakpoints: {
-      up: (value: number, media = 'only screen') => `@media ${media} and (min-width: ${value}${this.breakpoints.unit})`,
-      down: (value: number, media = 'only screen') => `@media ${media} and (max-width: ${value}${this.breakpoints.unit})`,
-      between: (value1: number, value2: number, media = 'only screen') => `@media ${media} and (min-width: ${value1}${this.breakpoints.unit}) and (max-width: ${value2}${this.breakpoints.unit})`,
-      only: (value: number) => this.methods.breakpoints.between(value, value),
-      not: (value: TBreakpoint, media = 'only screen') => {
-        if (value === 'xs') return this.methods.breakpoints.up(this.breakpoints.values.xs);
-        else if (value === 'xl') return this.methods.breakpoints.down(this.breakpoints.values.xl);
-
-        const keys = this.breakpoints.keys;
-
-        const index = keys.findIndex(item => item === value);
-
-        return `@media ${media} and (max-width: ${this.breakpoints.values[value]}${this.breakpoints.unit}) and (min-width: ${this.breakpoints.values[keys[index + 1]]}${this.breakpoints.unit})`;
-      },
-    },
-
     transitions: {
       make: (
         properties: string | Array<string>,
@@ -1250,10 +1198,6 @@ class AmauiTheme {
 
     const instance = this;
 
-    if (!this.breakpoints.keys) Object.defineProperty(this.breakpoints, 'keys', {
-      get() { return Object.keys(instance.breakpoints.values).sort((a, b) => instance.breakpoints.values[a] - instance.breakpoints.values[b]); }
-    });
-
     // Space
     if (is('object', space)) {
       this.space = merge(space, this.space);
@@ -1349,7 +1293,9 @@ class AmauiTheme {
 
           const [hue, saturation, light] = rgbToHsl(rgb, 1, true);
 
-          const tones: Array<TTone> = [0, 1, 5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 95, 99, 100];
+          const tones = [];
+
+          for (let i = 0; i <= 100; i += 1) tones.push(i);
 
           // Tones
           tones.forEach(tone => values[tone] = hslToRgb(`hsl(${hue}, ${saturation}%, ${tone}%)`) as string);

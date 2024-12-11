@@ -57,7 +57,7 @@ export const FONT_FAMILY = {
 /*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */
 export const normalize = {
   html: {
-    lineHeight: 1.15,
+    lineHeight: '1.15',
     '-webkit-text-size-adjust': '100%'
   },
 
@@ -71,7 +71,7 @@ export const normalize = {
 
   hr: {
     boxSizing: 'content-box',
-    height: 0,
+    height: '0px',
     overflow: 'visible'
   },
 
@@ -109,7 +109,7 @@ export const normalize = {
 
   'sub, sup': {
     fontSize: '75%',
-    lineHeight: 0,
+    lineHeight: '0',
     position: 'relative',
     verticalAlign: 'baseline',
   },
@@ -129,8 +129,8 @@ export const normalize = {
   'button, input, optgroup, select, textarea': {
     fontFamily: 'inherit',
     fontSize: '100%',
-    lineHeight: 1.15,
-    margin: 0
+    lineHeight: '1.15',
+    margin: '0px'
   },
 
   'button, input': {
@@ -147,7 +147,7 @@ export const normalize = {
 
   'button::-moz-focus-inner, [type="button"]::-moz-focus-inner, [type="reset"]::-moz-focus-inner, [type="submit"]::-moz-focus-inner': {
     borderStyle: 'none',
-    padding: 0
+    padding: '0px'
   },
 
   'button:-moz-focusring, [type="button"]:-moz-focusring, [type="reset"]:-moz-focusring, [type="submit"]:-moz-focusring': {
@@ -163,7 +163,7 @@ export const normalize = {
     color: 'inherit',
     display: 'table',
     maxWidth: '100%',
-    padding: 0,
+    padding: '0px',
     whiteSpace: 'normal'
   },
 
@@ -177,7 +177,7 @@ export const normalize = {
 
   '[type="checkbox"], [type="radio"]': {
     boxSizing: 'border-box',
-    padding: 0
+    padding: '0px'
   },
 
   '[type="number"]::-webkit-inner-spin-button, [type="number"]::-webkit-outer-spin-button': {
@@ -186,7 +186,7 @@ export const normalize = {
 
   '[type="search"]': {
     '-webkit-appearance': 'textfield',
-    outlineOffset: -2
+    outlineOffset: '-2px'
   },
 
   '[type="search"]::-webkit-search-decoration': {
@@ -217,9 +217,9 @@ export const normalize = {
 
 export const resetDefault = {
   '*': {
-    margin: 0,
-    padding: 0,
-    border: 0,
+    margin: '0px',
+    padding: '0px',
+    border: 'none',
     outline: 'none',
     fontSize: '100%',
     background: 'transparent',
@@ -256,9 +256,9 @@ export const resetDefault = {
 
     // visibility hidden ui elements
     '& .amaui-hidden': {
-      width: 0,
-      height: 0,
-      opacity: 0,
+      width: '0px',
+      height: '0px',
+      opacity: '0',
       overflow: 'hidden',
       visibility: 'hidden',
       userSelect: 'none',
@@ -306,8 +306,8 @@ export const resetDefault = {
   },
 
   '::-webkit-scrollbar': {
-    width: 16,
-    height: 16
+    width: '16px',
+    height: '16px'
   },
 
   '::-webkit-scrollbar-track, ::-webkit-scrollbar-corner': {
@@ -315,7 +315,7 @@ export const resetDefault = {
   },
 
   '::-webkit-scrollbar-thumb': {
-    borderRadius: 8,
+    borderRadius: '8px',
     border: '4px solid transparent',
     backgroundClip: 'content-box',
     backgroundColor: 'rgba(221, 221, 221, 0.4)',

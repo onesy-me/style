@@ -96,7 +96,7 @@ export type IPaletteColor = {
 
   neutral?: TValueColorValue;
 
-  [p: string]: string | TValueColorValue;
+  [p: string]: TValueColorValue;
 };
 
 export interface IPaletteBackground {
@@ -117,7 +117,7 @@ export interface IPaletteBackground {
 
   neutral?: IColorBackground;
 
-  [p: string]: string | IColorBackground;
+  [p: string]: IColorBackground;
 }
 
 export interface IPaletteText {

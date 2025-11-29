@@ -1,6 +1,6 @@
 {
   "name": "@onesy/style",
-  "version": "1.0.1",
+  "version": "1.0.4",
   "description": "CSS in JS styling solution",
   "repository": "https://github.com/onesy-me/style.git",
   "author": "Lazar Erić <lazareric1@proton.me>",

@@ -455,40 +455,40 @@ const onesyThemeValueDefault: IOnesyTheme = {
     visual_contrast: {
       low: {
         opacity: {
-          primary: .77,
-          secondary: .44,
-          tertiary: .27,
-          quaternary: .14,
+          primary: .9,
+          secondary: .7,
+          tertiary: .5,
+          quaternary: .3,
 
           divider: .11,
 
-          active: .44,
+          active: .5,
           disabled: .34,
           drag: .27,
           press: .21,
           focus: .17,
           selected: .14,
-          hover: .07,
+          hover: .07
         },
 
-        contrast_threshold: 2.4
+        contrast_threshold: 2
       },
       regular: {
         opacity: {
-          primary: .87,
-          secondary: .54,
-          tertiary: .37,
-          quaternary: .24,
+          primary: .95,
+          secondary: .75,
+          tertiary: .55,
+          quaternary: .35,
 
-          divider: .14,
+          divider: .15,
 
-          active: .54,
+          active: .55,
           disabled: .37,
           drag: .31,
           press: .27,
           focus: .21,
           selected: .17,
-          hover: .1,
+          hover: .1
         },
 
         contrast_threshold: 3
@@ -496,19 +496,19 @@ const onesyThemeValueDefault: IOnesyTheme = {
       high: {
         opacity: {
           primary: 1,
-          secondary: .74,
-          tertiary: .57,
-          quaternary: .44,
+          secondary: .8,
+          tertiary: .6,
+          quaternary: .4,
 
           divider: .24,
 
-          active: .74,
+          active: .8,
           disabled: .57,
           drag: .37,
           press: .31,
           focus: .24,
           selected: .21,
-          hover: .14,
+          hover: .14
         },
 
         contrast_threshold: 4
@@ -517,14 +517,14 @@ const onesyThemeValueDefault: IOnesyTheme = {
 
     color: {
       primary: {
+        light: colors.green[300],
+        main: colors.green[500],
+        dark: colors.green[700],
+      },
+      secondary: {
         light: colors.yellow[300],
         main: colors.yellow[500],
         dark: colors.yellow[700],
-      },
-      secondary: {
-        light: colors.lightgreen[300],
-        main: colors.lightgreen[500],
-        dark: colors.lightgreen[700],
       },
       tertiary: {
         light: colors.amber[300],
